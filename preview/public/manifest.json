@@ -1,0 +1,23 @@
+{
+  "name": "FosterGuide AZ",
+  "short_name": "FosterGuide",
+  "description": "Know your rights. Understand your case. Find resources.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F2EE",
+  "theme_color": "#2A7F8E",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
