@@ -22,6 +22,7 @@ import {
   ArrowRight,
   ChevronLeft,
 } from "lucide-react";
+import { sendChatMessage } from "./api/chat";
 
 /**
  * FosterGuide AZ — lightweight click-through prototype
@@ -939,134 +940,6 @@ type Prefs = {
   tribal: boolean;
 };
 
-type AiReply = {
-  kind: "normal" | "crisis";
-  title: string;
-  body: string;
-  cites?: string[];
-};
-
-// ─── AI simulator ─────────────────────────────────────────────────────────────
-
-function aiSimReply({ q, prefs }: { q: string; prefs: Prefs }): AiReply {
-  const lower = (q || "").trim().toLowerCase();
-  const tone = readingTone(prefs.ageBand || "").title;
-
-  if (isCrisis(lower)) {
-    return {
-      kind: "crisis",
-      title: "If you're in danger, get help now",
-      body:
-        "If you feel like you might hurt yourself, or you don't feel safe, please contact a crisis service now. You deserve help from a real person.",
-      cites: ["988", "Crisis Text Line", "AZ DCS Hotline"],
-    };
-  }
-
-  const scopeHints = [
-    "foster",
-    "dcs",
-    "court",
-    "hearing",
-    "rights",
-    "etv",
-    "tuition",
-    "yati",
-    "icwa",
-    "case plan",
-    "placement",
-  ];
-  if (!scopeHints.some((h) => lower.includes(h))) {
-    return {
-      kind: "normal",
-      title: "I can help with Arizona foster care",
-      body:
-        "I can help with rights, court, turning 18, and finding resources in Arizona. Tell me what's going on, and I'll point you to a good next step.",
-      cites: ["App scope"],
-    };
-  }
-
-  if (lower.includes("permanency") || lower.includes("hearing")) {
-    return {
-      kind: "normal",
-      title: `What a permanency hearing is (${tone} mode)`,
-      body:
-        prefs.ageBand === "10-12"
-          ? "A permanency hearing is a court meeting where the judge talks about the long‑term plan. You can ask your lawyer to explain what's happening."
-          : "A permanency hearing is when the judge talks about the long‑term plan (going home, guardianship, adoption, etc.). Ask your lawyer: (1) what the goal is today, (2) what might change next, and (3) what you can say in court.",
-      cites: ["AZ dependency process", "Your right to participate"],
-    };
-  }
-
-  if (
-    lower.includes("see my brother") ||
-    lower.includes("see my sister") ||
-    lower.includes("sibling")
-  ) {
-    return {
-      kind: "normal",
-      title: `Sibling contact (${tone} mode)`,
-      body:
-        prefs.ageBand === "10-12"
-          ? "You usually have the right to visit and talk with your siblings. Your caseworker should help set that up. Want a sentence you can use to ask?"
-          : "Arizona law includes a right to sibling contact unless a judge says it isn't safe. If it isn't happening, ask your caseworker for the reason and the plan to fix it.",
-      cites: ["A.R.S. §8-529(A)(4)"],
-    };
-  }
-
-  if (
-    lower.includes("etv") ||
-    lower.includes("college") ||
-    lower.includes("tuition")
-  ) {
-    return {
-      kind: "normal",
-      title: `Paying for school (${tone} mode)`,
-      body:
-        prefs.ageBand === "10-12"
-          ? "When you're older, there are programs that can help pay for school. A trusted adult can help you apply."
-          : "There are programs that can help pay for school (like ETV). Deadlines matter. Tell me your age and what school you're thinking about, and I'll show a simple checklist.",
-      cites: ["ETV program", "Arizona tuition waiver"],
-    };
-  }
-
-  if (
-    lower.includes("id") ||
-    lower.includes("birth certificate") ||
-    lower.includes("social security")
-  ) {
-    return {
-      kind: "normal",
-      title: `Getting your documents (${tone} mode)`,
-      body:
-        prefs.ageBand === "10-12"
-          ? "Important papers like a birth certificate help with school and doctors. An adult should help keep them safe."
-          : `First, make a list of what you're missing (birth certificate, Social Security card, state ID). Then follow the steps in "My Future" → "Documents."`,
-      cites: ["A.R.S. §8-514.06 (documents)"],
-    };
-  }
-
-  if (
-    lower.includes("re-enter") ||
-    lower.includes("go back") ||
-    lower.includes("back into foster")
-  ) {
-    return {
-      kind: "normal",
-      title: `Re-entry / coming back into care (${tone} mode)`,
-      body:
-        "Some young adults can come back for help after leaving care. The app would show your options and who to call first (and what to say).",
-      cites: ["Transition services", "Provider pathways"],
-    };
-  }
-
-  return {
-    kind: "normal",
-    title: `Here's a safe next step (${tone} mode)`,
-    body:
-      "Tell me what you're trying to do (rights, court, school, housing, health, or turning 18). I'll point you to a short checklist and a trusted contact.",
-    cites: ["Verified AZ resources"],
-  };
-}
 
 function CitationsRow({ cites }: { cites?: string[] }) {
   if (!cites?.length) return null;
@@ -2221,6 +2094,7 @@ function ChatModal({
   onNavigate: (route: string) => void;
 }) {
   const [text, setText] = useState("");
+  const [sending, setSending] = useState(false);
   const [msgs, setMsgs] = useState<
     Array<{
       role: string;
@@ -2261,24 +2135,60 @@ function ChatModal({
     return base;
   }, [prefs.tribal]);
 
-  const send = (q?: string) => {
+  const send = async (q?: string) => {
     const trimmed = (q ?? text).trim();
-    if (!trimmed) return;
+    if (!trimmed || sending) return;
 
-    const userMsg = { role: "user", text: trimmed };
-    const reply = aiSimReply({ q: trimmed, prefs });
-    const botMsg = { role: "bot", ...reply };
-
-    setMsgs((m) => [...m, userMsg, botMsg]);
+    setSending(true);
+    setMsgs((m) => [...m, { role: "user", text: trimmed }]);
     setText("");
 
-    if (reply.kind === "crisis") {
-      onNavigate("resources");
+    try {
+      const res = await sendChatMessage(
+        trimmed,
+        (prefs.ageBand ?? "13-15") as import("./api/chat").AgeBand,
+        (prefs.language ?? "en") as "en" | "es",
+        prefs.county ?? undefined,
+      );
+
+      if (res.isCrisis) {
+        setMsgs((m) => [
+          ...m,
+          {
+            role: "bot",
+            body: res.reply,
+            cites: res.crisisResources?.map((r) => `${r.name}: ${r.number}`) ?? [],
+            kind: "crisis",
+          },
+        ]);
+        onNavigate("resources");
+      } else {
+        setMsgs((m) => [
+          ...m,
+          {
+            role: "bot",
+            body: res.reply,
+            cites: res.citations.map((c) => c.label),
+            kind: "normal",
+          },
+        ]);
+      }
+    } catch {
+      setMsgs((m) => [
+        ...m,
+        {
+          role: "bot",
+          body: "I'm having trouble connecting right now. For urgent help, call or text 211 Arizona.",
+          kind: "normal",
+        },
+      ]);
+    } finally {
+      setSending(false);
     }
   };
 
   return (
-    <Modal open={open} onClose={onClose} title="Ask FosterGuide (simulated)">
+    <Modal open={open} onClose={onClose} title="Ask FosterGuide">
       {/* Disclosure */}
       <div className="rounded-2xl bg-[#2A7F8E]/8 p-3 ring-1 ring-[#2A7F8E]/20">
         <div className="text-xs font-semibold text-[#1B3A5C]">I can share info and next steps</div>
@@ -2349,9 +2259,10 @@ function ChatModal({
         />
         <button
           onClick={() => send()}
-          className="rounded-2xl bg-[#1B3A5C] px-4 py-2 text-sm font-semibold text-white hover:bg-[#152e49] transition-colors shadow-sm"
+          disabled={sending || !text.trim()}
+          className="rounded-2xl bg-[#1B3A5C] px-4 py-2 text-sm font-semibold text-white hover:bg-[#152e49] transition-colors shadow-sm disabled:opacity-50"
         >
-          Send
+          {sending ? "…" : "Send"}
         </button>
       </div>
 
@@ -2374,22 +2285,6 @@ function runSelfTests() {
   assert(isCrisis("I want to die") === true, "isCrisis detects self-harm phrase");
   assert(isCrisis("I love pizza") === false, "isCrisis ignores benign text");
 
-  const prefs: Prefs = {
-    language: "en",
-    ageBand: "16-17",
-    county: "Maricopa",
-    pathway: "future",
-    tribal: false,
-  };
-
-  const r1 = aiSimReply({ q: "What is a permanency hearing?", prefs });
-  assert(r1.kind === "normal", "aiSimReply normal path");
-
-  const r2 = aiSimReply({ q: "I want to kill myself", prefs });
-  assert(r2.kind === "crisis", "aiSimReply crisis path");
-
-  const r3 = aiSimReply({ q: "What is the capital of France?", prefs });
-  assert(r3.kind === "normal" && r3.title.includes("Arizona"), "aiSimReply out-of-scope");
 }
 
 // ─── root component ────────────────────────────────────────────────────────────
