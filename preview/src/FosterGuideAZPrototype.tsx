@@ -2312,15 +2312,10 @@ export default function FosterGuideAZPrototype() {
     }
   }, []);
 
-  // Gentle session boundary reminder (20 minutes)
+  const [showBreakReminder, setShowBreakReminder] = useState(false);
   useEffect(() => {
-    const t = setTimeout(() => {
-      setToast({
-        title: "Break reminder",
-        body: "You've been here a while. Want to take a break? You can come back anytime.",
-      });
-    }, 20 * 60 * 1000);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setShowBreakReminder(true), 20 * 60 * 1000);
+    return () => clearTimeout(timer);
   }, []);
 
   const onDoneOnboarding = () => {
@@ -2414,6 +2409,27 @@ export default function FosterGuideAZPrototype() {
             </motion.div>
           </AnimatePresence>
         </div>
+
+        {showBreakReminder && (
+          <div className="fixed top-16 left-0 right-0 z-40 flex justify-center pointer-events-none">
+            <div
+              className="mx-4 mt-2 px-4 py-3 rounded-xl shadow-lg text-sm flex items-center gap-3 pointer-events-auto"
+              style={{ backgroundColor: "#2A7F8E", color: "#fff", maxWidth: 400 }}
+            >
+              <span>
+                You&apos;ve been here a while. Take a break when you need one — this
+                will still be here.
+              </span>
+              <button
+                onClick={() => setShowBreakReminder(false)}
+                className="ml-auto text-white/80 hover:text-white font-medium shrink-0"
+                aria-label="Dismiss break reminder"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
 
         {showTabs ? <TabBar active={route} onGo={(r) => setRoute(r)} /> : null}
 
