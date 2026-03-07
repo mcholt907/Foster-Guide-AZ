@@ -58,12 +58,12 @@ const AGE_BANDS = [
 ];
 
 const PATHWAYS = [
-  { id: "understand", label: "I'm new to foster care. Explain it." },
+  { id: "understand", label: "I'm new to foster care and want to understand" },
   { id: "rights", label: "I want to know my rights" },
-  { id: "court", label: "I have court soon and I'm nervous" },
-  { id: "future", label: "I'm getting close to 18 and need a plan" },
-  { id: "resources", label: "I need help (housing, school, health, money)" },
-  { id: "wellness", label: "I'm stressed and need support" },
+  { id: "court", label: "I have a court date coming up and I'm nervous" },
+  { id: "future", label: "I'm turning 18 and need to make a plan" },
+  { id: "resources", label: "I need help with housing, school, health, or money" },
+  { id: "wellness", label: "I'm feeling stressed and need support" },
   { id: "explore", label: "I just want to look around" },
 ];
 
@@ -71,7 +71,7 @@ const DEMO_PERSONAS = [
   {
     id: "maria",
     name: "Maria, 11",
-    blurb: "Wants to understand what's happening and see her brother.",
+    blurb: "Wants to understand what's happening and how she can see her brother.",
     preset: {
       language: "en",
       ageBand: "10-12",
@@ -83,7 +83,7 @@ const DEMO_PERSONAS = [
   {
     id: "jaylen",
     name: "Jaylen, 14",
-    blurb: "Has a permanency hearing and wants plain-language court help.",
+    blurb: "Has a permanency hearing coming up and wants to understand what it means.",
     preset: {
       language: "en",
       ageBand: "13-15",
@@ -95,7 +95,7 @@ const DEMO_PERSONAS = [
   {
     id: "destiny",
     name: "Destiny, 17",
-    blurb: "Navajo Nation, turning 18, needs EFC/ETV and ICWA-aware guidance.",
+    blurb: "Navajo Nation. Turning 18 and figuring out what comes next — school money, extended care, and her rights.",
     preset: {
       language: "en",
       ageBand: "16-17",
@@ -107,7 +107,7 @@ const DEMO_PERSONAS = [
   {
     id: "andre",
     name: "Andre, 19",
-    blurb: "Housing instability — wants re-entry info and document steps.",
+    blurb: "Dealing with housing instability and needs help with documents and finding a safe place.",
     preset: {
       language: "en",
       ageBand: "18-21",
@@ -251,88 +251,88 @@ const RESOURCES = [
 const RIGHTS = [
   {
     id: "siblings",
-    title: "Siblings & Family Contact",
+    title: "Seeing Your Brothers & Sisters",
     citation: "A.R.S. §8-529(A)(4)",
     tiers: {
       "10-12": {
         plain:
-          "You can usually visit and talk with your brothers and sisters. Adults should help make it happen.",
+          "You can usually visit and talk with your brothers and sisters. The adults in your case should help make that happen.",
         example:
-          "If you can't see your sibling, you can ask your caseworker why and what the plan is.",
+          "If you haven't been able to see your sibling, you can ask your caseworker: \"Why not, and when can I?\"",
       },
       "13-15": {
         plain:
-          "You have a right to visit and have contact with your siblings unless a judge says it isn't safe.",
-        example: `Ask: "When is my next sibling visit? Who sets it up?"`,
+          "You have a right to stay in contact with your siblings — unless a judge has decided it isn't safe. That's the rule, and you can ask about it.",
+        example: `Ask your caseworker: "When is my next sibling visit, and who sets it up?"`,
       },
       "16-17": {
         plain:
-          "You have a right to sibling contact; if it isn't happening, ask for the reason and the plan to fix it.",
+          "You have a right to sibling contact. If it isn't happening, you can ask for a clear reason and a plan to fix it — and you deserve a real answer.",
         example:
-          "If you don't get an answer, ask to speak with the caseworker's supervisor.",
+          "If your caseworker doesn't follow through, you can ask to speak with their supervisor.",
       },
       "18-21": {
         plain:
-          "Even as a young adult in extended care, you can advocate for family/sibling contact as part of your plan.",
-        example: "Document your requests (dates/times) so you can follow up.",
+          "Even in extended care, you can advocate for staying connected with your family and siblings. That matters, and it can be part of your plan.",
+        example: "Write down your requests with dates so you have a record if you need to follow up.",
       },
     },
   },
   {
     id: "privacy",
-    title: "Privacy & Communication",
+    title: "Your Privacy & Communication",
     citation: "A.R.S. §8-529 (privacy provisions)",
     tiers: {
       "10-12": {
-        plain: "You should be able to talk to your caseworker privately.",
+        plain: "You have the right to talk with your caseworker privately — without other people listening in.",
         example: `You can say: "Can I talk with my caseworker alone for a minute?"`,
       },
       "13-15": {
         plain:
-          "You can ask for private conversations with your DCS Specialist and your attorney.",
+          "You can ask to speak privately with your caseworker and your attorney. You don't have to talk in front of others if you don't want to.",
         example:
-          "If you feel you can't speak freely, ask for a time and place where you can.",
+          "If you don't feel comfortable speaking freely, ask: \"Can we find a private time and place to talk?\"",
       },
       "16-17": {
         plain:
-          "You can request privacy for calls and meetings with your attorney/caseworker.",
-        example: "If it keeps getting blocked, use the complaint path described in the app.",
+          "You have the right to private calls and meetings with your attorney and caseworker. If someone keeps blocking that, you can push back.",
+        example: "If it keeps getting blocked, follow the steps in the escalation ladder below.",
       },
       "18-21": {
         plain:
-          "You can still ask for privacy in communications and for clarity about who can see what.",
+          "You can ask for privacy in your communications and ask who has access to your information — that's a fair question.",
         example:
-          "If you're in extended care, confirm which provider/coach is responsible.",
+          "If you're in extended care, ask which provider or coach is responsible for your case.",
       },
     },
   },
   {
     id: "participate",
-    title: "Participate in Your Case",
+    title: "Having a Say in Your Case",
     citation: "A.R.S. §8-529(A)(18)",
     tiers: {
       "10-12": {
         plain:
-          "Adults should listen to you about what you need and what's important to you.",
+          "The adults in your case are supposed to listen to what you need and what matters to you. Your voice counts.",
         example:
-          "You can tell your caseworker what helps you feel safe at home and school.",
+          "You can tell your caseworker what helps you feel safe — at home, at school, wherever.",
       },
       "13-15": {
         plain:
-          "You can be included in your case plan and share what you want, like school and visits.",
+          "You can be part of making your case plan and share what you want — things like school, visits, and where you live.",
         example:
-          "Before a hearing, write 3 things you want your attorney to tell the judge.",
+          "Before a hearing, write down 3 things you want your attorney to say to the judge for you.",
       },
       "16-17": {
         plain:
-          "You can participate in planning and ask questions about permanency and transition.",
-        example: `Use hearing prep questions in the "My Case" tab.`,
+          "You have a right to participate in planning your future — including questions about permanency and what happens after 18.",
+        example: `Check out the hearing prep questions in the "My Case" tab to get ready.`,
       },
       "18-21": {
         plain:
-          "If you're in extended care, your plan should reflect your goals (school, work, housing).",
+          "Your plan in extended care should actually reflect your goals — school, work, housing. If it doesn't, you can ask for it to be updated.",
         example:
-          "Ask for a written summary of what you agreed to and next steps.",
+          "Ask for a written summary of what was agreed to and what the next steps are.",
       },
     },
   },
@@ -342,30 +342,30 @@ const COURT_STAGES = [
   {
     id: "prelim",
     title: "First safety hearing (Preliminary Protective Hearing)",
-    what: "The judge checks safety and decides what happens next right away.",
-    youth: "Tell your lawyer what you want the judge to know.",
-    next: "Next hearing dates are set.",
+    what: "The judge checks if you're safe and decides what happens right away — usually within a few days.",
+    youth: "Before it starts, tell your lawyer what you want the judge to hear. They're there to speak up for you.",
+    next: "Dates for the next hearings are set.",
   },
   {
     id: "adjudication",
     title: "Facts hearing (Adjudication)",
-    what: "The court decides if the concerns are proven and the case continues.",
-    youth: `Ask: "What does this mean for where I live and school?"`,
-    next: "The plan and services get updated.",
+    what: "The court decides if the concerns in your case are proven and whether the case continues.",
+    youth: `Ask your lawyer: "What does this mean for where I live and my school?"`,
+    next: "Your case plan and services get reviewed and updated.",
   },
   {
     id: "review",
     title: "Check‑in hearing (Review Hearing)",
-    what: "The judge checks how the plan is going and what needs to change.",
-    youth: "Bring 1–2 updates: what's working, what isn't.",
-    next: "More check‑ins, or a long‑term plan hearing.",
+    what: "The judge checks in on how your plan is going and what needs to change.",
+    youth: "Come with 1–2 updates you want people to know: what's working and what isn't.",
+    next: "More check-ins are scheduled, or you move toward a long-term plan hearing.",
   },
   {
     id: "permanency",
     title: "Long‑term plan hearing (Permanency Hearing)",
-    what: "The judge talks about the long‑term plan (reunify, guardianship, adoption, etc.).",
-    youth: "Ask your lawyer to explain the choices in simple words.",
-    next: "Steps toward the long‑term plan.",
+    what: "The judge discusses the long-term plan for you — like going home, guardianship, or adoption.",
+    youth: "Ask your lawyer to walk you through each option in plain words. You have a say in this.",
+    next: "Everyone takes steps toward the long-term plan.",
   },
 ];
 
@@ -431,8 +431,8 @@ const FEATURE_CARDS = [
     id: "rights",
     icon: Shield,
     title: "Know your rights",
-    subtitle: "Plain-language rights + what to do if something feels wrong.",
-    badge: "Cites A.R.S. §8-529",
+    subtitle: "Your rights, in plain words — and what to do if they're not being respected.",
+    badge: "",
     gradient: "from-[#2A7F8E]/10 to-transparent",
     iconBg: "bg-[#2A7F8E]/10",
     iconColor: "text-[#2A7F8E]",
@@ -443,7 +443,7 @@ const FEATURE_CARDS = [
     id: "case",
     icon: Gavel,
     title: "My case explained",
-    subtitle: "What hearings mean, who's who, and how to prep.",
+    subtitle: "What your hearings actually mean, who will be there, and how to show up ready.",
     badge: "Timeline + hearing prep",
     gradient: "from-[#1B3A5C]/8 to-transparent",
     iconBg: "bg-[#1B3A5C]/10",
@@ -455,8 +455,8 @@ const FEATURE_CARDS = [
     id: "future",
     icon: FileText,
     title: "My future plan",
-    subtitle: "Turning 18? Checklists, deadlines, and next steps.",
-    badge: "EFC · ETV · Docs · Housing",
+    subtitle: "Turning 18 is a lot. Here's your checklist — options, deadlines, and documents.",
+    badge: "",
     gradient: "from-[#D97706]/10 to-transparent",
     iconBg: "bg-[#D97706]/10",
     iconColor: "text-[#D97706]",
@@ -467,8 +467,8 @@ const FEATURE_CARDS = [
     id: "resources",
     icon: MapPin,
     title: "Find resources",
-    subtitle: "County + age filters. Crisis resources always pinned.",
-    badge: "100+ directory (prototype sample)",
+    subtitle: "Real organizations near you that can help — filtered for your county and age.",
+    badge: "",
     gradient: "from-emerald-500/8 to-transparent",
     iconBg: "bg-emerald-500/10",
     iconColor: "text-emerald-700",
@@ -479,8 +479,8 @@ const FEATURE_CARDS = [
     id: "wellness",
     icon: HeartPulse,
     title: "Wellness check-in",
-    subtitle: `Coping skills + "talk to someone" routing (not therapy).`,
-    badge: "Trauma-informed",
+    subtitle: "Tools to help you feel calmer — and how to reach a real person when you need one.",
+    badge: "",
     gradient: "from-rose-400/8 to-transparent",
     iconBg: "bg-rose-400/10",
     iconColor: "text-rose-600",
@@ -490,6 +490,33 @@ const FEATURE_CARDS = [
 ];
 
 // ─── small UI primitives ───────────────────────────────────────────────────────
+
+function ScreenHero({
+  title,
+  subtitle,
+  gradient,
+  icon: Icon,
+  right,
+}: {
+  title: string;
+  subtitle: string;
+  gradient: string;
+  icon: React.ElementType;
+  right?: React.ReactNode;
+}) {
+  return (
+    <div className={`rounded-3xl bg-gradient-to-br ${gradient} p-5 shadow-md`}>
+      <div className="flex items-start justify-between mb-3">
+        <div className="rounded-2xl bg-white/15 p-2.5 backdrop-blur-sm">
+          <Icon className="h-5 w-5 text-white" />
+        </div>
+        {right}
+      </div>
+      <div className="text-xl font-bold text-white leading-snug">{title}</div>
+      <div className="mt-1.5 text-sm text-white/80 leading-relaxed">{subtitle}</div>
+    </div>
+  );
+}
 
 function SectionTitle({
   icon: Icon,
@@ -664,10 +691,10 @@ function StatCite({ children }: { children: React.ReactNode }) {
 function SafeNotice() {
   return (
     <div className="rounded-2xl bg-white/60 p-3 text-xs text-slate-500 ring-1 ring-slate-200/80">
-      <div className="font-semibold text-slate-700">This is info, not advice</div>
+      <div className="font-semibold text-slate-700">Just so you know</div>
       <div className="mt-1">
-        This app shares information and links. It can't give legal or medical advice. For help with your case, talk to your
-        lawyer, caseworker, or a trusted adult.
+        I share information to help you understand your situation — but I can't give legal or medical advice.
+        For your specific situation, talk to your caseworker, lawyer, or a trusted adult.
       </div>
     </div>
   );
@@ -705,22 +732,22 @@ function EscalationLadder() {
     {
       n: 1,
       role: "Your caseworker",
-      action: "Tell them directly what isn't right and ask for a fix. Put it in writing if you can.",
+      action: "Tell them what's not right and ask them to fix it. Sending a text or email creates a record you can refer back to.",
     },
     {
       n: 2,
       role: "Their supervisor",
-      action: `If nothing changes, ask: "Can I speak with your supervisor?" Note the date you asked.`,
+      action: `If nothing changes, ask: "Can I speak with your supervisor?" Write down the date you asked and what they said.`,
     },
     {
       n: 3,
       role: "DCS Ombudsman",
-      action: "File a formal complaint. They are independent from DCS and must respond.",
+      action: "You can file a formal complaint. They're separate from DCS — and they have to respond.",
     },
     {
       n: 4,
       role: "Your attorney / court",
-      action: "Your lawyer can raise unresolved issues at the next scheduled hearing.",
+      action: "Your lawyer can bring this up at your next hearing. That's exactly what they're there for.",
     },
   ];
   return (
@@ -809,8 +836,11 @@ function TopBar({
             </button>
           ) : null}
           <div className="flex items-center gap-2.5">
-            <div className="grid h-9 w-9 place-items-center rounded-2xl bg-[#2A7F8E] text-white shadow-md ring-2 ring-white/20">
-              <span className="text-sm font-bold tracking-tight">FG</span>
+            <div className="grid h-9 w-9 place-items-center rounded-2xl bg-gradient-to-br from-amber-400 to-amber-500 shadow-md ring-2 ring-white/20">
+              <svg viewBox="0 0 24 24" fill="none" className="h-4.5 w-4.5" aria-hidden="true">
+                <circle cx="12" cy="12" r="4" fill="white" />
+                <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77" stroke="white" strokeWidth="2" strokeLinecap="round" />
+              </svg>
             </div>
             <div>
               <div className="text-sm font-semibold text-white leading-tight">{title}</div>
@@ -968,10 +998,10 @@ function Onboarding({
   const stepTitle =
     [
       "Pick your language",
-      "Pick your age",
-      "Pick your county",
+      "How old are you?",
+      "Which county are you in?",
       "What brings you here today?",
-      "Optional: Tribal membership",
+      "Do you have tribal membership?",
     ][step] || "";
 
   const isReady =
@@ -982,10 +1012,18 @@ function Onboarding({
 
   return (
     <div className="px-4 pb-28 pt-4">
-      {/* Header */}
-      <div className="mb-6">
-        <div className="text-2xl font-bold text-[#1B3A5C] leading-tight">Welcome to<br />FosterGuide AZ</div>
-        <div className="mt-1.5 text-sm text-slate-500">No account. No personal info. Just helpful Arizona-specific guidance.</div>
+      {/* Warm hero banner */}
+      <div className="mb-5 rounded-3xl bg-gradient-to-br from-[#2A7F8E] to-[#1B3A5C] p-6 shadow-md">
+        <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400 to-amber-500 shadow-md">
+          <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" fill="white" />
+            <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77" stroke="white" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        </div>
+        <div className="text-2xl font-bold text-white leading-snug">Welcome to<br />FosterGuide AZ</div>
+        <div className="mt-2 text-sm text-white/80 leading-relaxed">
+          You deserve real answers. This is a safe place to find them — no sign-up, nothing stored.
+        </div>
       </div>
 
       {/* Step card */}
@@ -1018,14 +1056,13 @@ function Onboarding({
                 setStep(1);
               }}
               className={
-                "rounded-3xl p-4 text-left ring-1 transition-all " +
+                "rounded-3xl py-5 px-4 text-center ring-1 transition-all " +
                 (prefs.language === "en"
                   ? "bg-[#2A7F8E]/10 ring-[#2A7F8E]/40 shadow-sm"
                   : "bg-white ring-black/10 hover:ring-black/20")
               }
             >
-              <div className="text-base font-bold text-slate-900">English</div>
-              <div className="mt-0.5 text-xs text-slate-500">Default</div>
+              <div className="text-lg font-bold text-slate-900">English</div>
             </button>
             <button
               onClick={() => {
@@ -1033,14 +1070,13 @@ function Onboarding({
                 setStep(1);
               }}
               className={
-                "rounded-3xl p-4 text-left ring-1 transition-all " +
+                "rounded-3xl py-5 px-4 text-center ring-1 transition-all " +
                 (prefs.language === "es"
                   ? "bg-[#2A7F8E]/10 ring-[#2A7F8E]/40 shadow-sm"
                   : "bg-white ring-black/10 hover:ring-black/20")
               }
             >
-              <div className="text-base font-bold text-slate-900">Español</div>
-              <div className="mt-0.5 text-xs text-slate-500">En lanzamiento</div>
+              <div className="text-lg font-bold text-slate-900">Español</div>
             </button>
           </div>
         ) : null}
@@ -1064,12 +1100,12 @@ function Onboarding({
                 <div className="text-base font-bold text-slate-900">{b.label}</div>
                 <div className="mt-0.5 text-xs text-slate-500">
                   {b.id === "10-12"
-                    ? "Understand + basics"
+                    ? "Learn the basics"
                     : b.id === "13-15"
-                      ? "Rights + court"
+                      ? "Your rights + court"
                       : b.id === "16-17"
-                        ? "Transition + checklists"
-                        : "Extended care + workflows"}
+                        ? "Planning ahead"
+                        : "Extended care + next steps"}
                 </div>
               </button>
             ))}
@@ -1079,7 +1115,7 @@ function Onboarding({
         {step === 2 ? (
           <div>
             <div className="text-xs text-slate-500 mb-3">
-              Pick the county you're in (for local resources).
+              This helps us show resources near you.
             </div>
             <div className="grid grid-cols-2 gap-2">
               {COUNTIES.map((c) => (
@@ -1128,7 +1164,7 @@ function Onboarding({
         {step === 4 ? (
           <div>
             <div className="text-xs text-slate-500 mb-3">
-              Optional: this helps the prototype show ICWA-aware navigation. Stored only in your browser.
+              If you're a tribal member, we can show steps that may apply to your case. This stays on your device only.
             </div>
             <div className="grid grid-cols-2 gap-3">
               <button
@@ -1196,67 +1232,7 @@ function Onboarding({
         </div>
       </div>
 
-      <div className="mt-4">
-        <SafeNotice />
-      </div>
-
-      {/* Story mode — persona cards */}
-      <div className="mt-6">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="h-px flex-1 bg-slate-200" />
-          <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-1">
-            or jump into a story
-          </div>
-          <div className="h-px flex-1 bg-slate-200" />
-        </div>
-        <div className="grid gap-3">
-          {DEMO_PERSONAS.map((p) => {
-            const colors = PERSONA_COLORS[p.id] ?? PERSONA_COLORS.maria;
-            const initial = p.name.charAt(0);
-            const ageBand = AGE_BANDS.find((a) => a.id === p.preset.ageBand);
-            return (
-              <button
-                key={p.id}
-                onClick={() => {
-                  setPrefs((x) => ({ ...x, ...p.preset } as Prefs));
-                  onDone();
-                }}
-                className={`w-full text-left rounded-3xl ${colors.bg} p-4 ring-1 ${colors.ring} hover:shadow-md active:scale-[0.995] transition-all`}
-              >
-                <div className="flex items-center gap-3">
-                  {/* Avatar */}
-                  <div
-                    className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${colors.avatar} text-white text-lg font-bold shadow-sm`}
-                  >
-                    {initial}
-                  </div>
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <div className={`text-sm font-bold ${colors.text}`}>{p.name}</div>
-                    <div className="mt-0.5 text-xs text-slate-600 leading-snug">{p.blurb}</div>
-                    <div className="mt-2 flex flex-wrap gap-1.5">
-                      <span className="inline-flex items-center rounded-full bg-white/70 px-2 py-0.5 text-[11px] text-slate-600 ring-1 ring-black/8">
-                        {p.preset.county}
-                      </span>
-                      {ageBand && (
-                        <span className="inline-flex items-center rounded-full bg-white/70 px-2 py-0.5 text-[11px] text-slate-600 ring-1 ring-black/8">
-                          Age {ageBand.label}
-                        </span>
-                      )}
-                      {p.preset.tribal && (
-                        <span className="inline-flex items-center rounded-full bg-white/70 px-2 py-0.5 text-[11px] text-slate-600 ring-1 ring-black/8">
-                          ICWA
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <ChevronRight className={`h-5 w-5 shrink-0 ${colors.text} opacity-60`} />
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      {/* Story mode — persona cards (hidden) */}
     </div>
   );
 }
@@ -1274,39 +1250,23 @@ function HomeScreen({
   onOpenChat: () => void;
   onReset: () => void;
 }) {
-  const tone = readingTone(prefs.ageBand || "");
-  const chips = [
-    prefs.language === "es" ? "Español" : "English",
-    `Age ${AGE_BANDS.find((a) => a.id === prefs.ageBand)?.label ?? "—"}`,
-    prefs.county ? `${prefs.county} County` : "—",
-    prefs.tribal ? "ICWA-aware" : "Standard",
-    `${tone.title} mode`,
-  ];
 
   return (
     <div className="px-4 pb-28 pt-4">
-      <SectionTitle
+      <ScreenHero
         icon={HomeIcon}
-        title="Home"
-        subtitle="What do you need today?"
+        title="What do you need today?"
+        subtitle={`Set up for ${prefs.county ?? "—"} · Age ${AGE_BANDS.find((a) => a.id === prefs.ageBand)?.label ?? "—"} · ${prefs.language === "es" ? "Español" : "English"}`}
+        gradient="from-[#2A7F8E] to-[#1B3A5C]"
         right={
           <button
             onClick={onReset}
-            className="rounded-2xl bg-white px-3 py-2 text-xs font-semibold text-slate-600 shadow-sm ring-1 ring-black/10 hover:bg-slate-50 transition-colors"
+            className="rounded-xl bg-white/15 px-3 py-1.5 text-xs font-semibold text-white/90 hover:bg-white/25 transition-colors"
           >
             Reset
           </button>
         }
       />
-
-      <div className="mt-3 flex flex-wrap gap-2">
-        {chips.map((c) => (
-          <Chip key={c}>{c}</Chip>
-        ))}
-      </div>
-
-      {/* Arizona impact strip */}
-      <ImpactStrip />
 
       {/* Color-coded feature cards */}
       <div className="mt-4 grid gap-3">
@@ -1328,11 +1288,13 @@ function HomeScreen({
                 </div>
                 <ChevronRight className={`mt-1 h-5 w-5 shrink-0 ${fc.chevronColor}`} />
               </div>
-              <div className="mt-3">
-                <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ${fc.pillCls}`}>
-                  {fc.badge}
-                </span>
-              </div>
+              {fc.badge && (
+                <div className="mt-3">
+                  <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ${fc.pillCls}`}>
+                    {fc.badge}
+                  </span>
+                </div>
+              )}
             </div>
           );
         })}
@@ -1351,9 +1313,9 @@ function HomeScreen({
             <AlertTriangle className="h-5 w-5 text-rose-600" />
           </div>
           <div>
-            <div className="text-sm font-semibold text-slate-900">Crisis resources — always available</div>
+            <div className="text-sm font-semibold text-slate-900">Need help right now?</div>
             <div className="mt-1 text-xs text-slate-500">
-              If someone is in danger or needs immediate help, the app routes to real people instantly.
+              These are real people available 24/7. You don't have to be in a full crisis to reach out.
             </div>
           </div>
         </div>
@@ -1385,11 +1347,11 @@ function RightsScreen({ prefs }: { prefs: Prefs }) {
   const tier = prefs.ageBand || "10-12";
   return (
     <div className="px-4 pb-28 pt-4">
-      <SectionTitle
+      <ScreenHero
         icon={Shield}
         title="Know Your Rights"
-        subtitle="Your rights in plain language + what to do next."
-        iconClassName="bg-[#2A7F8E]/10 text-[#2A7F8E]"
+        subtitle="These are your rights. They're real, and they're yours — even if no one has told you yet."
+        gradient="from-[#2A7F8E] to-[#1B3A5C]"
       />
 
       <div className="mt-4 rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
@@ -1398,7 +1360,7 @@ function RightsScreen({ prefs }: { prefs: Prefs }) {
           <Chip>Age {AGE_BANDS.find((a) => a.id === tier)?.label}</Chip>
         </div>
         <div className="mt-1.5 text-xs text-slate-500">
-          Demo sample. In the real app, all content is verified against current Arizona law.
+          A sample of your rights. In the full app, all content is verified against current Arizona law.
         </div>
       </div>
 
@@ -1429,10 +1391,10 @@ function RightsScreen({ prefs }: { prefs: Prefs }) {
                   What it means
                 </span>
                 <span className={pill("bg-white text-slate-600 ring-1 ring-black/10")}>
-                  What to say
+                  How to ask for it
                 </span>
                 <span className={pill("bg-white text-slate-600 ring-1 ring-black/10")}>
-                  If it's not happening
+                  If it's being ignored
                 </span>
               </div>
             </Card>
@@ -1447,9 +1409,9 @@ function RightsScreen({ prefs }: { prefs: Prefs }) {
             <CheckCircle2 className="h-5 w-5 text-[#2A7F8E]" />
           </div>
           <div>
-            <div className="text-sm font-semibold text-[#1B3A5C]">If your rights are being violated</div>
+            <div className="text-sm font-semibold text-[#1B3A5C]">If your rights aren't being respected</div>
             <div className="mt-1 text-xs text-slate-500">
-              Follow these steps in order. Document dates and responses at each step.
+              Try these steps in order. Write down dates and what was said at each step.
             </div>
           </div>
         </div>
@@ -1470,11 +1432,11 @@ function CaseScreen({ prefs }: { prefs: Prefs }) {
   const isYoung = tier === "10-12";
   return (
     <div className="px-4 pb-28 pt-4">
-      <SectionTitle
+      <ScreenHero
         icon={Gavel}
         title="My Case Explained"
-        subtitle="A simple timeline + who's who + hearing prep."
-        iconClassName="bg-[#1B3A5C]/10 text-[#1B3A5C]"
+        subtitle="What your hearings mean, who's there, and how to show up ready."
+        gradient="from-[#1B3A5C] to-[#0f2640]"
       />
 
       {prefs.tribal ? (
@@ -1486,7 +1448,7 @@ function CaseScreen({ prefs }: { prefs: Prefs }) {
             <div>
               <div className="text-sm font-semibold text-[#1B3A5C]">ICWA guidance is on</div>
               <div className="mt-1 text-xs text-slate-600">
-                In the full app, this module is co-designed with tribal partners — you'd see tribe-specific contacts and ICWA-specific case steps here.
+                In the full app, this section is built with tribal partners — you'd see your tribe's specific contacts and steps that apply to your case.
               </div>
               <div className="mt-3 flex flex-wrap gap-2">
                 <StatCite>ICWA (25 U.S.C. §§1901–1963)</StatCite>
@@ -1553,7 +1515,7 @@ function CaseScreen({ prefs }: { prefs: Prefs }) {
 
       {/* Hearing prep */}
       <div className="mt-4 rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
-        <div className="text-sm font-semibold text-[#1B3A5C] mb-3">Hearing prep questions</div>
+        <div className="text-sm font-semibold text-[#1B3A5C] mb-3">Questions to ask before your hearing</div>
         <div className="grid gap-2">
           {[
             "What is the goal of today's hearing?",
@@ -1588,18 +1550,18 @@ function FutureScreen({ prefs }: { prefs: Prefs }) {
 
   return (
     <div className="px-4 pb-28 pt-4">
-      <SectionTitle
+      <ScreenHero
         icon={FileText}
         title="My Future Plan"
-        subtitle="Turning 18, school, documents, housing — as simple checklists."
-        iconClassName="bg-[#D97706]/10 text-[#D97706]"
+        subtitle="Turning 18 is a big moment. Here's everything broken down into simple steps."
+        gradient="from-[#D97706] to-[#92400e]"
       />
 
       {!isOldEnough ? (
         <div className="mt-4 rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
           <div className="text-sm font-semibold text-[#1B3A5C]">You'll see more here as you get older</div>
           <div className="mt-1 text-xs text-slate-500">
-            This prototype keeps detailed transition tools for ages 16+.
+            The full planning tools show up as you get closer to 16. Come back then — there's a lot here for you.
           </div>
         </div>
       ) : null}
@@ -1611,7 +1573,7 @@ function FutureScreen({ prefs }: { prefs: Prefs }) {
             <DeadlineBanner
               label="ETV Application Deadline"
               date="July 31, 2026"
-              note="Educational and Training Vouchers — act before this date for the 2025–2026 cycle"
+              note="This is money to help you pay for school or training — don't miss this deadline."
             />
           </div>
 
@@ -1622,9 +1584,9 @@ function FutureScreen({ prefs }: { prefs: Prefs }) {
                 <AlertTriangle className="h-5 w-5 text-amber-600" />
               </div>
               <div className="flex-1">
-                <div className="text-sm font-semibold text-[#1B3A5C]">Content note</div>
+                <div className="text-sm font-semibold text-[#1B3A5C]">Before you read on</div>
                 <div className="mt-1 text-xs text-slate-500">
-                  Planning for the future can include hard topics like housing problems. You can skip any section.
+                  Some of this covers tough topics — like housing and what happens when you turn 18. Go at your own pace. You can skip anything you're not ready for.
                 </div>
                 <div className="mt-3">
                   <button
@@ -1648,8 +1610,8 @@ function FutureScreen({ prefs }: { prefs: Prefs }) {
             <Card accentColor="bg-[#2A7F8E]">
               <SectionTitle
                 icon={CheckCircle2}
-                title="Turning 18: choose your path"
-                subtitle="Extended Foster Care vs. leaving care — what changes and what stays the same."
+                title="Turning 18: what are your options?"
+                subtitle="You get to choose — stay in Extended Foster Care or leave. Here's what each one means for your life."
                 iconClassName="bg-[#2A7F8E]/10 text-[#2A7F8E]"
               />
               <div className="mt-3 flex flex-wrap gap-2">
@@ -1663,7 +1625,7 @@ function FutureScreen({ prefs }: { prefs: Prefs }) {
               <SectionTitle
                 icon={GraduationCap}
                 title="Money for school"
-                subtitle="Help paying for school (like ETV). Deadlines matter — see banner above."
+                subtitle="There's money available to help pay for school or training. Deadlines are real — don't wait."
                 iconClassName="bg-[#D97706]/10 text-[#D97706]"
               />
               <div className="mt-3 grid gap-2">
@@ -1690,8 +1652,8 @@ function FutureScreen({ prefs }: { prefs: Prefs }) {
             <Card accentColor="bg-[#1B3A5C]">
               <SectionTitle
                 icon={FileText}
-                title="Documents"
-                subtitle="Birth certificate → Social Security card → state ID."
+                title="Your Important Documents"
+                subtitle="These are the most important documents to get. Here's the order to do it in."
                 iconClassName="bg-[#1B3A5C]/10 text-[#1B3A5C]"
               />
               <div className="mt-3 grid gap-2">
@@ -1725,7 +1687,7 @@ function FutureScreen({ prefs }: { prefs: Prefs }) {
                 <SectionTitle
                   icon={MapPin}
                   title="Housing path"
-                  subtitle={`Filtered for ${prefs.county} + age. Some programs fill up — call first.`}
+                  subtitle={`Showing options near ${prefs.county}. Spots fill up — call before you go.`}
                   iconClassName="bg-emerald-500/10 text-emerald-700"
                 />
                 <div className="mt-3 grid gap-2">
@@ -1754,7 +1716,7 @@ function FutureScreen({ prefs }: { prefs: Prefs }) {
                 <SectionTitle
                   icon={Users}
                   title="ICWA-aware transition notes"
-                  subtitle="In the real app: tribal-specific contacts + placement preference explanations."
+                  subtitle="In the full app: your tribe's specific contacts and what your placement preferences mean for your case."
                   iconClassName="bg-[#2A7F8E]/10 text-[#2A7F8E]"
                 />
                 <div className="mt-3 flex flex-wrap gap-2">
@@ -1825,11 +1787,11 @@ function ResourcesScreen({ prefs }: { prefs: Prefs }) {
 
   return (
     <div className="px-4 pb-28 pt-4">
-      <SectionTitle
+      <ScreenHero
         icon={MapPin}
         title="Find Resources"
-        subtitle={`Filtered for ${prefs.county ?? "—"} · Ages ${ageRange[0]}–${ageRange[1]}`}
-        iconClassName="bg-emerald-500/10 text-emerald-700"
+        subtitle={`Real organizations near you — filtered for ${prefs.county ?? "your county"} · Ages ${ageRange[0]}–${ageRange[1]}`}
+        gradient="from-emerald-600 to-emerald-900"
       />
 
       {/* Search + filter */}
@@ -1868,7 +1830,7 @@ function ResourcesScreen({ prefs }: { prefs: Prefs }) {
       <div className="mt-4 rounded-3xl bg-rose-50/80 p-4 ring-1 ring-rose-200/60 shadow-sm">
         <div className="flex items-center gap-2 mb-3">
           <AlertTriangle className="h-4 w-4 text-rose-600" />
-          <div className="text-sm font-semibold text-rose-900">Pinned crisis options</div>
+          <div className="text-sm font-semibold text-rose-900">Need help right now? These are always here.</div>
         </div>
         <div className="grid gap-2">
           {CRISIS_PINS.map((c) => (
@@ -1894,7 +1856,7 @@ function ResourcesScreen({ prefs }: { prefs: Prefs }) {
         {filtered.length === 0 ? (
           <div className="rounded-3xl bg-white/85 p-5 text-center ring-1 ring-black/5 shadow-sm">
             <div className="text-sm font-semibold text-slate-700">No matches found</div>
-            <div className="mt-1 text-xs text-slate-500">Try calling 211 — a real person can help you find options.</div>
+            <div className="mt-1 text-xs text-slate-500">Try calling 211 — a real person answers and can help you figure out what's available near you.</div>
           </div>
         ) : null}
 
@@ -1980,11 +1942,11 @@ function WellnessScreen() {
 
   return (
     <div className="px-4 pb-28 pt-4">
-      <SectionTitle
+      <ScreenHero
         icon={HeartPulse}
         title="Wellness Check‑In"
-        subtitle="Quick calm‑down tools + help links. Not therapy."
-        iconClassName="bg-rose-400/10 text-rose-600"
+        subtitle="Tools to help you feel calmer — and how to reach a real person when you need one."
+        gradient="from-rose-500 to-[#1B3A5C]"
       />
 
       {/* Mood scale */}
@@ -2023,7 +1985,7 @@ function WellnessScreen() {
           <SectionTitle
             icon={CheckCircle2}
             title="One-minute reset"
-            subtitle="Try box breathing or a grounding exercise."
+            subtitle="These take under a minute and can genuinely help."
             iconClassName="bg-[#2A7F8E]/10 text-[#2A7F8E]"
           />
           <div className="mt-3 rounded-2xl bg-[#2A7F8E]/5 p-4 ring-1 ring-[#2A7F8E]/15">
@@ -2043,7 +2005,7 @@ function WellnessScreen() {
           <SectionTitle
             icon={Users}
             title="Want to talk to a person?"
-            subtitle="These are real people you can contact right now."
+            subtitle="You don't have to be in a crisis to call. These people will talk with you."
             iconClassName="bg-rose-400/10 text-rose-600"
           />
           <div className="mt-3 grid gap-2">
@@ -2066,9 +2028,9 @@ function WellnessScreen() {
         </Card>
 
         <div className="rounded-3xl bg-slate-50/80 p-4 ring-1 ring-slate-200/80 shadow-sm">
-          <div className="text-xs font-semibold text-slate-700">Hard boundary</div>
+          <div className="text-xs font-semibold text-slate-700">One important thing</div>
           <div className="mt-1.5 text-xs text-slate-500 leading-relaxed">
-            This app can't treat mental health. If you feel unsafe or like you might hurt yourself, use the crisis links right away or call 911.
+            This app can't replace real support. If you feel like you might hurt yourself, please reach out using the crisis links or call 911. You deserve real help.
           </div>
         </div>
       </div>
@@ -2078,6 +2040,69 @@ function WellnessScreen() {
       </div>
     </div>
   );
+}
+
+// ─── markdown renderer ────────────────────────────────────────────────────────
+
+function renderInline(text: string): React.ReactNode {
+  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**"))
+      return <strong key={i} className="font-semibold text-slate-800">{part.slice(2, -2)}</strong>;
+    if (part.startsWith("*") && part.endsWith("*"))
+      return <em key={i}>{part.slice(1, -1)}</em>;
+    return part;
+  });
+}
+
+function renderMarkdown(text: string): React.ReactNode {
+  const lines = text.split("\n");
+  const elements: React.ReactNode[] = [];
+  let listItems: string[] = [];
+  let key = 0;
+
+  const flushList = () => {
+    if (listItems.length === 0) return;
+    elements.push(
+      <ul key={key++} className="mt-2 space-y-1">
+        {listItems.map((item, i) => (
+          <li key={i} className="flex gap-2 items-start">
+            <span className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#2A7F8E]" />
+            <span>{renderInline(item)}</span>
+          </li>
+        ))}
+      </ul>
+    );
+    listItems = [];
+  };
+
+  for (const line of lines) {
+    if (line.startsWith("# ") || line.startsWith("## ")) {
+      flushList();
+      const content = line.replace(/^#{1,2} /, "");
+      elements.push(
+        <p key={key++} className="mt-2 font-semibold text-[#1B3A5C]">
+          {renderInline(content)}
+        </p>
+      );
+    } else if (line.startsWith("- ") || line.startsWith("* ")) {
+      listItems.push(line.slice(2));
+    } else if (line === "---") {
+      flushList();
+      elements.push(<hr key={key++} className="my-2 border-slate-100" />);
+    } else if (line.trim() === "") {
+      flushList();
+    } else {
+      flushList();
+      elements.push(
+        <p key={key++} className="mt-1 first:mt-0">
+          {renderInline(line)}
+        </p>
+      );
+    }
+  }
+  flushList();
+  return <>{elements}</>;
 }
 
 // ─── chat modal ─────────────────────────────────────────────────────────────────
@@ -2178,7 +2203,7 @@ function ChatModal({
         ...m,
         {
           role: "bot",
-          body: "I'm having trouble connecting right now. For urgent help, call or text 211 Arizona.",
+          body: "I'm having trouble right now. If you need help, you can call or text 211 Arizona — a real person will answer.",
           kind: "normal",
         },
       ]);
@@ -2189,19 +2214,26 @@ function ChatModal({
 
   return (
     <Modal open={open} onClose={onClose} title="Ask FosterGuide">
-      {/* Disclosure */}
-      <div className="rounded-2xl bg-[#2A7F8E]/8 p-3 ring-1 ring-[#2A7F8E]/20">
-        <div className="text-xs font-semibold text-[#1B3A5C]">I can share info and next steps</div>
-        <div className="mt-0.5 text-xs text-slate-600">
-          I'm not a counselor or a friend — I share Arizona-specific info and trusted links.
+      {/* Chat hero */}
+      <div className="rounded-2xl bg-gradient-to-br from-[#2A7F8E] to-[#1B3A5C] p-4">
+        <div className="flex items-center gap-3">
+          <div className="shrink-0 rounded-xl bg-white/15 p-2 backdrop-blur-sm">
+            <MessageCircle className="h-4 w-4 text-white" />
+          </div>
+          <div>
+            <div className="text-sm font-semibold text-white">I'm here to help you find answers</div>
+            <div className="mt-0.5 text-xs text-white/75 leading-relaxed">
+              Real info about your rights, case, and resources. Not a counselor — but here to help.
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Message thread */}
       <div ref={listRef} className="mt-3 max-h-[42vh] space-y-3 overflow-y-auto pr-1">
         {msgs.length === 0 ? (
-          <div className="rounded-2xl bg-slate-50 p-3 text-sm text-slate-500 ring-1 ring-black/8">
-            Try a prompt below, or type your own question.
+          <div className="py-2 text-center text-sm text-slate-400">
+            Try one of the questions below, or ask whatever's on your mind.
           </div>
         ) : null}
 
@@ -2218,10 +2250,10 @@ function ChatModal({
                   <div className="w-1 shrink-0 bg-[#2A7F8E]" />
                   <div className="flex-1 p-3">
                     <div className="text-xs font-bold text-[#1B3A5C]">{m.title}</div>
-                    <div className="mt-1 text-sm text-slate-700 leading-relaxed">{m.body}</div>
+                    <div className="mt-1 text-sm text-slate-700 leading-relaxed">{renderMarkdown(m.body)}</div>
                     <CitationsRow cites={m.cites} />
                     <div className="mt-2 text-[10px] text-slate-400">
-                      For help with your case, talk to your lawyer or caseworker.
+                      For your specific situation, talk to your caseworker or lawyer.
                     </div>
                   </div>
                 </div>
