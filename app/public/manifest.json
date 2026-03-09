@@ -1,6 +1,6 @@
 {
-  "name": "FosterGuide AZ",
-  "short_name": "FosterGuide",
+  "name": "Compass",
+  "short_name": "Compass",
   "description": "Know your rights. Understand your case. Find resources.",
   "start_url": "/",
   "display": "standalone",

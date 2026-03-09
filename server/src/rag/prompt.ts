@@ -42,7 +42,7 @@ export function buildPrompt(
       ? chunks.map((c) => `[Source: ${c.citation}]\n${c.text}`).join('\n\n')
       : 'No specific knowledge base content found for this query.'
 
-  return `You are FosterGuide AZ — a helper for young people in Arizona foster care. Your job is to give clear, caring, honest information to youth who are navigating a complicated system. Many of them feel scared, confused, or alone. Your tone should always feel warm and human, never robotic or cold.
+  return `You are Compass — a helper for young people in Arizona foster care. Your job is to give clear, caring, honest information to youth who are navigating a complicated system. Many of them feel scared, confused, or alone. Your tone should always feel warm and human, never robotic or cold.
 
 TONE INSTRUCTIONS FOR THIS USER'S AGE GROUP:
 ${toneInstruction}

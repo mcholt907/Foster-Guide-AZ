@@ -21,11 +21,12 @@ import {
   Calendar,
   ArrowRight,
   ChevronLeft,
+  ChevronDown,
 } from "lucide-react";
 import { sendChatMessage } from "./api/chat";
 
 /**
- * FosterGuide AZ — lightweight click-through prototype
+ * Compass — lightweight click-through prototype
  * - No backend
  * - No PII
  * - "AI chat" is a scripted simulator for storytelling
@@ -57,6 +58,8 @@ const AGE_BANDS = [
   { id: "18-21", label: "18–21" },
 ];
 
+type AgeBandKey = "10-12" | "13-15" | "16-17" | "18-21";
+
 const PATHWAYS = [
   { id: "understand", label: "I'm new to foster care and want to understand" },
   { id: "rights", label: "I want to know my rights" },
@@ -67,56 +70,47 @@ const PATHWAYS = [
   { id: "explore", label: "I just want to look around" },
 ];
 
-const DEMO_PERSONAS = [
-  {
-    id: "maria",
-    name: "Maria, 11",
-    blurb: "Wants to understand what's happening and how she can see her brother.",
-    preset: {
-      language: "en",
-      ageBand: "10-12",
-      county: "Maricopa",
-      tribal: false,
-      pathway: "understand",
-    },
-  },
-  {
-    id: "jaylen",
-    name: "Jaylen, 14",
-    blurb: "Has a permanency hearing coming up and wants to understand what it means.",
-    preset: {
-      language: "en",
-      ageBand: "13-15",
-      county: "Maricopa",
-      tribal: false,
-      pathway: "court",
-    },
-  },
-  {
-    id: "destiny",
-    name: "Destiny, 17",
-    blurb: "Navajo Nation. Turning 18 and figuring out what comes next — school money, extended care, and her rights.",
-    preset: {
-      language: "en",
-      ageBand: "16-17",
-      county: "Coconino",
-      tribal: true,
-      pathway: "future",
-    },
-  },
-  {
-    id: "andre",
-    name: "Andre, 19",
-    blurb: "Dealing with housing instability and needs help with documents and finding a safe place.",
-    preset: {
-      language: "en",
-      ageBand: "18-21",
-      county: "Pima",
-      tribal: false,
-      pathway: "resources",
-    },
-  },
-];
+// Age-adapted pathway labels. IDs match PATHWAYS exactly — only display text
+// and inclusion list change. The routing logic reads prefs.pathway (the id).
+const PATHWAYS_BY_BAND: Record<AgeBandKey, Array<{ id: string; label: string }>> = {
+  "10-12": [
+    { id: "understand", label: "I'm new to foster care and want to understand" },
+    { id: "rights",     label: "I want to know my rights" },
+    { id: "court",      label: "I'm going to court and I'm scared" },
+    { id: "resources",  label: "I need help with school or something else" },
+    { id: "wellness",   label: "I'm feeling worried or upset" },
+    { id: "explore",    label: "I just want to look around" },
+    // "future" omitted — turning-18 content isn't relevant at 10–12
+  ],
+  "13-15": [
+    { id: "understand", label: "I'm new to foster care and want to understand" },
+    { id: "rights",     label: "I want to know my rights" },
+    { id: "court",      label: "I have a court date coming up and I'm nervous" },
+    { id: "future",     label: "I want to know what happens when I turn 18" },
+    { id: "resources",  label: "I need help with housing, school, health, or money" },
+    { id: "wellness",   label: "I'm feeling stressed and need support" },
+    { id: "explore",    label: "I just want to look around" },
+  ],
+  "16-17": [
+    { id: "understand", label: "I'm new to foster care and want to understand" },
+    { id: "rights",     label: "I want to know my rights" },
+    { id: "court",      label: "I have a court date coming up and I'm nervous" },
+    { id: "future",     label: "I'm turning 18 and need to make a plan" },
+    { id: "resources",  label: "I need help with housing, school, health, or money" },
+    { id: "wellness",   label: "I'm feeling stressed and need support" },
+    { id: "explore",    label: "I just want to look around" },
+  ],
+  "18-21": [
+    { id: "future",     label: "I need to make a plan — housing, money, next steps" },
+    { id: "resources",  label: "I need help with housing, money, or health" },
+    { id: "rights",     label: "I want to know my rights" },
+    { id: "court",      label: "I have a court date coming up and I'm nervous" },
+    { id: "understand", label: "I want to understand the system better" },
+    { id: "wellness",   label: "I'm feeling stressed and need support" },
+    { id: "explore",    label: "I just want to look around" },
+  ],
+};
+
 
 const CRISIS_PINS = [
   {
@@ -385,20 +379,6 @@ function bandToRange(bandId: string) {
   return map[bandId] || [10, 21];
 }
 
-function readingTone(ageBand: string) {
-  switch (ageBand) {
-    case "10-12":
-      return { title: "Simple", hint: "Short, friendly sentences." };
-    case "13-15":
-      return { title: "Plain", hint: "Clear steps, fewer big words." };
-    case "16-17":
-      return { title: "Action", hint: "More details + next steps." };
-    case "18-21":
-      return { title: "Full", hint: "Most detail and options." };
-    default:
-      return { title: "Plain", hint: "" };
-  }
-}
 
 function pill(cls: string) {
   return `inline-flex items-center rounded-full border px-2.5 py-1 text-xs ${cls}`;
@@ -415,30 +395,138 @@ function getCategoryAccent(categories: string[]): string {
   return "bg-slate-300";
 }
 
-// ─── persona color palette ─────────────────────────────────────────────────────
 
-const PERSONA_COLORS: Record<string, { bg: string; ring: string; avatar: string; text: string; lightBg: string }> = {
-  maria:  { bg: "bg-[#2A7F8E]/10",   ring: "ring-[#2A7F8E]/30",  avatar: "bg-[#2A7F8E]",  text: "text-[#2A7F8E]",   lightBg: "bg-[#2A7F8E]/5" },
-  jaylen: { bg: "bg-[#1B3A5C]/10",   ring: "ring-[#1B3A5C]/30",  avatar: "bg-[#1B3A5C]",  text: "text-[#1B3A5C]",   lightBg: "bg-[#1B3A5C]/5" },
-  destiny:{ bg: "bg-[#D97706]/10",   ring: "ring-[#D97706]/30",  avatar: "bg-[#D97706]",  text: "text-[#D97706]",   lightBg: "bg-[#D97706]/5" },
-  andre:  { bg: "bg-emerald-500/10", ring: "ring-emerald-500/30", avatar: "bg-emerald-600", text: "text-emerald-700", lightBg: "bg-emerald-500/5" },
-};
+// ─── who's who data ────────────────────────────────────────────────────────────
+
+const WHO_IN_YOUR_CASE = [
+  {
+    id: "caseworker",
+    title: "Your DCS Case Manager",
+    aka: "Also called: caseworker",
+    emoji: "👤",
+    color: "#2A7F8E",
+    role: "Your main point of contact at the Department of Child Safety (DCS).",
+    what: "They manage your case day-to-day — writing your case plan, scheduling visits, and connecting you to services. By law they're supposed to meet with you at least once a month in person.",
+    tip: "Keep their number saved. If something feels wrong or isn't happening, they're your first call.",
+  },
+  {
+    id: "judge",
+    title: "The Judge",
+    aka: "Also called: dependency court judge",
+    emoji: "⚖️",
+    color: "#1B3A5C",
+    role: "Makes the big legal decisions about your case — including where you live.",
+    what: "A Superior Court judge oversees your dependency case. They approve your case plan, decide placement, and make the final call at every hearing. You have the right to speak at hearings — your voice counts.",
+    tip: "You can tell the judge how you feel, what you want, and what's not working — through your attorney or by asking to address the court directly.",
+  },
+  {
+    id: "attorney",
+    title: "Your Attorney",
+    aka: "Also called: your lawyer",
+    emoji: "📋",
+    color: "#D97706",
+    role: "Represents only you — not DCS, not your parents, not the foster family.",
+    what: "Arizona law gives every youth in foster care the right to an attorney. They go to court with you, explain what's happening, and argue for what you want. Everything you tell them stays private.",
+    tip: "Be honest with your attorney — they can only fight for you if they know what's really going on. If you don't have one, ask your caseworker immediately.",
+  },
+  {
+    id: "casa",
+    title: "CASA Volunteer",
+    aka: "Court Appointed Special Advocate",
+    emoji: "🤝",
+    color: "#2A7F8E",
+    role: "A trained community volunteer who gets to know you personally and speaks up for you in court.",
+    what: "Unlike your caseworker, a CASA has one job: figure out what's best for you and tell the judge. They visit you regularly, read your full case file, and write a report for the court. Not everyone has one — but you can request one.",
+    tip: "CASA volunteers are not DCS employees. They chose to be there for kids. They tend to have more time for you than a caseworker does.",
+  },
+  {
+    id: "caregiver",
+    title: "Foster Parent or Kinship Caregiver",
+    aka: "Also called: foster family, relative caregiver",
+    emoji: "🏠",
+    color: "#059669",
+    role: "The adult(s) you live with, licensed or approved by DCS to provide a safe home.",
+    what: "They're responsible for your day-to-day care — meals, school, safety, and activities. A kinship caregiver is a relative or someone you already knew. They are not your caseworker, but they should be a source of stability.",
+    tip: "If you ever feel unsafe where you're living, tell your caseworker, attorney, or CASA right away. You have the right to be safe.",
+  },
+  {
+    id: "gal",
+    title: "Guardian ad Litem (GAL)",
+    aka: "Sometimes the same person as your attorney",
+    emoji: "🛡️",
+    color: "#7c3aed",
+    role: "Someone appointed by the court specifically to represent your best interests.",
+    what: "In some cases the court appoints a GAL who is separate from your attorney. They look at your whole situation — school, health, placement, relationships — and advise the judge. In Arizona, this role is sometimes filled by your attorney or your CASA.",
+    tip: "Ask your attorney or caseworker if you have a GAL and who they are.",
+  },
+  {
+    id: "supervisor",
+    title: "DCS Supervisor",
+    aka: "Your caseworker's boss",
+    emoji: "📞",
+    color: "#1B3A5C",
+    role: "Oversees your caseworker. Your escalation contact when things aren't being resolved.",
+    what: "If you've raised a concern with your caseworker and nothing is changing, ask to speak with their supervisor. Keep a written record of when you asked and what was said — dates matter.",
+    tip: "Asking to escalate is normal and OK. The system is designed for it. You won't get in trouble for asking.",
+  },
+] as const;
+
+// ─── documents data ────────────────────────────────────────────────────────────
+
+const IMPORTANT_DOCS = [
+  {
+    id: "birth-cert",
+    label: "Birth certificate",
+    why: "You need this to get almost everything else — start here.",
+    steps: [
+      "Ask your caseworker first. DCS can request your birth certificate for free on your behalf.",
+      "If that doesn't work, contact the Arizona Department of Health Services (ADHS) directly.",
+      "Call (602) 364-1300 or go to azdhs.gov to order a copy online.",
+      "It's free for foster youth in Arizona — if anyone tries to charge you, remind them of A.R.S. §8-514.06.",
+    ],
+    contact: "ADHS Vital Records: (602) 364-1300",
+  },
+  {
+    id: "ssn-card",
+    label: "Social Security card",
+    why: "Needed for jobs, benefits, and your state ID. Your number may already be in your DCS file.",
+    steps: [
+      "Ask your caseworker for your Social Security number — it should be in your case file.",
+      "To get a physical replacement card, go to ssa.gov or call 1-800-772-1213.",
+      "Bring your birth certificate when you apply (or ask your caseworker to help).",
+      "Replacement cards are free — you can get up to 3 per year.",
+    ],
+    contact: "Social Security Administration: 1-800-772-1213",
+  },
+  {
+    id: "state-id",
+    label: "State ID / driver's license",
+    why: "Get your birth certificate and Social Security card first — you'll need both.",
+    steps: [
+      "Get your birth certificate and Social Security card before you go.",
+      "Visit an Arizona MVD office or start at azmvdnow.gov.",
+      "Ask your caseworker about a fee waiver — foster youth often qualify.",
+      "Bring proof of Arizona address (a letter from DCS on their letterhead works).",
+    ],
+    contact: "AZ Motor Vehicle Division: azmvdnow.gov",
+  },
+  {
+    id: "immunizations",
+    label: "Immunization records",
+    why: "Schools and some jobs require these. Your caseworker may already have them.",
+    steps: [
+      "Ask your caseworker — DCS is required to keep your immunization records.",
+      "Check with your school's health office — they often keep records on file.",
+      "If you still can't find them, Arizona has a statewide registry. Call ADHS at (602) 364-3630.",
+      "Any doctor or clinic you've visited can also provide records of shots they gave you.",
+    ],
+    contact: "AZ Immunization Registry: (602) 364-3630",
+  },
+] as const;
 
 // ─── feature card config ───────────────────────────────────────────────────────
 
 const FEATURE_CARDS = [
-  {
-    id: "rights",
-    icon: Shield,
-    title: "Know your rights",
-    subtitle: "Your rights, in plain words — and what to do if they're not being respected.",
-    badge: "",
-    gradient: "from-[#2A7F8E]/10 to-transparent",
-    iconBg: "bg-[#2A7F8E]/10",
-    iconColor: "text-[#2A7F8E]",
-    pillCls: "bg-[#2A7F8E]/10 text-[#2A7F8E] ring-1 ring-[#2A7F8E]/25",
-    chevronColor: "text-[#2A7F8E]/50",
-  },
   {
     id: "case",
     icon: Gavel,
@@ -450,6 +538,18 @@ const FEATURE_CARDS = [
     iconColor: "text-[#1B3A5C]",
     pillCls: "bg-[#1B3A5C]/10 text-[#1B3A5C] ring-1 ring-[#1B3A5C]/20",
     chevronColor: "text-[#1B3A5C]/40",
+  },
+  {
+    id: "rights",
+    icon: Shield,
+    title: "Know your rights",
+    subtitle: "Your rights, in plain words — and what to do if they're not being respected.",
+    badge: "",
+    gradient: "from-[#2A7F8E]/10 to-transparent",
+    iconBg: "bg-[#2A7F8E]/10",
+    iconColor: "text-[#2A7F8E]",
+    pillCls: "bg-[#2A7F8E]/10 text-[#2A7F8E] ring-1 ring-[#2A7F8E]/25",
+    chevronColor: "text-[#2A7F8E]/50",
   },
   {
     id: "future",
@@ -488,6 +588,40 @@ const FEATURE_CARDS = [
     chevronColor: "text-rose-400/40",
   },
 ];
+
+// Age-adapted feature card subtitles keyed by card id → age band
+const FEATURE_CARD_SUBTITLES: Record<string, Record<AgeBandKey, string>> = {
+  rights: {
+    "10-12": "Find out what you're allowed to do and who has to listen to you.",
+    "13-15": "Your rights — plain words, real examples, and what to do if they're ignored.",
+    "16-17": "Your rights, in plain words — and what to do if they're not being respected.",
+    "18-21": "Arizona law protects you even after 18. Know your rights and how to use them.",
+  },
+  case: {
+    "10-12": "What's happening in court and who all those people are.",
+    "13-15": "What your hearings mean, who's there, and how to prepare.",
+    "16-17": "What your hearings actually mean, who will be there, and how to show up ready.",
+    "18-21": "Understanding your hearings and what each one could mean for your future.",
+  },
+  future: {
+    "10-12": "Learn what turning 18 means — you don't have to figure it out alone.",
+    "13-15": "Start learning about what happens when you turn 18 — it's closer than it seems.",
+    "16-17": "Turning 18 is a lot. Here's your checklist — options, deadlines, and documents.",
+    "18-21": "EFC, school money, housing, and documents — your step-by-step plan.",
+  },
+  resources: {
+    "10-12": "Find real people and places near you that can help.",
+    "13-15": "Real organizations near you — filtered for your county and what you need.",
+    "16-17": "Real organizations near you that can help — filtered for your county and age.",
+    "18-21": "Housing, jobs, health, legal help — organizations filtered for you.",
+  },
+  wellness: {
+    "10-12": "It's okay to feel a lot of feelings. Here are some things that can help.",
+    "13-15": "Tools to help when things feel overwhelming — and how to reach a real person.",
+    "16-17": "Tools to help you feel calmer — and how to reach a real person when you need one.",
+    "18-21": "Support tools and real contacts for when things get heavy.",
+  },
+};
 
 // ─── small UI primitives ───────────────────────────────────────────────────────
 
@@ -700,32 +834,7 @@ function SafeNotice() {
   );
 }
 
-// ─── new visual components ─────────────────────────────────────────────────────
-
-function ImpactStrip() {
-  const stats = [
-    { value: "~9,000", label: "AZ youth\nin foster care" },
-    { value: "~900", label: "age out\nevery year" },
-    { value: "38%", label: "report\nhomelessness" },
-  ];
-  return (
-    <div className="mt-4 overflow-hidden rounded-3xl bg-[#1B3A5C] px-4 py-4 shadow-md">
-      <div className="mb-3 text-[10px] font-bold uppercase tracking-widest text-white/40">
-        Arizona context
-      </div>
-      <div className="grid grid-cols-3 divide-x divide-white/10">
-        {stats.map((s) => (
-          <div key={s.label} className="px-2 text-center first:pl-0 last:pr-0">
-            <div className="text-2xl font-bold text-white">{s.value}</div>
-            <div className="mt-0.5 whitespace-pre-line text-[10px] leading-tight text-white/50">
-              {s.label}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+// ─── visual components ─────────────────────────────────────────────────────────
 
 function EscalationLadder() {
   const steps = [
@@ -780,10 +889,12 @@ function DeadlineBanner({
   label,
   date,
   note,
+  onAct,
 }: {
   label: string;
   date: string;
   note?: string;
+  onAct?: () => void;
 }) {
   return (
     <div className="rounded-3xl bg-[#D97706] px-4 py-4 shadow-lg">
@@ -798,12 +909,15 @@ function DeadlineBanner({
           <div className="text-xl font-bold text-white leading-tight">{date}</div>
           {note && <div className="mt-0.5 text-xs text-amber-100/70">{note}</div>}
         </div>
-        <div className="shrink-0 rounded-2xl bg-white/15 px-3 py-2 ring-1 ring-white/25">
+        <button
+          onClick={onAct}
+          className="shrink-0 rounded-2xl bg-white/15 px-3 py-2 ring-1 ring-white/25 hover:bg-white/25 transition-colors"
+        >
           <div className="flex items-center gap-1 text-xs font-semibold text-white">
             Act now
             <ArrowRight className="h-3 w-3" />
           </div>
-        </div>
+        </button>
       </div>
     </div>
   );
@@ -845,7 +959,7 @@ function TopBar({
             <div>
               <div className="text-sm font-semibold text-white leading-tight">{title}</div>
               <div className="text-[11px] text-white/45 leading-tight tracking-wide">
-                FosterGuide AZ · prototype
+                Compass · prototype
               </div>
             </div>
           </div>
@@ -882,16 +996,16 @@ function TabBar({
   onGo: (id: string) => void;
 }) {
   const items = [
-    { id: "home", label: "Home", icon: HomeIcon },
-    { id: "rights", label: "My Rights", icon: Shield },
-    { id: "case", label: "My Case", icon: Gavel },
-    { id: "future", label: "My Future", icon: FileText },
-    { id: "resources", label: "Resources", icon: MapPin },
+    { id: "home",      label: "Home",      icon: HomeIcon },
+    { id: "case",      label: "My Case",   icon: Gavel    },
+    { id: "rights",    label: "My Rights", icon: Shield   },
+    { id: "future",    label: "My Future", icon: FileText },
+    { id: "resources", label: "Resources", icon: MapPin   },
   ];
   return (
-    <div className="sticky bottom-0 z-40 bg-white/95 backdrop-blur-sm shadow-[0_-1px_0_0_rgba(0,0,0,0.06)]">
-      <div className="mx-auto max-w-md px-3 py-2">
-        <div className="grid grid-cols-5 gap-1">
+    <div className="sticky bottom-0 z-40 border-t border-black/6 bg-white/98 backdrop-blur-md">
+      <div className="mx-auto max-w-md">
+        <div className="grid grid-cols-5">
           {items.map((it) => {
             const is = active === it.id;
             const Icon = it.icon;
@@ -899,17 +1013,17 @@ function TabBar({
               <button
                 key={it.id}
                 onClick={() => onGo(it.id)}
-                className={
-                  "flex flex-col items-center justify-center rounded-2xl px-2 py-2 text-[11px] font-semibold transition-all " +
-                  (is
-                    ? "bg-[#2A7F8E]/10 text-[#1B3A5C]"
-                    : "text-slate-400 hover:bg-slate-100/60 hover:text-slate-600")
-                }
+                className="relative flex flex-col items-center justify-center gap-1 py-3 transition-all active:scale-95"
               >
-                <Icon
-                  className={"h-4 w-4 transition-colors " + (is ? "text-[#2A7F8E]" : "text-slate-400")}
-                />
-                <span className="mt-1 leading-none">{it.label}</span>
+                {is && (
+                  <div className="absolute inset-x-3 top-0 h-[3px] rounded-b-full bg-[#2A7F8E]" />
+                )}
+                <div className={`rounded-xl p-1.5 transition-all ${is ? "bg-[#2A7F8E]/12" : ""}`}>
+                  <Icon className={`h-5 w-5 transition-colors ${is ? "text-[#2A7F8E]" : "text-slate-400"}`} />
+                </div>
+                <span className={`text-[10px] font-semibold leading-none transition-colors ${is ? "text-[#1B3A5C]" : "text-slate-400"}`}>
+                  {it.label}
+                </span>
               </button>
             );
           })}
@@ -1020,7 +1134,7 @@ function Onboarding({
             <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77" stroke="white" strokeWidth="2" strokeLinecap="round" />
           </svg>
         </div>
-        <div className="text-2xl font-bold text-white leading-snug">Welcome to<br />FosterGuide AZ</div>
+        <div className="text-2xl font-bold text-white leading-snug">Welcome to<br />Compass</div>
         <div className="mt-2 text-sm text-white/80 leading-relaxed">
           You deserve real answers. This is a safe place to find them — no sign-up, nothing stored.
         </div>
@@ -1135,13 +1249,27 @@ function Onboarding({
                   {c}
                 </button>
               ))}
+              <button
+                onClick={() => {
+                  setPrefs((p) => ({ ...p, county: "Unknown" }));
+                  setStep(3);
+                }}
+                className={
+                  "col-span-2 rounded-2xl px-3 py-2.5 text-center text-sm font-semibold ring-1 transition-all " +
+                  (prefs.county === "Unknown"
+                    ? "bg-[#2A7F8E]/10 ring-[#2A7F8E]/40 text-[#1B3A5C]"
+                    : "bg-white ring-black/10 text-slate-500 hover:ring-black/20")
+                }
+              >
+                I don't know
+              </button>
             </div>
           </div>
         ) : null}
 
         {step === 3 ? (
           <div className="space-y-2">
-            {PATHWAYS.map((p) => (
+            {(PATHWAYS_BY_BAND[prefs.ageBand as AgeBandKey] ?? PATHWAYS).map((p) => (
               <button
                 key={p.id}
                 onClick={() => {
@@ -1179,7 +1307,6 @@ function Onboarding({
                 }
               >
                 <div className="text-sm font-bold text-slate-900">Yes</div>
-                <div className="mt-0.5 text-xs text-slate-500">Show ICWA-aware steps</div>
               </button>
               <button
                 onClick={() => {
@@ -1193,7 +1320,6 @@ function Onboarding({
                 }
               >
                 <div className="text-sm font-bold text-slate-900">No / Not sure</div>
-                <div className="mt-0.5 text-xs text-slate-500">Standard steps</div>
               </button>
             </div>
           </div>
@@ -1250,27 +1376,36 @@ function HomeScreen({
   onOpenChat: () => void;
   onReset: () => void;
 }) {
+  const visibleFeatureCards = useMemo(() => {
+    const band = prefs.ageBand as AgeBandKey | null;
+    if (band === "10-12") return FEATURE_CARDS.filter((fc) => fc.id !== "future");
+    if (band === "18-21") {
+      const order = ["future", "resources", "rights", "case", "wellness"];
+      return order.map((id) => FEATURE_CARDS.find((fc) => fc.id === id)!);
+    }
+    return FEATURE_CARDS;
+  }, [prefs.ageBand]);
 
   return (
     <div className="px-4 pb-28 pt-4">
       <ScreenHero
         icon={HomeIcon}
         title="What do you need today?"
-        subtitle={`Set up for ${prefs.county ?? "—"} · Age ${AGE_BANDS.find((a) => a.id === prefs.ageBand)?.label ?? "—"} · ${prefs.language === "es" ? "Español" : "English"}`}
+        subtitle={`Set up for ${prefs.county === "Unknown" ? "county unknown" : (prefs.county ?? "—")} · Age ${AGE_BANDS.find((a) => a.id === prefs.ageBand)?.label ?? "—"} · ${prefs.language === "es" ? "Español" : "English"}`}
         gradient="from-[#2A7F8E] to-[#1B3A5C]"
         right={
           <button
             onClick={onReset}
             className="rounded-xl bg-white/15 px-3 py-1.5 text-xs font-semibold text-white/90 hover:bg-white/25 transition-colors"
           >
-            Reset
+            Start over
           </button>
         }
       />
 
       {/* Color-coded feature cards */}
       <div className="mt-4 grid gap-3">
-        {FEATURE_CARDS.map((fc) => {
+        {visibleFeatureCards.map((fc) => {
           const Icon = fc.icon;
           return (
             <div
@@ -1284,7 +1419,7 @@ function HomeScreen({
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-base font-semibold text-[#1B3A5C]">{fc.title}</div>
-                  <div className="mt-0.5 text-xs text-slate-500 leading-snug">{fc.subtitle}</div>
+                  <div className="mt-0.5 text-xs text-slate-500 leading-snug">{FEATURE_CARD_SUBTITLES[fc.id]?.[prefs.ageBand as AgeBandKey] ?? fc.subtitle}</div>
                 </div>
                 <ChevronRight className={`mt-1 h-5 w-5 shrink-0 ${fc.chevronColor}`} />
               </div>
@@ -1302,7 +1437,7 @@ function HomeScreen({
 
       <div className="mt-4">
         <PrimaryButton onClick={onOpenChat} icon={MessageCircle} variant="teal">
-          Ask FosterGuide
+          Ask Compass
         </PrimaryButton>
       </div>
 
@@ -1343,6 +1478,13 @@ function HomeScreen({
 
 // ─── rights screen ─────────────────────────────────────────────────────────────
 
+const RIGHTS_HERO_SUBTITLE: Record<AgeBandKey, string> = {
+  "10-12": "These are your rights. They belong to you — even if no one has explained them yet.",
+  "13-15": "These are your rights. They're real, and they're yours — even if no one has told you yet.",
+  "16-17": "These are your rights. They're real, and they're yours — even if no one has told you yet.",
+  "18-21": "Your rights don't disappear at 18. Here's what Arizona law says — in plain English.",
+};
+
 function RightsScreen({ prefs }: { prefs: Prefs }) {
   const tier = prefs.ageBand || "10-12";
   return (
@@ -1350,7 +1492,7 @@ function RightsScreen({ prefs }: { prefs: Prefs }) {
       <ScreenHero
         icon={Shield}
         title="Know Your Rights"
-        subtitle="These are your rights. They're real, and they're yours — even if no one has told you yet."
+        subtitle={RIGHTS_HERO_SUBTITLE[tier as AgeBandKey] ?? "These are your rights. They're real, and they're yours — even if no one has told you yet."}
         gradient="from-[#2A7F8E] to-[#1B3A5C]"
       />
 
@@ -1427,15 +1569,23 @@ function RightsScreen({ prefs }: { prefs: Prefs }) {
 
 // ─── case screen ───────────────────────────────────────────────────────────────
 
+const CASE_HERO_SUBTITLE: Record<AgeBandKey, string> = {
+  "10-12": "What's happening in court — who all those people are and what it means for you.",
+  "13-15": "What your hearings mean, who's there, and how to prepare.",
+  "16-17": "What your hearings actually mean, who will be there, and how to show up ready.",
+  "18-21": "How the dependency process works — and what each hearing could mean for your case.",
+};
+
 function CaseScreen({ prefs }: { prefs: Prefs }) {
+  const [openStage, setOpenStage] = useState<string | null>(null);
+  const [openPerson, setOpenPerson] = useState<string | null>(null);
   const tier = prefs.ageBand;
-  const isYoung = tier === "10-12";
   return (
     <div className="px-4 pb-28 pt-4">
       <ScreenHero
         icon={Gavel}
         title="My Case Explained"
-        subtitle="What your hearings mean, who's there, and how to show up ready."
+        subtitle={CASE_HERO_SUBTITLE[tier as AgeBandKey] ?? "What your hearings mean, who's there, and how to show up ready."}
         gradient="from-[#1B3A5C] to-[#0f2640]"
       />
 
@@ -1459,82 +1609,172 @@ function CaseScreen({ prefs }: { prefs: Prefs }) {
         </div>
       ) : null}
 
-      <div className="mt-4 rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
-        <div className="text-sm font-semibold text-[#1B3A5C]">Court process timeline</div>
-        <div className="mt-1.5 text-xs text-slate-500">
-          {isYoung
-            ? "A story-style visual would go here for younger users."
-            : "Each stage leads to the next. Tap any stage to see what it means for you."}
-        </div>
-      </div>
-
-      {/* Visual timeline with numbered nodes */}
-      <div className="mt-4">
-        {COURT_STAGES.map((s, i) => (
-          <div key={s.id} className="flex gap-4">
-            {/* Left: node + connector */}
-            <div className="flex flex-col items-center">
-              <div
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white text-sm font-bold shadow-md z-10"
-                style={{ backgroundColor: i < 2 ? "#2A7F8E" : "#D97706" }}
-              >
-                {i + 1}
-              </div>
-              {i < COURT_STAGES.length - 1 && (
-                <div
-                  className="w-0.5 flex-1 min-h-[20px] my-1"
-                  style={{
-                    background:
-                      i === 1
-                        ? "linear-gradient(to bottom, #2A7F8E55, #D9770655)"
-                        : i < 2
-                          ? "#2A7F8E33"
-                          : "#D9770633",
-                  }}
-                />
-              )}
-            </div>
-            {/* Right: card */}
-            <div className="flex-1 pb-4 last:pb-0">
-              <div className="rounded-3xl bg-white/85 p-4 shadow-sm ring-1 ring-black/5">
-                <div className="text-sm font-semibold text-[#1B3A5C]">{s.title}</div>
-                <div className="mt-2 text-xs text-slate-600">
-                  <span className="font-semibold text-slate-700">What it is:</span> {s.what}
-                </div>
-                <div className="mt-2 text-xs text-slate-600">
-                  <span className="font-semibold text-slate-700">What you can do:</span> {s.youth}
-                </div>
-                <div className="mt-2 text-xs text-slate-500">
-                  <span className="font-semibold text-slate-600">What's next:</span> {s.next}
-                </div>
-              </div>
-            </div>
+      {/* ── Section: People in your case ── */}
+      <div className="mt-6">
+        <div className="mb-4 flex items-center gap-3">
+          <div className="h-px flex-1 bg-black/8" />
+          <div className="flex items-center gap-1.5 rounded-full bg-[#2A7F8E]/10 px-3 py-1.5">
+            <Users className="h-3.5 w-3.5 text-[#2A7F8E]" />
+            <span className="text-xs font-semibold uppercase tracking-wide text-[#2A7F8E]">People in your case</span>
           </div>
-        ))}
-      </div>
-
-      {/* Hearing prep */}
-      <div className="mt-4 rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
-        <div className="text-sm font-semibold text-[#1B3A5C] mb-3">Questions to ask before your hearing</div>
+          <div className="h-px flex-1 bg-black/8" />
+        </div>
+        <p className="mb-3 text-center text-xs text-slate-500">Tap each person to learn their role and how to work with them.</p>
         <div className="grid gap-2">
-          {[
-            "What is the goal of today's hearing?",
-            "What could change next, and when?",
-            "What do you need to feel safe at home and school?",
-            "Who should I call if something isn't happening?",
-          ].map((q) => (
-            <div
-              key={q}
-              className="flex items-start gap-2.5 rounded-2xl bg-white p-3 ring-1 ring-black/8"
-            >
-              <CheckCircle2 className="mt-0.5 h-4 w-4 text-[#2A7F8E] shrink-0" />
-              <div className="text-sm text-slate-700">{q}</div>
-            </div>
-          ))}
+          {WHO_IN_YOUR_CASE.map((person) => {
+            const isOpen = openPerson === person.id;
+            return (
+              <div key={person.id} className="overflow-hidden rounded-2xl ring-1 ring-black/8">
+                <button
+                  onClick={() => setOpenPerson(isOpen ? null : person.id)}
+                  className="flex w-full items-center gap-3 bg-white/85 p-3.5 text-left transition-colors hover:bg-white"
+                >
+                  <div
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl text-base"
+                    style={{ backgroundColor: person.color + "18" }}
+                  >
+                    {person.emoji}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm font-semibold text-slate-900">{person.title}</div>
+                    {!isOpen && (
+                      <div className="mt-0.5 text-xs text-slate-500">{person.role}</div>
+                    )}
+                  </div>
+                  <ChevronDown
+                    className="h-4 w-4 shrink-0 text-slate-400 transition-transform"
+                    style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+                  />
+                </button>
+                {isOpen && (
+                  <div className="border-t border-black/6 bg-white px-4 pb-4 pt-3">
+                    <div
+                      className="mb-2 inline-block rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+                      style={{ backgroundColor: person.color + "18", color: person.color }}
+                    >
+                      {person.aka}
+                    </div>
+                    <div className="text-xs leading-relaxed text-slate-700">{person.what}</div>
+                    <div className="mt-3 flex items-start gap-2 rounded-xl bg-amber-50 p-3 ring-1 ring-amber-100">
+                      <span className="text-sm">💡</span>
+                      <div className="text-xs leading-relaxed text-amber-800">{person.tip}</div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
 
-      <div className="mt-4">
+      {/* ── Section: Your hearings ── */}
+      <div className="mt-8">
+        <div className="mb-4 flex items-center gap-3">
+          <div className="h-px flex-1 bg-black/8" />
+          <div className="flex items-center gap-1.5 rounded-full bg-[#1B3A5C]/10 px-3 py-1.5">
+            <Gavel className="h-3.5 w-3.5 text-[#1B3A5C]" />
+            <span className="text-xs font-semibold uppercase tracking-wide text-[#1B3A5C]">Your hearings</span>
+          </div>
+          <div className="h-px flex-1 bg-black/8" />
+        </div>
+        <p className="mb-3 text-center text-xs text-slate-500">These are the main hearings in a dependency case — tap each one to learn more.</p>
+        <div>
+          {COURT_STAGES.map((s, i) => {
+            const isOpen = openStage === s.id;
+            const nodeColor = i < 2 ? "#2A7F8E" : "#D97706";
+            return (
+              <div key={s.id} className="flex gap-4">
+                {/* Left: node + connector */}
+                <div className="flex flex-col items-center">
+                  <div
+                    className="z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white shadow-md"
+                    style={{ backgroundColor: nodeColor }}
+                  >
+                    {i + 1}
+                  </div>
+                  {i < COURT_STAGES.length - 1 && (
+                    <div
+                      className="my-1 w-0.5 flex-1 min-h-[20px]"
+                      style={{
+                        background:
+                          i === 1
+                            ? "linear-gradient(to bottom, #2A7F8E55, #D9770655)"
+                            : i < 2
+                              ? "#2A7F8E33"
+                              : "#D9770633",
+                      }}
+                    />
+                  )}
+                </div>
+                {/* Right: accordion card */}
+                <div className="flex-1 pb-4 last:pb-0">
+                  <button
+                    onClick={() => setOpenStage(isOpen ? null : s.id)}
+                    className="w-full rounded-3xl bg-white/85 p-4 text-left shadow-sm ring-1 ring-black/5 transition-all hover:shadow-md"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="text-sm font-semibold text-[#1B3A5C]">{s.title}</div>
+                      <ChevronDown
+                        className="h-4 w-4 shrink-0 text-slate-400 transition-transform"
+                        style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+                      />
+                    </div>
+                    {!isOpen && (
+                      <div className="mt-1 text-xs text-slate-500">{s.what}</div>
+                    )}
+                  </button>
+                  {isOpen && (
+                    <div className="-mt-3 mx-2 rounded-b-3xl bg-white/70 px-4 pb-4 pt-3 shadow-sm ring-1 ring-black/5 ring-t-0">
+                      <div className="mt-2 text-xs text-slate-600">
+                        <span className="font-semibold text-slate-700">What it is:</span> {s.what}
+                      </div>
+                      <div className="mt-2 text-xs text-slate-600">
+                        <span className="font-semibold text-slate-700">What you can do:</span> {s.youth}
+                      </div>
+                      <div className="mt-2 text-xs text-slate-500">
+                        <span className="font-semibold text-slate-600">What's next:</span> {s.next}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ── Section: Before your hearing ── */}
+      <div className="mt-8">
+        <div className="mb-4 flex items-center gap-3">
+          <div className="h-px flex-1 bg-black/8" />
+          <div className="flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1.5">
+            <CheckCircle2 className="h-3.5 w-3.5 text-amber-700" />
+            <span className="text-xs font-semibold uppercase tracking-wide text-amber-700">Before your hearing</span>
+          </div>
+          <div className="h-px flex-1 bg-black/8" />
+        </div>
+        <div className="rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
+          <div className="mb-3 text-xs text-slate-500">Questions worth asking your attorney or caseworker:</div>
+          <div className="grid gap-2">
+            {[
+              "What is the goal of today's hearing?",
+              "What could change next, and when?",
+              "What do you need to feel safe at home and school?",
+              "Who should I call if something isn't happening?",
+            ].map((q) => (
+              <div
+                key={q}
+                className="flex items-start gap-2.5 rounded-2xl bg-white p-3 ring-1 ring-black/8"
+              >
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#2A7F8E]" />
+                <div className="text-sm text-slate-700">{q}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-6">
         <SafeNotice />
       </div>
     </div>
@@ -1543,17 +1783,34 @@ function CaseScreen({ prefs }: { prefs: Prefs }) {
 
 // ─── future screen ─────────────────────────────────────────────────────────────
 
-function FutureScreen({ prefs }: { prefs: Prefs }) {
+const FUTURE_HERO_SUBTITLE: Record<AgeBandKey, string> = {
+  "10-12": "What turning 18 means — you'll have choices, and people who can help you make them.",
+  "13-15": "It may feel far away, but knowing what's coming makes it less scary.",
+  "16-17": "Turning 18 is a big moment. Here's everything broken down into simple steps.",
+  "18-21": "Your next steps — EFC, school money, housing, and the documents you need.",
+};
+
+function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: string) => void }) {
   const [showSensitive, setShowSensitive] = useState(false);
+  const [openDoc, setOpenDoc] = useState<string | null>(null);
+  const [checkedDocs, setCheckedDocs] = useState<Set<string>>(new Set());
   const tier = prefs.ageBand;
   const isOldEnough = tier === "16-17" || tier === "18-21";
+
+  function toggleDoc(id: string) {
+    setCheckedDocs((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  }
 
   return (
     <div className="px-4 pb-28 pt-4">
       <ScreenHero
         icon={FileText}
         title="My Future Plan"
-        subtitle="Turning 18 is a big moment. Here's everything broken down into simple steps."
+        subtitle={FUTURE_HERO_SUBTITLE[tier as AgeBandKey] ?? "Turning 18 is a big moment. Here's everything broken down into simple steps."}
         gradient="from-[#D97706] to-[#92400e]"
       />
 
@@ -1568,12 +1825,13 @@ function FutureScreen({ prefs }: { prefs: Prefs }) {
 
       {isOldEnough ? (
         <>
-          {/* ETV Deadline banner */}
+          {/* School money deadline banner */}
           <div className="mt-4">
             <DeadlineBanner
-              label="ETV Application Deadline"
+              label="Free school money — apply by:"
               date="July 31, 2026"
-              note="This is money to help you pay for school or training — don't miss this deadline."
+              note="The Education & Training Voucher (ETV) gives foster youth up to $5,000/year for school or job training. Miss this date and you wait another year."
+              onAct={() => onAskChat?.("How do I apply for the Education & Training Voucher (ETV)?")}
             />
           </div>
 
@@ -1610,13 +1868,13 @@ function FutureScreen({ prefs }: { prefs: Prefs }) {
             <Card accentColor="bg-[#2A7F8E]">
               <SectionTitle
                 icon={CheckCircle2}
-                title="Turning 18: what are your options?"
-                subtitle="You get to choose — stay in Extended Foster Care or leave. Here's what each one means for your life."
+                title="Turning 18: what happens next?"
+                subtitle="You get to choose — stay in care with extra support, or leave on your own terms. Here's what each path actually means."
                 iconClassName="bg-[#2A7F8E]/10 text-[#2A7F8E]"
               />
               <div className="mt-3 flex flex-wrap gap-2">
+                <StatCite>AZ Extended Foster Care law</StatCite>
                 <StatCite>A.R.S. §8-521.02</StatCite>
-                <StatCite>A.R.S. §8-521.03 (SB 1303)</StatCite>
               </div>
             </Card>
 
@@ -1630,20 +1888,26 @@ function FutureScreen({ prefs }: { prefs: Prefs }) {
               />
               <div className="mt-3 grid gap-2">
                 {[
-                  { label: "ETV checklist", note: "Get your papers. Apply before July 31." },
-                  { label: "FAFSA reminder", note: "Ask a trusted adult or your school for help." },
+                  { label: "Education and Training Voucher (ETV)", note: "The Education and Training Voucher (ETV) provides up to $5,000/year for school or training. Gather your documents and apply before July 31.", href: "https://www.fc2success.org/programs/arizona/" },
+                  { label: "Free college aid form (FAFSA)", note: "This form unlocks grants and aid. A school counselor or trusted adult can help you fill it out.", href: "https://studentaid.gov/h/apply-for-aid/fafsa" },
                 ].map((x) => (
-                  <div
+                  <a
                     key={x.label}
-                    className="rounded-2xl bg-white/70 p-3 ring-1 ring-black/8"
+                    href={x.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block rounded-2xl bg-white/70 p-3 ring-1 ring-black/8 hover:bg-slate-50 transition-colors"
                   >
-                    <div className="text-sm font-semibold text-slate-900">{x.label}</div>
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="text-sm font-semibold text-[#1B3A5C]">{x.label}</div>
+                      <ExternalLink className="h-4 w-4 text-[#2A7F8E] shrink-0" />
+                    </div>
                     <div className="mt-0.5 text-xs text-slate-500">{x.note}</div>
-                  </div>
+                  </a>
                 ))}
               </div>
               <div className="mt-3 flex flex-wrap gap-2">
-                <StatCite>ETV (Arizona)</StatCite>
+                <StatCite>Education & Training Voucher (ETV)</StatCite>
                 <StatCite>A.R.S. §15-1809.01</StatCite>
               </div>
             </Card>
@@ -1653,29 +1917,104 @@ function FutureScreen({ prefs }: { prefs: Prefs }) {
               <SectionTitle
                 icon={FileText}
                 title="Your Important Documents"
-                subtitle="These are the most important documents to get. Here's the order to do it in."
+                subtitle="These are the most important documents to get. Do them in this order — each one unlocks the next."
                 iconClassName="bg-[#1B3A5C]/10 text-[#1B3A5C]"
               />
+              {checkedDocs.size > 0 && (
+                <div className="mt-2 text-xs text-emerald-700 font-medium">
+                  {checkedDocs.size} of {IMPORTANT_DOCS.length} documents collected
+                </div>
+              )}
               <div className="mt-3 grid gap-2">
-                {[
-                  "Birth certificate",
-                  "Social Security card",
-                  "State ID / driver's license",
-                  "Immunization records",
-                ].map((x) => (
-                  <div
-                    key={x}
-                    className="flex items-center justify-between rounded-2xl bg-white/70 p-3 ring-1 ring-black/8"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <div className="h-4 w-4 rounded-full ring-1 ring-[#1B3A5C]/30 bg-white" />
-                      <div className="text-sm font-semibold text-slate-800">{x}</div>
+                {IMPORTANT_DOCS.map((doc, i) => {
+                  const isChecked = checkedDocs.has(doc.id);
+                  const isOpen = openDoc === doc.id;
+                  return (
+                    <div key={doc.id} className="overflow-hidden rounded-2xl ring-1 ring-black/8">
+                      {/* Row */}
+                      <div
+                        className={
+                          "flex items-center justify-between p-3 transition-colors " +
+                          (isChecked ? "bg-emerald-50" : "bg-white/70")
+                        }
+                      >
+                        {/* Check circle + label */}
+                        <button
+                          onClick={() => toggleDoc(doc.id)}
+                          className="flex items-center gap-2.5 text-left flex-1 min-w-0"
+                          aria-label={isChecked ? `Mark ${doc.label} as not collected` : `Mark ${doc.label} as collected`}
+                        >
+                          <div
+                            className={
+                              "flex h-5 w-5 shrink-0 items-center justify-center rounded-full transition-all " +
+                              (isChecked
+                                ? "bg-emerald-500 ring-0"
+                                : "bg-white ring-1 ring-[#1B3A5C]/30")
+                            }
+                          >
+                            {isChecked && (
+                              <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none">
+                                <path d="M2.5 6l2.5 2.5 4.5-5" stroke="white" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            )}
+                          </div>
+                          <div>
+                            <div className={
+                              "text-sm font-semibold " +
+                              (isChecked ? "text-emerald-800 line-through decoration-emerald-400" : "text-slate-800")
+                            }>
+                              <span className="text-[#1B3A5C]/40 font-normal mr-1">{i + 1}.</span>
+                              {doc.label}
+                            </div>
+                          </div>
+                        </button>
+                        {/* Steps toggle */}
+                        <button
+                          onClick={() => setOpenDoc(isOpen ? null : doc.id)}
+                          className={
+                            "ml-2 shrink-0 rounded-xl px-3 py-1.5 text-xs font-semibold ring-1 transition-all " +
+                            (isOpen
+                              ? "bg-[#1B3A5C] text-white ring-[#1B3A5C]"
+                              : "bg-white text-[#1B3A5C] ring-[#1B3A5C]/20 hover:ring-[#1B3A5C]/40")
+                          }
+                        >
+                          {isOpen ? "Close" : "How to get it"}
+                        </button>
+                      </div>
+                      {/* Expanded steps */}
+                      {isOpen && (
+                        <div className="border-t border-black/6 bg-white px-4 py-3">
+                          <div className="text-xs text-slate-500 mb-3 italic">{doc.why}</div>
+                          <div className="grid gap-2.5">
+                            {doc.steps.map((step, si) => (
+                              <div key={si} className="flex gap-3">
+                                <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#1B3A5C]/8 text-[10px] font-bold text-[#1B3A5C]">
+                                  {si + 1}
+                                </div>
+                                <div className="text-xs text-slate-700 leading-relaxed pt-0.5">{step}</div>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="mt-3 flex items-center gap-1.5 rounded-xl bg-slate-50 px-3 py-2 ring-1 ring-black/6">
+                            <Phone className="h-3.5 w-3.5 shrink-0 text-[#2A7F8E]" />
+                            <span className="text-xs text-slate-600">{doc.contact}</span>
+                          </div>
+                          <button
+                            onClick={() => { toggleDoc(doc.id); setOpenDoc(null); }}
+                            className={
+                              "mt-3 w-full rounded-xl py-2 text-xs font-semibold transition-all " +
+                              (isChecked
+                                ? "bg-slate-100 text-slate-500 ring-1 ring-black/8"
+                                : "bg-emerald-500 text-white hover:bg-emerald-600")
+                            }
+                          >
+                            {isChecked ? "Mark as not collected" : "I got this document!"}
+                          </button>
+                        </div>
+                      )}
                     </div>
-                    <span className={pill("bg-slate-50 text-slate-600 ring-1 ring-slate-200")}>
-                      Steps
-                    </span>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
               <div className="mt-3 flex flex-wrap gap-2">
                 <StatCite>A.R.S. §8-514.06</StatCite>
@@ -1753,7 +2092,7 @@ function ResourcesScreen({ prefs }: { prefs: Prefs }) {
       const matchesAge = r.ages[0] <= amax && r.ages[1] >= amin;
       const matchesCounty =
         r.counties.includes("Statewide") ||
-        (prefs.county ? r.counties.includes(prefs.county) : false);
+        (prefs.county && prefs.county !== "Unknown" ? r.counties.includes(prefs.county) : false);
       const matchesQuery =
         !query ||
         r.name.toLowerCase().includes(query) ||
@@ -1933,10 +2272,10 @@ function WellnessScreen() {
   const [mood, setMood] = useState(3);
   const moodConfig = [
     { n: 1, label: "Really bad", color: "bg-slate-400", active: "bg-slate-500 ring-slate-400/40" },
-    { n: 2, label: "Bad",        color: "bg-slate-300", active: "bg-slate-400 ring-slate-300/40" },
-    { n: 3, label: "Meh",        color: "bg-[#2A7F8E]/50", active: "bg-[#2A7F8E] ring-[#2A7F8E]/30" },
-    { n: 4, label: "Okay",       color: "bg-[#2A7F8E]/75", active: "bg-[#2A7F8E] ring-[#2A7F8E]/30" },
-    { n: 5, label: "Good",       color: "bg-[#D97706]/60", active: "bg-[#D97706] ring-[#D97706]/30" },
+    { n: 2, label: "Bad", color: "bg-slate-300", active: "bg-slate-400 ring-slate-300/40" },
+    { n: 3, label: "Meh", color: "bg-[#2A7F8E]/50", active: "bg-[#2A7F8E] ring-[#2A7F8E]/30" },
+    { n: 4, label: "Okay", color: "bg-[#2A7F8E]/75", active: "bg-[#2A7F8E] ring-[#2A7F8E]/30" },
+    { n: 5, label: "Good", color: "bg-[#D97706]/60", active: "bg-[#D97706] ring-[#D97706]/30" },
   ];
   const currentMood = moodConfig[mood - 1];
 
@@ -2112,11 +2451,13 @@ function ChatModal({
   onClose,
   prefs,
   onNavigate,
+  prefill = "",
 }: {
   open: boolean;
   onClose: () => void;
   prefs: Prefs;
   onNavigate: (route: string) => void;
+  prefill?: string;
 }) {
   const [text, setText] = useState("");
   const [sending, setSending] = useState(false);
@@ -2139,9 +2480,11 @@ function ChatModal({
         setMsgs([]);
         setText("");
       }, 300);
+    } else if (prefill) {
+      setText(prefill);
     }
     return () => clearTimeout(timeout);
-  }, [open]);
+  }, [open, prefill]);
 
   useEffect(() => {
     if (!listRef.current) return;
@@ -2213,7 +2556,7 @@ function ChatModal({
   };
 
   return (
-    <Modal open={open} onClose={onClose} title="Ask FosterGuide">
+    <Modal open={open} onClose={onClose} title="Ask Compass">
       {/* Chat hero */}
       <div className="rounded-2xl bg-gradient-to-br from-[#2A7F8E] to-[#1B3A5C] p-4">
         <div className="flex items-center gap-3">
@@ -2250,7 +2593,7 @@ function ChatModal({
                   <div className="w-1 shrink-0 bg-[#2A7F8E]" />
                   <div className="flex-1 p-3">
                     <div className="text-xs font-bold text-[#1B3A5C]">{m.title}</div>
-                    <div className="mt-1 text-sm text-slate-700 leading-relaxed">{renderMarkdown(m.body)}</div>
+                    <div className="mt-1 text-sm text-slate-700 leading-relaxed">{renderMarkdown(m.body ?? "")}</div>
                     <CitationsRow cites={m.cites} />
                     <div className="mt-2 text-[10px] text-slate-400">
                       For your specific situation, talk to your caseworker or lawyer.
@@ -2332,6 +2675,7 @@ export default function FosterGuideAZPrototype() {
 
   const [route, setRoute] = useState("onboarding");
   const [chatOpen, setChatOpen] = useState(false);
+  const [chatPrefill, setChatPrefill] = useState("");
   const [toast, setToast] = useState<{ title: string; body: string } | null>(null);
 
   useEffect(() => {
@@ -2377,7 +2721,7 @@ export default function FosterGuideAZPrototype() {
   };
 
   const titleByRoute: Record<string, string> = {
-    onboarding: "FosterGuide AZ",
+    onboarding: "Compass",
     home: "Home",
     rights: "My Rights",
     case: "My Case",
@@ -2402,7 +2746,7 @@ export default function FosterGuideAZPrototype() {
     }
     if (route === "rights") return <RightsScreen prefs={prefs} />;
     if (route === "case") return <CaseScreen prefs={prefs} />;
-    if (route === "future") return <FutureScreen prefs={prefs} />;
+    if (route === "future") return <FutureScreen prefs={prefs} onAskChat={(q) => { setChatPrefill(q); setChatOpen(true); }} />;
     if (route === "resources") return <ResourcesScreen prefs={prefs} />;
     if (route === "wellness") return <WellnessScreen />;
     return null;
@@ -2422,7 +2766,7 @@ export default function FosterGuideAZPrototype() {
     >
       <div className="mx-auto max-w-md">
         <TopBar
-          title={titleByRoute[route] || "FosterGuide AZ"}
+          title={titleByRoute[route] || "Compass"}
           onQuickExit={quickExit}
           onOpenChat={() => setChatOpen(true)}
           onBack={route !== "onboarding" && route !== "home" ? () => setRoute("home") : undefined}
@@ -2467,9 +2811,10 @@ export default function FosterGuideAZPrototype() {
 
         <ChatModal
           open={chatOpen}
-          onClose={() => setChatOpen(false)}
+          onClose={() => { setChatOpen(false); setChatPrefill(""); }}
           prefs={prefs}
           onNavigate={(r) => setRoute(r)}
+          prefill={chatPrefill}
         />
 
         {/* Toast */}
@@ -2503,7 +2848,7 @@ export default function FosterGuideAZPrototype() {
             onClick={() => setChatOpen(true)}
             className="fixed bottom-24 right-4 z-50 rounded-full bg-[#D97706] p-4 text-white shadow-xl hover:brightness-105 active:scale-[0.97] transition-all"
             aria-label="Open chat"
-            title="Ask FosterGuide"
+            title="Ask Compass"
           >
             <MessageCircle className="h-6 w-6" />
           </button>
