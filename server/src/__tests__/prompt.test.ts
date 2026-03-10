@@ -29,9 +29,9 @@ describe('buildPrompt', () => {
     expect(prompt.toLowerCase()).toContain('simple')
   })
 
-  it('includes full tone instruction for 18-21', () => {
+  it('includes complete/detailed tone instruction for 18-21', () => {
     const prompt = buildPrompt('my rights', '18-21', mockChunks)
-    expect(prompt.toLowerCase()).toContain('full')
+    expect(prompt.toLowerCase()).toContain('complete')
   })
 
   it('includes citation requirement instruction', () => {
