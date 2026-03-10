@@ -4,6 +4,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-dignity',
     text: 'You have the right to be treated with dignity, respect, and consideration as a person in foster care. No one can treat you as less because you are in the system.',
+    text_es: 'Tienes el derecho de ser tratado con dignidad, respeto y consideración como persona en cuidado adoptivo. Nadie puede tratarte como menos por estar en el sistema.',
     citation: 'A.R.S. §8-529(A)(1)',
     tags: ['rights', 'safety', 'dignity'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -11,6 +12,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-safety',
     text: 'You have the right to live in a safe home free from physical, sexual, and emotional abuse. If you feel unsafe, you can tell your caseworker, your CASA, or call the DCS hotline at 1-888-SOS-CHILD.',
+    text_es: 'Tienes el derecho de vivir en un hogar seguro, libre de abuso físico, sexual y emocional. Si te sientes inseguro, puedes decírselo a tu trabajador de casos, a tu CASA, o llamar a la línea de DCS al 1-888-SOS-CHILD.',
     citation: 'A.R.S. §8-529(A)(2)',
     tags: ['rights', 'safety', 'abuse', 'hotline'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -18,6 +20,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-sibling-contact',
     text: 'You have the right to stay in contact with your siblings. DCS must make reasonable efforts to place siblings together. If you are not placed with your siblings, you have the right to regular visits and contact with them.',
+    text_es: 'Tienes el derecho de mantenerte en contacto con tus hermanos y hermanas. DCS debe hacer esfuerzos razonables para colocarlos juntos. Si no estás colocado con tus hermanos, tienes el derecho a visitas y contacto regular con ellos.',
     citation: 'A.R.S. §8-529(A)(3)',
     tags: ['rights', 'family', 'siblings', 'visits', 'contact'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -25,6 +28,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-family-contact',
     text: 'You have the right to maintain contact with family members unless a court says otherwise. Your caseworker cannot cut off contact with your family without a court order.',
+    text_es: 'Tienes el derecho de mantener contacto con los miembros de tu familia a menos que el tribunal diga lo contrario. Tu trabajador de casos no puede cortar el contacto con tu familia sin una orden del tribunal.',
     citation: 'A.R.S. §8-529(A)(4)',
     tags: ['rights', 'family', 'visits', 'contact', 'court order'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -32,6 +36,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-school-stability',
     text: 'You have the right to stay in your school when you move to a new placement. Under the McKinney-Vento Act, your district must provide transportation to keep you in your school of origin. DCS must work to keep you in your same school when you change placements.',
+    text_es: 'Tienes el derecho de permanecer en tu escuela cuando te mudes a un nuevo hogar de cuidado. Según la Ley McKinney-Vento, tu distrito debe proporcionar transporte para mantenerte en tu escuela de origen. DCS debe trabajar para que puedas quedarte en la misma escuela cuando cambias de hogar.',
     citation: 'A.R.S. §8-529(A)(5); McKinney-Vento Homeless Assistance Act 42 U.S.C. §11431',
     tags: ['rights', 'education', 'school', 'stability', 'McKinney-Vento', 'transportation'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -39,6 +44,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-education-support',
     text: 'You have the right to educational support, including tutoring, help getting school records, and help enrolling in a new school. DCS must help you get the educational services you need.',
+    text_es: 'Tienes el derecho a recibir apoyo educativo, incluyendo tutoría, ayuda para obtener tus expedientes escolares e inscribirte en una nueva escuela. DCS debe ayudarte a obtener los servicios educativos que necesitas.',
     citation: 'A.R.S. §8-529(A)(6)',
     tags: ['rights', 'education', 'tutoring', 'enrollment', 'records'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -46,6 +52,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-case-plan-participation',
     text: 'You have the right to participate in creating your case plan and to get a copy of your case plan. Your caseworker must involve you in decisions about your placement, services, and goals.',
+    text_es: 'Tienes el derecho de participar en la creación de tu plan de caso y de recibir una copia de él. Tu trabajador de casos debe involucrarte en las decisiones sobre tu colocación, servicios y metas.',
     citation: 'A.R.S. §8-529(A)(7)',
     tags: ['rights', 'case plan', 'participation', 'placement decisions'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -53,6 +60,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-privacy',
     text: 'You have the right to privacy. Information about you and your case is confidential. Your foster family, teachers, and others do not have the right to know details about your case unless DCS specifically authorizes it.',
+    text_es: 'Tienes el derecho a la privacidad. La información sobre ti y tu caso es confidencial. Tu familia adoptiva, maestros y otras personas no tienen el derecho de conocer los detalles de tu caso a menos que DCS lo autorice específicamente.',
     citation: 'A.R.S. §8-529(A)(8)',
     tags: ['rights', 'privacy', 'confidential', 'case records'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -60,6 +68,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-health-care',
     text: 'You have the right to physical, dental, mental health, and vision care. Arizona AHCCCS covers all foster youth with full medical coverage at no cost. You can request mental health counseling. You cannot be denied health care.',
+    text_es: 'Tienes el derecho a recibir atención médica, dental, de salud mental y visión. AHCCCS de Arizona cubre a todos los jóvenes en cuidado adoptivo con cobertura médica completa sin costo. Puedes solicitar consejería de salud mental. No se te puede negar la atención médica.',
     citation: 'A.R.S. §8-529(A)(9); A.R.S. §8-512',
     tags: ['rights', 'health', 'medical', 'mental health', 'AHCCCS', 'counseling', 'dental'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -67,6 +76,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-know-your-rights',
     text: 'You have the right to receive and keep a copy of your rights. DCS must give you a written copy of your rights in a language and at a reading level you can understand.',
+    text_es: 'Tienes el derecho de recibir y conservar una copia de tus derechos. DCS debe darte una copia escrita de tus derechos en un idioma y a un nivel de lectura que puedas entender.',
     citation: 'A.R.S. §8-529(A)(10)',
     tags: ['rights', 'information', 'copy', 'language'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -74,6 +84,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-attorney',
     text: 'You have the right to have an attorney. The court appoints a Guardian ad Litem (GAL) or attorney to represent your interests. You can talk to your attorney privately.',
+    text_es: 'Tienes el derecho a tener un abogado. El tribunal nombra a un Guardian ad Litem (GAL) o abogado para representar tus intereses. Puedes hablar con tu abogado de forma privada.',
     citation: 'A.R.S. §8-529(A)(11); A.R.S. §8-521',
     tags: ['rights', 'attorney', 'GAL', 'guardian ad litem', 'legal representation'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -81,6 +92,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-voice-at-hearing',
     text: 'You have the right to speak at your court hearings and have your views considered by the judge. Even if you are young, your voice matters. Your GAL or CASA must tell the judge what you want.',
+    text_es: 'Tienes el derecho de hablar en tus audiencias judiciales y que el juez tome en cuenta tu opinión. Aunque seas joven, tu voz importa. Tu GAL o CASA debe decirle al juez lo que tú quieres.',
     citation: 'A.R.S. §8-529(A)(12)',
     tags: ['rights', 'court', 'hearing', 'voice', 'CASA', 'judge', 'participation'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -88,6 +100,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-belongings',
     text: 'You have the right to keep your personal belongings when you move to a new placement. DCS must allow you to take your clothes, photos, and items that are important to you. You must be given a bag or container — not a trash bag — to carry your belongings.',
+    text_es: 'Tienes el derecho de conservar tus pertenencias personales cuando te mudes a un nuevo hogar de cuidado. DCS debe permitirte llevar tu ropa, fotos y artículos importantes para ti. Deben darte una bolsa o contenedor — no una bolsa de basura — para cargar tus pertenencias.',
     citation: 'A.R.S. §8-529(A)(13)',
     tags: ['rights', 'belongings', 'placement change', 'personal property'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -95,6 +108,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-cultural-religious',
     text: 'You have the right to practice your religion and maintain your cultural identity. DCS must make reasonable efforts to support your cultural, ethnic, and religious background, including in placement decisions.',
+    text_es: 'Tienes el derecho de practicar tu religión y mantener tu identidad cultural. DCS debe hacer esfuerzos razonables para apoyar tu herencia cultural, étnica y religiosa, incluso en las decisiones de colocación.',
     citation: 'A.R.S. §8-529(A)(14)',
     tags: ['rights', 'culture', 'religion', 'identity', 'heritage', 'tribal', 'ICWA'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -102,6 +116,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-independent-living',
     text: 'You have the right to independent living services and preparation for adulthood. DCS must provide you with an Independent Living Plan (ILP) starting at age 16 and help you prepare to live on your own.',
+    text_es: 'Tienes el derecho a servicios de vida independiente y preparación para la adultez. DCS debe proporcionarte un Plan de Vida Independiente (ILP) a partir de los 16 años y ayudarte a prepararte para vivir por tu cuenta.',
     citation: 'A.R.S. §8-529(A)(15); A.R.S. §8-521.02',
     tags: ['rights', 'independent living', 'ILP', 'transition', 'adulthood'],
     ageBands: ['16-17', '18-21'],
@@ -109,6 +124,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-extended-foster-care',
     text: 'You have the right to Extended Foster Care (EFC) after age 18 until you turn 21 if you meet eligibility requirements: attending school, working, or have a medical condition. EFC provides continued housing, financial support, and case management.',
+    text_es: 'Tienes el derecho al Cuidado Adoptivo Extendido (EFC) después de los 18 años hasta que cumplas 21, si cumples los requisitos: asistir a la escuela, trabajar o tener una condición médica. EFC ofrece vivienda continua, apoyo económico y manejo de casos.',
     citation: 'A.R.S. §8-521.02; A.R.S. §8-521.03 (SB 1303)',
     tags: ['rights', 'extended foster care', 'EFC', 'age out', '18', '21', 'transition'],
     ageBands: ['16-17', '18-21'],
@@ -116,6 +132,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-14-driving',
     text: "At age 14, you have the right to get a learner's permit and work toward your driver's license. DCS must help you get the documents you need, including your birth certificate, for the permit application.",
+    text_es: 'A los 14 años, tienes el derecho de obtener un permiso de aprendizaje y avanzar hacia tu licencia de conducir. DCS debe ayudarte a obtener los documentos que necesitas, incluido tu acta de nacimiento, para la solicitud del permiso.',
     citation: 'A.R.S. §8-529(B)(1)',
     tags: ['rights', 'driving', 'license', 'permit', '14', 'age 14'],
     ageBands: ['13-15', '16-17', '18-21'],
@@ -123,6 +140,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-14-bank-account',
     text: 'At age 14, you have the right to open a savings account. DCS must help you open one. Having your own bank account is part of building financial independence.',
+    text_es: 'A los 14 años, tienes el derecho de abrir una cuenta de ahorros. DCS debe ayudarte a abrir una. Tener tu propia cuenta bancaria es parte de construir tu independencia financiera.',
     citation: 'A.R.S. §8-529(B)(2)',
     tags: ['rights', 'bank account', 'financial', 'savings', '14', 'age 14'],
     ageBands: ['13-15', '16-17', '18-21'],
@@ -130,6 +148,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-14-credit-report',
     text: 'At age 14, you have the right to receive a free copy of your credit report every year. DCS must help you check your credit to detect identity theft. Many foster youth find that someone has used their Social Security number to open accounts in their name.',
+    text_es: 'A los 14 años, tienes el derecho de recibir una copia gratuita de tu reporte de crédito cada año. DCS debe ayudarte a revisar tu crédito para detectar robo de identidad. Muchos jóvenes en cuidado adoptivo descubren que alguien usó su número de Seguro Social para abrir cuentas a su nombre.',
     citation: 'A.R.S. §8-529(B)(3)',
     tags: ['rights', 'credit report', 'identity theft', 'financial', '14', 'age 14', 'Social Security'],
     ageBands: ['13-15', '16-17', '18-21'],
@@ -137,6 +156,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-documents',
     text: 'You have the right to get copies of your important documents: birth certificate, Social Security card, state ID, immunization records, school records, and medical records. DCS must provide these to you. You keep them — your foster family does not own them.',
+    text_es: 'Tienes el derecho de obtener copias de tus documentos importantes: acta de nacimiento, tarjeta de Seguro Social, identificación estatal, registros de vacunas, expedientes escolares y médicos. DCS debe proporcionártelos. Tú los conservas — tu familia adoptiva no es su dueña.',
     citation: 'A.R.S. §8-514.06',
     tags: ['rights', 'documents', 'birth certificate', 'Social Security', 'ID', 'records'],
     ageBands: ['13-15', '16-17', '18-21'],
@@ -144,6 +164,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-no-retaliation',
     text: 'You have the right to report rights violations without fear of punishment. No one can retaliate against you for speaking up about your rights. You can contact the DCS Ombudsman-Citizens Aide or your attorney.',
+    text_es: 'Tienes el derecho de reportar violaciones a tus derechos sin miedo a represalias. Nadie puede tomar represalias contra ti por defender tus derechos. Puedes comunicarte con el DCS Ombudsman-Citizens Aide o con tu abogado.',
     citation: 'A.R.S. §8-529(D)',
     tags: ['rights', 'retaliation', 'report', 'ombudsman', 'speak up', 'violation'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -151,6 +172,7 @@ export const RIGHTS_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'right-etv-scholarship',
     text: "You have the right to apply for the Education and Training Voucher (ETV). ETVs provide up to $5,000 per year for education and training costs for foster youth ages 14–26. You must have been in foster care at age 14 or older. Apply through AzCA before July 31 each year.",
+    text_es: 'Tienes el derecho de solicitar el Voucher de Educación y Capacitación (ETV). Los ETV proporcionan hasta $5,000 por año para gastos de educación y capacitación para jóvenes en cuidado adoptivo de 14 a 26 años. Debes haber estado en cuidado adoptivo a los 14 años o más. Solicita a través de AzCA antes del 31 de julio de cada año.',
     citation: 'A.R.S. §8-521.02; 42 U.S.C. §677 (John H. Chafee Act)',
     tags: ['rights', 'ETV', 'education', 'scholarship', 'financial aid', 'college', 'AzCA', 'July 31'],
     ageBands: ['13-15', '16-17', '18-21'],

@@ -4,6 +4,7 @@ export const COURT_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'court-hotline',
     text: 'Stage 1 — Hotline Report & Investigation. The Arizona DCS Child Abuse Hotline (1-888-SOS-CHILD) receives a report. DCS has 24 hours for urgent reports and up to 72 hours for non-urgent reports to investigate. A DCS Specialist visits the home and decides whether the child is safe. If removal is needed, it usually happens at this stage.',
+    text_es: 'Etapa 1 — Reporte a la línea de emergencia e investigación. La Línea de Abuso Infantil de DCS de Arizona (1-888-SOS-CHILD) recibe un reporte. DCS tiene 24 horas para reportes urgentes y hasta 72 horas para reportes no urgentes para investigar. Un especialista de DCS visita el hogar y decide si el niño está seguro. Si es necesaria la separación, generalmente ocurre en esta etapa.',
     citation: 'A.R.S. §8-456; A.R.S. §8-821',
     tags: ['court', 'hotline', 'investigation', 'removal', 'stage 1'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -11,6 +12,7 @@ export const COURT_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'court-tdm',
     text: 'Stage 2 — Team Decision Making (TDM). Before or shortly after removal, DCS holds a TDM meeting. This is a meeting between DCS, your family, and anyone your family wants to include. The goal is to find the safest option, often with relatives, to avoid or limit removal. You may be able to attend if you are old enough.',
+    text_es: 'Etapa 2 — Toma de Decisiones en Equipo (TDM). Antes o poco después de la separación, DCS celebra una reunión TDM. Es una reunión entre DCS, tu familia y cualquier persona que tu familia quiera incluir. El objetivo es encontrar la opción más segura, con frecuencia con familiares, para evitar o limitar la separación. Es posible que puedas asistir si tienes la edad suficiente.',
     citation: 'DCS Policy Manual Chapter 7',
     tags: ['court', 'TDM', 'team decision making', 'meeting', 'removal', 'relatives', 'stage 2'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -18,6 +20,7 @@ export const COURT_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'court-pph',
     text: 'Stage 3 — Preliminary Protective Hearing (PPH). Within 5–7 days of removal, the court holds this first hearing. The judge decides if DCS had good reason to remove you and whether you should stay in foster care while the case continues. Your GAL or attorney is appointed here. You have the right to attend.',
+    text_es: 'Etapa 3 — Audiencia Preliminar de Protección (PPH). Dentro de los 5 a 7 días después de la separación, el tribunal celebra esta primera audiencia. El juez decide si DCS tuvo buenas razones para separarte y si debes permanecer en cuidado adoptivo mientras continúa el caso. Aquí se nombra tu GAL o abogado. Tienes el derecho de asistir.',
     citation: 'A.R.S. §8-824',
     tags: ['court', 'PPH', 'preliminary protective hearing', 'hearing', 'GAL', 'judge', 'stage 3'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -25,13 +28,15 @@ export const COURT_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'court-dependency-petition',
     text: 'Stage 4 — Initial Hearing / Dependency Petition. Within 21 days of the PPH, the court holds a hearing on the DCS dependency petition. The petition formally asks the court to find your parent(s) unable to safely parent right now. You and your parents can respond. The case plan goal is set at this stage.',
+    text_es: 'Etapa 4 — Audiencia inicial / Petición de dependencia. Dentro de los 21 días después de la PPH, el tribunal celebra una audiencia sobre la petición de dependencia de DCS. La petición le pide formalmente al tribunal que determine que tus padres no pueden criar de forma segura en este momento. Tú y tus padres pueden responder. El objetivo del plan de caso se establece en esta etapa.',
     citation: 'A.R.S. §8-842',
     tags: ['court', 'dependency petition', 'initial hearing', 'case plan', 'stage 4'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
   },
   {
     id: 'court-adjudication',
-    text: 'Stage 5 — Adjudication Hearing. Within 90 days of the dependency petition, the judge holds a trial (adjudication). The judge decides whether your parent(s) neglected or abused you — this is called being “adjudicated dependent.” If the judge agrees, the case continues and services are required. You can tell the judge what you want.',
+    text: 'Stage 5 — Adjudication Hearing. Within 90 days of the dependency petition, the judge holds a trial (adjudication). The judge decides whether your parent(s) neglected or abused you — this is called being "adjudicated dependent." If the judge agrees, the case continues and services are required. You can tell the judge what you want.',
+    text_es: 'Etapa 5 — Audiencia de adjudicación. Dentro de los 90 días después de la petición de dependencia, el juez celebra un juicio (adjudicación). El juez decide si tus padres te descuidaron o abusaron de ti — esto se llama ser "adjudicado dependiente." Si el juez está de acuerdo, el caso continúa y se requieren servicios. Puedes decirle al juez lo que quieres.',
     citation: 'A.R.S. §8-844',
     tags: ['court', 'adjudication', 'hearing', 'dependent', 'trial', 'stage 5'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -39,6 +44,7 @@ export const COURT_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'court-disposition',
     text: 'Stage 6 — Disposition Hearing. Within 30 days of adjudication, the judge decides what services your family must complete and sets the case plan goal: reunification, severance and adoption, permanent guardianship, or extended foster care. DCS must make reasonable efforts to help your family. You should know your case plan goal.',
+    text_es: 'Etapa 6 — Audiencia de disposición. Dentro de los 30 días después de la adjudicación, el juez decide qué servicios debe completar tu familia y establece el objetivo del plan de caso: reunificación, separación y adopción, tutela permanente o cuidado adoptivo extendido. DCS debe hacer esfuerzos razonables para ayudar a tu familia. Debes conocer el objetivo de tu plan de caso.',
     citation: 'A.R.S. §8-845',
     tags: ['court', 'disposition', 'case plan', 'reunification', 'adoption', 'guardianship', 'services', 'stage 6'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -46,6 +52,7 @@ export const COURT_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'court-review',
     text: 'Stage 7 — Review Hearing. Every 6 months, the judge reviews your case. DCS reports on what is happening with your family, whether services are working, and whether placement is appropriate. The Foster Care Review Board (FCRB) may also review your case. You can tell the judge how you are doing and what you want.',
+    text_es: 'Etapa 7 — Audiencia de revisión. Cada 6 meses, el juez revisa tu caso. DCS informa sobre lo que está pasando con tu familia, si los servicios están funcionando y si el hogar de cuidado es apropiado. La Junta de Revisión del Cuidado Adoptivo (FCRB) también puede revisar tu caso. Puedes decirle al juez cómo te va y lo que quieres.',
     citation: 'A.R.S. §8-847',
     tags: ['court', 'review hearing', 'FCRB', 'placement', 'services', 'every 6 months', 'stage 7'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -53,6 +60,7 @@ export const COURT_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'court-permanency',
     text: 'Stage 8 — Permanency Hearing. Within 12 months of removal (then every 6 months), the judge holds a permanency hearing to set a permanent plan for your life. Options are: return to parent(s), adoption, permanent guardianship, or another planned permanent living arrangement (APPLA). If you are 14+, the judge must directly ask you about your permanency goals.',
+    text_es: 'Etapa 8 — Audiencia de permanencia. Dentro de los 12 meses después de la separación (luego cada 6 meses), el juez celebra una audiencia de permanencia para establecer un plan permanente para tu vida. Las opciones son: regresar con tus padres, adopción, tutela permanente u otro arreglo de vida permanente planificado (APPLA). Si tienes 14 años o más, el juez debe preguntarte directamente sobre tus metas de permanencia.',
     citation: 'A.R.S. §8-862',
     tags: ['court', 'permanency hearing', 'adoption', 'guardianship', 'APPLA', 'permanent', '12 months', 'stage 8'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -60,6 +68,7 @@ export const COURT_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'court-whos-who-dcs',
     text: "Who's Who — DCS Specialist (Caseworker): This is your main DCS contact. They manage your case, arrange services, visit your placement, and attend your hearings. You should have their phone number and be able to call them within 24 hours.",
+    text_es: 'Quiénes son — Especialista de DCS (trabajador de casos): Es tu contacto principal en DCS. Maneja tu caso, coordina servicios, visita tu hogar de cuidado y asiste a tus audiencias. Debes tener su número de teléfono y poder llamarle en menos de 24 horas.',
     citation: 'DCS Policy Manual',
     tags: ['court', 'who is who', 'DCS', 'caseworker', 'specialist', 'contact'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -67,6 +76,7 @@ export const COURT_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'court-whos-who-gal',
     text: "Who's Who — Guardian ad Litem (GAL) / Attorney: Appointed by the court to represent YOUR interests and only yours. Not your parents' interests, not DCS's interests — yours. You can tell your GAL what you want and they must take your views to the judge. Everything you tell your GAL is confidential.",
+    text_es: 'Quiénes son — Guardian ad Litem (GAL) / Abogado: Nombrado por el tribunal para representar TUS intereses y solo los tuyos. No los intereses de tus padres ni los de DCS — los tuyos. Puedes decirle a tu GAL lo que quieres y él debe llevar tu opinión al juez. Todo lo que le cuentes a tu GAL es confidencial.',
     citation: 'A.R.S. §8-521',
     tags: ['court', 'who is who', 'GAL', 'guardian ad litem', 'attorney', 'confidential', 'advocate'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -74,6 +84,7 @@ export const COURT_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'court-whos-who-casa',
     text: "Who's Who — CASA (Court Appointed Special Advocate): A trained volunteer who advocates for your best interests. A CASA is not an attorney but speaks to the judge on your behalf, visits you regularly, and helps make sure your voice is heard. Not every child has a CASA — you can ask the court to appoint one.",
+    text_es: 'Quiénes son — CASA (Defensor Especial Nombrado por el Tribunal): Un voluntario capacitado que defiende tus intereses. Un CASA no es abogado, pero habla con el juez en tu nombre, te visita regularmente y ayuda a que tu voz sea escuchada. No todos los niños tienen un CASA — puedes pedirle al tribunal que nombre uno para ti.',
     citation: 'A.R.S. §8-522',
     tags: ['court', 'who is who', 'CASA', 'volunteer', 'advocate', 'appointment'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -81,6 +92,7 @@ export const COURT_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'court-whos-who-fcrb',
     text: "Who's Who — Foster Care Review Board (FCRB): A citizen board that reviews foster care cases every 6 months independently of the court. They look at your placement, services, and case progress. You can attend your FCRB review and share your views directly. Their findings go to the judge.",
+    text_es: 'Quiénes son — Junta de Revisión del Cuidado Adoptivo (FCRB): Una junta ciudadana que revisa los casos de cuidado adoptivo cada 6 meses de forma independiente del tribunal. Examina tu hogar de cuidado, los servicios y el avance del caso. Puedes asistir a tu revisión de FCRB y compartir tu opinión directamente. Sus conclusiones se envían al juez.',
     citation: 'A.R.S. §8-515.03',
     tags: ['court', 'who is who', 'FCRB', 'foster care review board', 'citizen board', 'review'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
@@ -88,6 +100,7 @@ export const COURT_CHUNKS: KnowledgeChunk[] = [
   {
     id: 'court-icwa-notice',
     text: 'ICWA — Indian Child Welfare Act: If you are a member of or eligible for membership in a federally recognized tribe, the Indian Child Welfare Act (ICWA) provides additional protections. ICWA requires higher standards for removal, preference for placement with tribal family, and requires notice to your tribe. Tell your attorney and caseworker about any tribal connections immediately — ICWA protections must be invoked early.',
+    text_es: 'ICWA — Ley de Bienestar del Niño Indígena: Si eres miembro o tienes derecho a ser miembro de una tribu reconocida federalmente, la Ley de Bienestar del Niño Indígena (ICWA) te ofrece protecciones adicionales. ICWA requiere estándares más altos para la separación, preferencia de colocación con la familia tribal y notificación a tu tribu. Dile a tu abogado y trabajador de casos sobre cualquier conexión tribal de inmediato — las protecciones de ICWA deben invocarse pronto.',
     citation: '25 U.S.C. §1901 (ICWA); A.R.S. §8-453',
     tags: ['court', 'ICWA', 'tribal', 'tribe', 'Indian', 'Native American', 'protections'],
     ageBands: ['10-12', '13-15', '16-17', '18-21'],
