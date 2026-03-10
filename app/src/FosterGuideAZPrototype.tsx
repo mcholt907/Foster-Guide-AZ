@@ -1,6 +1,14 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  House,
+  Gavel as GavelFill,
+  ChatCircle,
+  ShieldChevron,
+  FileText as FileTextFill,
+  MapPin as MapPinFill,
+} from "@phosphor-icons/react";
+import {
   Home as HomeIcon,
   Shield,
   Gavel,
@@ -33,6 +41,61 @@ import { sendChatMessage } from "./api/chat";
  * - Local-only personalization (language, age band, county, tribal indicator)
  */
 
+// ─── i18n ─────────────────────────────────────────────────────────────────
+type Lang = 'en' | 'es'
+
+const UI_STRINGS = {
+  // Onboarding
+  onboarding_step_language:     { en: 'What language do you prefer?',           es: '¿Qué idioma prefieres?' },
+  onboarding_step_age:          { en: 'How old are you?',                       es: '¿Cuántos años tienes?' },
+  onboarding_step_county:       { en: 'What county do you live in?',            es: '¿En qué condado vives?' },
+  onboarding_step_tribal:       { en: 'Are you affiliated with a tribal nation?', es: '¿Estás afiliado a una nación tribal?' },
+  onboarding_btn_next:          { en: 'Next',                                   es: 'Siguiente' },
+  onboarding_btn_start:         { en: "Let's go",                               es: 'Comenzar' },
+  onboarding_btn_skip:          { en: 'Skip',                                   es: 'Omitir' },
+  onboarding_tribal_yes:        { en: 'Yes',                                    es: 'Sí' },
+  onboarding_tribal_no:         { en: 'No',                                     es: 'No' },
+  age_band_10_12_desc:          { en: 'Learn the basics',                       es: 'Aprende lo básico' },
+  age_band_13_15_desc:          { en: 'Your rights + court',                    es: 'Tus derechos + tribunal' },
+  age_band_16_17_desc:          { en: 'Planning ahead',                         es: 'Planifica el futuro' },
+  age_band_18_21_desc:          { en: 'Extended care + next steps',             es: 'Cuidado extendido + próximos pasos' },
+  // Nav
+  nav_home:                     { en: 'Home',                                   es: 'Inicio' },
+  nav_case:                     { en: 'My Case',                                es: 'Mi Caso' },
+  nav_ask:                      { en: 'Ask',                                    es: 'Preguntar' },
+  nav_rights:                   { en: 'My Rights',                              es: 'Mis Derechos' },
+  nav_future:                   { en: 'My Future',                              es: 'Mi Futuro' },
+  nav_resources:                { en: 'Resources',                              es: 'Recursos' },
+  nav_wellness:                 { en: 'Wellness',                               es: 'Bienestar' },
+  // Home
+  home_crisis_title:            { en: 'Crisis & Safety Lines',                  es: 'Líneas de Crisis y Seguridad' },
+  home_crisis_always_open:      { en: 'Always open',                            es: 'Siempre disponibles' },
+  // Rights
+  rights_tab_what:              { en: 'What it means',                          es: 'Qué significa' },
+  rights_tab_how:               { en: 'How to ask for it',                      es: 'Cómo pedirlo' },
+  rights_tab_ignored:           { en: "If it's being ignored",                  es: 'Si lo están ignorando' },
+  rights_escalation_title:      { en: 'If Your Rights Are Being Violated',      es: 'Si Están Violando Tus Derechos' },
+  // Resources
+  resources_search_placeholder: { en: 'Search resources\u2026',                 es: 'Buscar recursos\u2026' },
+  resources_spanish_label:      { en: 'Spanish-speaking staff',                 es: 'Personal que habla español' },
+  // Ask/Chat
+  ask_title:                    { en: 'Ask Compass',                            es: 'Pregúntale a Compass' },
+  ask_placeholder:              { en: 'Type your question\u2026',               es: 'Escribe tu pregunta\u2026' },
+  ask_send:                     { en: 'Send',                                   es: 'Enviar' },
+  ask_thinking:                 { en: 'Thinking\u2026',                         es: 'Pensando\u2026' },
+  ask_crisis_header:            { en: 'Here are people who can help you right now:', es: 'Aquí hay personas que pueden ayudarte ahora mismo:' },
+  // Common
+  common_call:                  { en: 'Call',                                   es: 'Llamar' },
+  common_text_msg:              { en: 'Text',                                   es: 'Mensaje' },
+  common_website:               { en: 'Website',                                es: 'Sitio web' },
+} as const
+
+type StringKey = keyof typeof UI_STRINGS
+
+function t(key: StringKey, lang: Lang | null | undefined): string {
+  return UI_STRINGS[key][lang === 'es' ? 'es' : 'en']
+}
+
 const COUNTIES = [
   "Apache",
   "Cochise",
@@ -60,56 +123,6 @@ const AGE_BANDS = [
 
 type AgeBandKey = "10-12" | "13-15" | "16-17" | "18-21";
 
-const PATHWAYS = [
-  { id: "understand", label: "I'm new to foster care and want to understand" },
-  { id: "rights", label: "I want to know my rights" },
-  { id: "court", label: "I have a court date coming up and I'm nervous" },
-  { id: "future", label: "I'm turning 18 and need to make a plan" },
-  { id: "resources", label: "I need help with housing, school, health, or money" },
-  { id: "wellness", label: "I'm feeling stressed and need support" },
-  { id: "explore", label: "I just want to look around" },
-];
-
-// Age-adapted pathway labels. IDs match PATHWAYS exactly — only display text
-// and inclusion list change. The routing logic reads prefs.pathway (the id).
-const PATHWAYS_BY_BAND: Record<AgeBandKey, Array<{ id: string; label: string }>> = {
-  "10-12": [
-    { id: "understand", label: "I'm new to foster care and want to understand" },
-    { id: "rights",     label: "I want to know my rights" },
-    { id: "court",      label: "I'm going to court and I'm scared" },
-    { id: "resources",  label: "I need help with school or something else" },
-    { id: "wellness",   label: "I'm feeling worried or upset" },
-    { id: "explore",    label: "I just want to look around" },
-    // "future" omitted — turning-18 content isn't relevant at 10–12
-  ],
-  "13-15": [
-    { id: "understand", label: "I'm new to foster care and want to understand" },
-    { id: "rights",     label: "I want to know my rights" },
-    { id: "court",      label: "I have a court date coming up and I'm nervous" },
-    { id: "future",     label: "I want to know what happens when I turn 18" },
-    { id: "resources",  label: "I need help with housing, school, health, or money" },
-    { id: "wellness",   label: "I'm feeling stressed and need support" },
-    { id: "explore",    label: "I just want to look around" },
-  ],
-  "16-17": [
-    { id: "understand", label: "I'm new to foster care and want to understand" },
-    { id: "rights",     label: "I want to know my rights" },
-    { id: "court",      label: "I have a court date coming up and I'm nervous" },
-    { id: "future",     label: "I'm turning 18 and need to make a plan" },
-    { id: "resources",  label: "I need help with housing, school, health, or money" },
-    { id: "wellness",   label: "I'm feeling stressed and need support" },
-    { id: "explore",    label: "I just want to look around" },
-  ],
-  "18-21": [
-    { id: "future",     label: "I need to make a plan — housing, money, next steps" },
-    { id: "resources",  label: "I need help with housing, money, or health" },
-    { id: "rights",     label: "I want to know my rights" },
-    { id: "court",      label: "I have a court date coming up and I'm nervous" },
-    { id: "understand", label: "I want to understand the system better" },
-    { id: "wellness",   label: "I'm feeling stressed and need support" },
-    { id: "explore",    label: "I just want to look around" },
-  ],
-};
 
 
 const CRISIS_PINS = [
@@ -244,31 +257,64 @@ const RESOURCES = [
 
 const RIGHTS = [
   {
-    id: "siblings",
-    title: "Seeing Your Brothers & Sisters",
-    citation: "A.R.S. §8-529(A)(4)",
+    id: "participate",
+    title: "Having a Say in Your Case",
+    citation: "A.R.S. §8-529(A)(18)",
     tiers: {
       "10-12": {
         plain:
-          "You can usually visit and talk with your brothers and sisters. The adults in your case should help make that happen.",
+          "The adults in your case are supposed to listen to what you need and what matters to you. Your voice counts.",
+        plain_es: "Los adultos en tu caso deben escuchar lo que necesitas y lo que es importante para ti. Tu voz importa.",
         example:
-          "If you haven't been able to see your sibling, you can ask your caseworker: \"Why not, and when can I?\"",
+          "You can tell your caseworker what helps you feel safe — at home, at school, wherever.",
+        example_es: "Puedes decirle a tu trabajador de casos lo que te ayuda a sentirte seguro — en casa, en la escuela, donde sea.",
+        howToAsk:
+          "Before your next meeting, make a list of the things that matter most to you. You can hand it to your caseworker or ask a trusted adult to help you share it.",
+        howToAsk_es: "Antes de tu próxima reunión, haz una lista de las cosas que más te importan. Puedes dársela a tu trabajador de casos o pedirle a un adulto de confianza que te ayude a compartirla.",
+        ifIgnored:
+          "Tell your lawyer that your wishes weren't listened to. Your lawyer has to speak up for you at the next hearing — that's their job.",
+        ifIgnored_es: "Dile a tu abogado que no escucharon tus deseos. Tu abogado tiene que defender lo que quieres en la próxima audiencia — ese es su trabajo.",
       },
       "13-15": {
         plain:
-          "You have a right to stay in contact with your siblings — unless a judge has decided it isn't safe. That's the rule, and you can ask about it.",
-        example: `Ask your caseworker: "When is my next sibling visit, and who sets it up?"`,
+          "You can be part of making your case plan and share what you want — things like school, visits, and where you live.",
+        plain_es: "Puedes participar en la creación de tu plan de caso y compartir lo que quieres — cosas como la escuela, las visitas y dónde vives.",
+        example:
+          "Before a hearing, write down 3 things you want your attorney to say to the judge for you.",
+        example_es: "Antes de una audiencia, escribe 3 cosas que quieres que tu abogado le diga al juez.",
+        howToAsk:
+          "Write down 3 things you want your attorney to say to the judge and give them the list before the hearing. They are required to share your wishes.",
+        howToAsk_es: "Escribe 3 cosas que quieres que tu abogado le diga al juez y dáselas antes de la audiencia. Están obligados a compartir tus deseos.",
+        ifIgnored:
+          "Tell your attorney directly. They are required to advocate for what you want. If they aren't doing that, you can ask to have a different attorney assigned.",
+        ifIgnored_es: "Díselo directamente a tu abogado. Están obligados a defender lo que quieres. Si no lo hacen, puedes pedir que te asignen otro abogado.",
       },
       "16-17": {
         plain:
-          "You have a right to sibling contact. If it isn't happening, you can ask for a clear reason and a plan to fix it — and you deserve a real answer.",
-        example:
-          "If your caseworker doesn't follow through, you can ask to speak with their supervisor.",
+          "You have a right to participate in planning your future — including questions about permanency and what happens after 18.",
+        plain_es: "Tienes el derecho de participar en la planificación de tu futuro — incluyendo preguntas sobre permanencia y qué pasa después de los 18.",
+        example: `Check out the hearing prep questions in the "My Case" tab to get ready.`,
+        example_es: "Revisa las preguntas de preparación para la audiencia en la pestaña 'Mi Caso' para prepararte.",
+        howToAsk:
+          "Ask your attorney: \"Can I speak at my next hearing or submit a written statement?\" Both are options you have the right to use.",
+        howToAsk_es: "Pregúntale a tu abogado: '¿Puedo hablar en mi próxima audiencia o presentar una declaración escrita?' Ambas son opciones que tienes el derecho de usar.",
+        ifIgnored:
+          "Ask your attorney to file an objection. You can also contact the DCS Ombudsman if you believe your voice is being systematically excluded from planning.",
+        ifIgnored_es: "Pídele a tu abogado que presente una objeción. También puedes contactar al DCS Ombudsman si crees que tu voz está siendo excluida sistemáticamente de la planificación.",
       },
       "18-21": {
         plain:
-          "Even in extended care, you can advocate for staying connected with your family and siblings. That matters, and it can be part of your plan.",
-        example: "Write down your requests with dates so you have a record if you need to follow up.",
+          "Your plan in extended care should actually reflect your goals — school, work, housing. If it doesn't, you can ask for it to be updated.",
+        plain_es: "Tu plan en el cuidado extendido debe reflejar realmente tus metas — escuela, trabajo, vivienda. Si no es así, puedes pedir que se actualice.",
+        example:
+          "Ask for a written summary of what was agreed to and what the next steps are.",
+        example_es: "Pide un resumen escrito de lo que se acordó y cuáles son los próximos pasos.",
+        howToAsk:
+          "Request a copy of your current case plan and ask for a meeting to update it with your actual goals. Put the request in writing so there's a record.",
+        howToAsk_es: "Solicita una copia de tu plan de caso actual y pide una reunión para actualizarlo con tus metas reales. Haz la solicitud por escrito para que quede un registro.",
+        ifIgnored:
+          "Contact your attorney or the DCS Ombudsman. In extended care, your participation in planning is not optional — it's required by law.",
+        ifIgnored_es: "Comunícate con tu abogado o el DCS Ombudsman. En el cuidado extendido, tu participación en la planificación no es opcional — es requerida por ley.",
       },
     },
   },
@@ -279,54 +325,117 @@ const RIGHTS = [
     tiers: {
       "10-12": {
         plain: "You have the right to talk with your caseworker privately — without other people listening in.",
+        plain_es: "Tienes el derecho de hablar con tu trabajador de casos en privado — sin que otras personas escuchen.",
         example: `You can say: "Can I talk with my caseworker alone for a minute?"`,
+        example_es: "Puedes decir: '¿Puedo hablar con mi trabajador de casos a solas un momento?'",
+        howToAsk:
+          "Say: \"I'd like to talk to my caseworker alone.\" A trusted adult or teacher can help you ask if you need it.",
+        howToAsk_es: "Di: 'Quisiera hablar con mi trabajador de casos a solas.' Un adulto de confianza o un maestro puede ayudarte a pedirlo si lo necesitas.",
+        ifIgnored:
+          "Tell your lawyer or a trusted adult what happened. Private conversations with your caseworker and lawyer are your right, not a privilege.",
+        ifIgnored_es: "Dile a tu abogado o a un adulto de confianza lo que pasó. Las conversaciones privadas con tu trabajador de casos y tu abogado son tu derecho, no un privilegio.",
       },
       "13-15": {
         plain:
           "You can ask to speak privately with your caseworker and your attorney. You don't have to talk in front of others if you don't want to.",
+        plain_es: "Puedes pedir hablar en privado con tu trabajador de casos y tu abogado. No tienes que hablar frente a otros si no quieres.",
         example:
           "If you don't feel comfortable speaking freely, ask: \"Can we find a private time and place to talk?\"",
+        example_es: "Si no te sientes cómodo hablando libremente, pregunta: '¿Podemos encontrar un momento y lugar privado para hablar?'",
+        howToAsk:
+          "Say: \"Can we find a private time and place to talk?\" You can also ask your attorney to schedule a private call directly with you.",
+        howToAsk_es: "Di: '¿Podemos encontrar un momento y lugar privado para hablar?' También puedes pedirle a tu abogado que programe una llamada privada directamente contigo.",
+        ifIgnored:
+          "Tell your attorney. Private communication with your lawyer is protected by law — even if others disagree or push back.",
+        ifIgnored_es: "Díselo a tu abogado. La comunicación privada con tu abogado está protegida por ley — aunque otros no estén de acuerdo o se opongan.",
       },
       "16-17": {
         plain:
           "You have the right to private calls and meetings with your attorney and caseworker. If someone keeps blocking that, you can push back.",
+        plain_es: "Tienes el derecho a llamadas y reuniones privadas con tu abogado y trabajador de casos. Si alguien sigue bloqueando eso, puedes defenderte.",
         example: "If it keeps getting blocked, follow the steps in the escalation ladder below.",
+        example_es: "Si sigue siendo bloqueado, sigue los pasos en la escalera de escalada que aparece abajo.",
+        howToAsk:
+          "Request private meeting times in writing (text or email) so you have a record. Ask your attorney to call you directly, not through a third party.",
+        howToAsk_es: "Solicita tiempos de reunión privados por escrito (texto o correo electrónico) para tener un registro. Pídele a tu abogado que te llame directamente, no a través de un tercero.",
+        ifIgnored:
+          "This is a right, not a favor. Escalate to the caseworker's supervisor, then to the DCS Ombudsman if it keeps being blocked.",
+        ifIgnored_es: "Este es un derecho, no un favor. Escala al supervisor del trabajador de casos, luego al DCS Ombudsman si sigue siendo bloqueado.",
       },
       "18-21": {
         plain:
           "You can ask for privacy in your communications and ask who has access to your information — that's a fair question.",
+        plain_es: "Puedes pedir privacidad en tus comunicaciones y preguntar quién tiene acceso a tu información — esa es una pregunta justa.",
         example:
           "If you're in extended care, ask which provider or coach is responsible for your case.",
+        example_es: "Si estás en cuidado extendido, pregunta qué proveedor o entrenador es responsable de tu caso.",
+        howToAsk:
+          "Ask who has access to your records and request that sensitive communications come directly to you, not through a third party.",
+        howToAsk_es: "Pregunta quién tiene acceso a tus registros y solicita que las comunicaciones confidenciales lleguen directamente a ti, no a través de un tercero.",
+        ifIgnored:
+          "Contact your attorney. Privacy rights don't end at 18. In extended care, you still control your own information.",
+        ifIgnored_es: "Comunícate con tu abogado. Los derechos de privacidad no terminan a los 18. En el cuidado extendido, tú controlas tu propia información.",
       },
     },
   },
   {
-    id: "participate",
-    title: "Having a Say in Your Case",
-    citation: "A.R.S. §8-529(A)(18)",
+    id: "siblings",
+    title: "Seeing Your Brothers & Sisters",
+    citation: "A.R.S. §8-529(A)(4)",
     tiers: {
       "10-12": {
         plain:
-          "The adults in your case are supposed to listen to what you need and what matters to you. Your voice counts.",
+          "You can usually visit and talk with your brothers and sisters. The adults in your case should help make that happen.",
+        plain_es: "Por lo general puedes visitar y hablar con tus hermanos y hermanas. Los adultos en tu caso deben ayudar a que eso suceda.",
         example:
-          "You can tell your caseworker what helps you feel safe — at home, at school, wherever.",
+          "If you haven't been able to see your sibling, you can ask your caseworker: \"Why not, and when can I?\"",
+        example_es: "Si no estás con tus hermanos, puedes preguntarle a tu trabajador de casos: '¿Cuándo puedo ver a mis hermanos?'",
+        howToAsk:
+          "Ask your caseworker: \"When can I see my brother or sister? Who makes that happen?\" If you need help asking, a teacher or trusted adult can ask for you.",
+        howToAsk_es: "Di: 'Extraño a mis hermanos y quiero visitarlos.' Tu trabajador de casos debe organizar visitas regulares. Si puedes, escríbelo también.",
+        ifIgnored:
+          "Tell your lawyer that you haven't been able to see your sibling. They can ask the judge to help at the next hearing.",
+        ifIgnored_es: "Dile a tu abogado que no se están organizando las visitas. Tu abogado puede pedirle al juez que ordene las visitas.",
       },
       "13-15": {
         plain:
-          "You can be part of making your case plan and share what you want — things like school, visits, and where you live.",
-        example:
-          "Before a hearing, write down 3 things you want your attorney to say to the judge for you.",
+          "You have a right to stay in contact with your siblings — unless a judge has decided it isn't safe. That's the rule, and you can ask about it.",
+        plain_es: "Tienes el derecho a ver regularmente a tus hermanos, aunque estén en distintos hogares de cuidado. DCS debe ayudar a organizar las visitas.",
+        example: `Ask your caseworker: "When is my next sibling visit, and who sets it up?"`,
+        example_es: "Pide visitas programadas para que sean consistentes y no dependan solo de que alguien se acuerde.",
+        howToAsk:
+          "Ask for a date, not just a promise: \"When is my next sibling visit, and who sets it up?\" Keep a record of what they say.",
+        howToAsk_es: "Dile a tu trabajador de casos: 'Quiero visitas regulares con mis hermanos — ¿podemos programarlas?' Pide que se pongan por escrito en tu plan de caso.",
+        ifIgnored:
+          "Tell your attorney you haven't had contact. They can raise it at the next hearing. DCS must show a reason for restricting sibling visits — the burden is not on you.",
+        ifIgnored_es: "Díselo a tu abogado. Las visitas entre hermanos están protegidas legalmente. Tu abogado puede solicitar una orden del tribunal si DCS no las organiza.",
       },
       "16-17": {
         plain:
-          "You have a right to participate in planning your future — including questions about permanency and what happens after 18.",
-        example: `Check out the hearing prep questions in the "My Case" tab to get ready.`,
+          "You have a right to sibling contact. If it isn't happening, you can ask for a clear reason and a plan to fix it — and you deserve a real answer.",
+        plain_es: "Tienes el derecho a mantener el contacto con tus hermanos. Si las visitas se bloquean sin una razón válida, eso puede ser una violación de tus derechos.",
+        example:
+          "If your caseworker doesn't follow through, you can ask to speak with their supervisor.",
+        example_es: "Lleva un registro de cuándo se negaron o cancelaron las visitas — esa documentación importa.",
+        howToAsk:
+          "Ask for a written schedule of visits. If contact is being restricted, you have a right to know the specific reason in writing.",
+        howToAsk_es: "Solicita visitas programadas por escrito y pide que se incluyan en tu plan de caso. Si se rechazan, pide una explicación por escrito también.",
+        ifIgnored:
+          "Ask your attorney to request a court order. A judge can order sibling visits if DCS isn't following through on its own.",
+        ifIgnored_es: "Contacta a tu abogado de inmediato. Las visitas entre hermanos son un derecho legal. Tu abogado puede llevar esto al juez.",
       },
       "18-21": {
         plain:
-          "Your plan in extended care should actually reflect your goals — school, work, housing. If it doesn't, you can ask for it to be updated.",
-        example:
-          "Ask for a written summary of what was agreed to and what the next steps are.",
+          "Even in extended care, you can advocate for staying connected with your family and siblings. That matters, and it can be part of your plan.",
+        plain_es: "Incluso en el cuidado extendido, mantener el contacto con tus hermanos importa. Si DCS no está apoyando eso, puedes defender tu derecho.",
+        example: "Write down your requests with dates so you have a record if you need to follow up.",
+        example_es: "Si ya saliste del sistema pero tienes hermanos que todavía están en él, contacta a ALWAYS o Fostering Advocates AZ para orientación.",
+        howToAsk:
+          "Ask your case manager to write sibling connection into your transition plan — not just as a note, but as an action item with a timeline.",
+        howToAsk_es: "Comunícate directamente con tus hermanos si puedes, y pide a tu trabajador de casos apoyo para las visitas o transporte si lo necesitas.",
+        ifIgnored:
+          "Contact your attorney or Fostering Advocates AZ. Sibling rights don't expire at 18, and a lawyer can help you enforce them.",
+        ifIgnored_es: "Contacta a ALWAYS (1-855-ALWAYS-1) o Fostering Advocates AZ para ayuda legal. Los derechos de contacto entre hermanos no desaparecen cuando cumples 18.",
       },
     },
   },
@@ -336,30 +445,46 @@ const COURT_STAGES = [
   {
     id: "prelim",
     title: "First safety hearing (Preliminary Protective Hearing)",
+    title_es: "Primera audiencia de seguridad (Audiencia Preliminar de Protección)",
     what: "The judge checks if you're safe and decides what happens right away — usually within a few days.",
+    what_es: "El juez verifica si estás seguro y decide qué pasa de inmediato — generalmente en unos pocos días.",
     youth: "Before it starts, tell your lawyer what you want the judge to hear. They're there to speak up for you.",
+    youth_es: "Antes de que comience, dile a tu abogado lo que quieres que el juez escuche. Están ahí para hablar por ti.",
     next: "Dates for the next hearings are set.",
+    next_es: "Se establecen fechas para las próximas audiencias.",
   },
   {
     id: "adjudication",
     title: "Facts hearing (Adjudication)",
+    title_es: "Audiencia de hechos (Adjudicación)",
     what: "The court decides if the concerns in your case are proven and whether the case continues.",
+    what_es: "El tribunal decide si las preocupaciones en tu caso están probadas y si el caso continúa.",
     youth: `Ask your lawyer: "What does this mean for where I live and my school?"`,
+    youth_es: "Pregúntale a tu abogado: '¿Qué significa esto para dónde vivo y mi escuela?'",
     next: "Your case plan and services get reviewed and updated.",
+    next_es: "Tu plan de caso y los servicios se revisan y actualizan.",
   },
   {
     id: "review",
     title: "Check‑in hearing (Review Hearing)",
+    title_es: "Audiencia de seguimiento (Audiencia de Revisión)",
     what: "The judge checks in on how your plan is going and what needs to change.",
+    what_es: "El juez verifica cómo va tu plan y qué necesita cambiar.",
     youth: "Come with 1–2 updates you want people to know: what's working and what isn't.",
+    youth_es: "Ven con 1 o 2 actualizaciones que quieres que la gente sepa: qué está funcionando y qué no.",
     next: "More check-ins are scheduled, or you move toward a long-term plan hearing.",
+    next_es: "Se programan más seguimientos, o avanzas hacia una audiencia de plan a largo plazo.",
   },
   {
     id: "permanency",
     title: "Long‑term plan hearing (Permanency Hearing)",
+    title_es: "Audiencia de plan a largo plazo (Audiencia de Permanencia)",
     what: "The judge discusses the long-term plan for you — like going home, guardianship, or adoption.",
+    what_es: "El juez discute el plan a largo plazo para ti — como regresar a casa, tutela o adopción.",
     youth: "Ask your lawyer to walk you through each option in plain words. You have a say in this.",
+    youth_es: "Pídele a tu abogado que te explique cada opción en palabras simples. Tienes voz en esto.",
     next: "Everyone takes steps toward the long-term plan.",
+    next_es: "Todos toman medidas hacia el plan a largo plazo.",
   },
 ];
 
@@ -836,7 +961,7 @@ function SafeNotice() {
 
 // ─── visual components ─────────────────────────────────────────────────────────
 
-function EscalationLadder() {
+function EscalationLadder({ ageBand }: { ageBand?: string | null }) {
   const steps = [
     {
       n: 1,
@@ -877,10 +1002,11 @@ function EscalationLadder() {
           </div>
         </div>
       ))}
-      <div className="mt-1 flex flex-wrap gap-2">
-        <StatCite>A.R.S. §8-529(D)</StatCite>
-        <StatCite>DCS complaint pathway</StatCite>
-      </div>
+      {ageBand !== "10-12" && ageBand !== "13-15" && (
+        <div className="mt-1 flex flex-wrap gap-2">
+          <StatCite>A.R.S. §8-529(D)</StatCite>
+        </div>
+      )}
     </div>
   );
 }
@@ -988,45 +1114,86 @@ function TopBar({
   );
 }
 
+
+// Each tab's active colour mirrors its page hero
+const TAB_ACCENT: Record<string, string> = {
+  home:      "#2A7F8E",
+  ask:       "#2A7F8E",
+  rights:    "#2A7F8E",
+  case:      "#1B3A5C",
+  future:    "#D97706",
+  resources: "#059669",
+  wellness:  "#f43f5e",
+};
+
 function TabBar({
   active,
   onGo,
+  lang,
 }: {
   active: string;
   onGo: (id: string) => void;
+  lang?: Lang | null;
 }) {
+  // Phosphor filled icons — solid shapes instead of outlines
   const items = [
-    { id: "home",      label: "Home",      icon: HomeIcon },
-    { id: "case",      label: "My Case",   icon: Gavel    },
-    { id: "rights",    label: "My Rights", icon: Shield   },
-    { id: "future",    label: "My Future", icon: FileText },
-    { id: "resources", label: "Resources", icon: MapPin   },
+    { id: "home",      label: t('nav_home', lang),      Icon: House         },
+    { id: "case",      label: t('nav_case', lang),      Icon: GavelFill     },
+    { id: "ask",       label: t('nav_ask', lang),       Icon: ChatCircle    },
+    { id: "rights",    label: t('nav_rights', lang),    Icon: ShieldChevron },
+    { id: "future",    label: t('nav_future', lang),    Icon: FileTextFill  },
+    { id: "resources", label: t('nav_resources', lang), Icon: MapPinFill    },
   ];
+
   return (
-    <div className="sticky bottom-0 z-40 border-t border-black/6 bg-white/98 backdrop-blur-md">
-      <div className="mx-auto max-w-md">
-        <div className="grid grid-cols-5">
-          {items.map((it) => {
-            const is = active === it.id;
-            const Icon = it.icon;
-            return (
-              <button
-                key={it.id}
-                onClick={() => onGo(it.id)}
-                className="relative flex flex-col items-center justify-center gap-1 py-3 transition-all active:scale-95"
-              >
-                {is && (
-                  <div className="absolute inset-x-3 top-0 h-[3px] rounded-b-full bg-[#2A7F8E]" />
-                )}
-                <div className={`rounded-xl p-1.5 transition-all ${is ? "bg-[#2A7F8E]/12" : ""}`}>
-                  <Icon className={`h-5 w-5 transition-colors ${is ? "text-[#2A7F8E]" : "text-slate-400"}`} />
-                </div>
-                <span className={`text-[10px] font-semibold leading-none transition-colors ${is ? "text-[#1B3A5C]" : "text-slate-400"}`}>
-                  {it.label}
-                </span>
-              </button>
-            );
-          })}
+    <div className="sticky bottom-0 z-40 px-3 pb-3 pt-2">
+      <div className="relative mx-auto max-w-md">
+        <div
+          className="rounded-[26px]"
+          style={{
+            background: "rgba(255, 253, 250, 0.98)",
+            boxShadow:
+              "0 -1px 0 rgba(0,0,0,0.03), " +
+              "0 4px 6px rgba(27,58,92,0.05), " +
+              "0 12px 32px rgba(27,58,92,0.12), " +
+              "inset 0 1px 0 rgba(255,255,255,1)",
+            border: "1px solid rgba(0,0,0,0.06)",
+          }}
+        >
+          <div className="flex items-center">
+            {items.map((it) => {
+              const is = active === it.id;
+              const { Icon } = it;
+              const accent = TAB_ACCENT[it.id] ?? "#2A7F8E";
+              return (
+                <button
+                  key={it.id}
+                  onClick={() => onGo(it.id)}
+                  className="flex flex-1 flex-col items-center gap-1 py-3 transition-transform duration-150 active:scale-90"
+                >
+                  {/* Filled icon — accent color at rest, white + bg when active */}
+                  <div
+                    className="rounded-xl p-1.5 transition-all duration-200"
+                    style={{ backgroundColor: is ? accent : "transparent" }}
+                  >
+                    <Icon
+                      weight="fill"
+                      size={20}
+                      style={{ color: is ? "#ffffff" : accent }}
+                      className="transition-colors duration-200"
+                    />
+                  </div>
+                  {/* Label: accent color when active, neutral gray at rest */}
+                  <span
+                    className="text-[9px] font-semibold uppercase tracking-wide leading-none text-slate-400 transition-colors duration-200"
+                    style={is ? { color: accent } : {}}
+                  >
+                    {it.label}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
@@ -1110,19 +1277,16 @@ function Onboarding({
   const [step, setStep] = useState(0);
 
   const stepTitle =
-    [
-      "Pick your language",
-      "How old are you?",
-      "Which county are you in?",
-      "What brings you here today?",
-      "Do you have tribal membership?",
-    ][step] || "";
+    step === 0 ? t('onboarding_step_language', 'en')
+    : step === 1 ? t('onboarding_step_age', prefs.language)
+    : step === 2 ? t('onboarding_step_county', prefs.language)
+    : t('onboarding_step_tribal', prefs.language);
 
   const isReady =
     !!prefs.language &&
     !!prefs.ageBand &&
     !!prefs.county &&
-    (step < 4 || typeof prefs.tribal === "boolean");
+    (step < 3 || typeof prefs.tribal === "boolean");
 
   return (
     <div className="px-4 pb-28 pt-4">
@@ -1146,7 +1310,7 @@ function Onboarding({
           <div className="text-sm font-semibold text-[#1B3A5C]">{stepTitle}</div>
           {/* Dot indicator */}
           <div className="flex gap-1.5 items-center">
-            {[0, 1, 2, 3, 4].map((i) => (
+            {[0, 1, 2, 3].map((i) => (
               <div
                 key={i}
                 className={
@@ -1214,12 +1378,12 @@ function Onboarding({
                 <div className="text-base font-bold text-slate-900">{b.label}</div>
                 <div className="mt-0.5 text-xs text-slate-500">
                   {b.id === "10-12"
-                    ? "Learn the basics"
+                    ? t('age_band_10_12_desc', prefs.language)
                     : b.id === "13-15"
-                      ? "Your rights + court"
+                      ? t('age_band_13_15_desc', prefs.language)
                       : b.id === "16-17"
-                        ? "Planning ahead"
-                        : "Extended care + next steps"}
+                        ? t('age_band_16_17_desc', prefs.language)
+                        : t('age_band_18_21_desc', prefs.language)}
                 </div>
               </button>
             ))}
@@ -1268,28 +1432,6 @@ function Onboarding({
         ) : null}
 
         {step === 3 ? (
-          <div className="space-y-2">
-            {(PATHWAYS_BY_BAND[prefs.ageBand as AgeBandKey] ?? PATHWAYS).map((p) => (
-              <button
-                key={p.id}
-                onClick={() => {
-                  setPrefs((x) => ({ ...x, pathway: p.id }));
-                  setStep(4);
-                }}
-                className={
-                  "w-full rounded-2xl px-4 py-3 text-left text-sm font-semibold ring-1 transition-all " +
-                  (prefs.pathway === p.id
-                    ? "bg-[#2A7F8E]/10 ring-[#2A7F8E]/40 text-[#1B3A5C]"
-                    : "bg-white ring-black/10 text-slate-700 hover:ring-black/20")
-                }
-              >
-                {p.label}
-              </button>
-            ))}
-          </div>
-        ) : null}
-
-        {step === 4 ? (
           <div>
             <div className="text-xs text-slate-500 mb-3">
               If you're a tribal member, we can show steps that may apply to your case. This stays on your device only.
@@ -1306,7 +1448,7 @@ function Onboarding({
                     : "bg-white ring-black/10 hover:ring-black/20")
                 }
               >
-                <div className="text-sm font-bold text-slate-900">Yes</div>
+                <div className="text-sm font-bold text-slate-900">{t('onboarding_tribal_yes', prefs.language)}</div>
               </button>
               <button
                 onClick={() => {
@@ -1319,7 +1461,7 @@ function Onboarding({
                     : "bg-white ring-black/10 hover:ring-black/20")
                 }
               >
-                <div className="text-sm font-bold text-slate-900">No / Not sure</div>
+                <div className="text-sm font-bold text-slate-900">{t('onboarding_tribal_no', prefs.language)} / Not sure</div>
               </button>
             </div>
           </div>
@@ -1328,7 +1470,7 @@ function Onboarding({
         <Divider />
         <div className="flex gap-3">
           <button
-            onClick={() => setStep((s) => clamp(s - 1, 0, 4))}
+            onClick={() => setStep((s) => clamp(s - 1, 0, 3))}
             className={
               "flex-1 rounded-2xl px-4 py-3 text-sm font-semibold ring-1 transition-all " +
               (step === 0
@@ -1342,7 +1484,7 @@ function Onboarding({
           <button
             onClick={() => {
               if (!isReady) return;
-              if (step < 4) setStep((s) => s + 1);
+              if (step < 3) setStep((s) => s + 1);
               else onDone();
             }}
             className={
@@ -1353,7 +1495,7 @@ function Onboarding({
             }
             disabled={!isReady}
           >
-            {step < 4 ? "Next" : "Start"}
+            {step < 3 ? t('onboarding_btn_next', prefs.language) : t('onboarding_btn_start', prefs.language)}
           </button>
         </div>
       </div>
@@ -1448,9 +1590,9 @@ function HomeScreen({
             <AlertTriangle className="h-5 w-5 text-rose-600" />
           </div>
           <div>
-            <div className="text-sm font-semibold text-slate-900">Need help right now?</div>
+            <div className="text-sm font-semibold text-slate-900">{t('home_crisis_title', prefs.language)}</div>
             <div className="mt-1 text-xs text-slate-500">
-              These are real people available 24/7. You don't have to be in a full crisis to reach out.
+              <span className={`inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 ring-1 ring-emerald-200`}>{t('home_crisis_always_open', prefs.language)}</span>
             </div>
           </div>
         </div>
@@ -1478,86 +1620,204 @@ function HomeScreen({
 
 // ─── rights screen ─────────────────────────────────────────────────────────────
 
-const RIGHTS_HERO_SUBTITLE: Record<AgeBandKey, string> = {
-  "10-12": "These are your rights. They belong to you — even if no one has explained them yet.",
-  "13-15": "These are your rights. They're real, and they're yours — even if no one has told you yet.",
-  "16-17": "These are your rights. They're real, and they're yours — even if no one has told you yet.",
-  "18-21": "Your rights don't disappear at 18. Here's what Arizona law says — in plain English.",
+type RightTab = "means" | "ask" | "ignored";
+
+const RIGHT_META: Record<string, {
+  Icon: React.FC<{ className?: string }>;
+  accentBar: string;
+  iconBg: string;
+  iconColor: string;
+  tabActiveClass: string;
+  contentBg: string;
+}> = {
+  participate: {
+    Icon: CheckCircle2,
+    accentBar: "bg-[#2A7F8E]",
+    iconBg: "bg-[#2A7F8E]/12",
+    iconColor: "text-[#2A7F8E]",
+    tabActiveClass: "bg-[#2A7F8E]/10 text-[#2A7F8E] ring-[#2A7F8E]/30",
+    contentBg: "bg-[#2A7F8E]/5",
+  },
+  privacy: {
+    Icon: MessageCircle,
+    accentBar: "bg-[#1B3A5C]",
+    iconBg: "bg-[#1B3A5C]/10",
+    iconColor: "text-[#1B3A5C]",
+    tabActiveClass: "bg-[#1B3A5C]/10 text-[#1B3A5C] ring-[#1B3A5C]/25",
+    contentBg: "bg-[#1B3A5C]/5",
+  },
+  siblings: {
+    Icon: Users,
+    accentBar: "bg-[#D97706]",
+    iconBg: "bg-[#D97706]/12",
+    iconColor: "text-[#D97706]",
+    tabActiveClass: "bg-[#D97706]/10 text-[#D97706] ring-[#D97706]/30",
+    contentBg: "bg-[#D97706]/6",
+  },
+};
+
+function RightCard({
+  r,
+  tierData,
+  tier,
+  meta,
+  lang,
+}: {
+  r: { id: string; title: string; citation: string };
+  tierData: {
+    plain: string; plain_es?: string;
+    example: string; example_es?: string;
+    howToAsk: string; howToAsk_es?: string;
+    ifIgnored: string; ifIgnored_es?: string;
+  };
+  tier: string;
+  meta: typeof RIGHT_META[string];
+  lang: Lang;
+}) {
+  const [activeTab, setActiveTab] = useState<RightTab>("means");
+  const Icon = meta.Icon;
+
+  const plain    = lang === 'es' ? (tierData.plain_es    ?? tierData.plain)    : tierData.plain;
+  const example  = lang === 'es' ? (tierData.example_es  ?? tierData.example)  : tierData.example;
+  const howToAsk = lang === 'es' ? (tierData.howToAsk_es ?? tierData.howToAsk) : tierData.howToAsk;
+  const ifIgnored = lang === 'es' ? (tierData.ifIgnored_es ?? tierData.ifIgnored) : tierData.ifIgnored;
+
+  const tabDefs: Array<{ id: RightTab; label: string; body: string }> = [
+    { id: "means",   label: t('rights_tab_what', lang),    body: plain     },
+    { id: "ask",     label: t('rights_tab_how', lang),     body: howToAsk  },
+    { id: "ignored", label: t('rights_tab_ignored', lang), body: ifIgnored },
+  ];
+
+  return (
+    <Card accentColor={meta.accentBar}>
+      {/* Header: icon + title + optional citation */}
+      <div className="flex items-center gap-3">
+        <div className={`shrink-0 rounded-xl p-2 ${meta.iconBg}`}>
+          <Icon className={`h-4 w-4 ${meta.iconColor}`} />
+        </div>
+        <div className="flex-1 min-w-0 text-sm font-semibold text-[#1B3A5C]">{r.title}</div>
+        {tier !== "10-12" && tier !== "13-15" && (
+          <StatCite>{r.citation}</StatCite>
+        )}
+      </div>
+
+      {/* Tab buttons */}
+      <div className="mt-3 flex flex-wrap gap-2">
+        {tabDefs.map((td) => (
+          <button
+            key={td.id}
+            onClick={() => setActiveTab(td.id)}
+            className={
+              "rounded-full px-3 py-1.5 text-xs font-semibold ring-1 transition-colors " +
+              (activeTab === td.id
+                ? meta.tabActiveClass
+                : "bg-white text-slate-600 ring-black/10 hover:bg-slate-50")
+            }
+          >
+            {td.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Tab content */}
+      <div
+        className={
+          "mt-3 rounded-2xl text-sm text-slate-700 leading-relaxed " +
+          (activeTab !== "means" ? `p-3 ${meta.contentBg}` : "")
+        }
+      >
+        {tabDefs.find((td) => td.id === activeTab)?.body}
+      </div>
+      {activeTab === "means" && example && (
+        <div className="mt-2 text-xs text-slate-500">
+          <span className="font-semibold text-slate-700">For example:</span> {example}
+        </div>
+      )}
+    </Card>
+  );
+}
+
+const RIGHTS_HERO_SUBTITLE: Record<AgeBandKey, { en: string; es: string }> = {
+  '10-12': {
+    en: 'You have rights just by being in foster care. Here\'s what they mean for you.',
+    es: 'Tienes derechos solo por estar en cuidado adoptivo. Aquí está lo que significan para ti.',
+  },
+  '13-15': {
+    en: 'Know your rights. Use your voice. Here\'s what the law says for your age group.',
+    es: 'Conoce tus derechos. Usa tu voz. Aquí está lo que dice la ley para tu grupo de edad.',
+  },
+  '16-17': {
+    en: 'You have powerful rights. Here\'s how to use them before you turn 18.',
+    es: 'Tienes derechos poderosos. Aquí está cómo usarlos antes de cumplir 18.',
+  },
+  '18-21': {
+    en: 'Your rights don\'t end at 18. Here\'s what extended care means for you.',
+    es: 'Tus derechos no terminan a los 18. Aquí está lo que el cuidado extendido significa para ti.',
+  },
 };
 
 function RightsScreen({ prefs }: { prefs: Prefs }) {
   const tier = prefs.ageBand || "10-12";
+  const lang: Lang = prefs.language === 'es' ? 'es' : 'en';
   return (
     <div className="px-4 pb-28 pt-4">
       <ScreenHero
         icon={Shield}
         title="Know Your Rights"
-        subtitle={RIGHTS_HERO_SUBTITLE[tier as AgeBandKey] ?? "These are your rights. They're real, and they're yours — even if no one has told you yet."}
+        subtitle={RIGHTS_HERO_SUBTITLE[tier as AgeBandKey]?.[lang] ?? "These are your rights. They're real, and they're yours — even if no one has told you yet."}
         gradient="from-[#2A7F8E] to-[#1B3A5C]"
       />
 
-      <div className="mt-4 rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
-        <div className="flex items-center justify-between">
-          <div className="text-sm font-semibold text-[#1B3A5C]">Rights explorer</div>
+      {/* Rights explorer meta banner */}
+      <div className="mt-4 flex overflow-hidden rounded-3xl bg-white/85 ring-1 ring-black/5 shadow-sm">
+        <div className="w-1 shrink-0 bg-[#2A7F8E]/30" />
+        <div className="flex flex-1 items-center justify-between gap-3 p-4">
+          <div>
+            <div className="text-sm font-semibold text-[#1B3A5C]">Your rights explorer</div>
+            <div className="mt-0.5 text-xs text-slate-500">
+              Tap any card to learn what each right means and how to use it.
+            </div>
+          </div>
           <Chip>Age {AGE_BANDS.find((a) => a.id === tier)?.label}</Chip>
-        </div>
-        <div className="mt-1.5 text-xs text-slate-500">
-          A sample of your rights. In the full app, all content is verified against current Arizona law.
         </div>
       </div>
 
-      {/* Rights cards with teal left accent bar */}
+      {/* Rights cards */}
       <div className="mt-4 grid gap-3">
         {RIGHTS.map((r) => {
           const defaultTier = "10-12";
-          const t =
-            (r.tiers as Record<string, { plain: string; example: string }>)[tier] ||
-            (r.tiers as Record<string, { plain: string; example: string }>)[defaultTier];
-          return (
-            <Card key={r.id} accentColor="bg-[#2A7F8E]">
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex-1 min-w-0">
-                  <div className="text-sm font-semibold text-[#1B3A5C]">{r.title}</div>
-                  <div className="mt-2 text-sm text-slate-700 leading-relaxed">{t.plain}</div>
-                  <div className="mt-2 text-xs text-slate-500">
-                    <span className="font-semibold text-slate-700">For example:</span> {t.example}
-                  </div>
-                </div>
-                <div className="shrink-0">
-                  <StatCite>{r.citation}</StatCite>
-                </div>
-              </div>
-              <Divider />
-              <div className="flex flex-wrap items-center gap-2">
-                <span className={pill("bg-[#2A7F8E]/8 text-[#2A7F8E] ring-1 ring-[#2A7F8E]/20")}>
-                  What it means
-                </span>
-                <span className={pill("bg-white text-slate-600 ring-1 ring-black/10")}>
-                  How to ask for it
-                </span>
-                <span className={pill("bg-white text-slate-600 ring-1 ring-black/10")}>
-                  If it's being ignored
-                </span>
-              </div>
-            </Card>
-          );
+          const tierData = (r.tiers as Record<string, {
+            plain: string; plain_es?: string;
+            example: string; example_es?: string;
+            howToAsk: string; howToAsk_es?: string;
+            ifIgnored: string; ifIgnored_es?: string;
+          }>)[tier] || (r.tiers as Record<string, {
+            plain: string; plain_es?: string;
+            example: string; example_es?: string;
+            howToAsk: string; howToAsk_es?: string;
+            ifIgnored: string; ifIgnored_es?: string;
+          }>)[defaultTier];
+          const meta = RIGHT_META[r.id] ?? RIGHT_META.participate;
+          return <RightCard key={r.id} r={r} tierData={tierData} tier={tier} meta={meta} lang={lang} />;
         })}
       </div>
 
-      {/* Visual escalation ladder */}
-      <div className="mt-4 rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
-        <div className="flex items-start gap-3 mb-4">
-          <div className="mt-0.5 rounded-2xl bg-[#2A7F8E]/10 p-2 ring-1 ring-[#2A7F8E]/20">
-            <CheckCircle2 className="h-5 w-5 text-[#2A7F8E]" />
+      {/* Escalation ladder — amber "action" treatment */}
+      <div className="mt-4 overflow-hidden rounded-3xl bg-white/85 ring-1 ring-black/5 shadow-sm">
+        <div className="flex items-start gap-3 bg-[#D97706]/8 px-4 pt-4 pb-3 border-b border-[#D97706]/15">
+          <div className="mt-0.5 shrink-0 rounded-xl bg-[#D97706]/15 p-2 ring-1 ring-[#D97706]/25">
+            <AlertTriangle className="h-4 w-4 text-[#D97706]" />
           </div>
           <div>
             <div className="text-sm font-semibold text-[#1B3A5C]">If your rights aren't being respected</div>
-            <div className="mt-1 text-xs text-slate-500">
+            <div className="mt-0.5 text-xs text-slate-500">
               Try these steps in order. Write down dates and what was said at each step.
             </div>
           </div>
         </div>
-        <EscalationLadder />
+        <div className="p-4">
+          <EscalationLadder ageBand={tier} />
+        </div>
       </div>
 
       <div className="mt-4">
@@ -1580,6 +1840,7 @@ function CaseScreen({ prefs }: { prefs: Prefs }) {
   const [openStage, setOpenStage] = useState<string | null>(null);
   const [openPerson, setOpenPerson] = useState<string | null>(null);
   const tier = prefs.ageBand;
+  const lang: Lang = prefs.language === 'es' ? 'es' : 'en';
   return (
     <div className="px-4 pb-28 pt-4">
       <ScreenHero
@@ -1713,26 +1974,26 @@ function CaseScreen({ prefs }: { prefs: Prefs }) {
                     className="w-full rounded-3xl bg-white/85 p-4 text-left shadow-sm ring-1 ring-black/5 transition-all hover:shadow-md"
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <div className="text-sm font-semibold text-[#1B3A5C]">{s.title}</div>
+                      <div className="text-sm font-semibold text-[#1B3A5C]">{lang === 'es' ? (s.title_es ?? s.title) : s.title}</div>
                       <ChevronDown
                         className="h-4 w-4 shrink-0 text-slate-400 transition-transform"
                         style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}
                       />
                     </div>
                     {!isOpen && (
-                      <div className="mt-1 text-xs text-slate-500">{s.what}</div>
+                      <div className="mt-1 text-xs text-slate-500">{lang === 'es' ? (s.what_es ?? s.what) : s.what}</div>
                     )}
                   </button>
                   {isOpen && (
                     <div className="-mt-3 mx-2 rounded-b-3xl bg-white/70 px-4 pb-4 pt-3 shadow-sm ring-1 ring-black/5 ring-t-0">
                       <div className="mt-2 text-xs text-slate-600">
-                        <span className="font-semibold text-slate-700">What it is:</span> {s.what}
+                        <span className="font-semibold text-slate-700">What it is:</span> {lang === 'es' ? (s.what_es ?? s.what) : s.what}
                       </div>
                       <div className="mt-2 text-xs text-slate-600">
-                        <span className="font-semibold text-slate-700">What you can do:</span> {s.youth}
+                        <span className="font-semibold text-slate-700">What you can do:</span> {lang === 'es' ? (s.youth_es ?? s.youth) : s.youth}
                       </div>
                       <div className="mt-2 text-xs text-slate-500">
-                        <span className="font-semibold text-slate-600">What's next:</span> {s.next}
+                        <span className="font-semibold text-slate-600">What's next:</span> {lang === 'es' ? (s.next_es ?? s.next) : s.next}
                       </div>
                     </div>
                   )}
@@ -2142,7 +2403,7 @@ function ResourcesScreen({ prefs }: { prefs: Prefs }) {
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search (housing, legal, ID, college…)"
+            placeholder={t('resources_search_placeholder', prefs.language)}
             className="w-full rounded-2xl bg-white px-3 py-2 text-sm ring-1 ring-black/10 outline-none focus:ring-2 focus:ring-[#2A7F8E]/35 transition-all"
           />
         </div>
@@ -2223,7 +2484,7 @@ function ResourcesScreen({ prefs }: { prefs: Prefs }) {
                       ))}
                       {r.spanish ? (
                         <span className={pill("bg-[#2A7F8E]/8 text-[#2A7F8E] ring-1 ring-[#2A7F8E]/20")}>
-                          Español
+                          {t('resources_spanish_label', prefs.language)}
                         </span>
                       ) : null}
                     </div>
@@ -2237,7 +2498,7 @@ function ResourcesScreen({ prefs }: { prefs: Prefs }) {
                     >
                       <span className="flex items-center gap-1.5">
                         <Globe className="h-3.5 w-3.5" />
-                        Site
+                        {t('common_website', prefs.language)}
                       </span>
                     </a>
                     <button
@@ -2248,7 +2509,7 @@ function ResourcesScreen({ prefs }: { prefs: Prefs }) {
                     >
                       <span className="flex items-center gap-1.5">
                         <Phone className="h-3.5 w-3.5" />
-                        Call
+                        {t('common_call', prefs.language)}
                       </span>
                     </button>
                   </div>
@@ -2648,6 +2909,203 @@ function ChatModal({
   );
 }
 
+// ─── ask screen ────────────────────────────────────────────────────────────────
+
+const SUGGESTED_ES = [
+  '¿Cuáles son mis derechos en el cuidado adoptivo?',
+  '¿Qué pasa en una audiencia de dependencia?',
+  '¿Qué es el EFC y cómo lo solicito?',
+  '¿Puedo ver a mis hermanos si estamos en distintos hogares?',
+];
+
+function AskScreen({
+  prefs,
+  onNavigate,
+}: {
+  prefs: Prefs;
+  onNavigate: (route: string) => void;
+}) {
+  const [text, setText] = useState("");
+  const [sending, setSending] = useState(false);
+  const [msgs, setMsgs] = useState<
+    Array<{
+      role: string;
+      text?: string;
+      body?: string;
+      cites?: string[];
+      kind?: string;
+    }>
+  >([]);
+  const listRef = useRef<HTMLDivElement | null>(null);
+  const lang: Lang = prefs.language === 'es' ? 'es' : 'en';
+
+  useEffect(() => {
+    if (!listRef.current) return;
+    listRef.current.scrollTop = listRef.current.scrollHeight;
+  }, [msgs]);
+
+  const prompts = useMemo(() => {
+    if (lang === 'es') {
+      const base = [...SUGGESTED_ES];
+      if (prefs.tribal) base.unshift('¿Qué significa ICWA para mi caso?');
+      return base;
+    }
+    const base = [
+      "What's a permanency hearing?",
+      "Can I see my brother or sister?",
+      "How do I get my birth certificate?",
+      "How can I pay for college?",
+      "I feel stressed and need support",
+    ];
+    if (prefs.tribal) base.unshift("What does ICWA mean for my case?");
+    return base;
+  }, [prefs.tribal, lang]);
+
+  const send = async (q?: string) => {
+    const trimmed = (q ?? text).trim();
+    if (!trimmed || sending) return;
+    setSending(true);
+    setMsgs((m) => [...m, { role: "user", text: trimmed }]);
+    setText("");
+    try {
+      const res = await sendChatMessage(
+        trimmed,
+        (prefs.ageBand ?? "13-15") as import("./api/chat").AgeBand,
+        (prefs.language ?? "en") as "en" | "es",
+        prefs.county ?? undefined,
+      );
+      if (res.isCrisis) {
+        setMsgs((m) => [
+          ...m,
+          {
+            role: "bot",
+            body: res.reply,
+            cites: res.crisisResources?.map((r) => `${r.name}: ${r.number}`) ?? [],
+            kind: "crisis",
+          },
+        ]);
+        onNavigate("resources");
+      } else {
+        setMsgs((m) => [
+          ...m,
+          {
+            role: "bot",
+            body: res.reply,
+            cites: res.citations.map((c) => c.label),
+            kind: "normal",
+          },
+        ]);
+      }
+    } catch {
+      setMsgs((m) => [
+        ...m,
+        {
+          role: "bot",
+          body: "I'm having trouble right now. If you need help, you can call or text 211 Arizona — a real person will answer.",
+          kind: "normal",
+        },
+      ]);
+    } finally {
+      setSending(false);
+    }
+  };
+
+  return (
+    <div className="px-4 pb-28 pt-4">
+      {/* Hero */}
+      <div className="mb-4 rounded-3xl bg-gradient-to-br from-[#2A7F8E] to-[#1B3A5C] p-5 shadow-md">
+        <div className="flex items-center gap-3">
+          <div className="shrink-0 rounded-2xl bg-white/15 p-2.5 backdrop-blur-sm">
+            <MessageCircle className="h-5 w-5 text-white" />
+          </div>
+          <div>
+            <div className="text-base font-bold text-white">{t('ask_title', lang)}</div>
+            <div className="mt-0.5 text-xs text-white/75 leading-relaxed">
+              Real answers about your rights, case, and resources. Not stored. Not shared.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Message thread */}
+      <div ref={listRef} className="mb-3 max-h-[45vh] space-y-3 overflow-y-auto pr-1">
+        {msgs.length === 0 ? (
+          <div className="py-4 text-center text-sm text-slate-400">
+            Try one of the questions below, or ask whatever's on your mind.
+          </div>
+        ) : null}
+        {msgs.map((m, idx) => {
+          const isUser = m.role === "user";
+          return (
+            <div key={idx} className={"flex " + (isUser ? "justify-end" : "justify-start")}>
+              {isUser ? (
+                <div className="max-w-[80%] rounded-3xl rounded-br-md bg-[#1B3A5C] px-4 py-2.5 text-sm text-white shadow-sm">
+                  {m.text}
+                </div>
+              ) : (
+                <div className="max-w-[88%] overflow-hidden rounded-3xl rounded-bl-md bg-white shadow-sm ring-1 ring-black/8 flex">
+                  <div className="w-1 shrink-0 bg-[#2A7F8E]" />
+                  <div className="flex-1 p-3">
+                    <div className="mt-1 text-sm text-slate-700 leading-relaxed">{renderMarkdown(m.body ?? "")}</div>
+                    <CitationsRow cites={m.cites} />
+                    <div className="mt-2 text-[10px] text-slate-400">
+                      For your specific situation, talk to your caseworker or lawyer.
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+        {sending && (
+          <div className="flex justify-start">
+            <div className="rounded-3xl rounded-bl-md bg-white px-4 py-2.5 text-sm text-slate-400 shadow-sm ring-1 ring-black/8">
+              {t('ask_thinking', lang)}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Suggested prompts */}
+      <div className="mb-3 flex flex-wrap gap-1.5">
+        {prompts.slice(0, 5).map((p) => (
+          <button
+            key={p}
+            onClick={() => send(p)}
+            className="rounded-full bg-[#1B3A5C]/5 px-3 py-1.5 text-xs font-semibold text-[#1B3A5C] ring-1 ring-[#1B3A5C]/15 hover:bg-[#1B3A5C]/10 transition-colors"
+          >
+            {p}
+          </button>
+        ))}
+      </div>
+
+      {/* Input */}
+      <div className="flex gap-2">
+        <input
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder={t('ask_placeholder', lang)}
+          className="w-full rounded-2xl bg-white px-3 py-2.5 text-sm ring-1 ring-black/10 outline-none focus:ring-2 focus:ring-[#2A7F8E]/35 transition-all"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") send();
+          }}
+        />
+        <button
+          onClick={() => send()}
+          disabled={sending || !text.trim()}
+          className="rounded-2xl bg-[#1B3A5C] px-4 py-2 text-sm font-semibold text-white hover:bg-[#152e49] transition-colors shadow-sm disabled:opacity-50"
+        >
+          {sending ? "…" : t('ask_send', lang)}
+        </button>
+      </div>
+
+      <div className="mt-2 text-[10px] text-slate-400">
+        Messages clear when you leave this page — nothing is stored.
+      </div>
+    </div>
+  );
+}
+
 // ─── self-tests ────────────────────────────────────────────────────────────────
 
 function runSelfTests() {
@@ -2723,6 +3181,7 @@ export default function FosterGuideAZPrototype() {
   const titleByRoute: Record<string, string> = {
     onboarding: "Compass",
     home: "Home",
+    ask: "Ask Compass",
     rights: "My Rights",
     case: "My Case",
     future: "My Future",
@@ -2744,6 +3203,7 @@ export default function FosterGuideAZPrototype() {
         />
       );
     }
+    if (route === "ask") return <AskScreen prefs={prefs} onNavigate={(r) => setRoute(r)} />;
     if (route === "rights") return <RightsScreen prefs={prefs} />;
     if (route === "case") return <CaseScreen prefs={prefs} />;
     if (route === "future") return <FutureScreen prefs={prefs} onAskChat={(q) => { setChatPrefill(q); setChatOpen(true); }} />;
@@ -2807,7 +3267,7 @@ export default function FosterGuideAZPrototype() {
           </div>
         )}
 
-        {showTabs ? <TabBar active={route} onGo={(r) => setRoute(r)} /> : null}
+        {showTabs ? <TabBar active={route} onGo={(r) => setRoute(r)} lang={prefs.language} /> : null}
 
         <ChatModal
           open={chatOpen}
