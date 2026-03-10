@@ -32,7 +32,8 @@ export interface CrisisResource {
 
 export interface KnowledgeChunk {
   id: string
-  text: string        // the plain text to index and retrieve
+  text: string        // English text to index and retrieve
+  text_es?: string    // Spanish translation — if absent, falls back to English
   citation: string    // the source to attach to responses using this chunk
   tags: string[]      // categories: rights, court, resources, transition, etc.
   ageBands: AgeBand[] // which age tiers this chunk applies to
