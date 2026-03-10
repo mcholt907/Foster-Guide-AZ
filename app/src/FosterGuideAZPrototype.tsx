@@ -149,21 +149,25 @@ const CRISIS_PINS = [
   {
     name: "988 Suicide & Crisis Lifeline",
     how: "Call or text 988",
+    how_es: "Llama o envía mensaje al 988",
     url: "https://988lifeline.org/",
   },
   {
     name: "Crisis Text Line",
     how: "Text HOME to 741741",
+    how_es: "Envía HOME al 741741",
     url: "https://www.crisistextline.org/",
   },
   {
     name: "AZ DCS Child Abuse Hotline",
     how: "1-888-SOS-CHILD",
+    how_es: "1-888-SOS-CHILD",
     url: "https://dcs.az.gov/about/contact",
   },
   {
     name: "ALWAYS (legal help)",
     how: "Youth legal services (AZ)",
+    how_es: "Servicios legales para jóvenes (AZ)",
     url: "https://alwaysaz.org/",
   },
 ];
@@ -1672,7 +1676,7 @@ function HomeScreen({
             >
               <span className="text-slate-800">
                 {c.name}
-                <span className="ml-2 text-xs font-normal text-slate-500">· {c.how}</span>
+                <span className="ml-2 text-xs font-normal text-slate-500">· {prefs.language === 'es' ? c.how_es : c.how}</span>
               </span>
               <ExternalLink className="h-4 w-4 text-slate-400" />
             </a>
@@ -2495,7 +2499,9 @@ function ResourcesScreen({ prefs }: { prefs: Prefs }) {
       <div className="mt-4 rounded-3xl bg-rose-50/80 p-4 ring-1 ring-rose-200/60 shadow-sm">
         <div className="flex items-center gap-2 mb-3">
           <AlertTriangle className="h-4 w-4 text-rose-600" />
-          <div className="text-sm font-semibold text-rose-900">Need help right now? These are always here.</div>
+          <div className="text-sm font-semibold text-rose-900">
+            {prefs.language === 'es' ? '¿Necesitas ayuda ahora? Siempre están disponibles.' : 'Need help right now? These are always here.'}
+          </div>
         </div>
         <div className="grid gap-2">
           {CRISIS_PINS.map((c) => (
@@ -2508,7 +2514,7 @@ function ResourcesScreen({ prefs }: { prefs: Prefs }) {
             >
               <span className="text-slate-800">
                 {c.name}
-                <span className="ml-2 text-xs font-normal text-slate-500">· {c.how}</span>
+                <span className="ml-2 text-xs font-normal text-slate-500">· {prefs.language === 'es' ? c.how_es : c.how}</span>
               </span>
               <ExternalLink className="h-4 w-4 text-slate-400" />
             </a>
@@ -2594,7 +2600,7 @@ function ResourcesScreen({ prefs }: { prefs: Prefs }) {
 
 // ─── wellness screen ───────────────────────────────────────────────────────────
 
-function WellnessScreen() {
+function WellnessScreen({ prefs }: { prefs: Prefs }) {
   const [mood, setMood] = useState(3);
   const moodConfig = [
     { n: 1, label: "Really bad", color: "bg-slate-400", active: "bg-slate-500 ring-slate-400/40" },
@@ -2669,8 +2675,8 @@ function WellnessScreen() {
         <Card accentColor="bg-rose-400">
           <SectionTitle
             icon={Users}
-            title="Want to talk to a person?"
-            subtitle="You don't have to be in a crisis to call. These people will talk with you."
+            title={prefs.language === 'es' ? '¿Quieres hablar con alguien?' : 'Want to talk to a person?'}
+            subtitle={prefs.language === 'es' ? 'No tienes que estar en crisis para llamar. Estas personas hablarán contigo.' : "You don't have to be in a crisis to call. These people will talk with you."}
             iconClassName="bg-rose-400/10 text-rose-600"
           />
           <div className="mt-3 grid gap-2">
@@ -2684,7 +2690,7 @@ function WellnessScreen() {
               >
                 <span className="text-slate-800">
                   {c.name}
-                  <span className="ml-2 text-xs font-normal text-slate-500">· {c.how}</span>
+                  <span className="ml-2 text-xs font-normal text-slate-500">· {prefs.language === 'es' ? c.how_es : c.how}</span>
                 </span>
                 <ExternalLink className="h-4 w-4 text-slate-400" />
               </a>
@@ -3273,7 +3279,7 @@ export default function FosterGuideAZPrototype() {
     if (route === "case") return <CaseScreen prefs={prefs} />;
     if (route === "future") return <FutureScreen prefs={prefs} onAskChat={(q) => { setChatPrefill(q); setChatOpen(true); }} />;
     if (route === "resources") return <ResourcesScreen prefs={prefs} />;
-    if (route === "wellness") return <WellnessScreen />;
+    if (route === "wellness") return <WellnessScreen prefs={prefs} />;
     return null;
   };
 
