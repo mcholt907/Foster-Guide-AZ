@@ -1,6 +1,6 @@
 import lunr from 'lunr'
 import { ALL_CHUNKS } from './chunks.js'
-import type { AgeBand, KnowledgeChunk } from '../types/index.js'
+import type { AgeBand, KnowledgeChunk, Language } from '../types/index.js'
 
 const index = lunr(function () {
   this.ref('id')
@@ -25,7 +25,8 @@ const chunkById = new Map<string, KnowledgeChunk>(
 export function retrieve(
   query: string,
   ageBand: AgeBand,
-  maxResults = 5
+  maxResults = 5,
+  _language: Language = 'en'
 ): KnowledgeChunk[] {
   let results: lunr.Index.Result[]
   try {
