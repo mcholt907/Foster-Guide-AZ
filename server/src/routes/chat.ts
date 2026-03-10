@@ -23,13 +23,15 @@ router.post('/', async (req, res) => {
     return
   }
 
-  const { message, ageBand } = parsed.data
+  const { message, ageBand, language } = parsed.data
 
   // Crisis check first — always, before any AI call
   if (detectCrisis(message)) {
+    const crisisReply = language === 'es'
+      ? 'Soy una herramienta que proporciona información. No puedo brindarte el apoyo que necesitas ahora mismo. Aquí hay personas que pueden ayudarte — por favor comunícate con ellas.'
+      : "I'm a tool that provides information. I'm not able to provide the kind of support you need right now. Here are people who can help you — please reach out to them."
     const response: ChatResponse = {
-      reply:
-        "I'm a tool that provides information. I'm not able to provide the kind of support you need right now. Here are people who can help you — please reach out to them.",
+      reply: crisisReply,
       citations: [],
       isCrisis: true,
       crisisResources: CRISIS_RESOURCES,
@@ -39,10 +41,10 @@ router.post('/', async (req, res) => {
   }
 
   // Retrieve relevant knowledge chunks
-  const chunks = retrieve(message, ageBand, 5)
+  const chunks = retrieve(message, ageBand, 5, language)
 
-  // Build age-adaptive prompt
-  const prompt = buildPrompt(message, ageBand, chunks)
+  // Build age-adaptive, language-aware prompt
+  const prompt = buildPrompt(message, ageBand, chunks, language)
 
   // Generate response via Claude
   let reply: string

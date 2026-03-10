@@ -13,5 +13,7 @@ app.get('/health', (_req, res) => {
 
 app.use('/api/chat', chatRouter)
 
+export { app }
+
 const PORT = Number(process.env.PORT ?? 3001)
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`))
