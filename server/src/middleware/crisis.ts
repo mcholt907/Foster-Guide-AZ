@@ -15,6 +15,17 @@ const CRISIS_PATTERNS = [
   /\bhelp\s+me\s+now\b/i,
   /\bin\s+danger\b/i,
   /\bnot\s+safe\s+right\s+now\b/i,
+  // Spanish patterns
+  /\bsuicid(io|arme|arse|arte)?\b/i,
+  /\bquitarme\s+la\s+vida\b/i,
+  /\bno\s+quiero\s+vivir\b/i,
+  /\bhacerme\s+da[ñn]o\b/i,
+  /\bda[ñn]arme\b/i,
+  /\bcortarme\b/i,
+  /\bme\s+est[áa]n?\s+(golpeando|pegando|abusando|maltratando)\b/i,
+  /\bestoy\s+en\s+peligro\b/i,
+  /\bno\s+estoy\s+segur[oa]\b/i,
+  /\bayu[dh]a\s*(me|nos)?\s+ahora\b/i,
 ]
 
 export function detectCrisis(text: string): boolean {
