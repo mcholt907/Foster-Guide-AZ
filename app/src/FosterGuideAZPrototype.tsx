@@ -88,6 +88,26 @@ const UI_STRINGS = {
   common_call:                  { en: 'Call',                                   es: 'Llamar' },
   common_text_msg:              { en: 'Text',                                   es: 'Mensaje' },
   common_website:               { en: 'Website',                                es: 'Sitio web' },
+  // Onboarding hero
+  onboarding_welcome_subtitle:  { en: 'You deserve real answers. This is a safe place to find them — no sign-up, nothing stored.', es: 'Mereces respuestas reales. Este es un lugar seguro para encontrarlas — sin registro, nada guardado.' },
+  // Onboarding step hints
+  onboarding_county_hint:       { en: 'This helps us show resources near you.', es: 'Esto nos ayuda a mostrarte recursos cerca de ti.' },
+  onboarding_county_unknown:    { en: "I don't know",                           es: 'No sé' },
+  onboarding_tribal_hint:       { en: "If you're a tribal member, we can show steps that may apply to your case. This stays on your device only.", es: 'Si eres miembro de una tribu, podemos mostrarte pasos que podrían aplicar a tu caso. Esto solo se guarda en tu dispositivo.' },
+  onboarding_tribal_not_sure:   { en: 'Not sure',                               es: 'No estoy seguro' },
+  onboarding_btn_back:          { en: 'Back',                                   es: 'Atrás' },
+  // Home screen hero + CTA
+  home_what_today:              { en: 'What do you need today?',                es: '¿Qué necesitas hoy?' },
+  home_start_over:              { en: 'Start over',                             es: 'Empezar de nuevo' },
+  home_ask_compass_btn:         { en: 'Ask Compass',                            es: 'Pregúntale a Compass' },
+  // Feature card titles
+  feature_case_title:           { en: 'My case explained',                      es: 'Mi caso explicado' },
+  feature_rights_title:         { en: 'Know your rights',                       es: 'Conoce tus derechos' },
+  feature_future_title:         { en: 'My future plan',                         es: 'Mi plan de futuro' },
+  feature_resources_title:      { en: 'Find resources',                         es: 'Encuentra recursos' },
+  feature_wellness_title:       { en: 'Wellness check-in',                      es: 'Chequeo de bienestar' },
+  // Feature card badge
+  feature_case_badge:           { en: 'Timeline + hearing prep',                es: 'Línea de tiempo + preparación' },
 } as const
 
 type StringKey = keyof typeof UI_STRINGS
@@ -748,6 +768,39 @@ const FEATURE_CARD_SUBTITLES: Record<string, Record<AgeBandKey, string>> = {
   },
 };
 
+const FEATURE_CARD_SUBTITLES_ES: Record<string, Record<AgeBandKey, string>> = {
+  rights: {
+    "10-12": "Descubre lo que tienes permitido hacer y quién tiene que escucharte.",
+    "13-15": "Tus derechos — palabras sencillas, ejemplos reales, y qué hacer si los ignoran.",
+    "16-17": "Tus derechos, en palabras sencillas — y qué hacer si no los están respetando.",
+    "18-21": "La ley de Arizona te protege incluso después de los 18. Conoce tus derechos y cómo usarlos.",
+  },
+  case: {
+    "10-12": "Qué está pasando en el tribunal y quiénes son todas esas personas.",
+    "13-15": "Qué significan tus audiencias, quién está ahí y cómo prepararte.",
+    "16-17": "Qué significan realmente tus audiencias, quién estará ahí y cómo llegar listo.",
+    "18-21": "Entiende tus audiencias y lo que cada una podría significar para tu futuro.",
+  },
+  future: {
+    "10-12": "Aprende qué significa cumplir 18 — no tienes que resolverlo solo.",
+    "13-15": "Empieza a aprender qué pasa cuando cumples 18 — está más cerca de lo que crees.",
+    "16-17": "Cumplir 18 es mucho. Aquí está tu lista — opciones, plazos y documentos.",
+    "18-21": "EFC, dinero para estudios, vivienda y documentos — tu plan paso a paso.",
+  },
+  resources: {
+    "10-12": "Encuentra personas y lugares reales cerca de ti que pueden ayudar.",
+    "13-15": "Organizaciones reales cerca de ti — filtradas para tu condado y lo que necesitas.",
+    "16-17": "Organizaciones reales cerca de ti — filtradas para tu condado y edad.",
+    "18-21": "Vivienda, empleos, salud, ayuda legal — organizaciones filtradas para ti.",
+  },
+  wellness: {
+    "10-12": "Está bien sentir muchas cosas. Aquí hay cosas que pueden ayudar.",
+    "13-15": "Herramientas para cuando todo se siente abrumador — y cómo contactar a una persona real.",
+    "16-17": "Herramientas para sentirte más tranquilo — y cómo contactar a una persona real cuando lo necesites.",
+    "18-21": "Herramientas de apoyo y contactos reales para cuando las cosas se ponen difíciles.",
+  },
+};
+
 // ─── small UI primitives ───────────────────────────────────────────────────────
 
 function ScreenHero({
@@ -1298,9 +1351,11 @@ function Onboarding({
             <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77" stroke="white" strokeWidth="2" strokeLinecap="round" />
           </svg>
         </div>
-        <div className="text-2xl font-bold text-white leading-snug">Welcome to<br />Compass</div>
+        <div className="text-2xl font-bold text-white leading-snug">
+          {prefs.language === 'es' ? <>Bienvenido a<br />Compass</> : <>Welcome to<br />Compass</>}
+        </div>
         <div className="mt-2 text-sm text-white/80 leading-relaxed">
-          You deserve real answers. This is a safe place to find them — no sign-up, nothing stored.
+          {t('onboarding_welcome_subtitle', prefs.language)}
         </div>
       </div>
 
@@ -1393,7 +1448,7 @@ function Onboarding({
         {step === 2 ? (
           <div>
             <div className="text-xs text-slate-500 mb-3">
-              This helps us show resources near you.
+              {t('onboarding_county_hint', prefs.language)}
             </div>
             <div className="grid grid-cols-2 gap-2">
               {COUNTIES.map((c) => (
@@ -1425,7 +1480,7 @@ function Onboarding({
                     : "bg-white ring-black/10 text-slate-500 hover:ring-black/20")
                 }
               >
-                I don't know
+                {t('onboarding_county_unknown', prefs.language)}
               </button>
             </div>
           </div>
@@ -1434,7 +1489,7 @@ function Onboarding({
         {step === 3 ? (
           <div>
             <div className="text-xs text-slate-500 mb-3">
-              If you're a tribal member, we can show steps that may apply to your case. This stays on your device only.
+              {t('onboarding_tribal_hint', prefs.language)}
             </div>
             <div className="grid grid-cols-2 gap-3">
               <button
@@ -1461,7 +1516,7 @@ function Onboarding({
                     : "bg-white ring-black/10 hover:ring-black/20")
                 }
               >
-                <div className="text-sm font-bold text-slate-900">{t('onboarding_tribal_no', prefs.language)} / Not sure</div>
+                <div className="text-sm font-bold text-slate-900">{t('onboarding_tribal_no', prefs.language)} / {t('onboarding_tribal_not_sure', prefs.language)}</div>
               </button>
             </div>
           </div>
@@ -1479,7 +1534,7 @@ function Onboarding({
             }
             disabled={step === 0}
           >
-            Back
+            {t('onboarding_btn_back', prefs.language)}
           </button>
           <button
             onClick={() => {
@@ -1532,7 +1587,7 @@ function HomeScreen({
     <div className="px-4 pb-28 pt-4">
       <ScreenHero
         icon={HomeIcon}
-        title="What do you need today?"
+        title={t('home_what_today', prefs.language)}
         subtitle={`Set up for ${prefs.county === "Unknown" ? "county unknown" : (prefs.county ?? "—")} · Age ${AGE_BANDS.find((a) => a.id === prefs.ageBand)?.label ?? "—"} · ${prefs.language === "es" ? "Español" : "English"}`}
         gradient="from-[#2A7F8E] to-[#1B3A5C]"
         right={
@@ -1540,7 +1595,7 @@ function HomeScreen({
             onClick={onReset}
             className="rounded-xl bg-white/15 px-3 py-1.5 text-xs font-semibold text-white/90 hover:bg-white/25 transition-colors"
           >
-            Start over
+            {t('home_start_over', prefs.language)}
           </button>
         }
       />
@@ -1560,15 +1615,25 @@ function HomeScreen({
                   <Icon className={`h-5 w-5 ${fc.iconColor}`} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-base font-semibold text-[#1B3A5C]">{fc.title}</div>
-                  <div className="mt-0.5 text-xs text-slate-500 leading-snug">{FEATURE_CARD_SUBTITLES[fc.id]?.[prefs.ageBand as AgeBandKey] ?? fc.subtitle}</div>
+                  <div className="text-base font-semibold text-[#1B3A5C]">
+                    {prefs.language === 'es'
+                      ? t(`feature_${fc.id}_title` as StringKey, 'es')
+                      : fc.title}
+                  </div>
+                  <div className="mt-0.5 text-xs text-slate-500 leading-snug">
+                    {prefs.language === 'es'
+                      ? (FEATURE_CARD_SUBTITLES_ES[fc.id]?.[prefs.ageBand as AgeBandKey] ?? fc.subtitle)
+                      : (FEATURE_CARD_SUBTITLES[fc.id]?.[prefs.ageBand as AgeBandKey] ?? fc.subtitle)}
+                  </div>
                 </div>
                 <ChevronRight className={`mt-1 h-5 w-5 shrink-0 ${fc.chevronColor}`} />
               </div>
               {fc.badge && (
                 <div className="mt-3">
                   <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ${fc.pillCls}`}>
-                    {fc.badge}
+                    {prefs.language === 'es'
+                      ? t(`feature_${fc.id}_badge` as StringKey, 'es')
+                      : fc.badge}
                   </span>
                 </div>
               )}
@@ -1579,7 +1644,7 @@ function HomeScreen({
 
       <div className="mt-4">
         <PrimaryButton onClick={onOpenChat} icon={MessageCircle} variant="teal">
-          Ask Compass
+          {t('home_ask_compass_btn', prefs.language)}
         </PrimaryButton>
       </div>
 
