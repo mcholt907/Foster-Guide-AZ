@@ -884,12 +884,16 @@ function ScreenHero({
   gradient,
   icon: Icon,
   right,
+  onStartOver,
+  lang,
 }: {
   title: string;
   subtitle: string;
   gradient: string;
   icon: React.ElementType;
   right?: React.ReactNode;
+  onStartOver?: () => void;
+  lang?: string | null;
 }) {
   return (
     <div className={`rounded-3xl bg-gradient-to-br ${gradient} p-5 shadow-md`}>
@@ -897,7 +901,14 @@ function ScreenHero({
         <div className="rounded-2xl bg-white/15 p-2.5 backdrop-blur-sm">
           <Icon className="h-5 w-5 text-white" />
         </div>
-        {right}
+        {onStartOver ? (
+          <button
+            onClick={onStartOver}
+            className="rounded-xl bg-white/15 px-3 py-1.5 text-xs font-semibold text-white/90 hover:bg-white/25 transition-colors"
+          >
+            {lang === 'es' ? 'Empezar de nuevo' : 'Start over'}
+          </button>
+        ) : right}
       </div>
       <div className="text-xl font-bold text-white leading-snug">{title}</div>
       <div className="mt-1.5 text-sm text-white/80 leading-relaxed">{subtitle}</div>
@@ -1675,14 +1686,8 @@ function HomeScreen({
         title={t('home_what_today', prefs.language)}
         subtitle={`Set up for ${prefs.county === "Unknown" ? "county unknown" : (prefs.county ?? "—")} · Age ${AGE_BANDS.find((a) => a.id === prefs.ageBand)?.label ?? "—"} · ${prefs.language === "es" ? "Español" : "English"}`}
         gradient="from-[#2A7F8E] to-[#1B3A5C]"
-        right={
-          <button
-            onClick={onReset}
-            className="rounded-xl bg-white/15 px-3 py-1.5 text-xs font-semibold text-white/90 hover:bg-white/25 transition-colors"
-          >
-            {t('home_start_over', prefs.language)}
-          </button>
-        }
+        onStartOver={onReset}
+        lang={prefs.language}
       />
 
       {/* Color-coded feature cards */}
@@ -1906,7 +1911,7 @@ const RIGHTS_HERO_SUBTITLE: Record<AgeBandKey, { en: string; es: string }> = {
   },
 };
 
-function RightsScreen({ prefs }: { prefs: Prefs }) {
+function RightsScreen({ prefs, onReset }: { prefs: Prefs; onReset?: () => void }) {
   const tier = prefs.ageBand || "10-12";
   const lang: Lang = prefs.language === 'es' ? 'es' : 'en';
   return (
@@ -1916,6 +1921,8 @@ function RightsScreen({ prefs }: { prefs: Prefs }) {
         title="Know Your Rights"
         subtitle={RIGHTS_HERO_SUBTITLE[tier as AgeBandKey]?.[lang] ?? "These are your rights. They're real, and they're yours — even if no one has told you yet."}
         gradient="from-[#2A7F8E] to-[#1B3A5C]"
+        onStartOver={onReset}
+        lang={lang}
       />
 
       {/* Rights explorer meta banner */}
@@ -1993,7 +2000,7 @@ const CASE_HERO_SUBTITLE_ES: Record<AgeBandKey, string> = {
   "18-21": "Cómo funciona el proceso de dependencia — y qué podría significar cada audiencia para tu caso.",
 };
 
-function CaseScreen({ prefs }: { prefs: Prefs }) {
+function CaseScreen({ prefs, onReset }: { prefs: Prefs; onReset?: () => void }) {
   const [openStage, setOpenStage] = useState<string | null>(null);
   const [openPerson, setOpenPerson] = useState<string | null>(null);
   const tier = prefs.ageBand;
@@ -2007,6 +2014,8 @@ function CaseScreen({ prefs }: { prefs: Prefs }) {
           ? (CASE_HERO_SUBTITLE_ES[tier as AgeBandKey] ?? "Qué significan tus audiencias, quién estará ahí y cómo llegar listo.")
           : (CASE_HERO_SUBTITLE[tier as AgeBandKey] ?? "What your hearings mean, who's there, and how to show up ready.")}
         gradient="from-[#1B3A5C] to-[#0f2640]"
+        onStartOver={onReset}
+        lang={lang}
       />
 
       {prefs.tribal ? (
@@ -2224,7 +2233,7 @@ const FUTURE_HERO_SUBTITLE_ES: Record<AgeBandKey, string> = {
   "18-21": "Tus próximos pasos — EFC, dinero para la escuela, vivienda, y los documentos que necesitas.",
 };
 
-function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: string) => void }) {
+function FutureScreen({ prefs, onAskChat, onReset }: { prefs: Prefs; onAskChat?: (q: string) => void; onReset?: () => void }) {
   const [showSensitive, setShowSensitive] = useState(false);
   const [openDoc, setOpenDoc] = useState<string | null>(null);
   const [checkedDocs, setCheckedDocs] = useState<Set<string>>(new Set());
@@ -2249,6 +2258,8 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
           ? (FUTURE_HERO_SUBTITLE_ES[tier as AgeBandKey] ?? "Cumplir 18 es un momento importante. Aquí está todo explicado en pasos simples.")
           : (FUTURE_HERO_SUBTITLE[tier as AgeBandKey] ?? "Turning 18 is a big moment. Here's everything broken down into simple steps.")}
         gradient="from-[#D97706] to-[#92400e]"
+        onStartOver={onReset}
+        lang={lang}
       />
 
       {!isOldEnough ? (
@@ -2524,7 +2535,7 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
 
 // ─── resources screen ──────────────────────────────────────────────────────────
 
-function ResourcesScreen({ prefs }: { prefs: Prefs }) {
+function ResourcesScreen({ prefs, onReset }: { prefs: Prefs; onReset?: () => void }) {
   const [q, setQ] = useState("");
   const [need, setNeed] = useState("all");
   const lang: Lang = prefs.language === 'es' ? 'es' : 'en';
@@ -2593,6 +2604,8 @@ function ResourcesScreen({ prefs }: { prefs: Prefs }) {
           ? `Organizaciones reales cerca de ti — filtradas para ${prefs.county ?? "tu condado"} · Edades ${ageRange[0]}–${ageRange[1]}`
           : `Real organizations near you — filtered for ${prefs.county ?? "your county"} · Ages ${ageRange[0]}–${ageRange[1]}`}
         gradient="from-emerald-600 to-emerald-900"
+        onStartOver={onReset}
+        lang={lang}
       />
 
       {/* Search + filter */}
@@ -2732,7 +2745,7 @@ function ResourcesScreen({ prefs }: { prefs: Prefs }) {
 
 // ─── wellness screen ───────────────────────────────────────────────────────────
 
-function WellnessScreen({ prefs }: { prefs: Prefs }) {
+function WellnessScreen({ prefs, onReset }: { prefs: Prefs; onReset?: () => void }) {
   const [mood, setMood] = useState(3);
   const lang: Lang = prefs.language === 'es' ? 'es' : 'en';
   const moodConfig = lang === 'es' ? [
@@ -2757,6 +2770,8 @@ function WellnessScreen({ prefs }: { prefs: Prefs }) {
         title={lang === 'es' ? 'Chequeo de Bienestar' : 'Wellness Check‑In'}
         subtitle={lang === 'es' ? 'Herramientas para ayudarte a calmarte — y cómo comunicarte con una persona real cuando lo necesites.' : 'Tools to help you feel calmer — and how to reach a real person when you need one.'}
         gradient="from-rose-500 to-[#1B3A5C]"
+        onStartOver={onReset}
+        lang={lang}
       />
 
       {/* Mood scale */}
@@ -3142,9 +3157,11 @@ const SUGGESTED_ES = [
 function AskScreen({
   prefs,
   onNavigate,
+  onReset,
 }: {
   prefs: Prefs;
   onNavigate: (route: string) => void;
+  onReset?: () => void;
 }) {
   const [text, setText] = useState("");
   const [sending, setSending] = useState(false);
@@ -3237,16 +3254,22 @@ function AskScreen({
     <div className="px-4 pb-28 pt-4">
       {/* Hero */}
       <div className="mb-4 rounded-3xl bg-gradient-to-br from-[#2A7F8E] to-[#1B3A5C] p-5 shadow-md">
-        <div className="flex items-center gap-3">
+        <div className="flex items-start justify-between mb-3">
           <div className="shrink-0 rounded-2xl bg-white/15 p-2.5 backdrop-blur-sm">
             <MessageCircle className="h-5 w-5 text-white" />
           </div>
-          <div>
-            <div className="text-base font-bold text-white">{t('ask_title', lang)}</div>
-            <div className="mt-0.5 text-xs text-white/75 leading-relaxed">
-              {lang === 'es' ? 'Respuestas reales sobre tus derechos, caso y recursos. No se guarda. No se comparte.' : 'Real answers about your rights, case, and resources. Not stored. Not shared.'}
-            </div>
-          </div>
+          {onReset && (
+            <button
+              onClick={onReset}
+              className="rounded-xl bg-white/15 px-3 py-1.5 text-xs font-semibold text-white/90 hover:bg-white/25 transition-colors"
+            >
+              {lang === 'es' ? 'Empezar de nuevo' : 'Start over'}
+            </button>
+          )}
+        </div>
+        <div className="text-xl font-bold text-white leading-snug">{t('ask_title', lang)}</div>
+        <div className="mt-1.5 text-sm text-white/80 leading-relaxed">
+          {lang === 'es' ? 'Respuestas reales sobre tus derechos, caso y recursos. No se guarda. No se comparte.' : 'Real answers about your rights, case, and resources. Not stored. Not shared.'}
         </div>
       </div>
 
@@ -3426,12 +3449,12 @@ export default function FosterGuideAZPrototype() {
         />
       );
     }
-    if (route === "ask") return <AskScreen prefs={prefs} onNavigate={(r) => setRoute(r)} />;
-    if (route === "rights") return <RightsScreen prefs={prefs} />;
-    if (route === "case") return <CaseScreen prefs={prefs} />;
-    if (route === "future") return <FutureScreen prefs={prefs} onAskChat={(q) => { setChatPrefill(q); setChatOpen(true); }} />;
-    if (route === "resources") return <ResourcesScreen prefs={prefs} />;
-    if (route === "wellness") return <WellnessScreen prefs={prefs} />;
+    if (route === "ask") return <AskScreen prefs={prefs} onNavigate={(r) => setRoute(r)} onReset={onReset} />;
+    if (route === "rights") return <RightsScreen prefs={prefs} onReset={onReset} />;
+    if (route === "case") return <CaseScreen prefs={prefs} onReset={onReset} />;
+    if (route === "future") return <FutureScreen prefs={prefs} onAskChat={(q) => { setChatPrefill(q); setChatOpen(true); }} onReset={onReset} />;
+    if (route === "resources") return <ResourcesScreen prefs={prefs} onReset={onReset} />;
+    if (route === "wellness") return <WellnessScreen prefs={prefs} onReset={onReset} />;
     return null;
   };
 
