@@ -2712,7 +2712,12 @@ function ResourcesScreen({ prefs, onReset }: { prefs: Prefs; onReset?: () => voi
                           key={c}
                           className={pill("bg-slate-50 text-slate-600 ring-1 ring-slate-200")}
                         >
-                          {c}
+                          {lang === 'es' ? ({
+                            emergency: 'emergencia', housing: 'vivienda', food: 'comida',
+                            legal: 'legal', health: 'salud', employment: 'trabajo',
+                            transition: 'transición', rights: 'derechos', money: 'dinero',
+                            education: 'educación', community: 'comunidad',
+                          } as Record<string, string>)[c] ?? c : c}
                         </span>
                       ))}
                       {r.spanish ? (
