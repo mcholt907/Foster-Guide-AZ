@@ -3021,7 +3021,9 @@ function ChatModal({
                     <div className="mt-1 text-sm text-slate-700 leading-relaxed">{renderMarkdown(m.body ?? "")}</div>
                     <CitationsRow cites={m.cites} />
                     <div className="mt-2 text-[10px] text-slate-400">
-                      For your specific situation, talk to your caseworker or lawyer.
+                      {prefs.language === 'es'
+                        ? "Para tu situación específica, habla con tu trabajador/a social o abogado/a."
+                        : "For your specific situation, talk to your caseworker or lawyer."}
                     </div>
                   </div>
                 </div>
@@ -3165,7 +3167,9 @@ function AskScreen({
         ...m,
         {
           role: "bot",
-          body: "I'm having trouble right now. If you need help, you can call or text 211 Arizona — a real person will answer.",
+          body: lang === 'es'
+            ? "Estoy teniendo problemas ahora mismo. Si necesitas ayuda, puedes llamar o enviar un mensaje de texto al 211 Arizona — una persona real te atenderá."
+            : "I'm having trouble right now. If you need help, you can call or text 211 Arizona — a real person will answer.",
           kind: "normal",
         },
       ]);
@@ -3185,7 +3189,9 @@ function AskScreen({
           <div>
             <div className="text-base font-bold text-white">{t('ask_title', lang)}</div>
             <div className="mt-0.5 text-xs text-white/75 leading-relaxed">
-              Real answers about your rights, case, and resources. Not stored. Not shared.
+              {lang === 'es'
+                ? "Respuestas reales sobre tus derechos, caso y recursos. No se guarda. No se comparte."
+                : "Real answers about your rights, case, and resources. Not stored. Not shared."}
             </div>
           </div>
         </div>
@@ -3195,7 +3201,9 @@ function AskScreen({
       <div ref={listRef} className="mb-3 max-h-[45vh] space-y-3 overflow-y-auto pr-1">
         {msgs.length === 0 ? (
           <div className="py-4 text-center text-sm text-slate-400">
-            Try one of the questions below, or ask whatever's on your mind.
+            {lang === 'es'
+              ? "Prueba una de las preguntas abajo, o pregunta lo que tengas en mente."
+              : "Try one of the questions below, or ask whatever's on your mind."}
           </div>
         ) : null}
         {msgs.map((m, idx) => {
@@ -3213,7 +3221,9 @@ function AskScreen({
                     <div className="mt-1 text-sm text-slate-700 leading-relaxed">{renderMarkdown(m.body ?? "")}</div>
                     <CitationsRow cites={m.cites} />
                     <div className="mt-2 text-[10px] text-slate-400">
-                      For your specific situation, talk to your caseworker or lawyer.
+                      {lang === 'es'
+                        ? "Para tu situación específica, habla con tu trabajador/a social o abogado/a."
+                        : "For your specific situation, talk to your caseworker or lawyer."}
                     </div>
                   </div>
                 </div>
@@ -3264,7 +3274,9 @@ function AskScreen({
       </div>
 
       <div className="mt-2 text-[10px] text-slate-400">
-        Messages clear when you leave this page — nothing is stored.
+        {lang === 'es'
+          ? "Los mensajes se borran cuando sales de esta página — nada se guarda."
+          : "Messages clear when you leave this page — nothing is stored."}
       </div>
     </div>
   );
