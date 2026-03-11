@@ -1476,11 +1476,11 @@ function Onboarding({
               className={
                 "rounded-3xl py-5 px-4 text-center ring-1 transition-all " +
                 (prefs.language === "en"
-                  ? "bg-[#2A7F8E]/10 ring-[#2A7F8E]/40 shadow-sm"
+                  ? "bg-[#1B3A5C] ring-[#1B3A5C] shadow-sm"
                   : "bg-white ring-black/10 hover:ring-black/20")
               }
             >
-              <div className="text-lg font-bold text-slate-900">English</div>
+              <div className={`text-lg font-bold ${prefs.language === "en" ? "text-white" : "text-slate-900"}`}>English</div>
             </button>
             <button
               onClick={() => {
@@ -1490,11 +1490,11 @@ function Onboarding({
               className={
                 "rounded-3xl py-5 px-4 text-center ring-1 transition-all " +
                 (prefs.language === "es"
-                  ? "bg-[#2A7F8E]/10 ring-[#2A7F8E]/40 shadow-sm"
+                  ? "bg-[#1B3A5C] ring-[#1B3A5C] shadow-sm"
                   : "bg-white ring-black/10 hover:ring-black/20")
               }
             >
-              <div className="text-lg font-bold text-slate-900">Español</div>
+              <div className={`text-lg font-bold ${prefs.language === "es" ? "text-white" : "text-slate-900"}`}>Español</div>
             </button>
           </div>
         ) : null}
@@ -3347,7 +3347,7 @@ function runSelfTests() {
 
 export default function FosterGuideAZPrototype() {
   const [prefs, setPrefs] = useLocalPref<Prefs>("fgaz_prefs", {
-    language: null,
+    language: "en",
     ageBand: null,
     county: null,
     pathway: null,
