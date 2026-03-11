@@ -184,6 +184,8 @@ const RESOURCES = [
     url: "https://alwaysaz.org/",
     description:
       "Youth legal services and advocacy; helps kids navigate dependency court and rights.",
+    description_es:
+      "Servicios legales y defensa juvenil; ayuda a jóvenes a navegar la corte de dependencia y sus derechos.",
   },
   {
     id: "211",
@@ -196,6 +198,8 @@ const RESOURCES = [
     url: "https://211arizona.org/",
     description:
       "Human navigators for food, shelter, help paying bills, and more. Great fallback when unsure.",
+    description_es:
+      "Navegadores humanos para comida, alojamiento, ayuda con cuentas y más. Excelente opción cuando no sabes a dónde llamar.",
   },
   {
     id: "yati",
@@ -208,6 +212,8 @@ const RESOURCES = [
     url: "https://www.azahcccs.gov/Members/GetCovered/Categories/YATI.html",
     description:
       "Health coverage pathway for eligible young adults formerly in foster care.",
+    description_es:
+      "Cobertura de salud para jóvenes adultos elegibles que estuvieron en cuidado adoptivo.",
   },
   {
     id: "azca",
@@ -220,6 +226,8 @@ const RESOURCES = [
     url: "https://www.arizonaschildren.org/",
     description:
       "Transition-to-adulthood supports; includes re-entry pathways in some programs (availability varies).",
+    description_es:
+      "Apoyos para la transición a la adultez; incluye rutas de reintegración en algunos programas (disponibilidad varía).",
   },
   {
     id: "newculture",
@@ -231,6 +239,7 @@ const RESOURCES = [
     phone: "(602) 461-6488",
     url: "https://www.newcultureaz.org/",
     description: "Transitional housing and supports (capacity and eligibility vary).",
+    description_es: "Vivienda transitional y apoyos (capacidad y requisitos varían).",
   },
   {
     id: "thrive",
@@ -242,6 +251,7 @@ const RESOURCES = [
     phone: "(520) 299-4614",
     url: "https://www.thriveaz.org/transitional-housing",
     description: "Transitional housing support (capacity varies; call first).",
+    description_es: "Apoyo de vivienda transitional (capacidad varía; llama primero).",
   },
   {
     id: "fosteringadvocates",
@@ -254,6 +264,8 @@ const RESOURCES = [
     url: "https://www.fosteringadvocatesarizona.org/",
     description:
       "Youth voice, advocacy, and supports for current and former foster youth.",
+    description_es:
+      "Voz juvenil, defensa y apoyos para jóvenes actuales y anteriores en el sistema de cuidado adoptivo.",
   },
   {
     id: "affcf",
@@ -265,6 +277,7 @@ const RESOURCES = [
     phone: "(602) 438-7230",
     url: "https://www.affcf.org/",
     description: "Programs and support for foster youth and caregivers; resources vary by need.",
+    description_es: "Programas y apoyo para jóvenes en cuidado adoptivo y cuidadores; los recursos varían según la necesidad.",
   },
   {
     id: "arizonaatwork",
@@ -276,6 +289,7 @@ const RESOURCES = [
     phone: "(877) 600-2722",
     url: "https://arizonaatwork.com/locations",
     description: "Job search help, training, and local support.",
+    description_es: "Ayuda para buscar trabajo, capacitación y apoyo local.",
   },
 ];
 
@@ -1086,13 +1100,16 @@ function StatCite({ children }: { children: React.ReactNode }) {
   );
 }
 
-function SafeNotice() {
+function SafeNotice({ lang }: { lang?: string | null }) {
   return (
     <div className="rounded-2xl bg-white/60 p-3 text-xs text-slate-500 ring-1 ring-slate-200/80">
-      <div className="font-semibold text-slate-700">Just so you know</div>
+      <div className="font-semibold text-slate-700">
+        {lang === 'es' ? 'Para que sepas' : 'Just so you know'}
+      </div>
       <div className="mt-1">
-        I share information to help you understand your situation — but I can't give legal or medical advice.
-        For your specific situation, talk to your caseworker, lawyer, or a trusted adult.
+        {lang === 'es'
+          ? 'Comparto información para ayudarte a entender tu situación — pero no puedo dar consejos legales ni médicos. Para tu situación específica, habla con tu trabajador/a de casos, abogado/a o un adulto de confianza.'
+          : "I share information to help you understand your situation — but I can't give legal or medical advice. For your specific situation, talk to your caseworker, lawyer, or a trusted adult."}
       </div>
     </div>
   );
@@ -1978,7 +1995,7 @@ function RightsScreen({ prefs, onReset }: { prefs: Prefs; onReset?: () => void }
       </div>
 
       <div className="mt-4">
-        <SafeNotice />
+        <SafeNotice lang={lang} />
       </div>
     </div>
   );
@@ -2211,7 +2228,7 @@ function CaseScreen({ prefs, onReset }: { prefs: Prefs; onReset?: () => void }) 
       </div>
 
       <div className="mt-6">
-        <SafeNotice />
+        <SafeNotice lang={lang} />
       </div>
     </div>
   );
@@ -2501,7 +2518,7 @@ function FutureScreen({ prefs, onAskChat, onReset }: { prefs: Prefs; onAskChat?:
                             {lang === 'es' ? 'Llama primero' : 'Call first'}
                           </span>
                         </div>
-                        <div className="mt-1 text-xs text-slate-500">{r.description}</div>
+                        <div className="mt-1 text-xs text-slate-500">{lang === 'es' ? (r.description_es ?? r.description) : r.description}</div>
                       </div>
                     ))}
                 </div>
@@ -2527,7 +2544,7 @@ function FutureScreen({ prefs, onAskChat, onReset }: { prefs: Prefs; onAskChat?:
       ) : null}
 
       <div className="mt-4">
-        <SafeNotice />
+        <SafeNotice lang={lang} />
       </div>
     </div>
   );
@@ -2688,7 +2705,7 @@ function ResourcesScreen({ prefs, onReset }: { prefs: Prefs; onReset?: () => voi
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="text-sm font-semibold text-[#1B3A5C]">{r.name}</div>
-                    <div className="mt-1 text-xs text-slate-500 leading-relaxed">{r.description}</div>
+                    <div className="mt-1 text-xs text-slate-500 leading-relaxed">{lang === 'es' ? (r.description_es ?? r.description) : r.description}</div>
                     <div className="mt-2 flex flex-wrap gap-1.5">
                       {r.categories.slice(0, 3).map((c) => (
                         <span
@@ -2737,7 +2754,7 @@ function ResourcesScreen({ prefs, onReset }: { prefs: Prefs; onReset?: () => voi
       </div>
 
       <div className="mt-4">
-        <SafeNotice />
+        <SafeNotice lang={lang} />
       </div>
     </div>
   );
@@ -2864,7 +2881,7 @@ function WellnessScreen({ prefs, onReset }: { prefs: Prefs; onReset?: () => void
       </div>
 
       <div className="mt-4">
-        <SafeNotice />
+        <SafeNotice lang={lang} />
       </div>
     </div>
   );
