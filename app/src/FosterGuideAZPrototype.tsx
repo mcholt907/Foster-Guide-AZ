@@ -1040,13 +1040,17 @@ function StatCite({ children }: { children: React.ReactNode }) {
   );
 }
 
-function SafeNotice() {
+function SafeNotice({ lang }: { lang?: string | null }) {
+  const es = lang === 'es';
   return (
     <div className="rounded-2xl bg-white/60 p-3 text-xs text-slate-500 ring-1 ring-slate-200/80">
-      <div className="font-semibold text-slate-700">Just so you know</div>
+      <div className="font-semibold text-slate-700">
+        {es ? "Solo para que sepas" : "Just so you know"}
+      </div>
       <div className="mt-1">
-        I share information to help you understand your situation — but I can't give legal or medical advice.
-        For your specific situation, talk to your caseworker, lawyer, or a trusted adult.
+        {es
+          ? "Comparto información para ayudarte a entender tu situación — pero no puedo dar consejos legales ni médicos. Para tu situación específica, habla con tu trabajador/a social, abogado/a o un adulto de confianza."
+          : "I share information to help you understand your situation — but I can't give legal or medical advice. For your specific situation, talk to your caseworker, lawyer, or a trusted adult."}
       </div>
     </div>
   );
@@ -1926,7 +1930,7 @@ function RightsScreen({ prefs }: { prefs: Prefs }) {
       </div>
 
       <div className="mt-4">
-        <SafeNotice />
+        <SafeNotice lang={prefs.language} />
       </div>
     </div>
   );
@@ -2141,7 +2145,7 @@ function CaseScreen({ prefs }: { prefs: Prefs }) {
       </div>
 
       <div className="mt-6">
-        <SafeNotice />
+        <SafeNotice lang={prefs.language} />
       </div>
     </div>
   );
@@ -2485,7 +2489,7 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
       ) : null}
 
       <div className="mt-4">
-        <SafeNotice />
+        <SafeNotice lang={prefs.language} />
       </div>
     </div>
   );
@@ -2678,7 +2682,7 @@ function ResourcesScreen({ prefs }: { prefs: Prefs }) {
       </div>
 
       <div className="mt-4">
-        <SafeNotice />
+        <SafeNotice lang={prefs.language} />
       </div>
     </div>
   );
@@ -2793,7 +2797,7 @@ function WellnessScreen({ prefs }: { prefs: Prefs }) {
       </div>
 
       <div className="mt-4">
-        <SafeNotice />
+        <SafeNotice lang={prefs.language} />
       </div>
     </div>
   );
