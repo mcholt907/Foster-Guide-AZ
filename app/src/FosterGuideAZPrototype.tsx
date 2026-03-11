@@ -626,50 +626,86 @@ const IMPORTANT_DOCS = [
   {
     id: "birth-cert",
     label: "Birth certificate",
+    label_es: "Acta de nacimiento",
     why: "You need this to get almost everything else — start here.",
+    why_es: "Necesitas esta para obtener casi todo lo demás — empieza aquí.",
     steps: [
       "Ask your caseworker first. DCS can request your birth certificate for free on your behalf.",
       "If that doesn't work, contact the Arizona Department of Health Services (ADHS) directly.",
       "Call (602) 364-1300 or go to azdhs.gov to order a copy online.",
       "It's free for foster youth in Arizona — if anyone tries to charge you, remind them of A.R.S. §8-514.06.",
     ],
+    steps_es: [
+      "Pregúntale primero a tu trabajador/a social. DCS puede solicitar tu acta de nacimiento gratis en tu nombre.",
+      "Si eso no funciona, contacta directamente al Departamento de Servicios de Salud de Arizona (ADHS).",
+      "Llama al (602) 364-1300 o ve a azdhs.gov para ordenar una copia en línea.",
+      "Es gratis para jóvenes en cuidado de crianza en Arizona — si alguien intenta cobrarte, recuérdales la A.R.S. §8-514.06.",
+    ],
     contact: "ADHS Vital Records: (602) 364-1300",
+    contact_es: "ADHS Registros Vitales: (602) 364-1300",
   },
   {
     id: "ssn-card",
     label: "Social Security card",
+    label_es: "Tarjeta de Seguro Social",
     why: "Needed for jobs, benefits, and your state ID. Your number may already be in your DCS file.",
+    why_es: "Necesaria para trabajos, beneficios y tu identificación estatal. Tu número puede estar en tu expediente de DCS.",
     steps: [
       "Ask your caseworker for your Social Security number — it should be in your case file.",
       "To get a physical replacement card, go to ssa.gov or call 1-800-772-1213.",
       "Bring your birth certificate when you apply (or ask your caseworker to help).",
       "Replacement cards are free — you can get up to 3 per year.",
     ],
+    steps_es: [
+      "Pídele a tu trabajador/a social tu número de Seguro Social — debería estar en tu expediente.",
+      "Para obtener una tarjeta de reemplazo física, ve a ssa.gov o llama al 1-800-772-1213.",
+      "Lleva tu acta de nacimiento cuando solicites (o pídele ayuda a tu trabajador/a social).",
+      "Las tarjetas de reemplazo son gratis — puedes obtener hasta 3 por año.",
+    ],
     contact: "Social Security Administration: 1-800-772-1213",
+    contact_es: "Administración del Seguro Social: 1-800-772-1213",
   },
   {
     id: "state-id",
     label: "State ID / driver's license",
+    label_es: "Identificación estatal / licencia de conducir",
     why: "Get your birth certificate and Social Security card first — you'll need both.",
+    why_es: "Primero obtén tu acta de nacimiento y tarjeta de Seguro Social — las necesitarás ambas.",
     steps: [
       "Get your birth certificate and Social Security card before you go.",
       "Visit an Arizona MVD office or start at azmvdnow.gov.",
       "Ask your caseworker about a fee waiver — foster youth often qualify.",
       "Bring proof of Arizona address (a letter from DCS on their letterhead works).",
     ],
+    steps_es: [
+      "Obtén tu acta de nacimiento y tarjeta de Seguro Social antes de ir.",
+      "Visita una oficina del MVD de Arizona o comienza en azmvdnow.gov.",
+      "Pregúntale a tu trabajador/a social sobre una exención de tarifas — los jóvenes en cuidado de crianza frecuentemente califican.",
+      "Lleva comprobante de dirección en Arizona (una carta de DCS en su membrete funciona).",
+    ],
     contact: "AZ Motor Vehicle Division: azmvdnow.gov",
+    contact_es: "División de Vehículos Motorizados de AZ: azmvdnow.gov",
   },
   {
     id: "immunizations",
     label: "Immunization records",
+    label_es: "Registros de vacunación",
     why: "Schools and some jobs require these. Your caseworker may already have them.",
+    why_es: "Las escuelas y algunos trabajos los requieren. Tu trabajador/a social puede ya tenerlos.",
     steps: [
       "Ask your caseworker — DCS is required to keep your immunization records.",
       "Check with your school's health office — they often keep records on file.",
       "If you still can't find them, Arizona has a statewide registry. Call ADHS at (602) 364-3630.",
       "Any doctor or clinic you've visited can also provide records of shots they gave you.",
     ],
+    steps_es: [
+      "Pregúntale a tu trabajador/a social — DCS está obligado a mantener tus registros de vacunación.",
+      "Consulta con la oficina de salud de tu escuela — frecuentemente guardan registros.",
+      "Si aún no los encuentras, Arizona tiene un registro estatal. Llama a ADHS al (602) 364-3630.",
+      "Cualquier médico o clínica que hayas visitado también puede proporcionar registros de las vacunas que te dieron.",
+    ],
     contact: "AZ Immunization Registry: (602) 364-3630",
+    contact_es: "Registro de Vacunación de AZ: (602) 364-3630",
   },
 ] as const;
 
@@ -1004,13 +1040,17 @@ function StatCite({ children }: { children: React.ReactNode }) {
   );
 }
 
-function SafeNotice() {
+function SafeNotice({ lang }: { lang?: string | null }) {
+  const es = lang === 'es';
   return (
     <div className="rounded-2xl bg-white/60 p-3 text-xs text-slate-500 ring-1 ring-slate-200/80">
-      <div className="font-semibold text-slate-700">Just so you know</div>
+      <div className="font-semibold text-slate-700">
+        {es ? "Solo para que sepas" : "Just so you know"}
+      </div>
       <div className="mt-1">
-        I share information to help you understand your situation — but I can't give legal or medical advice.
-        For your specific situation, talk to your caseworker, lawyer, or a trusted adult.
+        {es
+          ? "Comparto información para ayudarte a entender tu situación — pero no puedo dar consejos legales ni médicos. Para tu situación específica, habla con tu trabajador/a social, abogado/a o un adulto de confianza."
+          : "I share information to help you understand your situation — but I can't give legal or medical advice. For your specific situation, talk to your caseworker, lawyer, or a trusted adult."}
       </div>
     </div>
   );
@@ -1073,11 +1113,13 @@ function DeadlineBanner({
   date,
   note,
   onAct,
+  actLabel = "Act now",
 }: {
   label: string;
   date: string;
   note?: string;
   onAct?: () => void;
+  actLabel?: string;
 }) {
   return (
     <div className="rounded-3xl bg-[#D97706] px-4 py-4 shadow-lg">
@@ -1097,7 +1139,7 @@ function DeadlineBanner({
           className="shrink-0 rounded-2xl bg-white/15 px-3 py-2 ring-1 ring-white/25 hover:bg-white/25 transition-colors"
         >
           <div className="flex items-center gap-1 text-xs font-semibold text-white">
-            Act now
+            {actLabel}
             <ArrowRight className="h-3 w-3" />
           </div>
         </button>
@@ -1890,7 +1932,7 @@ function RightsScreen({ prefs }: { prefs: Prefs }) {
       </div>
 
       <div className="mt-4">
-        <SafeNotice />
+        <SafeNotice lang={prefs.language} />
       </div>
     </div>
   );
@@ -2105,7 +2147,7 @@ function CaseScreen({ prefs }: { prefs: Prefs }) {
       </div>
 
       <div className="mt-6">
-        <SafeNotice />
+        <SafeNotice lang={prefs.language} />
       </div>
     </div>
   );
@@ -2118,6 +2160,13 @@ const FUTURE_HERO_SUBTITLE: Record<AgeBandKey, string> = {
   "13-15": "It may feel far away, but knowing what's coming makes it less scary.",
   "16-17": "Turning 18 is a big moment. Here's everything broken down into simple steps.",
   "18-21": "Your next steps — EFC, school money, housing, and the documents you need.",
+};
+
+const FUTURE_HERO_SUBTITLE_ES: Record<AgeBandKey, string> = {
+  "10-12": "Qué significa cumplir 18 años — tendrás opciones y personas que te ayudarán a tomarlas.",
+  "13-15": "Puede parecer lejano, pero saber lo que viene lo hace menos aterrador.",
+  "16-17": "Cumplir 18 es un momento importante. Aquí está todo explicado en pasos simples.",
+  "18-21": "Tus próximos pasos — EFC, dinero para la escuela, vivienda y los documentos que necesitas.",
 };
 
 function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: string) => void }) {
@@ -2135,20 +2184,30 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
     });
   }
 
+  const es = prefs.language === 'es';
+
   return (
     <div className="px-4 pb-28 pt-4">
       <ScreenHero
         icon={FileText}
-        title="My Future Plan"
-        subtitle={FUTURE_HERO_SUBTITLE[tier as AgeBandKey] ?? "Turning 18 is a big moment. Here's everything broken down into simple steps."}
+        title={es ? "Mi Plan de Futuro" : "My Future Plan"}
+        subtitle={
+          es
+            ? (FUTURE_HERO_SUBTITLE_ES[tier as AgeBandKey] ?? "Cumplir 18 es un momento importante. Aquí está todo explicado en pasos simples.")
+            : (FUTURE_HERO_SUBTITLE[tier as AgeBandKey] ?? "Turning 18 is a big moment. Here's everything broken down into simple steps.")
+        }
         gradient="from-[#D97706] to-[#92400e]"
       />
 
       {!isOldEnough ? (
         <div className="mt-4 rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
-          <div className="text-sm font-semibold text-[#1B3A5C]">You'll see more here as you get older</div>
+          <div className="text-sm font-semibold text-[#1B3A5C]">
+            {es ? "Verás más aquí a medida que crezcas" : "You'll see more here as you get older"}
+          </div>
           <div className="mt-1 text-xs text-slate-500">
-            The full planning tools show up as you get closer to 16. Come back then — there's a lot here for you.
+            {es
+              ? "Las herramientas completas de planificación aparecen cuando te acerques a los 16. Vuelve entonces — hay mucho aquí para ti."
+              : "The full planning tools show up as you get closer to 16. Come back then — there's a lot here for you."}
           </div>
         </div>
       ) : null}
@@ -2158,10 +2217,15 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
           {/* School money deadline banner */}
           <div className="mt-4">
             <DeadlineBanner
-              label="Free school money — apply by:"
+              label={es ? "Dinero gratis para la escuela — solicita antes del:" : "Free school money — apply by:"}
               date="July 31, 2026"
-              note="The Education & Training Voucher (ETV) gives foster youth up to $5,000/year for school or job training. Miss this date and you wait another year."
-              onAct={() => onAskChat?.("How do I apply for the Education & Training Voucher (ETV)?")}
+              note={es
+                ? "El Voucher de Educación y Capacitación (ETV) da a los jóvenes en cuidado de crianza hasta $5,000/año para la escuela o capacitación laboral. Si pierdes esta fecha, esperas otro año."
+                : "The Education & Training Voucher (ETV) gives foster youth up to $5,000/year for school or job training. Miss this date and you wait another year."}
+              onAct={() => onAskChat?.(es
+                ? "¿Cómo solicito el Voucher de Educación y Capacitación (ETV)?"
+                : "How do I apply for the Education & Training Voucher (ETV)?")}
+              actLabel={es ? "Actúa ahora" : "Act now"}
             />
           </div>
 
@@ -2172,9 +2236,13 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
                 <AlertTriangle className="h-5 w-5 text-amber-600" />
               </div>
               <div className="flex-1">
-                <div className="text-sm font-semibold text-[#1B3A5C]">Before you read on</div>
+                <div className="text-sm font-semibold text-[#1B3A5C]">
+                  {es ? "Antes de continuar" : "Before you read on"}
+                </div>
                 <div className="mt-1 text-xs text-slate-500">
-                  Some of this covers tough topics — like housing and what happens when you turn 18. Go at your own pace. You can skip anything you're not ready for.
+                  {es
+                    ? "Parte de esto cubre temas difíciles — como vivienda y lo que pasa cuando cumples 18. Ve a tu propio ritmo. Puedes omitir lo que no estés listo/a para leer."
+                    : "Some of this covers tough topics — like housing and what happens when you turn 18. Go at your own pace. You can skip anything you're not ready for."}
                 </div>
                 <div className="mt-3">
                   <button
@@ -2186,7 +2254,9 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
                         : "bg-white text-slate-700 ring-black/10 hover:bg-slate-50")
                     }
                   >
-                    {showSensitive ? "Hide detailed sections" : "Show detailed sections"}
+                    {showSensitive
+                      ? (es ? "Ocultar secciones detalladas" : "Hide detailed sections")
+                      : (es ? "Ver secciones detalladas" : "Show detailed sections")}
                   </button>
                 </div>
               </div>
@@ -2198,12 +2268,14 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
             <Card accentColor="bg-[#2A7F8E]">
               <SectionTitle
                 icon={CheckCircle2}
-                title="Turning 18: what happens next?"
-                subtitle="You get to choose — stay in care with extra support, or leave on your own terms. Here's what each path actually means."
+                title={es ? "Cumplir 18: ¿qué pasa después?" : "Turning 18: what happens next?"}
+                subtitle={es
+                  ? "Tú decides — quedarte en el sistema con apoyo extra, o salir en tus propios términos. Aquí está lo que cada camino realmente significa."
+                  : "You get to choose — stay in care with extra support, or leave on your own terms. Here's what each path actually means."}
                 iconClassName="bg-[#2A7F8E]/10 text-[#2A7F8E]"
               />
               <div className="mt-3 flex flex-wrap gap-2">
-                <StatCite>AZ Extended Foster Care law</StatCite>
+                <StatCite>{es ? "Ley de Cuidado de Crianza Extendido de AZ" : "AZ Extended Foster Care law"}</StatCite>
                 <StatCite>A.R.S. §8-521.02</StatCite>
               </div>
             </Card>
@@ -2212,15 +2284,20 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
             <Card accentColor="bg-[#D97706]">
               <SectionTitle
                 icon={GraduationCap}
-                title="Money for school"
-                subtitle="There's money available to help pay for school or training. Deadlines are real — don't wait."
+                title={es ? "Dinero para la escuela" : "Money for school"}
+                subtitle={es
+                  ? "Hay dinero disponible para ayudar a pagar la escuela o capacitación. Las fechas límite son reales — no esperes."
+                  : "There's money available to help pay for school or training. Deadlines are real — don't wait."}
                 iconClassName="bg-[#D97706]/10 text-[#D97706]"
               />
               <div className="mt-3 grid gap-2">
-                {[
+                {(es ? [
+                  { label: "Voucher de Educación y Capacitación (ETV)", note: "El Voucher de Educación y Capacitación (ETV) proporciona hasta $5,000/año para la escuela o capacitación. Reúne tus documentos y solicita antes del 31 de julio.", href: "https://www.fc2success.org/programs/arizona/" },
+                  { label: "Formulario gratuito de ayuda universitaria (FAFSA)", note: "Este formulario desbloquea becas y ayuda económica. Un consejero escolar o un adulto de confianza puede ayudarte a llenarlo.", href: "https://studentaid.gov/h/apply-for-aid/fafsa" },
+                ] : [
                   { label: "Education and Training Voucher (ETV)", note: "The Education and Training Voucher (ETV) provides up to $5,000/year for school or training. Gather your documents and apply before July 31.", href: "https://www.fc2success.org/programs/arizona/" },
                   { label: "Free college aid form (FAFSA)", note: "This form unlocks grants and aid. A school counselor or trusted adult can help you fill it out.", href: "https://studentaid.gov/h/apply-for-aid/fafsa" },
-                ].map((x) => (
+                ]).map((x) => (
                   <a
                     key={x.label}
                     href={x.href}
@@ -2246,19 +2323,27 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
             <Card accentColor="bg-[#1B3A5C]">
               <SectionTitle
                 icon={FileText}
-                title="Your Important Documents"
-                subtitle="These are the most important documents to get. Do them in this order — each one unlocks the next."
+                title={es ? "Tus documentos importantes" : "Your Important Documents"}
+                subtitle={es
+                  ? "Estos son los documentos más importantes para obtener. Hazlos en este orden — cada uno abre el camino al siguiente."
+                  : "These are the most important documents to get. Do them in this order — each one unlocks the next."}
                 iconClassName="bg-[#1B3A5C]/10 text-[#1B3A5C]"
               />
               {checkedDocs.size > 0 && (
                 <div className="mt-2 text-xs text-emerald-700 font-medium">
-                  {checkedDocs.size} of {IMPORTANT_DOCS.length} documents collected
+                  {es
+                    ? `${checkedDocs.size} de ${IMPORTANT_DOCS.length} documentos obtenidos`
+                    : `${checkedDocs.size} of ${IMPORTANT_DOCS.length} documents collected`}
                 </div>
               )}
               <div className="mt-3 grid gap-2">
                 {IMPORTANT_DOCS.map((doc, i) => {
                   const isChecked = checkedDocs.has(doc.id);
                   const isOpen = openDoc === doc.id;
+                  const docLabel = es ? doc.label_es : doc.label;
+                  const docWhy = es ? doc.why_es : doc.why;
+                  const docSteps = es ? doc.steps_es : doc.steps;
+                  const docContact = es ? doc.contact_es : doc.contact;
                   return (
                     <div key={doc.id} className="overflow-hidden rounded-2xl ring-1 ring-black/8">
                       {/* Row */}
@@ -2272,7 +2357,9 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
                         <button
                           onClick={() => toggleDoc(doc.id)}
                           className="flex items-center gap-2.5 text-left flex-1 min-w-0"
-                          aria-label={isChecked ? `Mark ${doc.label} as not collected` : `Mark ${doc.label} as collected`}
+                          aria-label={isChecked
+                            ? (es ? `Marcar ${docLabel} como no obtenido` : `Mark ${doc.label} as not collected`)
+                            : (es ? `Marcar ${docLabel} como obtenido` : `Mark ${doc.label} as collected`)}
                         >
                           <div
                             className={
@@ -2294,7 +2381,7 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
                               (isChecked ? "text-emerald-800 line-through decoration-emerald-400" : "text-slate-800")
                             }>
                               <span className="text-[#1B3A5C]/40 font-normal mr-1">{i + 1}.</span>
-                              {doc.label}
+                              {docLabel}
                             </div>
                           </div>
                         </button>
@@ -2308,15 +2395,15 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
                               : "bg-white text-[#1B3A5C] ring-[#1B3A5C]/20 hover:ring-[#1B3A5C]/40")
                           }
                         >
-                          {isOpen ? "Close" : "How to get it"}
+                          {isOpen ? (es ? "Cerrar" : "Close") : (es ? "Cómo obtenerlo" : "How to get it")}
                         </button>
                       </div>
                       {/* Expanded steps */}
                       {isOpen && (
                         <div className="border-t border-black/6 bg-white px-4 py-3">
-                          <div className="text-xs text-slate-500 mb-3 italic">{doc.why}</div>
+                          <div className="text-xs text-slate-500 mb-3 italic">{docWhy}</div>
                           <div className="grid gap-2.5">
-                            {doc.steps.map((step, si) => (
+                            {docSteps.map((step, si) => (
                               <div key={si} className="flex gap-3">
                                 <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#1B3A5C]/8 text-[10px] font-bold text-[#1B3A5C]">
                                   {si + 1}
@@ -2327,7 +2414,7 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
                           </div>
                           <div className="mt-3 flex items-center gap-1.5 rounded-xl bg-slate-50 px-3 py-2 ring-1 ring-black/6">
                             <Phone className="h-3.5 w-3.5 shrink-0 text-[#2A7F8E]" />
-                            <span className="text-xs text-slate-600">{doc.contact}</span>
+                            <span className="text-xs text-slate-600">{docContact}</span>
                           </div>
                           <button
                             onClick={() => { toggleDoc(doc.id); setOpenDoc(null); }}
@@ -2338,7 +2425,9 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
                                 : "bg-emerald-500 text-white hover:bg-emerald-600")
                             }
                           >
-                            {isChecked ? "Mark as not collected" : "I got this document!"}
+                            {isChecked
+                              ? (es ? "Marcar como no obtenido" : "Mark as not collected")
+                              : (es ? "¡Obtuve este documento!" : "I got this document!")}
                           </button>
                         </div>
                       )}
@@ -2355,8 +2444,10 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
               <Card accentColor="bg-emerald-500">
                 <SectionTitle
                   icon={MapPin}
-                  title="Housing path"
-                  subtitle={`Showing options near ${prefs.county}. Spots fill up — call before you go.`}
+                  title={es ? "Opciones de vivienda" : "Housing path"}
+                  subtitle={es
+                    ? `Mostrando opciones cerca de ${prefs.county}. Los lugares se llenan — llama antes de ir.`
+                    : `Showing options near ${prefs.county}. Spots fill up — call before you go.`}
                   iconClassName="bg-emerald-500/10 text-emerald-700"
                 />
                 <div className="mt-3 grid gap-2">
@@ -2370,7 +2461,7 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
                         <div className="flex items-center justify-between gap-2">
                           <div className="text-sm font-semibold text-slate-900">{r.name}</div>
                           <span className={pill("bg-[#D97706]/10 text-[#9a5200] ring-1 ring-[#D97706]/25")}>
-                            Call first
+                            {es ? "Llama primero" : "Call first"}
                           </span>
                         </div>
                         <div className="mt-1 text-xs text-slate-500">{r.description}</div>
@@ -2384,13 +2475,15 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
               <Card accentColor="bg-[#2A7F8E]">
                 <SectionTitle
                   icon={Users}
-                  title="ICWA-aware transition notes"
-                  subtitle="In the full app: your tribe's specific contacts and what your placement preferences mean for your case."
+                  title={es ? "Notas de transición con perspectiva ICWA" : "ICWA-aware transition notes"}
+                  subtitle={es
+                    ? "En la app completa: los contactos específicos de tu tribu y lo que tus preferencias de colocación significan para tu caso."
+                    : "In the full app: your tribe's specific contacts and what your placement preferences mean for your case."}
                   iconClassName="bg-[#2A7F8E]/10 text-[#2A7F8E]"
                 />
                 <div className="mt-3 flex flex-wrap gap-2">
                   <StatCite>ICWA</StatCite>
-                  <StatCite>Tribal resources (co-designed)</StatCite>
+                  <StatCite>{es ? "Recursos tribales (co-diseñados)" : "Tribal resources (co-designed)"}</StatCite>
                 </div>
               </Card>
             ) : null}
@@ -2399,7 +2492,7 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
       ) : null}
 
       <div className="mt-4">
-        <SafeNotice />
+        <SafeNotice lang={prefs.language} />
       </div>
     </div>
   );
@@ -2592,7 +2685,7 @@ function ResourcesScreen({ prefs }: { prefs: Prefs }) {
       </div>
 
       <div className="mt-4">
-        <SafeNotice />
+        <SafeNotice lang={prefs.language} />
       </div>
     </div>
   );
@@ -2707,7 +2800,7 @@ function WellnessScreen({ prefs }: { prefs: Prefs }) {
       </div>
 
       <div className="mt-4">
-        <SafeNotice />
+        <SafeNotice lang={prefs.language} />
       </div>
     </div>
   );
@@ -2928,7 +3021,9 @@ function ChatModal({
                     <div className="mt-1 text-sm text-slate-700 leading-relaxed">{renderMarkdown(m.body ?? "")}</div>
                     <CitationsRow cites={m.cites} />
                     <div className="mt-2 text-[10px] text-slate-400">
-                      For your specific situation, talk to your caseworker or lawyer.
+                      {prefs.language === 'es'
+                        ? "Para tu situación específica, habla con tu trabajador/a social o abogado/a."
+                        : "For your specific situation, talk to your caseworker or lawyer."}
                     </div>
                   </div>
                 </div>
@@ -3072,7 +3167,9 @@ function AskScreen({
         ...m,
         {
           role: "bot",
-          body: "I'm having trouble right now. If you need help, you can call or text 211 Arizona — a real person will answer.",
+          body: lang === 'es'
+            ? "Estoy teniendo problemas ahora mismo. Si necesitas ayuda, puedes llamar o enviar un mensaje de texto al 211 Arizona — una persona real te atenderá."
+            : "I'm having trouble right now. If you need help, you can call or text 211 Arizona — a real person will answer.",
           kind: "normal",
         },
       ]);
@@ -3092,7 +3189,9 @@ function AskScreen({
           <div>
             <div className="text-base font-bold text-white">{t('ask_title', lang)}</div>
             <div className="mt-0.5 text-xs text-white/75 leading-relaxed">
-              Real answers about your rights, case, and resources. Not stored. Not shared.
+              {lang === 'es'
+                ? "Respuestas reales sobre tus derechos, caso y recursos. No se guarda. No se comparte."
+                : "Real answers about your rights, case, and resources. Not stored. Not shared."}
             </div>
           </div>
         </div>
@@ -3102,7 +3201,9 @@ function AskScreen({
       <div ref={listRef} className="mb-3 max-h-[45vh] space-y-3 overflow-y-auto pr-1">
         {msgs.length === 0 ? (
           <div className="py-4 text-center text-sm text-slate-400">
-            Try one of the questions below, or ask whatever's on your mind.
+            {lang === 'es'
+              ? "Prueba una de las preguntas abajo, o pregunta lo que tengas en mente."
+              : "Try one of the questions below, or ask whatever's on your mind."}
           </div>
         ) : null}
         {msgs.map((m, idx) => {
@@ -3120,7 +3221,9 @@ function AskScreen({
                     <div className="mt-1 text-sm text-slate-700 leading-relaxed">{renderMarkdown(m.body ?? "")}</div>
                     <CitationsRow cites={m.cites} />
                     <div className="mt-2 text-[10px] text-slate-400">
-                      For your specific situation, talk to your caseworker or lawyer.
+                      {lang === 'es'
+                        ? "Para tu situación específica, habla con tu trabajador/a social o abogado/a."
+                        : "For your specific situation, talk to your caseworker or lawyer."}
                     </div>
                   </div>
                 </div>
@@ -3171,7 +3274,9 @@ function AskScreen({
       </div>
 
       <div className="mt-2 text-[10px] text-slate-400">
-        Messages clear when you leave this page — nothing is stored.
+        {lang === 'es'
+          ? "Los mensajes se borran cuando sales de esta página — nada se guarda."
+          : "Messages clear when you leave this page — nothing is stored."}
       </div>
     </div>
   );
