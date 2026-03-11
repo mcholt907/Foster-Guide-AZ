@@ -1511,12 +1511,12 @@ function Onboarding({
                 className={
                   "rounded-3xl p-4 text-left ring-1 transition-all " +
                   (prefs.ageBand === b.id
-                    ? "bg-[#2A7F8E]/10 ring-[#2A7F8E]/40 shadow-sm"
+                    ? "bg-[#1B3A5C] ring-[#1B3A5C] shadow-sm"
                     : "bg-white ring-black/10 hover:ring-black/20")
                 }
               >
-                <div className="text-base font-bold text-slate-900">{b.label}</div>
-                <div className="mt-0.5 text-xs text-slate-500">
+                <div className={`text-base font-bold ${prefs.ageBand === b.id ? "text-white" : "text-slate-900"}`}>{b.label}</div>
+                <div className={`mt-0.5 text-xs ${prefs.ageBand === b.id ? "text-white/70" : "text-slate-500"}`}>
                   {b.id === "10-12"
                     ? t('age_band_10_12_desc', prefs.language)
                     : b.id === "13-15"
@@ -1536,6 +1536,20 @@ function Onboarding({
               {t('onboarding_county_hint', prefs.language)}
             </div>
             <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => {
+                  setPrefs((p) => ({ ...p, county: "Unknown" }));
+                  setStep(3);
+                }}
+                className={
+                  "col-span-2 rounded-2xl px-3 py-2.5 text-center text-sm font-semibold ring-1 transition-all " +
+                  (prefs.county === "Unknown"
+                    ? "bg-[#1B3A5C] ring-[#1B3A5C] text-white"
+                    : "bg-white ring-black/10 text-slate-500 hover:ring-black/20")
+                }
+              >
+                {t('onboarding_county_unknown', prefs.language)}
+              </button>
               {COUNTIES.map((c) => (
                 <button
                   key={c}
@@ -1546,27 +1560,13 @@ function Onboarding({
                   className={
                     "rounded-2xl px-3 py-2.5 text-left text-sm font-semibold ring-1 transition-all " +
                     (prefs.county === c
-                      ? "bg-[#2A7F8E]/10 ring-[#2A7F8E]/40 text-[#1B3A5C]"
+                      ? "bg-[#1B3A5C] ring-[#1B3A5C] text-white"
                       : "bg-white ring-black/10 text-slate-700 hover:ring-black/20")
                   }
                 >
                   {c}
                 </button>
               ))}
-              <button
-                onClick={() => {
-                  setPrefs((p) => ({ ...p, county: "Unknown" }));
-                  setStep(3);
-                }}
-                className={
-                  "col-span-2 rounded-2xl px-3 py-2.5 text-center text-sm font-semibold ring-1 transition-all " +
-                  (prefs.county === "Unknown"
-                    ? "bg-[#2A7F8E]/10 ring-[#2A7F8E]/40 text-[#1B3A5C]"
-                    : "bg-white ring-black/10 text-slate-500 hover:ring-black/20")
-                }
-              >
-                {t('onboarding_county_unknown', prefs.language)}
-              </button>
             </div>
           </div>
         ) : null}
@@ -1584,11 +1584,11 @@ function Onboarding({
                 className={
                   "rounded-3xl p-4 text-left ring-1 transition-all " +
                   (prefs.tribal === true
-                    ? "bg-[#2A7F8E]/10 ring-[#2A7F8E]/40 shadow-sm"
+                    ? "bg-[#1B3A5C] ring-[#1B3A5C] shadow-sm"
                     : "bg-white ring-black/10 hover:ring-black/20")
                 }
               >
-                <div className="text-sm font-bold text-slate-900">{t('onboarding_tribal_yes', prefs.language)}</div>
+                <div className={`text-sm font-bold ${prefs.tribal === true ? "text-white" : "text-slate-900"}`}>{t('onboarding_tribal_yes', prefs.language)}</div>
               </button>
               <button
                 onClick={() => {
@@ -1597,11 +1597,11 @@ function Onboarding({
                 className={
                   "rounded-3xl p-4 text-left ring-1 transition-all " +
                   (prefs.tribal === false
-                    ? "bg-[#2A7F8E]/10 ring-[#2A7F8E]/40 shadow-sm"
+                    ? "bg-[#1B3A5C] ring-[#1B3A5C] shadow-sm"
                     : "bg-white ring-black/10 hover:ring-black/20")
                 }
               >
-                <div className="text-sm font-bold text-slate-900">{t('onboarding_tribal_no', prefs.language)} / {t('onboarding_tribal_not_sure', prefs.language)}</div>
+                <div className={`text-sm font-bold ${prefs.tribal === false ? "text-white" : "text-slate-900"}`}>{t('onboarding_tribal_no', prefs.language)} / {t('onboarding_tribal_not_sure', prefs.language)}</div>
               </button>
             </div>
           </div>
