@@ -551,72 +551,107 @@ const WHO_IN_YOUR_CASE = [
   {
     id: "caseworker",
     title: "Your DCS Case Manager",
+    title_es: "Tu trabajador/a de casos (DCS)",
     aka: "Also called: caseworker",
+    aka_es: "También llamado: caseworker",
     emoji: "👤",
     color: "#2A7F8E",
     role: "Your main point of contact at the Department of Child Safety (DCS).",
+    role_es: "Tu contacto principal en el Departamento de Seguridad Infantil (DCS).",
     what: "They manage your case day-to-day — writing your case plan, scheduling visits, and connecting you to services. By law they're supposed to meet with you at least once a month in person.",
+    what_es: "Maneja tu caso día a día — escribe tu plan de caso, programa visitas y te conecta con servicios. Por ley debe reunirse contigo en persona al menos una vez al mes.",
     tip: "Keep their number saved. If something feels wrong or isn't happening, they're your first call.",
+    tip_es: "Guarda su número. Si algo se siente mal o no está pasando, es tu primera llamada.",
   },
   {
     id: "judge",
     title: "The Judge",
+    title_es: "El/La juez",
     aka: "Also called: dependency court judge",
+    aka_es: "También llamado: juez del tribunal de dependencia",
     emoji: "⚖️",
     color: "#1B3A5C",
     role: "Makes the big legal decisions about your case — including where you live.",
+    role_es: "Toma las grandes decisiones legales sobre tu caso — incluyendo dónde vives.",
     what: "A Superior Court judge oversees your dependency case. They approve your case plan, decide placement, and make the final call at every hearing. You have the right to speak at hearings — your voice counts.",
+    what_es: "Un juez del Tribunal Superior supervisa tu caso de dependencia. Aprueba tu plan de caso, decide la colocación y da el veredicto final en cada audiencia. Tienes el derecho de hablar — tu voz cuenta.",
     tip: "You can tell the judge how you feel, what you want, and what's not working — through your attorney or by asking to address the court directly.",
+    tip_es: "Puedes decirle al juez cómo te sientes, qué quieres y qué no está funcionando — a través de tu abogado o pidiéndole al tribunal que te dé la palabra.",
   },
   {
     id: "attorney",
     title: "Your Attorney",
+    title_es: "Tu abogado/a",
     aka: "Also called: your lawyer",
+    aka_es: "También llamado: tu abogado",
     emoji: "📋",
     color: "#D97706",
     role: "Represents only you — not DCS, not your parents, not the foster family.",
+    role_es: "Te representa solo a ti — no a DCS, no a tus padres, no a la familia adoptiva.",
     what: "Arizona law gives every youth in foster care the right to an attorney. They go to court with you, explain what's happening, and argue for what you want. Everything you tell them stays private.",
+    what_es: "La ley de Arizona le da a todo joven en cuidado adoptivo el derecho a un abogado. Va al tribunal contigo, explica lo que está pasando y argumenta lo que tú quieres. Todo lo que le cuentes queda en privado.",
     tip: "Be honest with your attorney — they can only fight for you if they know what's really going on. If you don't have one, ask your caseworker immediately.",
+    tip_es: "Sé honesto con tu abogado — solo puede luchar por ti si sabe lo que realmente está pasando. Si no tienes uno, pídelo a tu trabajador/a de casos de inmediato.",
   },
   {
     id: "casa",
     title: "CASA Volunteer",
+    title_es: "Voluntario/a CASA",
     aka: "Court Appointed Special Advocate",
+    aka_es: "Defensor Especial Nombrado por el Tribunal",
     emoji: "🤝",
     color: "#2A7F8E",
     role: "A trained community volunteer who gets to know you personally and speaks up for you in court.",
+    role_es: "Un voluntario de la comunidad capacitado que te conoce personalmente y habla por ti en el tribunal.",
     what: "Unlike your caseworker, a CASA has one job: figure out what's best for you and tell the judge. They visit you regularly, read your full case file, and write a report for the court. Not everyone has one — but you can request one.",
+    what_es: "A diferencia de tu trabajador/a de casos, un CASA tiene un solo trabajo: determinar qué es mejor para ti y decírselo al juez. Te visita regularmente, lee tu expediente completo y escribe un informe para el tribunal. No todos tienen uno — pero puedes pedirlo.",
     tip: "CASA volunteers are not DCS employees. They chose to be there for kids. They tend to have more time for you than a caseworker does.",
+    tip_es: "Los voluntarios de CASA no son empleados de DCS. Eligieron estar ahí para los jóvenes. Suelen tener más tiempo para ti que un trabajador de casos.",
   },
   {
     id: "caregiver",
     title: "Foster Parent or Kinship Caregiver",
+    title_es: "Padre/madre adoptivo/a o cuidador/a pariente",
     aka: "Also called: foster family, relative caregiver",
+    aka_es: "También llamado: familia adoptiva, cuidador pariente",
     emoji: "🏠",
     color: "#059669",
     role: "The adult(s) you live with, licensed or approved by DCS to provide a safe home.",
+    role_es: "El/los adulto(s) con quien vives, autorizado/s o aprobado/s por DCS para proveer un hogar seguro.",
     what: "They're responsible for your day-to-day care — meals, school, safety, and activities. A kinship caregiver is a relative or someone you already knew. They are not your caseworker, but they should be a source of stability.",
+    what_es: "Son responsables de tu cuidado diario — comidas, escuela, seguridad y actividades. Un cuidador pariente es un familiar o alguien que ya conocías. No son tu trabajador/a de casos, pero deben ser una fuente de estabilidad.",
     tip: "If you ever feel unsafe where you're living, tell your caseworker, attorney, or CASA right away. You have the right to be safe.",
+    tip_es: "Si alguna vez te sientes inseguro donde vives, díselo a tu trabajador/a de casos, abogado o CASA de inmediato. Tienes el derecho a estar seguro.",
   },
   {
     id: "gal",
     title: "Guardian ad Litem (GAL)",
+    title_es: "Guardian ad Litem (GAL)",
     aka: "Sometimes the same person as your attorney",
+    aka_es: "A veces es la misma persona que tu abogado",
     emoji: "🛡️",
     color: "#7c3aed",
     role: "Someone appointed by the court specifically to represent your best interests.",
+    role_es: "Alguien nombrado por el tribunal específicamente para representar tu mejor interés.",
     what: "In some cases the court appoints a GAL who is separate from your attorney. They look at your whole situation — school, health, placement, relationships — and advise the judge. In Arizona, this role is sometimes filled by your attorney or your CASA.",
+    what_es: "En algunos casos el tribunal nombra un GAL separado de tu abogado. Revisa toda tu situación — escuela, salud, colocación, relaciones — y aconseja al juez. En Arizona, este rol a veces lo cumple tu abogado o tu CASA.",
     tip: "Ask your attorney or caseworker if you have a GAL and who they are.",
+    tip_es: "Pregúntale a tu abogado o trabajador/a de casos si tienes un GAL y quién es.",
   },
   {
     id: "supervisor",
     title: "DCS Supervisor",
+    title_es: "Supervisor/a de DCS",
     aka: "Your caseworker's boss",
+    aka_es: "El/la jefe/a de tu trabajador/a de casos",
     emoji: "📞",
     color: "#1B3A5C",
     role: "Oversees your caseworker. Your escalation contact when things aren't being resolved.",
+    role_es: "Supervisa a tu trabajador/a de casos. Tu contacto de escalación cuando las cosas no se resuelven.",
     what: "If you've raised a concern with your caseworker and nothing is changing, ask to speak with their supervisor. Keep a written record of when you asked and what was said — dates matter.",
+    what_es: "Si has planteado una preocupación con tu trabajador/a de casos y nada está cambiando, pide hablar con su supervisor/a. Guarda un registro escrito de cuándo preguntaste y qué dijeron — las fechas importan.",
     tip: "Asking to escalate is normal and OK. The system is designed for it. You won't get in trouble for asking.",
+    tip_es: "Pedir escalar es normal y está bien. El sistema está diseñado para ello. No te meterás en problemas por preguntar.",
   },
 ] as const;
 
@@ -626,50 +661,86 @@ const IMPORTANT_DOCS = [
   {
     id: "birth-cert",
     label: "Birth certificate",
+    label_es: "Acta de nacimiento",
     why: "You need this to get almost everything else — start here.",
+    why_es: "Necesitas esto para obtener casi todo lo demás — empieza aquí.",
     steps: [
       "Ask your caseworker first. DCS can request your birth certificate for free on your behalf.",
       "If that doesn't work, contact the Arizona Department of Health Services (ADHS) directly.",
       "Call (602) 364-1300 or go to azdhs.gov to order a copy online.",
       "It's free for foster youth in Arizona — if anyone tries to charge you, remind them of A.R.S. §8-514.06.",
     ],
+    steps_es: [
+      "Primero pregúntale a tu trabajador/a de casos. DCS puede solicitar tu acta de nacimiento gratis en tu nombre.",
+      "Si eso no funciona, comunícate directamente con el Departamento de Servicios de Salud de Arizona (ADHS).",
+      "Llama al (602) 364-1300 o ve a azdhs.gov para pedir una copia en línea.",
+      "Es gratis para jóvenes en cuidado adoptivo en Arizona — si alguien intenta cobrarte, recuérdales A.R.S. §8-514.06.",
+    ],
     contact: "ADHS Vital Records: (602) 364-1300",
+    contact_es: "Registros Vitales de ADHS: (602) 364-1300",
   },
   {
     id: "ssn-card",
     label: "Social Security card",
+    label_es: "Tarjeta de Seguro Social",
     why: "Needed for jobs, benefits, and your state ID. Your number may already be in your DCS file.",
+    why_es: "Necesaria para empleos, beneficios y tu identificación estatal. Tu número puede estar ya en tu expediente de DCS.",
     steps: [
       "Ask your caseworker for your Social Security number — it should be in your case file.",
       "To get a physical replacement card, go to ssa.gov or call 1-800-772-1213.",
       "Bring your birth certificate when you apply (or ask your caseworker to help).",
       "Replacement cards are free — you can get up to 3 per year.",
     ],
+    steps_es: [
+      "Pídele a tu trabajador/a de casos tu número de Seguro Social — debe estar en tu expediente.",
+      "Para obtener una tarjeta de reemplazo, ve a ssa.gov o llama al 1-800-772-1213.",
+      "Lleva tu acta de nacimiento cuando solicites (o pídele a tu trabajador/a que te ayude).",
+      "Las tarjetas de reemplazo son gratis — puedes obtener hasta 3 por año.",
+    ],
     contact: "Social Security Administration: 1-800-772-1213",
+    contact_es: "Administración del Seguro Social: 1-800-772-1213",
   },
   {
     id: "state-id",
     label: "State ID / driver's license",
+    label_es: "Identificación estatal / licencia de conducir",
     why: "Get your birth certificate and Social Security card first — you'll need both.",
+    why_es: "Obtén primero tu acta de nacimiento y tarjeta de Seguro Social — necesitarás ambas.",
     steps: [
       "Get your birth certificate and Social Security card before you go.",
       "Visit an Arizona MVD office or start at azmvdnow.gov.",
       "Ask your caseworker about a fee waiver — foster youth often qualify.",
       "Bring proof of Arizona address (a letter from DCS on their letterhead works).",
     ],
+    steps_es: [
+      "Consigue tu acta de nacimiento y tarjeta de Seguro Social antes de ir.",
+      "Visita una oficina de MVD de Arizona o comienza en azmvdnow.gov.",
+      "Pregúntale a tu trabajador/a de casos sobre una exención de tarifas — los jóvenes en cuidado adoptivo frecuentemente califican.",
+      "Lleva comprobante de domicilio en Arizona (una carta de DCS en su membrete funciona).",
+    ],
     contact: "AZ Motor Vehicle Division: azmvdnow.gov",
+    contact_es: "División de Vehículos de Motor de AZ: azmvdnow.gov",
   },
   {
     id: "immunizations",
     label: "Immunization records",
+    label_es: "Registro de vacunas",
     why: "Schools and some jobs require these. Your caseworker may already have them.",
+    why_es: "Las escuelas y algunos empleos los requieren. Tu trabajador/a de casos puede tenerlos.",
     steps: [
       "Ask your caseworker — DCS is required to keep your immunization records.",
       "Check with your school's health office — they often keep records on file.",
       "If you still can't find them, Arizona has a statewide registry. Call ADHS at (602) 364-3630.",
       "Any doctor or clinic you've visited can also provide records of shots they gave you.",
     ],
+    steps_es: [
+      "Pregúntale a tu trabajador/a de casos — DCS está obligado a conservar tus registros de vacunas.",
+      "Consulta con la enfermería de tu escuela — frecuentemente guardan registros.",
+      "Si aún no los encuentras, Arizona tiene un registro estatal. Llama a ADHS al (602) 364-3630.",
+      "Cualquier médico o clínica que hayas visitado también puede darte registros de vacunas que aplicaron.",
+    ],
     contact: "AZ Immunization Registry: (602) 364-3630",
+    contact_es: "Registro de Vacunas de AZ: (602) 364-3630",
   },
 ] as const;
 
@@ -1018,27 +1089,35 @@ function SafeNotice() {
 
 // ─── visual components ─────────────────────────────────────────────────────────
 
-function EscalationLadder({ ageBand }: { ageBand?: string | null }) {
+function EscalationLadder({ ageBand, lang }: { ageBand?: string | null; lang?: Lang | null }) {
   const steps = [
     {
       n: 1,
       role: "Your caseworker",
+      role_es: "Tu trabajador/a de casos",
       action: "Tell them what's not right and ask them to fix it. Sending a text or email creates a record you can refer back to.",
+      action_es: "Diles qué está mal y pídeles que lo corrijan. Enviar un texto o correo crea un registro al que puedes referirte después.",
     },
     {
       n: 2,
       role: "Their supervisor",
+      role_es: "Su supervisor/a",
       action: `If nothing changes, ask: "Can I speak with your supervisor?" Write down the date you asked and what they said.`,
+      action_es: "Si nada cambia, pregunta: '¿Puedo hablar con su supervisor/a?' Anota la fecha y lo que dijeron.",
     },
     {
       n: 3,
       role: "DCS Ombudsman",
+      role_es: "Ombudsman de DCS",
       action: "You can file a formal complaint. They're separate from DCS — and they have to respond.",
+      action_es: "Puedes presentar una queja formal. Son independientes de DCS — y tienen que responder.",
     },
     {
       n: 4,
       role: "Your attorney / court",
+      role_es: "Tu abogado / tribunal",
       action: "Your lawyer can bring this up at your next hearing. That's exactly what they're there for.",
+      action_es: "Tu abogado puede plantearlo en tu próxima audiencia. Para eso está exactamente.",
     },
   ];
   return (
@@ -1054,8 +1133,8 @@ function EscalationLadder({ ageBand }: { ageBand?: string | null }) {
             )}
           </div>
           <div className="pb-4 flex-1 min-w-0">
-            <div className="text-sm font-semibold text-[#1B3A5C]">{s.role}</div>
-            <div className="mt-0.5 text-xs text-slate-600 leading-relaxed">{s.action}</div>
+            <div className="text-sm font-semibold text-[#1B3A5C]">{lang === 'es' ? s.role_es : s.role}</div>
+            <div className="mt-0.5 text-xs text-slate-600 leading-relaxed">{lang === 'es' ? s.action_es : s.action}</div>
           </div>
         </div>
       ))}
@@ -1073,11 +1152,13 @@ function DeadlineBanner({
   date,
   note,
   onAct,
+  lang,
 }: {
   label: string;
   date: string;
   note?: string;
   onAct?: () => void;
+  lang?: Lang | null;
 }) {
   return (
     <div className="rounded-3xl bg-[#D97706] px-4 py-4 shadow-lg">
@@ -1097,7 +1178,7 @@ function DeadlineBanner({
           className="shrink-0 rounded-2xl bg-white/15 px-3 py-2 ring-1 ring-white/25 hover:bg-white/25 transition-colors"
         >
           <div className="flex items-center gap-1 text-xs font-semibold text-white">
-            Act now
+            {lang === 'es' ? 'Actuar ahora' : 'Act now'}
             <ArrowRight className="h-3 w-3" />
           </div>
         </button>
@@ -1799,7 +1880,7 @@ function RightCard({
       </div>
       {activeTab === "means" && example && (
         <div className="mt-2 text-xs text-slate-500">
-          <span className="font-semibold text-slate-700">For example:</span> {example}
+          <span className="font-semibold text-slate-700">{lang === 'es' ? 'Por ejemplo:' : 'For example:'}</span> {example}
         </div>
       )}
     </Card>
@@ -1842,9 +1923,9 @@ function RightsScreen({ prefs }: { prefs: Prefs }) {
         <div className="w-1 shrink-0 bg-[#2A7F8E]/30" />
         <div className="flex flex-1 items-center justify-between gap-3 p-4">
           <div>
-            <div className="text-sm font-semibold text-[#1B3A5C]">Your rights explorer</div>
+            <div className="text-sm font-semibold text-[#1B3A5C]">{lang === 'es' ? 'Explorador de derechos' : 'Your rights explorer'}</div>
             <div className="mt-0.5 text-xs text-slate-500">
-              Tap any card to learn what each right means and how to use it.
+              {lang === 'es' ? 'Toca cualquier tarjeta para aprender qué significa cada derecho y cómo usarlo.' : 'Tap any card to learn what each right means and how to use it.'}
             </div>
           </div>
           <Chip>Age {AGE_BANDS.find((a) => a.id === tier)?.label}</Chip>
@@ -1878,14 +1959,14 @@ function RightsScreen({ prefs }: { prefs: Prefs }) {
             <AlertTriangle className="h-4 w-4 text-[#D97706]" />
           </div>
           <div>
-            <div className="text-sm font-semibold text-[#1B3A5C]">If your rights aren't being respected</div>
+            <div className="text-sm font-semibold text-[#1B3A5C]">{lang === 'es' ? 'Si no están respetando tus derechos' : "If your rights aren't being respected"}</div>
             <div className="mt-0.5 text-xs text-slate-500">
-              Try these steps in order. Write down dates and what was said at each step.
+              {lang === 'es' ? 'Prueba estos pasos en orden. Anota las fechas y lo que se dijo en cada paso.' : 'Try these steps in order. Write down dates and what was said at each step.'}
             </div>
           </div>
         </div>
         <div className="p-4">
-          <EscalationLadder ageBand={tier} />
+          <EscalationLadder ageBand={tier} lang={lang} />
         </div>
       </div>
 
@@ -1905,6 +1986,13 @@ const CASE_HERO_SUBTITLE: Record<AgeBandKey, string> = {
   "18-21": "How the dependency process works — and what each hearing could mean for your case.",
 };
 
+const CASE_HERO_SUBTITLE_ES: Record<AgeBandKey, string> = {
+  "10-12": "Qué pasa en la corte — quiénes son todas esas personas y qué significa para ti.",
+  "13-15": "Qué significan tus audiencias, quién estará ahí y cómo prepararte.",
+  "16-17": "Qué significan tus audiencias, quién estará ahí y cómo llegar listo.",
+  "18-21": "Cómo funciona el proceso de dependencia — y qué podría significar cada audiencia para tu caso.",
+};
+
 function CaseScreen({ prefs }: { prefs: Prefs }) {
   const [openStage, setOpenStage] = useState<string | null>(null);
   const [openPerson, setOpenPerson] = useState<string | null>(null);
@@ -1914,8 +2002,10 @@ function CaseScreen({ prefs }: { prefs: Prefs }) {
     <div className="px-4 pb-28 pt-4">
       <ScreenHero
         icon={Gavel}
-        title="My Case Explained"
-        subtitle={CASE_HERO_SUBTITLE[tier as AgeBandKey] ?? "What your hearings mean, who's there, and how to show up ready."}
+        title={lang === 'es' ? 'Mi Caso Explicado' : 'My Case Explained'}
+        subtitle={lang === 'es'
+          ? (CASE_HERO_SUBTITLE_ES[tier as AgeBandKey] ?? "Qué significan tus audiencias, quién estará ahí y cómo llegar listo.")
+          : (CASE_HERO_SUBTITLE[tier as AgeBandKey] ?? "What your hearings mean, who's there, and how to show up ready.")}
         gradient="from-[#1B3A5C] to-[#0f2640]"
       />
 
@@ -1926,9 +2016,11 @@ function CaseScreen({ prefs }: { prefs: Prefs }) {
               <Users className="h-5 w-5 text-[#2A7F8E]" />
             </div>
             <div>
-              <div className="text-sm font-semibold text-[#1B3A5C]">ICWA guidance is on</div>
+              <div className="text-sm font-semibold text-[#1B3A5C]">{lang === 'es' ? 'Guía ICWA activada' : 'ICWA guidance is on'}</div>
               <div className="mt-1 text-xs text-slate-600">
-                In the full app, this section is built with tribal partners — you'd see your tribe's specific contacts and steps that apply to your case.
+                {lang === 'es'
+                  ? 'En la app completa, esta sección se construye con socios tribales — verías los contactos específicos de tu tribu y los pasos que aplican a tu caso.'
+                  : 'In the full app, this section is built with tribal partners — you\'d see your tribe\'s specific contacts and steps that apply to your case.'}
               </div>
               <div className="mt-3 flex flex-wrap gap-2">
                 <StatCite>ICWA (25 U.S.C. §§1901–1963)</StatCite>
@@ -1945,11 +2037,11 @@ function CaseScreen({ prefs }: { prefs: Prefs }) {
           <div className="h-px flex-1 bg-black/8" />
           <div className="flex items-center gap-1.5 rounded-full bg-[#2A7F8E]/10 px-3 py-1.5">
             <Users className="h-3.5 w-3.5 text-[#2A7F8E]" />
-            <span className="text-xs font-semibold uppercase tracking-wide text-[#2A7F8E]">People in your case</span>
+            <span className="text-xs font-semibold uppercase tracking-wide text-[#2A7F8E]">{lang === 'es' ? 'Personas en tu caso' : 'People in your case'}</span>
           </div>
           <div className="h-px flex-1 bg-black/8" />
         </div>
-        <p className="mb-3 text-center text-xs text-slate-500">Tap each person to learn their role and how to work with them.</p>
+        <p className="mb-3 text-center text-xs text-slate-500">{lang === 'es' ? 'Toca cada persona para conocer su rol y cómo trabajar con ella.' : 'Tap each person to learn their role and how to work with them.'}</p>
         <div className="grid gap-2">
           {WHO_IN_YOUR_CASE.map((person) => {
             const isOpen = openPerson === person.id;
@@ -1966,9 +2058,9 @@ function CaseScreen({ prefs }: { prefs: Prefs }) {
                     {person.emoji}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="text-sm font-semibold text-slate-900">{person.title}</div>
+                    <div className="text-sm font-semibold text-slate-900">{lang === 'es' ? person.title_es : person.title}</div>
                     {!isOpen && (
-                      <div className="mt-0.5 text-xs text-slate-500">{person.role}</div>
+                      <div className="mt-0.5 text-xs text-slate-500">{lang === 'es' ? person.role_es : person.role}</div>
                     )}
                   </div>
                   <ChevronDown
@@ -1982,12 +2074,12 @@ function CaseScreen({ prefs }: { prefs: Prefs }) {
                       className="mb-2 inline-block rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
                       style={{ backgroundColor: person.color + "18", color: person.color }}
                     >
-                      {person.aka}
+                      {lang === 'es' ? person.aka_es : person.aka}
                     </div>
-                    <div className="text-xs leading-relaxed text-slate-700">{person.what}</div>
+                    <div className="text-xs leading-relaxed text-slate-700">{lang === 'es' ? person.what_es : person.what}</div>
                     <div className="mt-3 flex items-start gap-2 rounded-xl bg-amber-50 p-3 ring-1 ring-amber-100">
                       <span className="text-sm">💡</span>
-                      <div className="text-xs leading-relaxed text-amber-800">{person.tip}</div>
+                      <div className="text-xs leading-relaxed text-amber-800">{lang === 'es' ? person.tip_es : person.tip}</div>
                     </div>
                   </div>
                 )}
@@ -2003,11 +2095,11 @@ function CaseScreen({ prefs }: { prefs: Prefs }) {
           <div className="h-px flex-1 bg-black/8" />
           <div className="flex items-center gap-1.5 rounded-full bg-[#1B3A5C]/10 px-3 py-1.5">
             <Gavel className="h-3.5 w-3.5 text-[#1B3A5C]" />
-            <span className="text-xs font-semibold uppercase tracking-wide text-[#1B3A5C]">Your hearings</span>
+            <span className="text-xs font-semibold uppercase tracking-wide text-[#1B3A5C]">{lang === 'es' ? 'Tus audiencias' : 'Your hearings'}</span>
           </div>
           <div className="h-px flex-1 bg-black/8" />
         </div>
-        <p className="mb-3 text-center text-xs text-slate-500">These are the main hearings in a dependency case — tap each one to learn more.</p>
+        <p className="mb-3 text-center text-xs text-slate-500">{lang === 'es' ? 'Estas son las principales audiencias en un caso de dependencia — toca cada una para aprender más.' : 'These are the main hearings in a dependency case — tap each one to learn more.'}</p>
         <div>
           {COURT_STAGES.map((s, i) => {
             const isOpen = openStage === s.id;
@@ -2056,13 +2148,13 @@ function CaseScreen({ prefs }: { prefs: Prefs }) {
                   {isOpen && (
                     <div className="-mt-3 mx-2 rounded-b-3xl bg-white/70 px-4 pb-4 pt-3 shadow-sm ring-1 ring-black/5 ring-t-0">
                       <div className="mt-2 text-xs text-slate-600">
-                        <span className="font-semibold text-slate-700">What it is:</span> {lang === 'es' ? (s.what_es ?? s.what) : s.what}
+                        <span className="font-semibold text-slate-700">{lang === 'es' ? 'Qué es:' : 'What it is:'}</span> {lang === 'es' ? (s.what_es ?? s.what) : s.what}
                       </div>
                       <div className="mt-2 text-xs text-slate-600">
-                        <span className="font-semibold text-slate-700">What you can do:</span> {lang === 'es' ? (s.youth_es ?? s.youth) : s.youth}
+                        <span className="font-semibold text-slate-700">{lang === 'es' ? 'Qué puedes hacer:' : 'What you can do:'}</span> {lang === 'es' ? (s.youth_es ?? s.youth) : s.youth}
                       </div>
                       <div className="mt-2 text-xs text-slate-500">
-                        <span className="font-semibold text-slate-600">What's next:</span> {lang === 'es' ? (s.next_es ?? s.next) : s.next}
+                        <span className="font-semibold text-slate-600">{lang === 'es' ? 'Qué sigue:' : "What's next:"}</span> {lang === 'es' ? (s.next_es ?? s.next) : s.next}
                       </div>
                     </div>
                   )}
@@ -2079,19 +2171,24 @@ function CaseScreen({ prefs }: { prefs: Prefs }) {
           <div className="h-px flex-1 bg-black/8" />
           <div className="flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1.5">
             <CheckCircle2 className="h-3.5 w-3.5 text-amber-700" />
-            <span className="text-xs font-semibold uppercase tracking-wide text-amber-700">Before your hearing</span>
+            <span className="text-xs font-semibold uppercase tracking-wide text-amber-700">{lang === 'es' ? 'Antes de tu audiencia' : 'Before your hearing'}</span>
           </div>
           <div className="h-px flex-1 bg-black/8" />
         </div>
         <div className="rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
-          <div className="mb-3 text-xs text-slate-500">Questions worth asking your attorney or caseworker:</div>
+          <div className="mb-3 text-xs text-slate-500">{lang === 'es' ? 'Preguntas que vale la pena hacerle a tu abogado o trabajador/a de casos:' : 'Questions worth asking your attorney or caseworker:'}</div>
           <div className="grid gap-2">
-            {[
+            {(lang === 'es' ? [
+              "¿Cuál es el objetivo de la audiencia de hoy?",
+              "¿Qué podría cambiar después, y cuándo?",
+              "¿Qué necesitas para sentirte seguro en casa y en la escuela?",
+              "¿A quién debo llamar si algo no está pasando?",
+            ] : [
               "What is the goal of today's hearing?",
               "What could change next, and when?",
               "What do you need to feel safe at home and school?",
               "Who should I call if something isn't happening?",
-            ].map((q) => (
+            ]).map((q) => (
               <div
                 key={q}
                 className="flex items-start gap-2.5 rounded-2xl bg-white p-3 ring-1 ring-black/8"
@@ -2120,12 +2217,20 @@ const FUTURE_HERO_SUBTITLE: Record<AgeBandKey, string> = {
   "18-21": "Your next steps — EFC, school money, housing, and the documents you need.",
 };
 
+const FUTURE_HERO_SUBTITLE_ES: Record<AgeBandKey, string> = {
+  "10-12": "Qué significa cumplir 18 años — tendrás opciones, y personas que pueden ayudarte a tomarlas.",
+  "13-15": "Puede parecer lejano, pero saber lo que viene hace que sea menos aterrador.",
+  "16-17": "Cumplir 18 es un momento importante. Aquí está todo explicado en pasos simples.",
+  "18-21": "Tus próximos pasos — EFC, dinero para la escuela, vivienda, y los documentos que necesitas.",
+};
+
 function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: string) => void }) {
   const [showSensitive, setShowSensitive] = useState(false);
   const [openDoc, setOpenDoc] = useState<string | null>(null);
   const [checkedDocs, setCheckedDocs] = useState<Set<string>>(new Set());
   const tier = prefs.ageBand;
   const isOldEnough = tier === "16-17" || tier === "18-21";
+  const lang: Lang = prefs.language === 'es' ? 'es' : 'en';
 
   function toggleDoc(id: string) {
     setCheckedDocs((prev) => {
@@ -2139,16 +2244,18 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
     <div className="px-4 pb-28 pt-4">
       <ScreenHero
         icon={FileText}
-        title="My Future Plan"
-        subtitle={FUTURE_HERO_SUBTITLE[tier as AgeBandKey] ?? "Turning 18 is a big moment. Here's everything broken down into simple steps."}
+        title={lang === 'es' ? 'Mi Plan de Futuro' : 'My Future Plan'}
+        subtitle={lang === 'es'
+          ? (FUTURE_HERO_SUBTITLE_ES[tier as AgeBandKey] ?? "Cumplir 18 es un momento importante. Aquí está todo explicado en pasos simples.")
+          : (FUTURE_HERO_SUBTITLE[tier as AgeBandKey] ?? "Turning 18 is a big moment. Here's everything broken down into simple steps.")}
         gradient="from-[#D97706] to-[#92400e]"
       />
 
       {!isOldEnough ? (
         <div className="mt-4 rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
-          <div className="text-sm font-semibold text-[#1B3A5C]">You'll see more here as you get older</div>
+          <div className="text-sm font-semibold text-[#1B3A5C]">{lang === 'es' ? 'Verás más aquí cuando seas mayor' : "You'll see more here as you get older"}</div>
           <div className="mt-1 text-xs text-slate-500">
-            The full planning tools show up as you get closer to 16. Come back then — there's a lot here for you.
+            {lang === 'es' ? 'Las herramientas de planificación completas aparecen cuando te acercas a los 16. Regresa entonces — hay mucho aquí para ti.' : "The full planning tools show up as you get closer to 16. Come back then — there's a lot here for you."}
           </div>
         </div>
       ) : null}
@@ -2158,10 +2265,13 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
           {/* School money deadline banner */}
           <div className="mt-4">
             <DeadlineBanner
-              label="Free school money — apply by:"
+              label={lang === 'es' ? 'Dinero gratis para la escuela — solicita antes del:' : 'Free school money — apply by:'}
               date="July 31, 2026"
-              note="The Education & Training Voucher (ETV) gives foster youth up to $5,000/year for school or job training. Miss this date and you wait another year."
-              onAct={() => onAskChat?.("How do I apply for the Education & Training Voucher (ETV)?")}
+              note={lang === 'es'
+                ? 'El Bono de Educación y Capacitación (ETV) da a jóvenes en cuidado adoptivo hasta $5,000/año para estudios o formación laboral. Si pierdes esta fecha, esperas otro año.'
+                : "The Education & Training Voucher (ETV) gives foster youth up to $5,000/year for school or job training. Miss this date and you wait another year."}
+              onAct={() => onAskChat?.(lang === 'es' ? '¿Cómo solicito el Bono de Educación y Capacitación (ETV)?' : "How do I apply for the Education & Training Voucher (ETV)?")}
+              lang={lang}
             />
           </div>
 
@@ -2172,9 +2282,9 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
                 <AlertTriangle className="h-5 w-5 text-amber-600" />
               </div>
               <div className="flex-1">
-                <div className="text-sm font-semibold text-[#1B3A5C]">Before you read on</div>
+                <div className="text-sm font-semibold text-[#1B3A5C]">{lang === 'es' ? 'Antes de continuar' : 'Before you read on'}</div>
                 <div className="mt-1 text-xs text-slate-500">
-                  Some of this covers tough topics — like housing and what happens when you turn 18. Go at your own pace. You can skip anything you're not ready for.
+                  {lang === 'es' ? 'Algunos temas son difíciles — como vivienda y qué pasa cuando cumples 18 años. Ve a tu ritmo. Puedes saltar lo que no estés listo para leer.' : 'Some of this covers tough topics — like housing and what happens when you turn 18. Go at your own pace. You can skip anything you\'re not ready for.'}
                 </div>
                 <div className="mt-3">
                   <button
@@ -2186,7 +2296,9 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
                         : "bg-white text-slate-700 ring-black/10 hover:bg-slate-50")
                     }
                   >
-                    {showSensitive ? "Hide detailed sections" : "Show detailed sections"}
+                    {showSensitive
+                      ? (lang === 'es' ? 'Ocultar secciones detalladas' : 'Hide detailed sections')
+                      : (lang === 'es' ? 'Mostrar secciones detalladas' : 'Show detailed sections')}
                   </button>
                 </div>
               </div>
@@ -2198,8 +2310,8 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
             <Card accentColor="bg-[#2A7F8E]">
               <SectionTitle
                 icon={CheckCircle2}
-                title="Turning 18: what happens next?"
-                subtitle="You get to choose — stay in care with extra support, or leave on your own terms. Here's what each path actually means."
+                title={lang === 'es' ? 'Cumplir 18: ¿qué pasa después?' : 'Turning 18: what happens next?'}
+                subtitle={lang === 'es' ? 'Tú decides — quedarte en el cuidado con apoyo extra, o salir en tus propios términos. Aquí está lo que cada camino significa realmente.' : "You get to choose — stay in care with extra support, or leave on your own terms. Here's what each path actually means."}
                 iconClassName="bg-[#2A7F8E]/10 text-[#2A7F8E]"
               />
               <div className="mt-3 flex flex-wrap gap-2">
@@ -2212,15 +2324,18 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
             <Card accentColor="bg-[#D97706]">
               <SectionTitle
                 icon={GraduationCap}
-                title="Money for school"
-                subtitle="There's money available to help pay for school or training. Deadlines are real — don't wait."
+                title={lang === 'es' ? 'Dinero para la escuela' : 'Money for school'}
+                subtitle={lang === 'es' ? 'Hay dinero disponible para ayudar a pagar la escuela o la formación. Los plazos son reales — no esperes.' : "There's money available to help pay for school or training. Deadlines are real — don't wait."}
                 iconClassName="bg-[#D97706]/10 text-[#D97706]"
               />
               <div className="mt-3 grid gap-2">
-                {[
+                {(lang === 'es' ? [
+                  { label: "Bono de Educación y Capacitación (ETV)", note: "El ETV da hasta $5,000/año para estudios o formación laboral. Reúne tus documentos y solicita antes del 31 de julio.", href: "https://www.fc2success.org/programs/arizona/" },
+                  { label: "Formulario de ayuda universitaria gratis (FAFSA)", note: "Este formulario desbloquea becas y ayuda económica. Un consejero escolar o un adulto de confianza puede ayudarte a llenarlo.", href: "https://studentaid.gov/h/apply-for-aid/fafsa" },
+                ] : [
                   { label: "Education and Training Voucher (ETV)", note: "The Education and Training Voucher (ETV) provides up to $5,000/year for school or training. Gather your documents and apply before July 31.", href: "https://www.fc2success.org/programs/arizona/" },
                   { label: "Free college aid form (FAFSA)", note: "This form unlocks grants and aid. A school counselor or trusted adult can help you fill it out.", href: "https://studentaid.gov/h/apply-for-aid/fafsa" },
-                ].map((x) => (
+                ]).map((x) => (
                   <a
                     key={x.label}
                     href={x.href}
@@ -2246,13 +2361,13 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
             <Card accentColor="bg-[#1B3A5C]">
               <SectionTitle
                 icon={FileText}
-                title="Your Important Documents"
-                subtitle="These are the most important documents to get. Do them in this order — each one unlocks the next."
+                title={lang === 'es' ? 'Tus documentos importantes' : 'Your Important Documents'}
+                subtitle={lang === 'es' ? 'Estos son los documentos más importantes que debes obtener. Hazlos en este orden — cada uno desbloquea el siguiente.' : "These are the most important documents to get. Do them in this order — each one unlocks the next."}
                 iconClassName="bg-[#1B3A5C]/10 text-[#1B3A5C]"
               />
               {checkedDocs.size > 0 && (
                 <div className="mt-2 text-xs text-emerald-700 font-medium">
-                  {checkedDocs.size} of {IMPORTANT_DOCS.length} documents collected
+                  {lang === 'es' ? `${checkedDocs.size} de ${IMPORTANT_DOCS.length} documentos obtenidos` : `${checkedDocs.size} of ${IMPORTANT_DOCS.length} documents collected`}
                 </div>
               )}
               <div className="mt-3 grid gap-2">
@@ -2272,7 +2387,9 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
                         <button
                           onClick={() => toggleDoc(doc.id)}
                           className="flex items-center gap-2.5 text-left flex-1 min-w-0"
-                          aria-label={isChecked ? `Mark ${doc.label} as not collected` : `Mark ${doc.label} as collected`}
+                          aria-label={lang === 'es'
+                            ? (isChecked ? `Marcar ${doc.label_es} como no obtenido` : `Marcar ${doc.label_es} como obtenido`)
+                            : (isChecked ? `Mark ${doc.label} as not collected` : `Mark ${doc.label} as collected`)}
                         >
                           <div
                             className={
@@ -2294,7 +2411,7 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
                               (isChecked ? "text-emerald-800 line-through decoration-emerald-400" : "text-slate-800")
                             }>
                               <span className="text-[#1B3A5C]/40 font-normal mr-1">{i + 1}.</span>
-                              {doc.label}
+                              {lang === 'es' ? doc.label_es : doc.label}
                             </div>
                           </div>
                         </button>
@@ -2308,15 +2425,15 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
                               : "bg-white text-[#1B3A5C] ring-[#1B3A5C]/20 hover:ring-[#1B3A5C]/40")
                           }
                         >
-                          {isOpen ? "Close" : "How to get it"}
+                          {isOpen ? (lang === 'es' ? 'Cerrar' : 'Close') : (lang === 'es' ? 'Cómo obtenerlo' : 'How to get it')}
                         </button>
                       </div>
                       {/* Expanded steps */}
                       {isOpen && (
                         <div className="border-t border-black/6 bg-white px-4 py-3">
-                          <div className="text-xs text-slate-500 mb-3 italic">{doc.why}</div>
+                          <div className="text-xs text-slate-500 mb-3 italic">{lang === 'es' ? doc.why_es : doc.why}</div>
                           <div className="grid gap-2.5">
-                            {doc.steps.map((step, si) => (
+                            {(lang === 'es' ? doc.steps_es : doc.steps).map((step, si) => (
                               <div key={si} className="flex gap-3">
                                 <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#1B3A5C]/8 text-[10px] font-bold text-[#1B3A5C]">
                                   {si + 1}
@@ -2327,7 +2444,7 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
                           </div>
                           <div className="mt-3 flex items-center gap-1.5 rounded-xl bg-slate-50 px-3 py-2 ring-1 ring-black/6">
                             <Phone className="h-3.5 w-3.5 shrink-0 text-[#2A7F8E]" />
-                            <span className="text-xs text-slate-600">{doc.contact}</span>
+                            <span className="text-xs text-slate-600">{lang === 'es' ? doc.contact_es : doc.contact}</span>
                           </div>
                           <button
                             onClick={() => { toggleDoc(doc.id); setOpenDoc(null); }}
@@ -2338,7 +2455,7 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
                                 : "bg-emerald-500 text-white hover:bg-emerald-600")
                             }
                           >
-                            {isChecked ? "Mark as not collected" : "I got this document!"}
+                            {isChecked ? (lang === 'es' ? 'Marcar como no obtenido' : 'Mark as not collected') : (lang === 'es' ? '¡Obtuve este documento!' : 'I got this document!')}
                           </button>
                         </div>
                       )}
@@ -2355,8 +2472,8 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
               <Card accentColor="bg-emerald-500">
                 <SectionTitle
                   icon={MapPin}
-                  title="Housing path"
-                  subtitle={`Showing options near ${prefs.county}. Spots fill up — call before you go.`}
+                  title={lang === 'es' ? 'Opciones de vivienda' : 'Housing path'}
+                  subtitle={lang === 'es' ? `Mostrando opciones cerca de ${prefs.county}. Los lugares se llenan — llama antes de ir.` : `Showing options near ${prefs.county}. Spots fill up — call before you go.`}
                   iconClassName="bg-emerald-500/10 text-emerald-700"
                 />
                 <div className="mt-3 grid gap-2">
@@ -2370,7 +2487,7 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
                         <div className="flex items-center justify-between gap-2">
                           <div className="text-sm font-semibold text-slate-900">{r.name}</div>
                           <span className={pill("bg-[#D97706]/10 text-[#9a5200] ring-1 ring-[#D97706]/25")}>
-                            Call first
+                            {lang === 'es' ? 'Llama primero' : 'Call first'}
                           </span>
                         </div>
                         <div className="mt-1 text-xs text-slate-500">{r.description}</div>
@@ -2384,8 +2501,8 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
               <Card accentColor="bg-[#2A7F8E]">
                 <SectionTitle
                   icon={Users}
-                  title="ICWA-aware transition notes"
-                  subtitle="In the full app: your tribe's specific contacts and what your placement preferences mean for your case."
+                  title={lang === 'es' ? 'Notas de transición con ICWA' : 'ICWA-aware transition notes'}
+                  subtitle={lang === 'es' ? 'En la app completa: los contactos específicos de tu tribu y lo que tus preferencias de colocación significan para tu caso.' : "In the full app: your tribe's specific contacts and what your placement preferences mean for your case."}
                   iconClassName="bg-[#2A7F8E]/10 text-[#2A7F8E]"
                 />
                 <div className="mt-3 flex flex-wrap gap-2">
@@ -2410,6 +2527,7 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
 function ResourcesScreen({ prefs }: { prefs: Prefs }) {
   const [q, setQ] = useState("");
   const [need, setNeed] = useState("all");
+  const lang: Lang = prefs.language === 'es' ? 'es' : 'en';
 
   const ageRange = useMemo(() => bandToRange(prefs.ageBand || ""), [prefs.ageBand]);
 
@@ -2440,7 +2558,19 @@ function ResourcesScreen({ prefs }: { prefs: Prefs }) {
     });
   }, [q, need, ageRange, prefs.county]);
 
-  const NEEDS = [
+  const NEEDS = lang === 'es' ? [
+    { id: "all", label: "Todo" },
+    { id: "housing", label: "Vivienda" },
+    { id: "education", label: "Educación" },
+    { id: "legal", label: "Legal" },
+    { id: "health", label: "Salud" },
+    { id: "employment", label: "Trabajo" },
+    { id: "emergency", label: "Emergencia" },
+    { id: "transition", label: "Transición" },
+    { id: "rights", label: "Derechos" },
+    { id: "money", label: "Dinero" },
+    { id: "food", label: "Comida" },
+  ] : [
     { id: "all", label: "All" },
     { id: "housing", label: "Housing" },
     { id: "education", label: "Education" },
@@ -2458,8 +2588,10 @@ function ResourcesScreen({ prefs }: { prefs: Prefs }) {
     <div className="px-4 pb-28 pt-4">
       <ScreenHero
         icon={MapPin}
-        title="Find Resources"
-        subtitle={`Real organizations near you — filtered for ${prefs.county ?? "your county"} · Ages ${ageRange[0]}–${ageRange[1]}`}
+        title={lang === 'es' ? 'Encuentra Recursos' : 'Find Resources'}
+        subtitle={lang === 'es'
+          ? `Organizaciones reales cerca de ti — filtradas para ${prefs.county ?? "tu condado"} · Edades ${ageRange[0]}–${ageRange[1]}`
+          : `Real organizations near you — filtered for ${prefs.county ?? "your county"} · Ages ${ageRange[0]}–${ageRange[1]}`}
         gradient="from-emerald-600 to-emerald-900"
       />
 
@@ -2526,8 +2658,8 @@ function ResourcesScreen({ prefs }: { prefs: Prefs }) {
       <div className="mt-4 grid gap-3">
         {filtered.length === 0 ? (
           <div className="rounded-3xl bg-white/85 p-5 text-center ring-1 ring-black/5 shadow-sm">
-            <div className="text-sm font-semibold text-slate-700">No matches found</div>
-            <div className="mt-1 text-xs text-slate-500">Try calling 211 — a real person answers and can help you figure out what's available near you.</div>
+            <div className="text-sm font-semibold text-slate-700">{lang === 'es' ? 'No se encontraron resultados' : 'No matches found'}</div>
+            <div className="mt-1 text-xs text-slate-500">{lang === 'es' ? 'Intenta llamar al 211 — una persona real responde y puede ayudarte a encontrar lo que está disponible cerca de ti.' : 'Try calling 211 — a real person answers and can help you figure out what\'s available near you.'}</div>
           </div>
         ) : null}
 
@@ -2602,7 +2734,14 @@ function ResourcesScreen({ prefs }: { prefs: Prefs }) {
 
 function WellnessScreen({ prefs }: { prefs: Prefs }) {
   const [mood, setMood] = useState(3);
-  const moodConfig = [
+  const lang: Lang = prefs.language === 'es' ? 'es' : 'en';
+  const moodConfig = lang === 'es' ? [
+    { n: 1, label: "Muy mal", color: "bg-slate-400", active: "bg-slate-500 ring-slate-400/40" },
+    { n: 2, label: "Mal", color: "bg-slate-300", active: "bg-slate-400 ring-slate-300/40" },
+    { n: 3, label: "Regular", color: "bg-[#2A7F8E]/50", active: "bg-[#2A7F8E] ring-[#2A7F8E]/30" },
+    { n: 4, label: "Bien", color: "bg-[#2A7F8E]/75", active: "bg-[#2A7F8E] ring-[#2A7F8E]/30" },
+    { n: 5, label: "Muy bien", color: "bg-[#D97706]/60", active: "bg-[#D97706] ring-[#D97706]/30" },
+  ] : [
     { n: 1, label: "Really bad", color: "bg-slate-400", active: "bg-slate-500 ring-slate-400/40" },
     { n: 2, label: "Bad", color: "bg-slate-300", active: "bg-slate-400 ring-slate-300/40" },
     { n: 3, label: "Meh", color: "bg-[#2A7F8E]/50", active: "bg-[#2A7F8E] ring-[#2A7F8E]/30" },
@@ -2615,14 +2754,14 @@ function WellnessScreen({ prefs }: { prefs: Prefs }) {
     <div className="px-4 pb-28 pt-4">
       <ScreenHero
         icon={HeartPulse}
-        title="Wellness Check‑In"
-        subtitle="Tools to help you feel calmer — and how to reach a real person when you need one."
+        title={lang === 'es' ? 'Chequeo de Bienestar' : 'Wellness Check‑In'}
+        subtitle={lang === 'es' ? 'Herramientas para ayudarte a calmarte — y cómo comunicarte con una persona real cuando lo necesites.' : 'Tools to help you feel calmer — and how to reach a real person when you need one.'}
         gradient="from-rose-500 to-[#1B3A5C]"
       />
 
       {/* Mood scale */}
       <div className="mt-4 rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
-        <div className="text-sm font-semibold text-[#1B3A5C] mb-3">How are you feeling right now?</div>
+        <div className="text-sm font-semibold text-[#1B3A5C] mb-3">{lang === 'es' ? '¿Cómo te sientes ahora mismo?' : 'How are you feeling right now?'}</div>
         <div className="flex items-center justify-between gap-2">
           {moodConfig.map((m) => (
             <button
@@ -2647,7 +2786,7 @@ function WellnessScreen({ prefs }: { prefs: Prefs }) {
           ))}
         </div>
         <div className="mt-3 text-center text-xs text-slate-500">
-          Feeling: <span className="font-semibold text-slate-700">{currentMood.label}</span>
+          {lang === 'es' ? 'Estado: ' : 'Feeling: '}<span className="font-semibold text-slate-700">{currentMood.label}</span>
         </div>
       </div>
 
@@ -2655,20 +2794,23 @@ function WellnessScreen({ prefs }: { prefs: Prefs }) {
         <Card accentColor="bg-[#2A7F8E]">
           <SectionTitle
             icon={CheckCircle2}
-            title="One-minute reset"
-            subtitle="These take under a minute and can genuinely help."
+            title={lang === 'es' ? 'Reinicio de un minuto' : 'One-minute reset'}
+            subtitle={lang === 'es' ? 'Estas toman menos de un minuto y realmente pueden ayudar.' : 'These take under a minute and can genuinely help.'}
             iconClassName="bg-[#2A7F8E]/10 text-[#2A7F8E]"
           />
           <div className="mt-3 rounded-2xl bg-[#2A7F8E]/5 p-4 ring-1 ring-[#2A7F8E]/15">
-            <div className="text-sm font-semibold text-[#1B3A5C]">Box breathing (4‑4‑4‑4)</div>
+            <div className="text-sm font-semibold text-[#1B3A5C]">{lang === 'es' ? 'Respiración cuadrada (4‑4‑4‑4)' : 'Box breathing (4‑4‑4‑4)'}</div>
             <div className="mt-2 grid grid-cols-4 gap-1.5">
-              {["Breathe in\n4 sec", "Hold\n4 sec", "Breathe out\n4 sec", "Hold\n4 sec"].map((step) => (
+              {(lang === 'es'
+                ? ["Inhala\n4 seg", "Aguanta\n4 seg", "Exhala\n4 seg", "Aguanta\n4 seg"]
+                : ["Breathe in\n4 sec", "Hold\n4 sec", "Breathe out\n4 sec", "Hold\n4 sec"]
+              ).map((step) => (
                 <div key={step} className="rounded-xl bg-white p-2 text-center ring-1 ring-[#2A7F8E]/15">
                   <div className="whitespace-pre-line text-[10px] text-slate-600 leading-tight">{step}</div>
                 </div>
               ))}
             </div>
-            <div className="mt-2 text-center text-[11px] text-slate-500">Repeat 3 times</div>
+            <div className="mt-2 text-center text-[11px] text-slate-500">{lang === 'es' ? 'Repite 3 veces' : 'Repeat 3 times'}</div>
           </div>
         </Card>
 
@@ -2699,9 +2841,9 @@ function WellnessScreen({ prefs }: { prefs: Prefs }) {
         </Card>
 
         <div className="rounded-3xl bg-slate-50/80 p-4 ring-1 ring-slate-200/80 shadow-sm">
-          <div className="text-xs font-semibold text-slate-700">One important thing</div>
+          <div className="text-xs font-semibold text-slate-700">{lang === 'es' ? 'Una cosa importante' : 'One important thing'}</div>
           <div className="mt-1.5 text-xs text-slate-500 leading-relaxed">
-            This app can't replace real support. If you feel like you might hurt yourself, please reach out using the crisis links or call 911. You deserve real help.
+            {lang === 'es' ? 'Esta app no puede reemplazar el apoyo real. Si sientes que podrías hacerte daño, comunícate usando los enlaces de crisis o llama al 911. Mereces ayuda real.' : "This app can't replace real support. If you feel like you might hurt yourself, please reach out using the crisis links or call 911. You deserve real help."}
           </div>
         </div>
       </div>
@@ -2823,7 +2965,13 @@ function ChatModal({
     listRef.current.scrollTop = listRef.current.scrollHeight;
   }, [msgs]);
 
+  const lang: Lang = prefs.language === 'es' ? 'es' : 'en';
   const prompts = useMemo(() => {
+    if (lang === 'es') {
+      const base = [...SUGGESTED_ES];
+      if (prefs.tribal) base.unshift('¿Qué significa ICWA para mi caso?');
+      return base;
+    }
     const base = [
       "What's a permanency hearing?",
       "Can I see my brother or sister?",
@@ -2833,7 +2981,7 @@ function ChatModal({
     ];
     if (prefs.tribal) base.unshift("What does ICWA mean for my case?");
     return base;
-  }, [prefs.tribal]);
+  }, [prefs.tribal, lang]);
 
   const send = async (q?: string) => {
     const trimmed = (q ?? text).trim();
@@ -2878,7 +3026,9 @@ function ChatModal({
         ...m,
         {
           role: "bot",
-          body: "I'm having trouble right now. If you need help, you can call or text 211 Arizona — a real person will answer.",
+          body: lang === 'es'
+            ? 'Estoy teniendo problemas ahora mismo. Si necesitas ayuda, puedes llamar o enviar un mensaje al 211 Arizona — una persona real responderá.'
+            : "I'm having trouble right now. If you need help, you can call or text 211 Arizona — a real person will answer.",
           kind: "normal",
         },
       ]);
@@ -2888,7 +3038,7 @@ function ChatModal({
   };
 
   return (
-    <Modal open={open} onClose={onClose} title="Ask Compass">
+    <Modal open={open} onClose={onClose} title={t('ask_title', lang)}>
       {/* Chat hero */}
       <div className="rounded-2xl bg-gradient-to-br from-[#2A7F8E] to-[#1B3A5C] p-4">
         <div className="flex items-center gap-3">
@@ -2896,9 +3046,9 @@ function ChatModal({
             <MessageCircle className="h-4 w-4 text-white" />
           </div>
           <div>
-            <div className="text-sm font-semibold text-white">I'm here to help you find answers</div>
+            <div className="text-sm font-semibold text-white">{lang === 'es' ? 'Estoy aquí para ayudarte a encontrar respuestas' : "I'm here to help you find answers"}</div>
             <div className="mt-0.5 text-xs text-white/75 leading-relaxed">
-              Real info about your rights, case, and resources. Not a counselor — but here to help.
+              {lang === 'es' ? 'Información real sobre tus derechos, caso y recursos. No soy un consejero — pero estoy aquí para ayudar.' : 'Real info about your rights, case, and resources. Not a counselor — but here to help.'}
             </div>
           </div>
         </div>
@@ -2908,7 +3058,7 @@ function ChatModal({
       <div ref={listRef} className="mt-3 max-h-[42vh] space-y-3 overflow-y-auto pr-1">
         {msgs.length === 0 ? (
           <div className="py-2 text-center text-sm text-slate-400">
-            Try one of the questions below, or ask whatever's on your mind.
+            {lang === 'es' ? 'Prueba una de las preguntas de abajo, o pregunta lo que tengas en mente.' : "Try one of the questions below, or ask whatever's on your mind."}
           </div>
         ) : null}
 
@@ -2928,7 +3078,7 @@ function ChatModal({
                     <div className="mt-1 text-sm text-slate-700 leading-relaxed">{renderMarkdown(m.body ?? "")}</div>
                     <CitationsRow cites={m.cites} />
                     <div className="mt-2 text-[10px] text-slate-400">
-                      For your specific situation, talk to your caseworker or lawyer.
+                      {lang === 'es' ? 'Para tu situación específica, habla con tu trabajador/a de casos o abogado.' : 'For your specific situation, talk to your caseworker or lawyer.'}
                     </div>
                   </div>
                 </div>
@@ -2958,7 +3108,7 @@ function ChatModal({
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Type a question…"
+          placeholder={t('ask_placeholder', lang)}
           className="w-full rounded-2xl bg-white px-3 py-2.5 text-sm ring-1 ring-black/10 outline-none focus:ring-2 focus:ring-[#2A7F8E]/35 transition-all"
           onKeyDown={(e) => {
             if (e.key === "Enter") send();
@@ -2969,12 +3119,12 @@ function ChatModal({
           disabled={sending || !text.trim()}
           className="rounded-2xl bg-[#1B3A5C] px-4 py-2 text-sm font-semibold text-white hover:bg-[#152e49] transition-colors shadow-sm disabled:opacity-50"
         >
-          {sending ? "…" : "Send"}
+          {sending ? "…" : t('ask_send', lang)}
         </button>
       </div>
 
       <div className="mt-2 text-[10px] text-slate-400">
-        Messages clear when you close this window — no history is stored.
+        {lang === 'es' ? 'Los mensajes se borran cuando cierras esta ventana — no se guarda ningún historial.' : 'Messages clear when you close this window — no history is stored.'}
       </div>
     </Modal>
   );
@@ -3072,7 +3222,9 @@ function AskScreen({
         ...m,
         {
           role: "bot",
-          body: "I'm having trouble right now. If you need help, you can call or text 211 Arizona — a real person will answer.",
+          body: lang === 'es'
+            ? 'Estoy teniendo problemas ahora mismo. Si necesitas ayuda, puedes llamar o enviar un mensaje al 211 Arizona — una persona real responderá.'
+            : "I'm having trouble right now. If you need help, you can call or text 211 Arizona — a real person will answer.",
           kind: "normal",
         },
       ]);
@@ -3092,7 +3244,7 @@ function AskScreen({
           <div>
             <div className="text-base font-bold text-white">{t('ask_title', lang)}</div>
             <div className="mt-0.5 text-xs text-white/75 leading-relaxed">
-              Real answers about your rights, case, and resources. Not stored. Not shared.
+              {lang === 'es' ? 'Respuestas reales sobre tus derechos, caso y recursos. No se guarda. No se comparte.' : 'Real answers about your rights, case, and resources. Not stored. Not shared.'}
             </div>
           </div>
         </div>
@@ -3102,7 +3254,7 @@ function AskScreen({
       <div ref={listRef} className="mb-3 max-h-[45vh] space-y-3 overflow-y-auto pr-1">
         {msgs.length === 0 ? (
           <div className="py-4 text-center text-sm text-slate-400">
-            Try one of the questions below, or ask whatever's on your mind.
+            {lang === 'es' ? 'Prueba una de las preguntas de abajo, o pregunta lo que tengas en mente.' : "Try one of the questions below, or ask whatever's on your mind."}
           </div>
         ) : null}
         {msgs.map((m, idx) => {
@@ -3120,7 +3272,7 @@ function AskScreen({
                     <div className="mt-1 text-sm text-slate-700 leading-relaxed">{renderMarkdown(m.body ?? "")}</div>
                     <CitationsRow cites={m.cites} />
                     <div className="mt-2 text-[10px] text-slate-400">
-                      For your specific situation, talk to your caseworker or lawyer.
+                      {lang === 'es' ? 'Para tu situación específica, habla con tu trabajador/a de casos o abogado.' : 'For your specific situation, talk to your caseworker or lawyer.'}
                     </div>
                   </div>
                 </div>
@@ -3171,7 +3323,7 @@ function AskScreen({
       </div>
 
       <div className="mt-2 text-[10px] text-slate-400">
-        Messages clear when you leave this page — nothing is stored.
+        {lang === 'es' ? 'Los mensajes se borran cuando sales de esta página — nada se guarda.' : 'Messages clear when you leave this page — nothing is stored.'}
       </div>
     </div>
   );
