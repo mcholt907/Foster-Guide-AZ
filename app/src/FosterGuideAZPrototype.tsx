@@ -1113,11 +1113,13 @@ function DeadlineBanner({
   date,
   note,
   onAct,
+  actLabel = "Act now",
 }: {
   label: string;
   date: string;
   note?: string;
   onAct?: () => void;
+  actLabel?: string;
 }) {
   return (
     <div className="rounded-3xl bg-[#D97706] px-4 py-4 shadow-lg">
@@ -1137,7 +1139,7 @@ function DeadlineBanner({
           className="shrink-0 rounded-2xl bg-white/15 px-3 py-2 ring-1 ring-white/25 hover:bg-white/25 transition-colors"
         >
           <div className="flex items-center gap-1 text-xs font-semibold text-white">
-            Act now
+            {actLabel}
             <ArrowRight className="h-3 w-3" />
           </div>
         </button>
@@ -2223,6 +2225,7 @@ function FutureScreen({ prefs, onAskChat }: { prefs: Prefs; onAskChat?: (q: stri
               onAct={() => onAskChat?.(es
                 ? "¿Cómo solicito el Voucher de Educación y Capacitación (ETV)?"
                 : "How do I apply for the Education & Training Voucher (ETV)?")}
+              actLabel={es ? "Actúa ahora" : "Act now"}
             />
           </div>
 
