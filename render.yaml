@@ -4,7 +4,7 @@ services:
     name: fosterhub-api
     runtime: node
     rootDir: server
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --include=dev && npm run build
     startCommand: node dist/index.js
     healthCheckPath: /health
     plan: standard
@@ -23,7 +23,7 @@ services:
     name: fosterhub-web
     runtime: node
     rootDir: web
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --include=dev && npm run build
     startCommand: npm start
     plan: standard
     envVars:
