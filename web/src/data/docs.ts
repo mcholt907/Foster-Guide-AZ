@@ -1,0 +1,88 @@
+export const IMPORTANT_DOCS = [
+  {
+    id: "birth-cert",
+    label: "Birth certificate",
+    label_es: "Acta de nacimiento",
+    why: "You need this to get almost everything else — start here.",
+    why_es: "Necesitas esto para obtener casi todo lo demás — empieza aquí.",
+    steps: [
+      "Ask your caseworker first. DCS can request your birth certificate for free on your behalf.",
+      "If that doesn't work, contact the Arizona Department of Health Services (ADHS) directly.",
+      "Call (602) 364-1300 or go to azdhs.gov to order a copy online.",
+      "It's free for foster youth in Arizona — if anyone tries to charge you, remind them of A.R.S. §8-514.06.",
+    ],
+    steps_es: [
+      "Primero pregúntale a tu trabajador/a de casos. DCS puede solicitar tu acta de nacimiento gratis en tu nombre.",
+      "Si eso no funciona, comunícate directamente con el Departamento de Servicios de Salud de Arizona (ADHS).",
+      "Llama al (602) 364-1300 o ve a azdhs.gov para pedir una copia en línea.",
+      "Es gratis para jóvenes en cuidado adoptivo en Arizona — si alguien intenta cobrarte, recuérdales A.R.S. §8-514.06.",
+    ],
+    contact: "ADHS Vital Records: (602) 364-1300",
+    contact_es: "Registros Vitales de ADHS: (602) 364-1300",
+  },
+  {
+    id: "ssn-card",
+    label: "Social Security card",
+    label_es: "Tarjeta de Seguro Social",
+    why: "Needed for jobs, benefits, and your state ID. Your number may already be in your DCS file.",
+    why_es: "Necesaria para empleos, beneficios y tu identificación estatal. Tu número puede estar ya en tu expediente de DCS.",
+    steps: [
+      "Ask your caseworker for your Social Security number — it should be in your case file.",
+      "To get a physical replacement card, go to ssa.gov or call 1-800-772-1213.",
+      "Bring your birth certificate when you apply (or ask your caseworker to help).",
+      "Replacement cards are free — you can get up to 3 per year.",
+    ],
+    steps_es: [
+      "Pídele a tu trabajador/a de casos tu número de Seguro Social — debe estar en tu expediente.",
+      "Para obtener una tarjeta de reemplazo, ve a ssa.gov o llama al 1-800-772-1213.",
+      "Lleva tu acta de nacimiento cuando solicites (o pídele a tu trabajador/a que te ayude).",
+      "Las tarjetas de reemplazo son gratis — puedes obtener hasta 3 por año.",
+    ],
+    contact: "Social Security Administration: 1-800-772-1213",
+    contact_es: "Administración del Seguro Social: 1-800-772-1213",
+  },
+  {
+    id: "state-id",
+    label: "State ID / driver's license",
+    label_es: "Identificación estatal / licencia de conducir",
+    why: "Get your birth certificate and Social Security card first — you'll need both.",
+    why_es: "Obtén primero tu acta de nacimiento y tarjeta de Seguro Social — necesitarás ambas.",
+    steps: [
+      "Get your birth certificate and Social Security card before you go.",
+      "Visit an Arizona MVD office or start at azmvdnow.gov.",
+      "Ask your caseworker about a fee waiver — foster youth often qualify.",
+      "Bring proof of Arizona address (a letter from DCS on their letterhead works).",
+    ],
+    steps_es: [
+      "Consigue tu acta de nacimiento y tarjeta de Seguro Social antes de ir.",
+      "Visita una oficina de MVD de Arizona o comienza en azmvdnow.gov.",
+      "Pregúntale a tu trabajador/a de casos sobre una exención de tarifas — los jóvenes en cuidado adoptivo frecuentemente califican.",
+      "Lleva comprobante de domicilio en Arizona (una carta de DCS en su membrete funciona).",
+    ],
+    contact: "AZ Motor Vehicle Division: azmvdnow.gov",
+    contact_es: "División de Vehículos de Motor de AZ: azmvdnow.gov",
+  },
+  {
+    id: "immunizations",
+    label: "Immunization records",
+    label_es: "Registro de vacunas",
+    why: "Schools and some jobs require these. Your caseworker may already have them.",
+    why_es: "Las escuelas y algunos empleos los requieren. Tu trabajador/a de casos puede tenerlos.",
+    steps: [
+      "Ask your caseworker — DCS is required to keep your immunization records.",
+      "Check with your school's health office — they often keep records on file.",
+      "If you still can't find them, Arizona has a statewide registry. Call ADHS at (602) 364-3630.",
+      "Any doctor or clinic you've visited can also provide records of shots they gave you.",
+    ],
+    steps_es: [
+      "Pregúntale a tu trabajador/a de casos — DCS está obligado a conservar tus registros de vacunas.",
+      "Consulta con la enfermería de tu escuela — frecuentemente guardan registros.",
+      "Si aún no los encuentras, Arizona tiene un registro estatal. Llama a ADHS al (602) 364-3630.",
+      "Cualquier médico o clínica que hayas visitado también puede darte registros de vacunas que aplicaron.",
+    ],
+    contact: "AZ Immunization Registry: (602) 364-3630",
+    contact_es: "Registro de Vacunas de AZ: (602) 364-3630",
+  },
+] as const;
+
+export type ImportantDoc = (typeof IMPORTANT_DOCS)[number];

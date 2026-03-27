@@ -49,7 +49,7 @@ const UI_STRINGS = {
   onboarding_step_language:     { en: 'What language do you prefer?',           es: '¿Qué idioma prefieres?' },
   onboarding_step_age:          { en: 'How old are you?',                       es: '¿Cuántos años tienes?' },
   onboarding_step_county:       { en: 'What county do you live in?',            es: '¿En qué condado vives?' },
-  onboarding_step_tribal:       { en: 'Are you affiliated with a tribal nation?', es: '¿Estás afiliado a una nación tribal?' },
+  onboarding_step_tribal:       { en: 'Are you part of a tribal nation?', es: '¿Eres parte de una nación tribal?' },
   onboarding_btn_next:          { en: 'Next',                                   es: 'Siguiente' },
   onboarding_btn_start:         { en: "Let's go",                               es: 'Comenzar' },
   onboarding_btn_skip:          { en: 'Skip',                                   es: 'Omitir' },
@@ -93,7 +93,7 @@ const UI_STRINGS = {
   // Onboarding step hints
   onboarding_county_hint:       { en: 'This helps us show resources near you.', es: 'Esto nos ayuda a mostrarte recursos cerca de ti.' },
   onboarding_county_unknown:    { en: "I don't know",                           es: 'No sé' },
-  onboarding_tribal_hint:       { en: "If you're a tribal member, we can show steps that may apply to your case. This stays on your device only.", es: 'Si eres miembro de una tribu, podemos mostrarte pasos que podrían aplicar a tu caso. Esto solo se guarda en tu dispositivo.' },
+  onboarding_tribal_hint:       { en: "This helps us show you extra info that may apply. It stays on your device only — nothing is shared.", es: 'Esto nos ayuda a mostrarte información extra que puede aplicar. Solo se guarda en tu dispositivo — no se comparte nada.' },
   onboarding_tribal_not_sure:   { en: 'Not sure',                               es: 'No estoy seguro' },
   onboarding_btn_back:          { en: 'Back',                                   es: 'Atrás' },
   // Home screen hero + CTA
@@ -660,8 +660,8 @@ const WHO_IN_YOUR_CASE = [
     aka_es: "El/la jefe/a de tu trabajador/a de casos",
     emoji: "📞",
     color: "#1B3A5C",
-    role: "Oversees your caseworker. Your escalation contact when things aren't being resolved.",
-    role_es: "Supervisa a tu trabajador/a de casos. Tu contacto de escalación cuando las cosas no se resuelven.",
+    role: "Your caseworker's boss. Who you can talk to if things aren't getting fixed.",
+    role_es: "El/la jefe/a de tu trabajador/a de casos. Con quien puedes hablar si las cosas no se están resolviendo.",
     what: "If you've raised a concern with your caseworker and nothing is changing, ask to speak with their supervisor. Keep a written record of when you asked and what was said — dates matter.",
     what_es: "Si has planteado una preocupación con tu trabajador/a de casos y nada está cambiando, pide hablar con su supervisor/a. Guarda un registro escrito de cuándo preguntaste y qué dijeron — las fechas importan.",
     tip: "Asking to escalate is normal and OK. The system is designed for it. You won't get in trouble for asking.",
@@ -1118,6 +1118,52 @@ function SafeNotice({ lang }: { lang?: string | null }) {
 // ─── visual components ─────────────────────────────────────────────────────────
 
 function EscalationLadder({ ageBand, lang }: { ageBand?: string | null; lang?: Lang | null }) {
+  if (ageBand === "10-12") {
+    const simpleSteps = [
+      {
+        emoji: "👤",
+        who: "Tell your caseworker",
+        who_es: "Dile a tu trabajador/a de casos",
+        what: "They should help fix it. Tell them clearly what you need.",
+        what_es: "Deben ayudarte a resolverlo. Diles claramente lo que necesitas.",
+      },
+      {
+        emoji: "📋",
+        who: "Tell your lawyer",
+        who_es: "Dile a tu abogado/a",
+        what: "Your lawyer's only job is to speak up for you. Tell them if something isn't right.",
+        what_es: "El único trabajo de tu abogado es hablar por ti. Dile si algo no está bien.",
+      },
+      {
+        emoji: "🏫",
+        who: "Tell a trusted adult",
+        who_es: "Dile a un adulto de confianza",
+        what: "A teacher, school counselor, or another grown-up you trust can help you ask.",
+        what_es: "Un maestro, consejero escolar u otro adulto de confianza puede ayudarte a pedir.",
+      },
+    ];
+    return (
+      <div>
+        {simpleSteps.map((step, i) => (
+          <div key={i} className="flex items-start gap-3 pb-3">
+            <span className="text-xl shrink-0 mt-0.5">{step.emoji}</span>
+            <div>
+              <div className="text-sm font-semibold text-slate-900">{lang === 'es' ? step.who_es : step.who}</div>
+              <div className="mt-0.5 text-xs text-slate-500 leading-snug">{lang === 'es' ? step.what_es : step.what}</div>
+            </div>
+          </div>
+        ))}
+        <div className="mt-1 rounded-2xl bg-[#2A7F8E]/8 p-3">
+          <p className="text-xs text-[#1B3A5C] leading-relaxed">
+            {lang === 'es'
+              ? "💙 No tienes que resolver esto solo/a. Pedir ayuda siempre está bien."
+              : "💙 You don't have to figure this out alone. Asking for help is always okay."}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   const steps = [
     {
       n: 1,
@@ -1857,7 +1903,13 @@ function RightCard({
   const tabDefs: Array<{ id: RightTab; label: string; body: string }> = [
     { id: "means",   label: t('rights_tab_what', lang),    body: plain     },
     { id: "ask",     label: t('rights_tab_how', lang),     body: howToAsk  },
-    { id: "ignored", label: t('rights_tab_ignored', lang), body: ifIgnored },
+    {
+      id: "ignored",
+      label: tier === "10-12"
+        ? (lang === 'es' ? "Si nadie escucha" : "If nobody listens")
+        : t('rights_tab_ignored', lang),
+      body: ifIgnored,
+    },
   ];
 
   return (
@@ -2161,7 +2213,11 @@ function CaseScreen({ prefs, onReset }: { prefs: Prefs; onReset?: () => void }) 
                     className="w-full rounded-3xl bg-white/85 p-4 text-left shadow-sm ring-1 ring-black/5 transition-all hover:shadow-md"
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <div className="text-sm font-semibold text-[#1B3A5C]">{lang === 'es' ? (s.title_es ?? s.title) : s.title}</div>
+                      <div className="text-sm font-semibold text-[#1B3A5C]">
+                        {prefs.ageBand === "10-12"
+                          ? (lang === 'es' ? (s.title_es ?? s.title) : s.title).replace(/\s*\(.*?\)/, "").trim()
+                          : (lang === 'es' ? (s.title_es ?? s.title) : s.title)}
+                      </div>
                       <ChevronDown
                         className="h-4 w-4 shrink-0 text-slate-400 transition-transform"
                         style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}
