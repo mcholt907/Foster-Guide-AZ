@@ -50,7 +50,7 @@ export default function SetupPage() {
           </svg>
         </div>
         <div className="text-2xl font-bold text-white leading-snug">
-          {lang === "es" ? <>Bienvenido a<br />Compass</> : <>Welcome to<br />Compass</>}
+          {lang === "es" ? <>Bienvenido a<br />FosterHub AZ</> : <>Welcome to<br />FosterHub AZ</>}
         </div>
         <div className="mt-2 text-sm text-white/80 leading-relaxed">
           {t("onboarding_welcome_subtitle", lang)}
