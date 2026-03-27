@@ -25,6 +25,7 @@ services:
     rootDir: web
     buildCommand: npm install --include=dev && npm run build
     startCommand: npm start
+    healthCheckPath: /en
     plan: standard
     envVars:
       - key: NODE_VERSION
