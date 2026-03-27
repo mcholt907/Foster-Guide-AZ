@@ -1,0 +1,35 @@
+services:
+  # ── API server (Express + RAG + Claude) ─────────────────────────────────────
+  - type: web
+    name: fosterhub-api
+    runtime: node
+    rootDir: server
+    buildCommand: npm install && npm run build
+    startCommand: node dist/index.js
+    healthCheckPath: /health
+    plan: standard
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: NODE_ENV
+        value: production
+      - key: FRONTEND_ORIGIN
+        value: https://fosterhubaz.com,https://www.fosterhubaz.com,https://fosterhub-web.onrender.com
+      - key: ANTHROPIC_API_KEY
+        sync: false   # ← add your key in the Render dashboard after first deploy
+
+  # ── Next.js web app (PWA) ────────────────────────────────────────────────────
+  - type: web
+    name: fosterhub-web
+    runtime: node
+    rootDir: web
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    plan: standard
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        value: https://fosterhub-api.onrender.com
