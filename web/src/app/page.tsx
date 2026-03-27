@@ -28,9 +28,9 @@ export default function RootPage() {
         </div>
         <div className="text-2xl font-bold text-white leading-snug">
           {selected === "es" ? (
-            <>Bienvenido a<br />Compass</>
+            <>Bienvenido a<br />FosterHub AZ</>
           ) : (
-            <>Welcome to<br />Compass</>
+            <>Welcome to<br />FosterHub AZ</>
           )}
         </div>
         <div className="mt-2 text-sm text-white/80 leading-relaxed">
