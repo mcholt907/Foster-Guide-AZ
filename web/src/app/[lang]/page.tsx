@@ -158,7 +158,7 @@ export default function HomePage() {
   const prefs = useOnboardingGate(lang);
 
   const visibleCards = useMemo(() => {
-    if (prefs.ageBand === "10-12") return FEATURE_CARDS.filter((fc) => fc.id !== "future");
+    if (prefs.ageBand === "10-12" || prefs.ageBand === "13-15") return FEATURE_CARDS.filter((fc) => fc.id !== "future");
     if (prefs.ageBand === "18-21") {
       const order = ["future", "resources", "rights", "case", "wellness"];
       return order.map((id) => FEATURE_CARDS.find((fc) => fc.id === id)!);
