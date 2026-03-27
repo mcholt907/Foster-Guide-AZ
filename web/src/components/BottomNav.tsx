@@ -8,7 +8,7 @@ import type { Lang } from "../lib/i18n";
 const NAV_ITEMS = [
   { id: "home",      icon: Home,         href: "",           en: "Home",     es: "Inicio" },
   { id: "case",      icon: Gavel,        href: "/case",      en: "My Case",  es: "Mi Caso" },
-  { id: "rights",    icon: Shield,       href: "/rights",    en: "Rights",   es: "Derechos" },
+  { id: "rights",    icon: Shield,       href: "/rights",    en: "Your Rights",   es: "Tus Derechos" },
   { id: "resources", icon: MapPin,       href: "/resources", en: "Resources",es: "Recursos" },
   { id: "wellness",  icon: HeartPulse,   href: "/wellness",  en: "Wellness", es: "Bienestar" },
   { id: "ask",       icon: MessageCircle,href: "/ask",       en: "Ask",      es: "Preguntar" },
