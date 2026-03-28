@@ -43,12 +43,19 @@ export default function SetupPage() {
     <div className="pb-8">
       {/* Hero banner */}
       <div className="mb-5 rounded-3xl bg-gradient-to-br from-[#2A7F8E] to-[#1B3A5C] p-6 shadow-md">
-        <img src="/icons/icon-192.svg" className="mb-4 h-11 w-11 rounded-2xl shadow-md" alt="" aria-hidden="true" />
-        <div className="text-2xl font-bold text-white leading-snug">
-          {lang === "es" ? <>Bienvenido a<br />FosterHub AZ</> : <>Welcome to<br />FosterHub AZ</>}
+        <img src="/icons/icon-192.svg" className="mb-5 h-12 w-12 rounded-2xl shadow-md" alt="" aria-hidden="true" />
+        <div className="text-xl font-semibold text-white/90 leading-snug mb-1">
+          {t("onboarding_welcome_lead", lang)}
         </div>
-        <div className="mt-2 text-sm text-white/80 leading-relaxed">
+        <div className="text-2xl font-bold text-white leading-snug">
+          {lang === "es" ? "Bienvenido a FosterHub AZ" : "Welcome to FosterHub AZ"}
+        </div>
+        <div className="mt-3 text-sm text-white/75 leading-relaxed">
           {t("onboarding_welcome_subtitle", lang)}
+        </div>
+        <div className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-xs font-medium text-white/80">
+          <span>🔒</span>
+          {t("onboarding_welcome_privacy", lang)}
         </div>
       </div>
 
