@@ -15,20 +15,21 @@ export default function RootPage() {
     <div className="flex min-h-svh flex-col justify-center px-4 pb-8 pt-4 max-w-lg mx-auto">
       {/* Hero banner */}
       <div className="mb-5 rounded-3xl bg-gradient-to-br from-[#2A7F8E] to-[#1B3A5C] p-6 shadow-md">
-        <img src="/icons/icon-192.svg" className="mb-5 h-12 w-12 rounded-2xl shadow-md" alt="" aria-hidden="true" />
-        <div className="text-xl font-semibold text-white/90 leading-snug mb-1">
+        <div className="flex items-center gap-3 mb-5">
+          <img src="/icons/icon-192.svg" className="h-12 w-12 rounded-2xl shadow-md shrink-0" alt="" aria-hidden="true" />
+          <div className="text-2xl font-bold text-white leading-snug">
+            {selected === "es" ? "FosterHub AZ" : "FosterHub AZ"}
+          </div>
+        </div>
+        <div className="text-xl font-semibold text-white/90 leading-snug mb-2">
           {selected === "es" ? "Este lugar es para ti." : "This place is for you."}
         </div>
-        <div className="text-2xl font-bold text-white leading-snug">
-          {selected === "es" ? "Bienvenido a FosterHub AZ" : "Welcome to FosterHub AZ"}
-        </div>
-        <div className="mt-3 text-sm text-white/75 leading-relaxed">
+        <div className="text-sm text-white/75 leading-relaxed">
           {selected === "es"
             ? "El cuidado adoptivo puede ser confuso y abrumador. Este es un espacio tranquilo y seguro para encontrar respuestas reales, conocer tus derechos y descubrir tus próximos pasos."
             : "Foster care can be confusing and overwhelming. This is a calm, safe space to find real answers, learn your rights, and figure out your next steps."}
         </div>
-        <div className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-xs font-medium text-white/80">
-          <span>🔒</span>
+        <div className="mt-4 inline-flex items-center rounded-full bg-white/15 px-3 py-1.5 text-xs font-medium text-white/80">
           {selected === "es" ? "Sin registro · Nada se guarda" : "No sign-up · Nothing is saved"}
         </div>
       </div>

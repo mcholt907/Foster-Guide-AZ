@@ -43,18 +43,17 @@ export default function SetupPage() {
     <div className="pb-8">
       {/* Hero banner */}
       <div className="mb-5 rounded-3xl bg-gradient-to-br from-[#2A7F8E] to-[#1B3A5C] p-6 shadow-md">
-        <img src="/icons/icon-192.svg" className="mb-5 h-12 w-12 rounded-2xl shadow-md" alt="" aria-hidden="true" />
-        <div className="text-xl font-semibold text-white/90 leading-snug mb-1">
+        <div className="flex items-center gap-3 mb-5">
+          <img src="/icons/icon-192.svg" className="h-12 w-12 rounded-2xl shadow-md shrink-0" alt="" aria-hidden="true" />
+          <div className="text-2xl font-bold text-white leading-snug">FosterHub AZ</div>
+        </div>
+        <div className="text-xl font-semibold text-white/90 leading-snug mb-2">
           {t("onboarding_welcome_lead", lang)}
         </div>
-        <div className="text-2xl font-bold text-white leading-snug">
-          {lang === "es" ? "Bienvenido a FosterHub AZ" : "Welcome to FosterHub AZ"}
-        </div>
-        <div className="mt-3 text-sm text-white/75 leading-relaxed">
+        <div className="text-sm text-white/75 leading-relaxed">
           {t("onboarding_welcome_subtitle", lang)}
         </div>
-        <div className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-xs font-medium text-white/80">
-          <span>🔒</span>
+        <div className="mt-4 inline-flex items-center rounded-full bg-white/15 px-3 py-1.5 text-xs font-medium text-white/80">
           {t("onboarding_welcome_privacy", lang)}
         </div>
       </div>
