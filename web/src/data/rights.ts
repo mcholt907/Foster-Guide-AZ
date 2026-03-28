@@ -14,6 +14,7 @@ export type RightTier = {
 export type Right = {
   id: string;
   title: string;
+  title_es: string;
   citation: string;
   tiers: Record<AgeBandKey, RightTier>;
 };
@@ -22,6 +23,7 @@ export const RIGHTS: Right[] = [
   {
     id: "participate",
     title: "Having a Say in Your Case",
+    title_es: "Tener voz en tu caso",
     citation: "A.R.S. §8-529(A)(18)",
     tiers: {
       "10-12": {
@@ -69,6 +71,7 @@ export const RIGHTS: Right[] = [
   {
     id: "privacy",
     title: "Your Privacy & Communication",
+    title_es: "Tu privacidad y comunicación",
     citation: "A.R.S. §8-529 (privacy provisions)",
     tiers: {
       "10-12": {
@@ -116,6 +119,7 @@ export const RIGHTS: Right[] = [
   {
     id: "siblings",
     title: "Seeing Your Brothers & Sisters",
+    title_es: "Ver a tus hermanos y hermanas",
     citation: "A.R.S. §8-529(A)(4)",
     tiers: {
       "10-12": {

@@ -35,7 +35,7 @@ export default async function Layout({
   const faqItems = RIGHTS.map((right) => ({
     "@type": "Question",
     name: isEs
-      ? `${right.title} — ${right.citation}`
+      ? `${right.title_es} — ${right.citation}`
       : `${right.title} (${right.citation})`,
     acceptedAnswer: {
       "@type": "Answer",
