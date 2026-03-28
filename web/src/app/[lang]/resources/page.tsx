@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { useParams } from "next/navigation";
+import { useState, useMemo, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { MapPin, Search, ExternalLink, Phone } from "lucide-react";
 import type { Lang } from "../../../lib/i18n";
 import { t } from "../../../lib/i18n";
@@ -29,6 +29,11 @@ export default function ResourcesPage() {
   const { lang: rawLang } = useParams<{ lang: string }>();
   const lang: Lang = rawLang === "es" ? "es" : "en";
   const prefs = useOnboardingGate(lang);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (prefs.ageBand === "10-12") router.replace(`/${lang}`);
+  }, [prefs.ageBand, lang, router]);
 
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<string | null>(null);

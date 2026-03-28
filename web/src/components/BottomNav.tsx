@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Shield, Gavel, MapPin, HeartPulse, MessageCircle } from "lucide-react";
 import type { Lang } from "../lib/i18n";
+import { usePrefs } from "../lib/prefs";
 
 const NAV_ITEMS = [
   { id: "home",      icon: Home,         href: "",           en: "Home",     es: "Inicio" },
@@ -16,11 +17,15 @@ const NAV_ITEMS = [
 
 export function BottomNav({ lang }: { lang: Lang }) {
   const pathname = usePathname();
+  const [prefs] = usePrefs();
+  const visibleItems = NAV_ITEMS.filter(
+    (item) => !(item.id === "resources" && prefs.ageBand === "10-12")
+  );
 
   return (
     <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/80 safe-bottom">
       <div className="max-w-lg mx-auto flex items-stretch">
-        {NAV_ITEMS.map(({ id, icon: Icon, href, en, es }) => {
+        {visibleItems.map(({ id, icon: Icon, href, en, es }) => {
           const fullHref = `/${lang}${href}`;
           const isActive =
             href === ""
@@ -51,6 +56,10 @@ export function BottomNav({ lang }: { lang: Lang }) {
 
 export function SideNav({ lang }: { lang: Lang }) {
   const pathname = usePathname();
+  const [prefs] = usePrefs();
+  const visibleItems = NAV_ITEMS.filter(
+    (item) => !(item.id === "resources" && prefs.ageBand === "10-12")
+  );
 
   return (
     <aside className="hidden md:flex flex-col fixed left-0 top-0 h-screen w-56 z-40 bg-gradient-to-b from-[#1B3A5C] via-[#1e4a6e] to-[#2A7F8E] shadow-xl">
@@ -74,7 +83,7 @@ export function SideNav({ lang }: { lang: Lang }) {
 
       {/* Nav items */}
       <nav className="flex-1 px-3 flex flex-col gap-0.5">
-        {NAV_ITEMS.map(({ id, icon: Icon, href, en, es }) => {
+        {visibleItems.map(({ id, icon: Icon, href, en, es }) => {
           const fullHref = `/${lang}${href}`;
           const isActive =
             href === ""
