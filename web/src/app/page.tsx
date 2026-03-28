@@ -25,8 +25,8 @@ export default function RootPage() {
         </div>
         <div className="mt-2 text-sm text-white/80 leading-relaxed">
           {selected === "es"
-            ? "Mereces respuestas reales. Este es un lugar seguro para encontrarlas — sin registro, nada guardado."
-            : "You deserve real answers. This is a safe place to find them — no sign-up, nothing stored."}
+            ? "Este lugar es para ti. El cuidado adoptivo puede ser confuso y abrumador. Este es un espacio tranquilo y seguro para encontrar respuestas reales, conocer tus derechos y descubrir tus próximos pasos — sin registro, ninguno de tu información se guarda."
+            : "This place is for you. Foster care can be confusing and overwhelming. This is a calm, safe space to find real answers, learn your rights, and figure out your next steps — no sign-up, none of your info is saved."}
         </div>
       </div>
 
