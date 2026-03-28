@@ -10,13 +10,13 @@ export async function generateMetadata({
     return {
       title: "Mi Caso Explicado",
       description: "Entiende tus audiencias en el tribunal de dependencia de Arizona — qué significa cada una, quién participa y cómo prepararte.",
-      alternates: { canonical: "https://fosterhubaz.com/es/case" },
+      alternates: { canonical: "https://fosterhubaz.com/es/case", languages: { "en": "https://fosterhubaz.com/en/case", "es": "https://fosterhubaz.com/es/case" } },
     };
   }
   return {
     title: "My Case Explained",
     description: "Understand your Arizona dependency court hearings — what each one means, who's involved, and how to prepare. Plain language for foster youth.",
-    alternates: { canonical: "https://fosterhubaz.com/en/case" },
+    alternates: { canonical: "https://fosterhubaz.com/en/case", languages: { "en": "https://fosterhubaz.com/en/case", "es": "https://fosterhubaz.com/es/case" } },
   };
 }
 

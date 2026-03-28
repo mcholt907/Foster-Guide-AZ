@@ -154,7 +154,7 @@ export function ScreenHero({
           </button>
         ) : right}
       </div>
-      <div className="text-xl font-bold text-white leading-snug">{title}</div>
+      <h1 className="text-xl font-bold text-white leading-snug">{title}</h1>
       <div className="mt-1.5 text-sm text-white/80 leading-relaxed">{subtitle}</div>
     </div>
   );

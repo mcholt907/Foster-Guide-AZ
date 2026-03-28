@@ -12,6 +12,8 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const { lang } = await params;
+  // Only set canonical + hreflang for the homepage segment (/en, /es).
+  // Sub-pages set their own correct alternates in their own layout.tsx files.
   if (lang === "es") {
     return {
       title: "FosterHub AZ — Conoce Tus Derechos",
@@ -21,10 +23,7 @@ export async function generateMetadata({
         canonical: "https://fosterhubaz.com/es",
         languages: { "en": "https://fosterhubaz.com/en", "es": "https://fosterhubaz.com/es" },
       },
-      openGraph: {
-        locale: "es_MX",
-        alternateLocale: "en_US",
-      },
+      openGraph: { locale: "es_MX", alternateLocale: "en_US" },
     };
   }
   return {
