@@ -1,10 +1,6 @@
-<svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
-  <!-- Teal rounded background -->
+<svg width="32" height="32" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
   <rect width="192" height="192" rx="38" fill="#2A7F8E"/>
-  <!-- Roof -->
   <polygon points="96,40 164,108 28,108" fill="white"/>
-  <!-- House body -->
   <rect x="44" y="106" width="104" height="58" rx="4" fill="white"/>
-  <!-- Heart (amber) inside house -->
   <path d="M96,145 C83,135 68,122 68,112 C68,104 75,98 84,101 C88,102 92,106 96,110 C100,106 104,102 108,101 C117,98 124,104 124,112 C124,122 109,135 96,145Z" fill="#D97706"/>
 </svg>

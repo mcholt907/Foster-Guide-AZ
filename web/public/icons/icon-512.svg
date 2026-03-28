@@ -1,11 +1,10 @@
-<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-  <rect width="512" height="512" rx="102.4" fill="#2A7F8E"/>
-  <circle cx="256" cy="256" r="112.64" fill="white" opacity="0.95"/>
-  <g transform="translate(256, 256)">
-    <line x1="0" y1="-194.56" x2="0" y2="-133.12" stroke="white" stroke-width="25.6" stroke-linecap="round"/>
-    <line x1="0" y1="133.12" x2="0" y2="194.56" stroke="white" stroke-width="25.6" stroke-linecap="round"/>
-    <line x1="-194.56" y1="0" x2="-133.12" y2="0" stroke="white" stroke-width="25.6" stroke-linecap="round"/>
-    <line x1="133.12" y1="0" x2="194.56" y2="0" stroke="white" stroke-width="25.6" stroke-linecap="round"/>
-  </g>
-  <text x="256" y="317.44" text-anchor="middle" font-size="153.6" font-weight="bold" font-family="serif" fill="white">C</text>
+<svg width="512" height="512" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+  <!-- Teal rounded background -->
+  <rect width="192" height="192" rx="38" fill="#2A7F8E"/>
+  <!-- Roof -->
+  <polygon points="96,40 164,108 28,108" fill="white"/>
+  <!-- House body -->
+  <rect x="44" y="106" width="104" height="58" rx="4" fill="white"/>
+  <!-- Heart (amber) inside house -->
+  <path d="M96,145 C83,135 68,122 68,112 C68,104 75,98 84,101 C88,102 92,106 96,110 C100,106 104,102 108,101 C117,98 124,104 124,112 C124,122 109,135 96,145Z" fill="#D97706"/>
 </svg>
