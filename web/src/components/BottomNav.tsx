@@ -66,12 +66,7 @@ export function SideNav({ lang }: { lang: Lang }) {
       {/* Brand */}
       <div className="px-5 pt-6 pb-5">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400 to-amber-500 shadow-md shadow-black/20">
-            <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden="true">
-              <circle cx="12" cy="12" r="4" fill="white" />
-              <path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77" stroke="white" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-          </div>
+          <img src="/icons/icon-192.svg" className="h-9 w-9 rounded-2xl shadow-md shadow-black/20" alt="FosterHub AZ" />
           <div>
             <div className="text-sm font-bold text-white leading-none tracking-wide">FosterHub AZ</div>
           </div>
