@@ -121,7 +121,7 @@ export default function RightsPage() {
                           <div className="text-xs font-semibold text-[#2A7F8E] mb-1">
                             {lang === "es" ? "💬 Por ejemplo" : "💬 For example"}
                           </div>
-                          <p className="text-xs text-slate-600 leading-relaxed">
+                          <p className="text-sm sm:text-xs text-slate-600 leading-relaxed">
                             {lang === "es" ? tier.example_es : tier.example}
                           </p>
                         </div>
@@ -184,7 +184,7 @@ export default function RightsPage() {
                   <div className="text-sm font-semibold text-slate-900">
                     {lang === "es" ? step.who_es : step.who}
                   </div>
-                  <div className="mt-0.5 text-xs text-slate-500 leading-snug">
+                  <div className="mt-0.5 text-sm sm:text-xs text-slate-500 leading-snug">
                     {lang === "es" ? step.what_es : step.what}
                   </div>
                 </div>
@@ -192,7 +192,7 @@ export default function RightsPage() {
             ))}
           </div>
           <div className="mt-3 rounded-2xl bg-[#2A7F8E]/8 p-3">
-            <p className="text-xs text-[#1B3A5C] leading-relaxed">
+            <p className="text-sm sm:text-xs text-[#1B3A5C] leading-relaxed">
               {lang === "es"
                 ? "💙 No tienes que resolver esto solo/a. Pedir ayuda siempre está bien."
                 : "💙 You don't have to figure this out alone. Asking for help is always okay."}
@@ -217,7 +217,7 @@ export default function RightsPage() {
                   <div className="text-sm font-semibold text-slate-900">
                     {lang === "es" ? step.who_es : step.who}
                   </div>
-                  <div className="mt-0.5 text-xs text-slate-500 leading-snug">
+                  <div className="mt-0.5 text-sm sm:text-xs text-slate-500 leading-snug">
                     {lang === "es" ? step.what_es : step.what}
                   </div>
                 </div>

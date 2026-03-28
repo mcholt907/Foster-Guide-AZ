@@ -132,7 +132,7 @@ export default function ResourcesPage() {
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1 min-w-0">
                 <div className="text-sm font-semibold text-[#1B3A5C] leading-snug">{r.name}</div>
-                <p className="mt-1 text-xs text-slate-500 leading-relaxed">
+                <p className="mt-1 text-sm sm:text-xs text-slate-500 leading-relaxed">
                   {lang === "es" ? r.description_es : r.description}
                 </p>
               </div>
@@ -186,7 +186,7 @@ export default function ResourcesPage() {
       </div>
 
       {/* Spanish-speaking note */}
-      <div className="mt-4 rounded-2xl bg-white/60 p-3 text-xs text-slate-500 ring-1 ring-slate-200/80">
+      <div className="mt-4 rounded-2xl bg-white/60 p-3 text-sm sm:text-xs text-slate-500 ring-1 ring-slate-200/80">
         <span className="font-semibold text-slate-700">ES </span>
         {t("resources_spanish_label", lang)}
       </div>

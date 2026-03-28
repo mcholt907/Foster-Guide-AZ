@@ -74,7 +74,7 @@ export default function FuturePage() {
               <div className="text-sm font-semibold text-[#92400e]">
                 {lang === "es" ? "Plazo de la ETV" : "ETV Deadline"}
               </div>
-              <div className="mt-1 text-xs text-[#78350f] leading-relaxed">
+              <div className="mt-1 text-sm sm:text-xs text-[#78350f] leading-relaxed">
                 {lang === "es" ? (
                   <>
                     El dinero de la Beca de Capacitación Educativa y Vocacional (ETV) debe solicitarse antes del{" "}
@@ -89,7 +89,7 @@ export default function FuturePage() {
                   </>
                 )}
               </div>
-              <div className="mt-2 text-xs text-[#78350f]">
+              <div className="mt-2 text-sm sm:text-xs text-[#78350f]">
                 {lang === "es"
                   ? "Pídele a tu trabajador/a de casos que te conecte con el administrador de ETV de AFFCF."
                   : "Ask your caseworker to connect you with AFFCF's ETV administrator."}
@@ -186,7 +186,7 @@ export default function FuturePage() {
           <div className="text-base font-semibold text-[#1B3A5C] mb-1">
             {lang === "es" ? "Lista de documentos" : "Document Checklist"}
           </div>
-          <div className="text-xs text-slate-500 mb-3">
+          <div className="text-sm sm:text-xs text-slate-500 mb-3">
             {lang === "es"
               ? "Toca un documento para ver cómo conseguirlo."
               : "Tap a document to see how to get it."}
@@ -212,7 +212,7 @@ export default function FuturePage() {
                       <div className={`text-sm font-semibold ${isChecked ? "line-through text-slate-400" : "text-slate-900"}`}>
                         {lang === "es" ? doc.label_es : doc.label}
                       </div>
-                      <div className="text-xs text-slate-400 leading-snug">
+                      <div className="text-sm sm:text-xs text-slate-400 leading-snug">
                         {lang === "es" ? doc.why_es : doc.why}
                       </div>
                     </button>
@@ -229,14 +229,14 @@ export default function FuturePage() {
                       {(lang === "es" ? doc.steps_es : doc.steps).map((step, i) => (
                         <div key={i} className="flex items-start gap-2">
                           <span className="mt-0.5 text-xs font-bold text-[#2A7F8E] shrink-0">{i + 1}.</span>
-                          <p className="text-xs text-slate-600 leading-relaxed">{step}</p>
+                          <p className="text-sm sm:text-xs text-slate-600 leading-relaxed">{step}</p>
                         </div>
                       ))}
                       <div className="mt-1 rounded-xl bg-white p-2 ring-1 ring-black/5">
                         <span className="text-xs font-semibold text-slate-500">
                           {lang === "es" ? "Contacto: " : "Contact: "}
                         </span>
-                        <span className="text-xs text-slate-600">
+                        <span className="text-sm sm:text-xs text-slate-600">
                           {lang === "es" ? doc.contact_es : doc.contact}
                         </span>
                       </div>
@@ -255,7 +255,7 @@ export default function FuturePage() {
           <div className="text-sm font-semibold text-[#1B3A5C] mb-2">
             {lang === "es" ? "Nota sobre ICWA" : "ICWA Note"}
           </div>
-          <p className="text-xs text-slate-600 leading-relaxed">
+          <p className="text-sm sm:text-xs text-slate-600 leading-relaxed">
             {lang === "es"
               ? "La Ley de Bienestar Infantil Indígena (ICWA) puede aplicar a tu caso. Asegúrate de que tu tribu esté notificada de todas las audiencias. Pídele a tu abogado que explique cómo afecta ICWA tus opciones — incluyendo la adopción y la tutela."
               : "The Indian Child Welfare Act (ICWA) may apply to your case. Make sure your tribe has been notified of all hearings. Ask your attorney to explain how ICWA affects your options — including adoption and guardianship."}

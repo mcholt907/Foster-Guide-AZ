@@ -46,7 +46,7 @@ export default function CasePage() {
             <div className="text-base font-semibold text-[#1B3A5C]">
               {lang === "es" ? "¿Quién está en tu caso?" : "Who's in your case?"}
             </div>
-            <div className="text-xs text-slate-500">
+            <div className="text-sm sm:text-xs text-slate-500">
               {lang === "es"
                 ? "Las personas en el tribunal y lo que hacen"
                 : "The people in court and what they do"}
@@ -77,7 +77,7 @@ export default function CasePage() {
                       <div className="text-sm font-semibold text-slate-900">
                         {lang === "es" ? person.title_es : person.title}
                       </div>
-                      <div className="text-xs text-slate-400">
+                      <div className="text-sm sm:text-xs text-slate-400">
                         {lang === "es" ? person.role_es : person.role}
                       </div>
                     </div>
@@ -89,14 +89,14 @@ export default function CasePage() {
                   </button>
                   {isOpen && (
                     <div className="border-t border-slate-100 px-3 py-3 grid gap-2">
-                      <p className="text-xs text-slate-600 leading-relaxed">
+                      <p className="text-sm sm:text-xs text-slate-600 leading-relaxed">
                         {lang === "es" ? person.what_es : person.what}
                       </p>
                       <div className="rounded-xl bg-white p-2.5 ring-1 ring-black/5">
                         <span className="text-xs font-semibold text-[#D97706]">
                           {lang === "es" ? "Consejo: " : "Tip: "}
                         </span>
-                        <span className="text-xs text-slate-600">
+                        <span className="text-sm sm:text-xs text-slate-600">
                           {lang === "es" ? person.tip_es : person.tip}
                         </span>
                       </div>
@@ -157,7 +157,7 @@ export default function CasePage() {
                       <div className="text-xs font-semibold text-[#D97706] mb-1">
                         {lang === "es" ? "✏️ Para ti" : "✏️ For you"}
                       </div>
-                      <p className="text-xs text-slate-600 leading-relaxed">
+                      <p className="text-sm sm:text-xs text-slate-600 leading-relaxed">
                         {lang === "es" ? stage.youth_es : stage.youth}
                       </p>
                     </div>
@@ -165,7 +165,7 @@ export default function CasePage() {
                       <div className="text-xs font-semibold text-slate-400 mb-1">
                         {lang === "es" ? "Qué sigue" : "What's next"}
                       </div>
-                      <p className="text-xs text-slate-600 leading-relaxed">
+                      <p className="text-sm sm:text-xs text-slate-600 leading-relaxed">
                         {lang === "es" ? stage.next_es : stage.next}
                       </p>
                     </div>

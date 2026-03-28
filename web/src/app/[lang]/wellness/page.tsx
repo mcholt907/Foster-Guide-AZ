@@ -115,7 +115,7 @@ export default function WellnessPage() {
             <div className="text-base font-semibold text-[#1B3A5C]">
               {lang === "es" ? "Ejercicio de conexión 5-4-3-2-1" : "5-4-3-2-1 Grounding Exercise"}
             </div>
-            <div className="text-xs text-slate-500">
+            <div className="text-sm sm:text-xs text-slate-500">
               {lang === "es"
                 ? "Ayuda a calmar tu mente en menos de 2 minutos."
                 : "Helps calm your mind in under 2 minutes."}
@@ -170,7 +170,7 @@ export default function WellnessPage() {
               <span className="text-2xl shrink-0">{tool.emoji}</span>
               <div>
                 <div className="text-sm font-semibold text-[#1B3A5C]">{tool.title}</div>
-                <p className="mt-0.5 text-xs text-slate-500 leading-relaxed">{tool.desc}</p>
+                <p className="mt-0.5 text-sm sm:text-xs text-slate-500 leading-relaxed">{tool.desc}</p>
               </div>
             </div>
           </div>
@@ -189,7 +189,7 @@ export default function WellnessPage() {
           {CRISIS_PINS.map((c) => (
             <div key={c.name} className="rounded-2xl bg-slate-50/80 p-3 ring-1 ring-black/5">
               <div className="text-sm font-semibold text-slate-900">{c.name}</div>
-              <div className="mt-0.5 text-xs text-slate-500">{lang === "es" ? c.how_es : c.how}</div>
+              <div className="mt-0.5 text-sm sm:text-xs text-slate-500">{lang === "es" ? c.how_es : c.how}</div>
               <div className="mt-2 flex gap-2">
                 {c.url.startsWith("tel:") ? (
                   <a
