@@ -7,7 +7,7 @@ import type { Lang } from "../../../lib/i18n";
 import { t } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
 import { RESOURCES, CATEGORY_LABELS_ES } from "../../../data/resources";
-import { ScreenHero, Chip } from "../../../components/ui";
+import { ScreenHero, Chip, SafeNotice } from "../../../components/ui";
 
 const CATEGORY_LABELS_EN: Record<string, string> = {
   emergency: "emergency",
@@ -189,6 +189,10 @@ export default function ResourcesPage() {
       <div className="mt-4 rounded-2xl bg-white/60 p-3 text-xs text-slate-500 ring-1 ring-slate-200/80">
         <span className="font-semibold text-slate-700">ES </span>
         {t("resources_spanish_label", lang)}
+      </div>
+
+      <div className="mt-3">
+        <SafeNotice lang={lang} />
       </div>
     </div>
   );

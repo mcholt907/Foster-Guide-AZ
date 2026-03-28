@@ -8,7 +8,7 @@ import { t } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
 import type { AgeBandKey } from "../../../lib/prefs";
 import { RIGHTS, ESCALATION_STEPS } from "../../../data/rights";
-import { ScreenHero } from "../../../components/ui";
+import { ScreenHero, SafeNotice } from "../../../components/ui";
 
 type RightsTab = "what" | "how" | "ignored";
 
@@ -226,6 +226,10 @@ export default function RightsPage() {
           </div>
         </div>
       )}
+
+      <div className="mt-4">
+        <SafeNotice lang={lang} />
+      </div>
     </div>
   );
 }

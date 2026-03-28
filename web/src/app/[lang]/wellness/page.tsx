@@ -6,7 +6,7 @@ import { HeartPulse, Phone, MessageSquare } from "lucide-react";
 import type { Lang } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
 import { CRISIS_PINS } from "../../../data/constants";
-import { ScreenHero } from "../../../components/ui";
+import { ScreenHero, SafeNotice } from "../../../components/ui";
 
 const GROUNDING_STEPS_EN = [
   { n: 5, sense: "things you can see", icon: "👁️" },
@@ -233,6 +233,10 @@ export default function WellnessPage() {
               : "What you feel makes sense given what you've been through. Reaching out is a strength, not a weakness."}
           </p>
         </div>
+      </div>
+
+      <div className="mt-4">
+        <SafeNotice lang={lang} />
       </div>
     </div>
   );

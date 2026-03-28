@@ -7,7 +7,7 @@ import type { Lang } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
 import type { AgeBandKey } from "../../../lib/prefs";
 import { COURT_STAGES, WHO_IN_YOUR_CASE } from "../../../data/court";
-import { ScreenHero } from "../../../components/ui";
+import { ScreenHero, SafeNotice } from "../../../components/ui";
 
 export default function CasePage() {
   const { lang: rawLang } = useParams<{ lang: string }>();
@@ -175,6 +175,10 @@ export default function CasePage() {
             );
           })}
         </div>
+      </div>
+
+      <div className="mt-4">
+        <SafeNotice lang={lang} />
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import type { Lang } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
 import type { AgeBandKey } from "../../../lib/prefs";
 import { IMPORTANT_DOCS } from "../../../data/docs";
-import { ScreenHero, StatCite } from "../../../components/ui";
+import { ScreenHero, StatCite, SafeNotice } from "../../../components/ui";
 
 const ETV_DEADLINE = "July 31, 2026";
 const ETV_DEADLINE_ES = "31 de julio de 2026";
@@ -262,6 +262,10 @@ export default function FuturePage() {
           </p>
         </div>
       )}
+
+      <div className="mt-4">
+        <SafeNotice lang={lang} />
+      </div>
     </div>
   );
 }
