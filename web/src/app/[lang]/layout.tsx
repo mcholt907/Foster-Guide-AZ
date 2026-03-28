@@ -16,13 +16,25 @@ export async function generateMetadata({
     return {
       title: "FosterHub AZ — Conoce Tus Derechos",
       description:
-        "Conoce tus derechos, entiende tu caso y planifica tu futuro — para jóvenes en el sistema de cuidado adoptivo de Arizona.",
+        "Conoce tus derechos, entiende tu caso y planifica tu futuro — para jóvenes en el sistema de cuidado adoptivo de Arizona. Gratis, privado, bilingüe.",
+      alternates: {
+        canonical: "https://fosterhubaz.com/es",
+        languages: { "en": "https://fosterhubaz.com/en", "es": "https://fosterhubaz.com/es" },
+      },
+      openGraph: {
+        locale: "es_MX",
+        alternateLocale: "en_US",
+      },
     };
   }
   return {
     title: "FosterHub AZ — Know Your Rights",
     description:
-      "Know your rights, understand your case, and plan your future — for Arizona foster youth.",
+      "Know your rights, understand your case, and plan your future — for Arizona foster youth ages 10–21. Free, private, bilingual.",
+    alternates: {
+      canonical: "https://fosterhubaz.com/en",
+      languages: { "en": "https://fosterhubaz.com/en", "es": "https://fosterhubaz.com/es" },
+    },
   };
 }
 
