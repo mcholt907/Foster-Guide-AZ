@@ -29,12 +29,12 @@ export default function CasePage() {
             ? "Qué significan tus audiencias y cómo prepararte."
             : "What your hearings mean and how to prepare."
         }
-        gradient="from-[#1B3A5C] to-[#2A7F8E]"
+        gradient="from-[#2A7F8E] via-[#1a5f7e] to-[#1B3A5C]"
         lang={lang}
       />
 
       {/* Who's in your case */}
-      <div className="mt-4 rounded-3xl bg-white/85 ring-1 ring-black/5 shadow-sm overflow-hidden">
+      <div className="mt-4 rounded-3xl bg-white/95 shadow-[0_8px_30px_rgb(0,0,0,0.06)] overflow-hidden">
         <button
           onClick={() => setShowWho((v) => !v)}
           className="w-full flex items-center gap-3 px-4 py-4 text-left"
@@ -53,9 +53,9 @@ export default function CasePage() {
             </div>
           </div>
           {showWho ? (
-            <ChevronUp className="h-5 w-5 text-slate-400 shrink-0" />
+            <ChevronUp className="h-5 w-5 text-[#2A7F8E] stroke-[2] shrink-0" />
           ) : (
-            <ChevronDown className="h-5 w-5 text-slate-400 shrink-0" />
+            <ChevronDown className="h-5 w-5 text-[#2A7F8E] stroke-[2] shrink-0" />
           )}
         </button>
 
@@ -66,7 +66,7 @@ export default function CasePage() {
               return (
                 <div
                   key={person.id}
-                  className="rounded-2xl bg-slate-50/80 ring-1 ring-black/5 overflow-hidden"
+                  className="rounded-2xl bg-slate-50/80 ring-1 ring-slate-200 overflow-hidden"
                 >
                   <button
                     onClick={() => setOpenPerson(isOpen ? null : person.id)}
@@ -82,9 +82,9 @@ export default function CasePage() {
                       </div>
                     </div>
                     {isOpen ? (
-                      <ChevronUp className="h-4 w-4 text-slate-400 shrink-0" />
+                      <ChevronUp className="h-4 w-4 text-[#2A7F8E] stroke-[2] shrink-0" />
                     ) : (
-                      <ChevronDown className="h-4 w-4 text-slate-400 shrink-0" />
+                      <ChevronDown className="h-4 w-4 text-[#2A7F8E] stroke-[2] shrink-0" />
                     )}
                   </button>
                   {isOpen && (
@@ -92,7 +92,7 @@ export default function CasePage() {
                       <p className="text-sm sm:text-xs text-slate-600 leading-relaxed">
                         {lang === "es" ? person.what_es : person.what}
                       </p>
-                      <div className="rounded-xl bg-white p-2.5 ring-1 ring-black/5">
+                      <div className="rounded-xl bg-white p-2.5 ring-1 ring-slate-200">
                         <span className="text-xs font-semibold text-[#D97706]">
                           {lang === "es" ? "Consejo: " : "Tip: "}
                         </span>
@@ -120,7 +120,7 @@ export default function CasePage() {
             return (
               <div
                 key={stage.id}
-                className="rounded-3xl bg-white/85 ring-1 ring-black/5 shadow-sm overflow-hidden"
+                className="rounded-3xl bg-white/95 shadow-[0_8px_30px_rgb(0,0,0,0.06)] overflow-hidden"
               >
                 <button
                   onClick={() => setOpenStage(isOpen ? null : stage.id)}
@@ -137,9 +137,9 @@ export default function CasePage() {
                     </div>
                   </div>
                   {isOpen ? (
-                    <ChevronUp className="h-5 w-5 text-slate-400 shrink-0" />
+                    <ChevronUp className="h-5 w-5 text-[#2A7F8E] stroke-[2] shrink-0" />
                   ) : (
-                    <ChevronDown className="h-5 w-5 text-slate-400 shrink-0" />
+                    <ChevronDown className="h-5 w-5 text-[#2A7F8E] stroke-[2] shrink-0" />
                   )}
                 </button>
 

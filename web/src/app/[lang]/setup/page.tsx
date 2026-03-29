@@ -42,15 +42,15 @@ export default function SetupPage() {
   return (
     <div className="pb-8">
       {/* Hero banner */}
-      <div className="mb-5 rounded-3xl bg-gradient-to-br from-[#2A7F8E] to-[#1B3A5C] p-6 shadow-md">
+      <div className="mb-5 rounded-3xl bg-gradient-to-br from-[#2A7F8E] via-[#1a5f7e] to-[#1B3A5C] p-6 shadow-md">
         <div className="flex items-center gap-3 mb-5">
           <img src="/icons/icon-192.svg" className="h-12 w-12 rounded-2xl shadow-md shrink-0" alt="" aria-hidden="true" />
           <div className="text-2xl font-bold text-white leading-snug">FosterHub AZ</div>
         </div>
-        <div className="text-xl font-semibold text-white/90 leading-snug mb-2">
+        <div className="text-xl font-semibold tracking-tight text-white/90 leading-snug mb-2">
           {t("onboarding_welcome_lead", lang)}
         </div>
-        <div className="text-sm text-white/75 leading-relaxed">
+        <div className="text-sm tracking-wide text-white/75 leading-relaxed">
           {t("onboarding_welcome_subtitle", lang)}
         </div>
         <div className="mt-4 inline-flex items-center rounded-full bg-white/15 px-3 py-1.5 text-xs font-medium text-white/80">
@@ -59,7 +59,7 @@ export default function SetupPage() {
       </div>
 
       {/* Step card */}
-      <div className="rounded-3xl bg-white/85 p-5 shadow-sm ring-1 ring-black/5">
+      <div className="rounded-3xl bg-white/95 p-5 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
         <div className="flex items-center justify-between mb-4">
           <div className="text-sm font-semibold text-[#1B3A5C]">
             {step === 0

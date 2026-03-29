@@ -3,16 +3,17 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Shield, Gavel, MapPin, HeartPulse, MessageCircle } from "lucide-react";
+import { motion } from "framer-motion";
 import type { Lang } from "../lib/i18n";
 import { usePrefs } from "../lib/prefs";
 
 const NAV_ITEMS = [
-  { id: "home",      icon: Home,         href: "",           en: "Home",     es: "Inicio" },
-  { id: "case",      icon: Gavel,        href: "/case",      en: "My Case",  es: "Mi Caso" },
-  { id: "rights",    icon: Shield,       href: "/rights",    en: "Your Rights",   es: "Tus Derechos" },
-  { id: "resources", icon: MapPin,       href: "/resources", en: "Resources",es: "Recursos" },
-  { id: "wellness",  icon: HeartPulse,   href: "/wellness",  en: "Wellness", es: "Bienestar" },
-  { id: "ask",       icon: MessageCircle,href: "/ask",       en: "Ask",      es: "Preguntar" },
+  { id: "home",      icon: Home,         href: "",           en: "Home",      es: "Inicio",    labelEn: "Home",      labelEs: "Inicio" },
+  { id: "case",      icon: Gavel,        href: "/case",      en: "My Case",   es: "Mi Caso",   labelEn: "My Case",   labelEs: "Mi Caso" },
+  { id: "rights",    icon: Shield,       href: "/rights",    en: "Your Rights", es: "Tus Derechos", labelEn: "Rights", labelEs: "Derechos" },
+  { id: "resources", icon: MapPin,       href: "/resources", en: "Resources", es: "Recursos",  labelEn: "Resources", labelEs: "Recursos" },
+  { id: "wellness",  icon: HeartPulse,   href: "/wellness",  en: "Wellness",  es: "Bienestar", labelEn: "Wellness",  labelEs: "Bienestar" },
+  { id: "ask",       icon: MessageCircle,href: "/ask",       en: "Ask",       es: "Preguntar", labelEn: "Ask",       labelEs: "Ask" },
 ] as const;
 
 export function BottomNav({ lang }: { lang: Lang }) {
@@ -23,9 +24,9 @@ export function BottomNav({ lang }: { lang: Lang }) {
   );
 
   return (
-    <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/80 safe-bottom">
-      <div className="max-w-lg mx-auto flex items-stretch">
-        {visibleItems.map(({ id, icon: Icon, href, en, es }) => {
+    <nav className="md:hidden fixed bottom-6 inset-x-4 z-40 pointer-events-none">
+      <div className="mx-auto flex max-w-[400px] items-center justify-between overflow-hidden rounded-[32px] bg-white/95 p-2 shadow-[0_20px_60px_-5px_rgb(0,0,0,0.25),0_8px_20px_-8px_rgb(42,127,142,0.3)] backdrop-blur-xl ring-1 ring-black/5 pointer-events-auto">
+        {visibleItems.map(({ id, icon: Icon, href, labelEn, labelEs }) => {
           const fullHref = `/${lang}${href}`;
           const isActive =
             href === ""
@@ -36,16 +37,23 @@ export function BottomNav({ lang }: { lang: Lang }) {
             <Link
               key={id}
               href={fullHref}
-              className={`flex flex-1 flex-col items-center gap-0.5 py-2.5 text-[10px] font-medium transition-colors ${
-                isActive
-                  ? "text-[#2A7F8E]"
-                  : "text-slate-400 hover:text-slate-600"
+              className={`relative flex flex-col items-center justify-center rounded-2xl px-2.5 py-1.5 transition-colors ${
+                isActive ? "text-white" : "text-stone-400 hover:text-stone-600"
               }`}
             >
-              <Icon
-                className={`h-5 w-5 ${isActive ? "stroke-[2.5]" : "stroke-2"}`}
-              />
-              <span>{lang === "es" ? es : en}</span>
+              {isActive && (
+                <motion.div
+                  layoutId="activeNavPill"
+                  className="absolute inset-0 rounded-2xl bg-[#2A7F8E] shadow-md shadow-[#2A7F8E]/40"
+                  transition={{ type: "spring", stiffness: 450, damping: 30 }}
+                />
+              )}
+              <div className="relative z-10 flex flex-col items-center gap-0.5">
+                <Icon className={`h-5 w-5 shrink-0 ${isActive ? "stroke-[2.5]" : "stroke-[1.75]"}`} />
+                <span className="text-[9px] font-semibold leading-none tracking-wide whitespace-nowrap">
+                  {lang === "es" ? labelEs : labelEn}
+                </span>
+              </div>
             </Link>
           );
         })}

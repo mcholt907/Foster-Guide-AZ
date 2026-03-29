@@ -54,7 +54,7 @@ export default function FuturePage() {
 
       {/* Young kids — simple intro */}
       {band === "10-12" && (
-        <div className="mt-4 rounded-3xl bg-white/85 p-5 ring-1 ring-black/5 shadow-sm">
+        <div className="mt-4 rounded-3xl bg-white/95 p-5 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
           <p className="text-sm text-slate-700 leading-relaxed">
             {lang === "es"
               ? "Cuando cumplas 18, pasarán algunas cosas importantes. No tienes que resolverlo solo — hay personas que te pueden ayudar a planificar. Cuando seas mayor, esta sección tendrá más información para ti."
@@ -101,7 +101,7 @@ export default function FuturePage() {
 
       {/* Extended Foster Care — 16+ */}
       {isOlderTeen && (
-        <div className="mt-4 rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
+        <div className="mt-4 rounded-3xl bg-white/95 p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-lg">🏠</span>
             <div className="text-base font-semibold text-[#1B3A5C]">
@@ -144,7 +144,7 @@ export default function FuturePage() {
 
       {/* Housing — 18-21 */}
       {isAdult && (
-        <div className="mt-4 rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
+        <div className="mt-4 rounded-3xl bg-white/95 p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
           <div className="text-base font-semibold text-[#1B3A5C] mb-3">
             {lang === "es" ? "Vivienda" : "Housing"}
           </div>
@@ -182,7 +182,7 @@ export default function FuturePage() {
 
       {/* Document checklist — 16+ */}
       {isOlderTeen && (
-        <div className="mt-4 rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
+        <div className="mt-4 rounded-3xl bg-white/95 p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
           <div className="text-base font-semibold text-[#1B3A5C] mb-1">
             {lang === "es" ? "Lista de documentos" : "Document Checklist"}
           </div>
@@ -196,7 +196,7 @@ export default function FuturePage() {
               const isChecked = checkedDocs.has(doc.id);
               const isOpen = openDoc === doc.id;
               return (
-                <div key={doc.id} className="rounded-2xl bg-slate-50/80 ring-1 ring-black/5 overflow-hidden">
+                <div key={doc.id} className="rounded-2xl bg-slate-50/80 ring-1 ring-slate-200 overflow-hidden">
                   <div className="flex items-center gap-3 px-3 py-3">
                     <button onClick={() => toggleDoc(doc.id)} className="shrink-0">
                       {isChecked ? (
@@ -218,9 +218,9 @@ export default function FuturePage() {
                     </button>
                     <button onClick={() => setOpenDoc(isOpen ? null : doc.id)}>
                       {isOpen ? (
-                        <ChevronUp className="h-4 w-4 text-slate-400 shrink-0" />
+                        <ChevronUp className="h-4 w-4 text-[#2A7F8E] stroke-[2] shrink-0" />
                       ) : (
-                        <ChevronDown className="h-4 w-4 text-slate-400 shrink-0" />
+                        <ChevronDown className="h-4 w-4 text-[#2A7F8E] stroke-[2] shrink-0" />
                       )}
                     </button>
                   </div>
@@ -232,7 +232,7 @@ export default function FuturePage() {
                           <p className="text-sm sm:text-xs text-slate-600 leading-relaxed">{step}</p>
                         </div>
                       ))}
-                      <div className="mt-1 rounded-xl bg-white p-2 ring-1 ring-black/5">
+                      <div className="mt-1 rounded-xl bg-white p-2 ring-1 ring-slate-200">
                         <span className="text-xs font-semibold text-slate-500">
                           {lang === "es" ? "Contacto: " : "Contact: "}
                         </span>

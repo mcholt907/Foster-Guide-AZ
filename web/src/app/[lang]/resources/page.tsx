@@ -118,7 +118,7 @@ export default function ResourcesPage() {
       {/* Results */}
       <div className="mt-4 grid gap-3">
         {filtered.length === 0 && (
-          <div className="rounded-3xl bg-white/85 p-6 ring-1 ring-black/5 text-center">
+          <div className="rounded-3xl bg-white/95 p-6 shadow-[0_8px_30px_rgb(0,0,0,0.06)] text-center">
             <p className="text-sm text-slate-500">
               {lang === "es" ? "No se encontraron recursos." : "No resources found."}
             </p>
@@ -127,7 +127,7 @@ export default function ResourcesPage() {
         {filtered.map((r) => (
           <div
             key={r.id}
-            className="rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm"
+            className="rounded-3xl bg-white/95 p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)]"
           >
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1 min-w-0">

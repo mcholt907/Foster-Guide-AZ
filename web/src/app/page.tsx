@@ -14,17 +14,17 @@ export default function RootPage() {
   return (
     <div className="flex min-h-svh flex-col justify-center px-4 pb-8 pt-4 max-w-lg mx-auto">
       {/* Hero banner */}
-      <div className="mb-5 rounded-3xl bg-gradient-to-br from-[#2A7F8E] to-[#1B3A5C] p-6 shadow-md">
+      <div className="mb-5 rounded-3xl bg-gradient-to-br from-[#2A7F8E] via-[#1a5f7e] to-[#1B3A5C] p-6 shadow-md">
         <div className="flex items-center gap-3 mb-5">
           <img src="/icons/icon-192.svg" className="h-12 w-12 rounded-2xl shadow-md shrink-0" alt="" aria-hidden="true" />
           <div className="text-2xl font-bold text-white leading-snug">
             {selected === "es" ? "FosterHub AZ" : "FosterHub AZ"}
           </div>
         </div>
-        <div className="text-xl font-semibold text-white/90 leading-snug mb-2">
+        <div className="text-xl font-semibold tracking-tight text-white/90 leading-snug mb-2">
           {selected === "es" ? "Este lugar es para ti." : "This place is for you."}
         </div>
-        <div className="text-sm text-white/75 leading-relaxed">
+        <div className="text-sm tracking-wide text-white/75 leading-relaxed">
           {selected === "es"
             ? "El cuidado adoptivo puede ser confuso y abrumador. Este es un espacio tranquilo y seguro para encontrar respuestas reales, conocer tus derechos y descubrir tus próximos pasos."
             : "Foster care can be confusing and overwhelming. This is a calm, safe space to find real answers, learn your rights, and figure out your next steps."}
@@ -35,7 +35,7 @@ export default function RootPage() {
       </div>
 
       {/* Step card */}
-      <div className="rounded-3xl bg-white/85 p-5 shadow-sm ring-1 ring-black/5">
+      <div className="rounded-3xl bg-white/95 p-5 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
         <div className="flex items-center justify-between mb-4">
           <div className="text-sm font-semibold text-[#1B3A5C]">
             {selected === "es" ? "¿Qué idioma prefieres?" : "What language do you prefer?"}

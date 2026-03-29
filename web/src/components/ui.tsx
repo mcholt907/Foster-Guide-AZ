@@ -21,8 +21,8 @@ export function Card({
       <div
         onClick={onClick}
         className={
-          "flex overflow-hidden rounded-3xl bg-white/85 shadow-sm ring-1 ring-black/5 " +
-          (clickable ? "cursor-pointer hover:shadow-md active:scale-[0.995] " : "") +
+          "flex overflow-hidden rounded-[28px] bg-white/95 shadow-[0_8px_30px_rgb(0,0,0,0.06)] " +
+          (clickable ? "cursor-pointer hover:shadow-md active:scale-[0.995] transition-all " : "") +
           className
         }
       >
@@ -35,8 +35,8 @@ export function Card({
     <div
       onClick={onClick}
       className={
-        "rounded-3xl bg-white/85 p-4 shadow-sm ring-1 ring-black/5 " +
-        (clickable ? "cursor-pointer hover:shadow-md active:scale-[0.995] " : "") +
+        "rounded-[28px] bg-white/95 p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)] " +
+        (clickable ? "cursor-pointer hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] active:scale-[0.995] transition-all " : "") +
         className
       }
     >
@@ -67,7 +67,7 @@ export function PrimaryButton({
     <button
       type="button"
       onClick={onClick}
-      className={`w-full rounded-2xl px-4 py-3 text-sm font-semibold shadow-sm active:scale-[0.99] transition-all ${cls}`}
+      className={`w-full rounded-2xl px-4 py-3.5 text-sm font-bold shadow-[0_4px_16px_rgb(0,0,0,0.1)] active:scale-[0.99] transition-all ${cls}`}
     >
       <span className="flex items-center justify-center gap-2">
         {Icon ? <Icon className="h-4 w-4" /> : null}
@@ -140,22 +140,25 @@ export function ScreenHero({
   lang?: Lang | null;
 }) {
   return (
-    <div className={`rounded-3xl bg-gradient-to-br ${gradient} p-5 shadow-md`}>
-      <div className="flex items-start justify-between mb-3">
-        <div className="rounded-2xl bg-white/15 p-2.5 backdrop-blur-sm">
-          <Icon className="h-5 w-5 text-white" />
+    <div className={`relative overflow-hidden rounded-[32px] bg-gradient-to-br ${gradient} p-6 shadow-lg shadow-black/10`}>
+      <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
+      <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-black/10 blur-2xl" />
+      
+      <div className="relative z-10 flex items-start justify-between mb-4">
+        <div className="rounded-2xl bg-white/20 p-2.5 backdrop-blur-md shadow-sm">
+          <Icon className="h-6 w-6 text-white" />
         </div>
         {onStartOver ? (
           <button
             onClick={onStartOver}
-            className="rounded-xl bg-white/15 px-3 py-1.5 text-xs font-semibold text-white/90 hover:bg-white/25 transition-colors"
+            className="rounded-xl bg-white/20 px-3.5 py-1.5 text-[13px] font-bold tracking-wide text-white/95 hover:bg-white/30 backdrop-blur-md transition-all shadow-sm"
           >
             {lang === "es" ? "Empezar de nuevo" : "Start over"}
           </button>
         ) : right}
       </div>
-      <h1 className="text-xl font-bold text-white leading-snug">{title}</h1>
-      <div className="mt-1.5 text-sm text-white/80 leading-relaxed">{subtitle}</div>
+      <h1 className="relative z-10 text-[26px] font-extrabold tracking-tighter text-white leading-tight">{title}</h1>
+      <div className="relative z-10 mt-2 text-[15px] font-medium text-white/90 leading-relaxed tracking-wide max-w-sm">{subtitle}</div>
     </div>
   );
 }

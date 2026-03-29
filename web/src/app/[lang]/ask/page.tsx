@@ -88,7 +88,7 @@ export default function AskPage() {
             ? "Haz una pregunta sobre tus derechos, tu caso o recursos."
             : "Ask a question about your rights, your case, or resources."
         }
-        gradient="from-[#2A7F8E] to-[#1B3A5C]"
+        gradient="from-[#2A7F8E] via-[#1a5f7e] to-[#1B3A5C]"
         lang={lang}
       />
 
@@ -100,7 +100,7 @@ export default function AskPage() {
       {/* Messages */}
       <div className="mt-4 flex flex-col gap-3">
         {isEmpty && (
-          <div className="rounded-3xl bg-white/85 p-5 ring-1 ring-black/5 shadow-sm">
+          <div className="rounded-3xl bg-white/95 p-5 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
             {/* Compass avatar */}
             <div className="flex items-center gap-3 mb-4">
               <img src="/icons/icon-192.svg" className="h-11 w-11 shrink-0 rounded-2xl shadow-md" alt="" aria-hidden="true" />
@@ -153,7 +153,7 @@ export default function AskPage() {
                 {msg.text}
               </div>
             ) : (
-              <div className="rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
+              <div className="rounded-3xl bg-white/95 p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
                 {/* Crisis banner */}
                 {msg.response?.isCrisis && (
                   <div className="mb-3 rounded-2xl bg-rose-50 p-3 ring-1 ring-rose-200">
@@ -200,7 +200,7 @@ export default function AskPage() {
         ))}
 
         {loading && (
-          <div className="rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
+          <div className="rounded-3xl bg-white/95 p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
             <div className="flex items-center gap-2 text-sm text-slate-400">
               <span className="animate-pulse">●</span>
               <span className="animate-pulse" style={{ animationDelay: "0.2s" }}>●</span>

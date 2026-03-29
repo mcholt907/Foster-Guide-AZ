@@ -39,7 +39,7 @@ export default function RightsPage() {
             ? "Tus derechos bajo la ley de Arizona — en palabras simples."
             : "Your rights under Arizona law — in plain words."
         }
-        gradient="from-[#2A7F8E] to-[#1B3A5C]"
+        gradient="from-[#2A7F8E] via-[#1a5f7e] to-[#1B3A5C]"
         lang={lang}
       />
 
@@ -53,7 +53,7 @@ export default function RightsPage() {
           return (
             <div
               key={right.id}
-              className="rounded-3xl bg-white/85 ring-1 ring-black/5 shadow-sm overflow-hidden"
+              className="rounded-3xl bg-white/95 shadow-[0_8px_30px_rgb(0,0,0,0.06)] overflow-hidden"
             >
               {/* Header */}
               <button
@@ -77,9 +77,9 @@ export default function RightsPage() {
                   )}
                 </div>
                 {isOpen ? (
-                  <ChevronUp className="h-5 w-5 text-slate-400 shrink-0" />
+                  <ChevronUp className="h-5 w-5 text-[#2A7F8E] stroke-[2] shrink-0" />
                 ) : (
-                  <ChevronDown className="h-5 w-5 text-slate-400 shrink-0" />
+                  <ChevronDown className="h-5 w-5 text-[#2A7F8E] stroke-[2] shrink-0" />
                 )}
               </button>
 
@@ -147,7 +147,7 @@ export default function RightsPage() {
 
       {/* Escalation ladder — simplified for 10-12, full for older */}
       {band === "10-12" ? (
-        <div className="mt-4 rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
+        <div className="mt-4 rounded-3xl bg-white/95 p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-lg">📣</span>
             <div className="text-base font-semibold text-[#1B3A5C]">
@@ -200,7 +200,7 @@ export default function RightsPage() {
           </div>
         </div>
       ) : (
-        <div className="mt-4 rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
+        <div className="mt-4 rounded-3xl bg-white/95 p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-lg">📣</span>
             <div className="text-base font-semibold text-[#1B3A5C]">

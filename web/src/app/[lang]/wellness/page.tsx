@@ -103,12 +103,12 @@ export default function WellnessPage() {
             ? "Herramientas para cuando todo se siente abrumador."
             : "Tools for when things feel overwhelming."
         }
-        gradient="from-[#2A7F8E] to-[#1B3A5C]"
+        gradient="from-[#2A7F8E] via-[#1a5f7e] to-[#1B3A5C]"
         lang={lang}
       />
 
       {/* 5-4-3-2-1 Grounding */}
-      <div className="mt-4 rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
+      <div className="mt-4 rounded-3xl bg-white/95 p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
         <div className="flex items-center gap-3 mb-1">
           <span className="text-2xl">🧘</span>
           <div>
@@ -165,7 +165,7 @@ export default function WellnessPage() {
       {/* Coping tools */}
       <div className="mt-3 grid gap-3">
         {copingTools.map((tool) => (
-          <div key={tool.id} className="rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
+          <div key={tool.id} className="rounded-3xl bg-white/95 p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
             <div className="flex items-center gap-3">
               <span className="text-2xl shrink-0">{tool.emoji}</span>
               <div>
@@ -178,7 +178,7 @@ export default function WellnessPage() {
       </div>
 
       {/* Crisis contacts */}
-      <div className="mt-4 rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
+      <div className="mt-4 rounded-3xl bg-white/95 p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
         <div className="flex items-center gap-2 mb-3">
           <span className="text-xl">💙</span>
           <div className="text-sm font-semibold text-[#1B3A5C]">
@@ -187,7 +187,7 @@ export default function WellnessPage() {
         </div>
         <div className="grid gap-2">
           {CRISIS_PINS.map((c) => (
-            <div key={c.name} className="rounded-2xl bg-slate-50/80 p-3 ring-1 ring-black/5">
+            <div key={c.name} className="rounded-2xl bg-slate-50/80 p-3 ring-1 ring-slate-200">
               <div className="text-sm font-semibold text-slate-900">{c.name}</div>
               <div className="mt-0.5 text-sm sm:text-xs text-slate-500">{lang === "es" ? c.how_es : c.how}</div>
               <div className="mt-2 flex gap-2">

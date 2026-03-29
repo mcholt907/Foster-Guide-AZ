@@ -179,7 +179,7 @@ export default function HomePage() {
         icon={Home}
         title={t("home_what_today", lang)}
         subtitle={`${countyLabel} · ${AGE_BANDS.find((a) => a.id === prefs.ageBand)?.label ?? "—"} · ${lang === "es" ? "Español" : "English"}`}
-        gradient="from-[#2A7F8E] to-[#1B3A5C]"
+        gradient="from-[#2A7F8E] via-[#1a5f7e] to-[#1B3A5C]"
         onStartOver={onReset}
         lang={lang}
       />
@@ -194,7 +194,7 @@ export default function HomePage() {
             <Link
               key={fc.id}
               href={`/${lang}/${fc.href}`}
-              className={`block cursor-pointer rounded-3xl bg-gradient-to-br ${fc.gradient} bg-white/80 p-4 shadow-sm ring-1 ring-black/5 hover:shadow-md active:scale-[0.995] transition-all`}
+              className={`block cursor-pointer rounded-3xl bg-gradient-to-br ${fc.gradient} bg-white/90 p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_12px_40px_rgb(0,0,0,0.12)] active:scale-[0.995] transition-all`}
             >
               <div className="flex items-start gap-3">
                 <div className={`mt-0.5 rounded-2xl ${fc.iconBg} p-2.5 shadow-sm flex items-center justify-center`}>
@@ -230,7 +230,7 @@ export default function HomePage() {
       </div>
 
       {/* Crisis strip */}
-      <div className="mt-4 rounded-3xl bg-white/85 p-4 ring-1 ring-black/5 shadow-sm">
+      <div className="mt-4 rounded-3xl bg-white/95 p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
         <div className="flex items-start gap-3">
           <span className="text-2xl shrink-0 mt-0.5">💙</span>
           <div>

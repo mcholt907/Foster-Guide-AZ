@@ -50,7 +50,7 @@ export default async function LangLayout({
   return (
     <div className="min-h-screen">
       <SideNav lang={lang as "en" | "es"} />
-      <main className="pb-20 md:pb-8 md:pl-56">
+      <main className="pb-32 md:pb-8 md:pl-56">
         <div className="w-full max-w-lg mx-auto px-4 pt-4">
           {children}
         </div>

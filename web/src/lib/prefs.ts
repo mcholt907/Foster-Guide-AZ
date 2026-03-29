@@ -47,14 +47,12 @@ export function usePrefs(): [Prefs, boolean, (patch: Partial<Prefs>) => void, ()
   }, []);
 
   function patch(update: Partial<Prefs>) {
-    setPrefs((prev) => {
-      const next = { ...prev, ...update };
-      try {
-        localStorage.setItem(KEY, JSON.stringify(next));
-        window.dispatchEvent(new CustomEvent(SYNC_EVENT));
-      } catch { /* ignore */ }
-      return next;
-    });
+    const next = { ...prefs, ...update };
+    setPrefs(next);
+    try {
+      localStorage.setItem(KEY, JSON.stringify(next));
+      window.dispatchEvent(new CustomEvent(SYNC_EVENT));
+    } catch { /* ignore */ }
   }
 
   function reset() {
