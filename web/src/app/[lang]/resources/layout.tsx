@@ -10,13 +10,13 @@ export async function generateMetadata({
     return {
       title: "Encuentra Recursos",
       description: "Organizaciones en Arizona que apoyan a jóvenes en cuidado adoptivo — filtradas por edad y condado. Ayuda legal, vivienda, salud mental, educación y más.",
-      alternates: { canonical: "https://fosterhubaz.com/es/resources", languages: { "en": "https://fosterhubaz.com/en/resources", "es": "https://fosterhubaz.com/es/resources" } },
+      alternates: { canonical: "https://www.fosterhubaz.com/es/resources", languages: { "en": "https://www.fosterhubaz.com/en/resources", "es": "https://www.fosterhubaz.com/es/resources" } },
     };
   }
   return {
     title: "Find Resources",
     description: "Arizona organizations that support foster youth — filtered by your age and county. Legal aid, housing, mental health, education, and more.",
-    alternates: { canonical: "https://fosterhubaz.com/en/resources", languages: { "en": "https://fosterhubaz.com/en/resources", "es": "https://fosterhubaz.com/es/resources" } },
+    alternates: { canonical: "https://www.fosterhubaz.com/en/resources", languages: { "en": "https://www.fosterhubaz.com/en/resources", "es": "https://www.fosterhubaz.com/es/resources" } },
   };
 }
 

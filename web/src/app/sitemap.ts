@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://fosterhubaz.com";
+  const baseUrl = "https://www.fosterhubaz.com";
 
   // The base paths available for each language
   const routes = [

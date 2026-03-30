@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://fosterhubaz.com"),
+  metadataBase: new URL("https://www.fosterhubaz.com"),
   title: {
     default: "FosterHub AZ — Know Your Rights",
     template: "%s — FosterHub AZ",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "FosterHub AZ — Know Your Rights",
     description: "A free, private resource for Arizona foster youth ages 10–21. Know your rights, understand your case, and plan your future.",
-    url: "https://fosterhubaz.com",
+    url: "https://www.fosterhubaz.com",
     siteName: "FosterHub AZ",
     type: "website",
     locale: "en_US",

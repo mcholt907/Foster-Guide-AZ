@@ -20,8 +20,8 @@ export async function generateMetadata({
       description:
         "Conoce tus derechos, entiende tu caso y planifica tu futuro — para jóvenes en el sistema de cuidado adoptivo de Arizona. Gratis, privado, bilingüe.",
       alternates: {
-        canonical: "https://fosterhubaz.com/es",
-        languages: { "en": "https://fosterhubaz.com/en", "es": "https://fosterhubaz.com/es" },
+        canonical: "https://www.fosterhubaz.com/es",
+        languages: { "en": "https://www.fosterhubaz.com/en", "es": "https://www.fosterhubaz.com/es" },
       },
       openGraph: { locale: "es_MX", alternateLocale: "en_US" },
     };
@@ -31,8 +31,8 @@ export async function generateMetadata({
     description:
       "Know your rights, understand your case, and plan your future — for Arizona foster youth ages 10–21. Free, private, bilingual.",
     alternates: {
-      canonical: "https://fosterhubaz.com/en",
-      languages: { "en": "https://fosterhubaz.com/en", "es": "https://fosterhubaz.com/es" },
+      canonical: "https://www.fosterhubaz.com/en",
+      languages: { "en": "https://www.fosterhubaz.com/en", "es": "https://www.fosterhubaz.com/es" },
     },
   };
 }

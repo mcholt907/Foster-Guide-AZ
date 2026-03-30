@@ -10,13 +10,13 @@ export async function generateMetadata({
     return {
       title: "Haz una Pregunta",
       description: "Obtén respuestas reales sobre el cuidado adoptivo, tus derechos, el tribunal, documentos y vivienda — con IA, privado y gratis.",
-      alternates: { canonical: "https://fosterhubaz.com/es/ask", languages: { "en": "https://fosterhubaz.com/en/ask", "es": "https://fosterhubaz.com/es/ask" } },
+      alternates: { canonical: "https://www.fosterhubaz.com/es/ask", languages: { "en": "https://www.fosterhubaz.com/en/ask", "es": "https://www.fosterhubaz.com/es/ask" } },
     };
   }
   return {
     title: "Ask a Question",
     description: "Get real answers about foster care, your rights, court hearings, documents, and housing in Arizona — AI-powered, private, and free.",
-    alternates: { canonical: "https://fosterhubaz.com/en/ask", languages: { "en": "https://fosterhubaz.com/en/ask", "es": "https://fosterhubaz.com/es/ask" } },
+    alternates: { canonical: "https://www.fosterhubaz.com/en/ask", languages: { "en": "https://www.fosterhubaz.com/en/ask", "es": "https://www.fosterhubaz.com/es/ask" } },
   };
 }
 
