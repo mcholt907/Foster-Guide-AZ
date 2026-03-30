@@ -16,6 +16,19 @@ const nextConfig: NextConfig = {
   trailingSlash: false,
   // Empty turbopack config silences the "webpack config present" warning in Next.js 16
   turbopack: {},
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default withPWA(nextConfig);
