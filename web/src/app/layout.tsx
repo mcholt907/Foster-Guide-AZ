@@ -35,6 +35,14 @@ export const metadata: Metadata = {
     icon: "/favicon.svg",
     apple: "/icons/icon-192.svg",
   },
+  alternates: {
+    canonical: "https://www.fosterhubaz.com",
+    languages: {
+      "en": "https://www.fosterhubaz.com/en",
+      "es": "https://www.fosterhubaz.com/es",
+      "x-default": "https://www.fosterhubaz.com",
+    },
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
