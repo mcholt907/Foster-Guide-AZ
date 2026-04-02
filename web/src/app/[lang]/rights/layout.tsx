@@ -9,14 +9,14 @@ export async function generateMetadata({
   const { lang } = await params;
   if (lang === "es") {
     return {
-      title: "Tus Derechos",
-      description: "Conoce tus derechos legales bajo la ley de cuidado adoptivo de Arizona (A.R.S. §8-529) — en lenguaje sencillo, con ejemplos reales.",
+      title: "¿Cuáles son mis derechos en el cuidado adoptivo?",
+      description: "La ley de Arizona te da derechos reales — como hablar con tu abogado, ver a tus hermanos y tener voz en tu caso. Descúbrelos en palabras sencillas.",
       alternates: { canonical: "https://www.fosterhubaz.com/es/rights", languages: { "en": "https://www.fosterhubaz.com/en/rights", "es": "https://www.fosterhubaz.com/es/rights" } },
     };
   }
   return {
-    title: "Your Rights",
-    description: "Understand your legal rights as a foster youth in Arizona under A.R.S. §8-529 — in plain language, with real examples.",
+    title: "What Are My Rights in Foster Care?",
+    description: "Arizona law gives you real rights — like the right to talk to your lawyer, see your siblings, and have a say in your case. Find out what they are, in plain words.",
     alternates: { canonical: "https://www.fosterhubaz.com/en/rights", languages: { "en": "https://www.fosterhubaz.com/en/rights", "es": "https://www.fosterhubaz.com/es/rights" } },
   };
 }

@@ -16,9 +16,9 @@ export async function generateMetadata({
   // Sub-pages set their own correct alternates in their own layout.tsx files.
   if (lang === "es") {
     return {
-      title: "FosterHub AZ — Conoce Tus Derechos",
+      title: "FosterHub AZ — Ayuda para Jóvenes en Cuidado Adoptivo",
       description:
-        "Conoce tus derechos, entiende tu caso y planifica tu futuro — para jóvenes en el sistema de cuidado adoptivo de Arizona. Gratis, privado, bilingüe.",
+        "¿Confundido sobre el cuidado adoptivo? Aprende qué está pasando en tu caso, conoce tus derechos y planifica tu futuro. Gratis, nada se guarda.",
       alternates: {
         canonical: "https://www.fosterhubaz.com/es",
         languages: { "en": "https://www.fosterhubaz.com/en", "es": "https://www.fosterhubaz.com/es" },
@@ -27,9 +27,9 @@ export async function generateMetadata({
     };
   }
   return {
-    title: "FosterHub AZ — Know Your Rights",
+    title: "FosterHub AZ — Help for Arizona Foster Youth",
     description:
-      "Know your rights, understand your case, and plan your future — for Arizona foster youth ages 10–21. Free, private, bilingual.",
+      "Confused about foster care? Learn what's happening in your case, find out your rights, and get help with what comes next. Free, nothing is saved.",
     alternates: {
       canonical: "https://www.fosterhubaz.com/en",
       languages: { "en": "https://www.fosterhubaz.com/en", "es": "https://www.fosterhubaz.com/es" },

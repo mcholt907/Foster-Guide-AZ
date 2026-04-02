@@ -8,14 +8,14 @@ export async function generateMetadata({
   const { lang } = await params;
   if (lang === "es") {
     return {
-      title: "Bienestar",
-      description: "Herramientas para ayudarte a sentirte estable y apoyado/a. Ejercicios de manejo del estrés, recursos de crisis y recordatorio de que no estás solo/a.",
+      title: "¿Te sientes abrumado/a? Apoyo para jóvenes en cuidado adoptivo",
+      description: "Está bien no estar bien. Encuentra ejercicios de respiración, herramientas para calmarte y personas reales a las que puedes llamar ahora mismo. No estás solo/a.",
       alternates: { canonical: "https://www.fosterhubaz.com/es/wellness", languages: { "en": "https://www.fosterhubaz.com/en/wellness", "es": "https://www.fosterhubaz.com/es/wellness" } },
     };
   }
   return {
-    title: "Wellness",
-    description: "Tools to help you feel grounded and supported. Coping exercises, crisis hotlines, and a reminder that you are not alone.",
+    title: "Feeling Overwhelmed? Support for Foster Youth",
+    description: "It's okay to not be okay. Find breathing exercises, grounding tools, and real people you can call right now — because you don't have to go through this alone.",
     alternates: { canonical: "https://www.fosterhubaz.com/en/wellness", languages: { "en": "https://www.fosterhubaz.com/en/wellness", "es": "https://www.fosterhubaz.com/es/wellness" } },
   };
 }
