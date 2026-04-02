@@ -42,11 +42,11 @@ export default function FuturePage() {
         subtitle={
           isAdult
             ? lang === "es"
-              ? "EFC, dinero para estudios, vivienda y documentos."
-              : "EFC, school money, housing, and documents."
+              ? "No tienes que resolverlo solo/a — vivienda, dinero para estudios y tus próximos pasos."
+              : "You don't have to figure this out alone — housing, school money, and what's next."
             : lang === "es"
-            ? "Opciones, plazos y documentos antes de los 18."
-            : "Options, deadlines, and documents before 18."
+            ? "Pasan cosas importantes cuando cumples 18. Vamos a prepararte."
+            : "Big things happen when you turn 18. Let's get you ready."
         }
         gradient="from-[#D97706] to-[#b45309]"
         lang={lang}

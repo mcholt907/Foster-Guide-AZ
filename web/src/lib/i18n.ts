@@ -22,7 +22,7 @@ export const UI_STRINGS = {
   age_band_10_12_desc:          { en: "Learn the basics",                         es: "Aprende lo básico" },
   age_band_13_15_desc:          { en: "Your rights + court",                      es: "Tus derechos + tribunal" },
   age_band_16_17_desc:          { en: "Planning ahead",                           es: "Planifica el futuro" },
-  age_band_18_21_desc:          { en: "Extended care + next steps",               es: "Cuidado extendido + próximos pasos" },
+  age_band_18_21_desc:          { en: "Staying in care past 18 + what's next",    es: "Quedarte en el cuidado después de los 18" },
   // Nav
   nav_home:                     { en: "Home",                                     es: "Inicio" },
   nav_case:                     { en: "My Case",                                  es: "Mi Caso" },
@@ -48,7 +48,7 @@ export const UI_STRINGS = {
   rights_tab_what:              { en: "What it means",                            es: "Qué significa" },
   rights_tab_how:               { en: "How to ask for it",                        es: "Cómo pedirlo" },
   rights_tab_ignored:           { en: "If it's being ignored",                    es: "Si lo están ignorando" },
-  rights_escalation_title:      { en: "If Your Rights Are Being Violated",        es: "Si Están Violando Tus Derechos" },
+  rights_escalation_title:      { en: "If Your Rights Are Being Ignored",         es: "Si Están Ignorando Tus Derechos" },
   // Resources
   resources_search_placeholder: { en: "Search resources…",                        es: "Buscar recursos…" },
   resources_spanish_label:      { en: "Spanish-speaking staff",                   es: "Personal que habla español" },
