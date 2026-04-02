@@ -18,7 +18,11 @@ export function useOnboardingGate(lang: Lang) {
     // Without this guard the default prefs (onboardingDone: false) fire a
     // redirect on every page load before the saved values are hydrated.
     if (loaded && !prefs.onboardingDone) {
-      router.replace(`/${lang}/setup`);
+      // Prevent redirecting search engine bots so they can index the page
+      const isBot = /bot|googlebot|crawler|spider|robot|crawling/i.test(navigator.userAgent);
+      if (!isBot) {
+        router.replace(`/${lang}/setup`);
+      }
     }
   }, [loaded, prefs.onboardingDone, lang, router]);
 

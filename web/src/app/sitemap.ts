@@ -17,15 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const langs = ["en", "es"];
 
-  // Start with the root level domain (language selector page)
-  const sitemap: MetadataRoute.Sitemap = [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-  ];
+  const sitemap: MetadataRoute.Sitemap = [];
 
   // Add all the localized routes
   langs.forEach((lang) => {
