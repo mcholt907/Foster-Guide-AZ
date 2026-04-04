@@ -1,0 +1,38 @@
+# Lychee link checker configuration for FosterHub AZ
+# https://lychee.cli.rs/configuration
+
+# Accept common redirects and success codes
+accept = [200, 301, 302, 403]
+
+# Timeout for each request (government sites can be slow)
+timeout = 15
+
+# Max concurrent requests (be polite to external servers)
+max_concurrency = 5
+
+# Retry failed requests
+max_retries = 3
+
+# Don't follow tel: and sms: links
+exclude = [
+  "^tel:",
+  "^sms:",
+  "^mailto:",
+  # Rate-limited or bot-blocking government sites
+  "^https://www\\.ssa\\.gov",
+  # Local development URLs
+  "^http://localhost",
+  "^https://localhost",
+]
+
+# Only check these file patterns
+include = [
+  "web/src/data/*.ts",
+  "server/src/data/*.ts",
+]
+
+# Cache results to avoid re-checking unchanged links
+cache = true
+
+# User agent to use (some sites block default bot UA)
+user_agent = "Mozilla/5.0 (compatible; FosterHubAZ-LinkChecker/1.0)"

@@ -1,0 +1,27 @@
+name: Content Validation
+on:
+  pull_request:
+    paths:
+      - "web/src/data/*.ts"
+      - "server/src/data/*.ts"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install tsx
+        run: npm install -g tsx
+
+      - name: Run content validation
+        run: npx tsx scripts/validate-content.ts

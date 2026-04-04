@@ -10,6 +10,7 @@ export const RESOURCES = [
     url: "https://alwaysaz.org/",
     description: "Youth legal services and advocacy; helps kids navigate dependency court and rights.",
     description_es: "Servicios legales y defensa juvenil; ayuda a jóvenes a navegar la corte de dependencia y sus derechos.",
+    lastVerified: "2026-04-04",
   },
   {
     id: "211",
@@ -22,6 +23,7 @@ export const RESOURCES = [
     url: "https://211arizona.org/",
     description: "Human navigators for food, shelter, help paying bills, and more. Great fallback when unsure.",
     description_es: "Navegadores humanos para comida, alojamiento, ayuda con cuentas y más. Excelente opción cuando no sabes a dónde llamar.",
+    lastVerified: "2026-04-04",
   },
   {
     id: "yati",
@@ -34,6 +36,7 @@ export const RESOURCES = [
     url: "https://www.azahcccs.gov/Members/GetCovered/Categories/YATI.html",
     description: "Health coverage pathway for eligible young adults formerly in foster care.",
     description_es: "Cobertura de salud para jóvenes adultos elegibles que estuvieron en cuidado adoptivo.",
+    lastVerified: "2026-04-04",
   },
   {
     id: "azca",
@@ -46,6 +49,7 @@ export const RESOURCES = [
     url: "https://www.arizonaschildren.org/",
     description: "Transition-to-adulthood supports; includes re-entry pathways in some programs (availability varies).",
     description_es: "Apoyos para la transición a la adultez; incluye rutas de reintegración en algunos programas (disponibilidad varía).",
+    lastVerified: "2026-04-04",
   },
   {
     id: "newculture",
@@ -58,6 +62,7 @@ export const RESOURCES = [
     url: "https://www.newcultureaz.org/",
     description: "Transitional housing and supports (capacity and eligibility vary).",
     description_es: "Vivienda transitional y apoyos (capacidad y requisitos varían).",
+    lastVerified: "2026-04-04",
   },
   {
     id: "thrive",
@@ -70,6 +75,7 @@ export const RESOURCES = [
     url: "https://www.thriveaz.org/transitional-housing",
     description: "Transitional housing support (capacity varies; call first).",
     description_es: "Apoyo de vivienda transitional (capacidad varía; llama primero).",
+    lastVerified: "2026-04-04",
   },
   {
     id: "fosteringadvocates",
@@ -82,6 +88,7 @@ export const RESOURCES = [
     url: "https://www.fosteringadvocatesarizona.org/",
     description: "Youth voice, advocacy, and supports for current and former foster youth.",
     description_es: "Voz juvenil, defensa y apoyos para jóvenes actuales y anteriores en el sistema de cuidado adoptivo.",
+    lastVerified: "2026-04-04",
   },
   {
     id: "affcf",
@@ -94,6 +101,7 @@ export const RESOURCES = [
     url: "https://www.affcf.org/",
     description: "Programs and support for foster youth and caregivers; resources vary by need.",
     description_es: "Programas y apoyo para jóvenes en cuidado adoptivo y cuidadores; los recursos varían según la necesidad.",
+    lastVerified: "2026-04-04",
   },
   {
     id: "arizonaatwork",
@@ -106,6 +114,7 @@ export const RESOURCES = [
     url: "https://arizonaatwork.com/locations",
     description: "Job search help, training, and local support.",
     description_es: "Ayuda para buscar trabajo, capacitación y apoyo local.",
+    lastVerified: "2026-04-04",
   },
 ] as const;
 

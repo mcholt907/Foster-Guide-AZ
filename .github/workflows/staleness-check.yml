@@ -1,0 +1,50 @@
+name: Staleness Check
+on:
+  schedule:
+    - cron: "0 7 * * 1" # Every Monday at 7:00 UTC
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  check-staleness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install tsx
+        run: npm install -g tsx
+
+      - name: Check content staleness
+        id: staleness
+        run: npx tsx scripts/check-staleness.ts 2>&1 | tee /tmp/staleness-report.txt
+        continue-on-error: true
+
+      - name: Create Issue if stale content found
+        if: steps.staleness.outcome == 'failure'
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "📅 Stale content detected — crisis contacts overdue for verification"
+          content-filepath: /tmp/staleness-report.txt
+          labels: |
+            content-freshness
+            staleness
+            critical
+            auto-detected
+
+      - name: Create Issue for non-critical staleness
+        if: steps.staleness.outcome == 'success'
+        run: |
+          # Check if there were warnings (non-critical stale items)
+          if grep -q "⚠️" /tmp/staleness-report.txt; then
+            echo "Non-critical stale items found — creating tracking issue"
+          else
+            echo "All content is within SLA ✅"
+          fi

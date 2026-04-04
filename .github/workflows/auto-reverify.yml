@@ -1,0 +1,143 @@
+name: Auto Re-verify Content
+on:
+  schedule:
+    - cron: "0 7 * * 1" # Every Monday at 7:00 UTC
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run — report only, don't update files"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "true"
+          - "false"
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  reverify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install tsx
+        run: npm install -g tsx
+
+      # ── Step 1: Run reverification ──────────────────────────────────────
+
+      - name: Re-verify stale content
+        id: reverify
+        run: |
+          if [[ "${{ inputs.dry_run }}" == "true" ]]; then
+            npx tsx scripts/reverify-content.ts 2>&1 | tee /tmp/reverify-output.txt
+          else
+            npx tsx scripts/reverify-content.ts --apply 2>&1 | tee /tmp/reverify-output.txt
+          fi
+        continue-on-error: true
+
+      # ── Step 2: Commit all changes (data files + reports) ───────────────
+
+      - name: Commit changes
+        if: inputs.dry_run != 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No files changed — nothing to commit"
+          else
+            # Build a descriptive commit message
+            CHANGED_FILES=$(git diff --staged --name-only | head -20)
+            echo "Changed files:"
+            echo "$CHANGED_FILES"
+
+            git commit -m "chore: auto-reverify content — update data + report [skip ci]
+
+          Automated verification results:
+          - URL liveness checks performed
+          - Phone numbers validated against org websites
+          - Redirect URLs auto-corrected
+          - Changed phone numbers auto-corrected (same area code)
+          - Report: docs/reverification-report.md
+
+          Files updated:
+          $CHANGED_FILES"
+            git push
+            echo "✅ Changes committed and pushed"
+          fi
+
+      # ── Step 3: Create issue for failed entries ─────────────────────────
+
+      - name: Create issue for failures
+        if: steps.reverify.outcome == 'failure'
+        run: |
+          # Build issue body from the generated report
+          if [ -f docs/reverification-report.md ]; then
+            REPORT=$(cat docs/reverification-report.md)
+          else
+            REPORT=$(cat /tmp/reverify-output.txt)
+          fi
+
+          # Count failures by reading the output
+          FAIL_COUNT=$(grep -c "^      ❌" /tmp/reverify-output.txt || echo "unknown")
+
+          cat << 'ISSUE_EOF' > /tmp/issue-body.md
+          ## 🔍 Content Re-verification — Manual Review Required
+
+          The automated re-verification found entries that could not be automatically verified or corrected.
+
+          **Action needed:** Review each failed entry, manually verify the information, and update the data file.
+
+          ### Quick Links
+          - [Full Report](docs/reverification-report.md)
+          - [Server Resources](server/src/data/resources.ts)
+          - [Web Resources](web/src/data/resources.ts)
+
+          ### How to resolve
+          1. Open the report at `docs/reverification-report.md`
+          2. For each failed entry, manually check the URL and phone number
+          3. Update the entry in the data file with correct info
+          4. Set `lastVerified` to today's date
+          5. Commit with: `chore: verify [resource-name] — confirmed [what you checked]`
+
+          ISSUE_EOF
+
+          # Append the console output summary
+          echo '### Console Output' >> /tmp/issue-body.md
+          echo '```' >> /tmp/issue-body.md
+          tail -40 /tmp/reverify-output.txt >> /tmp/issue-body.md
+          echo '```' >> /tmp/issue-body.md
+
+      - name: Post issue
+        if: steps.reverify.outcome == 'failure'
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "🔍 Content re-verification failures — ${{ env.TODAY || 'manual review needed' }}"
+          content-filepath: /tmp/issue-body.md
+          labels: |
+            content-freshness
+            reverify-failed
+            manual-review
+            auto-detected
+
+      # ── Step 4: Regenerate freshness report ─────────────────────────────
+
+      - name: Regenerate freshness report
+        if: inputs.dry_run != 'true'
+        run: |
+          npx tsx scripts/generate-freshness-report.ts
+          git add docs/freshness-report.md
+          if git diff --staged --quiet; then
+            echo "No report changes"
+          else
+            git commit -m "docs: update freshness report after reverification [skip ci]"
+            git push
+          fi

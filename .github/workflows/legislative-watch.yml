@@ -1,0 +1,38 @@
+name: Legislative Watch
+on:
+  schedule:
+    # Run quarterly: Jan 1, Apr 1, Jul 1, Oct 1 at 8:00 UTC
+    - cron: "0 8 1 1,4,7,10 *"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  check-legislation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install tsx
+        run: npm install -g tsx
+
+      - name: Run legislative check
+        run: npx tsx scripts/check-legislation.ts 2>&1 | tee /tmp/legislative-report.txt
+
+      - name: Create quarterly review issue
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "⚖️ Quarterly legislative review — check AZ statutes for changes"
+          content-filepath: /tmp/legislative-report.txt
+          labels: |
+            content-freshness
+            legal-review
+            quarterly
+            auto-detected

@@ -1,0 +1,52 @@
+{
+  "state": "AZ",
+  "description": "Arizona statutes monitored for legislative changes affecting FosterHub AZ content",
+  "statutes": [
+    {
+      "section": "8-529",
+      "title": "Children in foster care; rights",
+      "affectedFiles": ["web/src/data/rights.ts", "server/src/data/rights.ts"],
+      "checkFrequency": "quarterly",
+      "lookupUrl": "https://www.azleg.gov/arsDetail/?title=8"
+    },
+    {
+      "section": "8-514.06",
+      "title": "Identity document fee waivers for foster youth",
+      "affectedFiles": ["web/src/data/docs.ts"],
+      "checkFrequency": "quarterly",
+      "lookupUrl": "https://www.azleg.gov/arsDetail/?title=8"
+    },
+    {
+      "section": "8-521",
+      "title": "Extended foster care; eligibility",
+      "affectedFiles": ["web/src/app/[lang]/future/page.tsx"],
+      "checkFrequency": "quarterly",
+      "lookupUrl": "https://www.azleg.gov/arsDetail/?title=8"
+    },
+    {
+      "section": "15-825",
+      "title": "School stability for foster youth",
+      "affectedFiles": [],
+      "checkFrequency": "quarterly",
+      "lookupUrl": "https://www.azleg.gov/arsDetail/?title=15"
+    }
+  ],
+  "federalStatutes": [
+    {
+      "section": "25 U.S.C. §§1901-1963",
+      "title": "Indian Child Welfare Act (ICWA)",
+      "affectedFiles": [],
+      "checkFrequency": "annually",
+      "lookupUrl": "https://www.congress.gov/bill"
+    }
+  ],
+  "annualDeadlines": [
+    {
+      "name": "ETV Application Deadline",
+      "date": "07-31",
+      "description": "Education and Training Voucher annual application deadline via Arizona's Children Association",
+      "affectedFiles": ["server/src/data/resources.ts"],
+      "reminderDaysBefore": 60
+    }
+  ]
+}

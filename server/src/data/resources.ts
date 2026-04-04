@@ -39,7 +39,7 @@ export const RESOURCES: Resource[] = [
     phone: "988",
     website: "https://988lifeline.org",
     spanish: true,
-    lastVerified: "2026-03-01",
+    lastVerified: "2026-04-04",
   },
   {
     id: "r-crisistextline",
@@ -52,7 +52,7 @@ export const RESOURCES: Resource[] = [
     phone: "741741",
     website: "https://www.crisistextline.org",
     spanish: true,
-    lastVerified: "2026-03-01",
+    lastVerified: "2026-04-04",
   },
   {
     id: "r-dcs-hotline",
@@ -91,7 +91,7 @@ export const RESOURCES: Resource[] = [
     phone: "211",
     website: "https://211arizona.org",
     spanish: true,
-    lastVerified: "2026-03-01",
+    lastVerified: "2026-04-04",
   },
   // LEGAL
   {
@@ -102,10 +102,10 @@ export const RESOURCES: Resource[] = [
     categories: ["legal"],
     counties: ["Maricopa","Yuma"],
     ages: [0,99],
-    phone: "602-258-3434",
+    phone: "(800) 852-9075",
     website: "https://clsaz.org",
     spanish: true,
-    lastVerified: "2026-03-01",
+    lastVerified: "2026-04-04",
   },
   {
     id: "r-dna-legal",
@@ -128,10 +128,10 @@ export const RESOURCES: Resource[] = [
     categories: ["legal"],
     counties: ["Pima","Santa Cruz","Cochise","Graham","Greenlee"],
     ages: [0,99],
-    phone: "520-623-9465",
+    phone: "(520) 623-9461",
     website: "https://www.sazlegalaid.org",
     spanish: true,
-    lastVerified: "2026-03-01",
+    lastVerified: "2026-04-04",
   },
   {
     id: "r-fostering-advocates",
@@ -197,7 +197,7 @@ export const RESOURCES: Resource[] = [
     phone: "520-293-1136",
     website: "https://yoto.org",
     spanish: true,
-    lastVerified: "2026-03-01",
+    lastVerified: "2026-04-04",
   },
   {
     id: "r-new-hope",
@@ -313,10 +313,10 @@ export const RESOURCES: Resource[] = [
     categories: ["education","housing","financial"],
     counties: ["Pima"],
     ages: [17,26],
-    phone: "520-621-9597",
+    phone: "(520) 621-1858",
     website: "https://financialaid.arizona.edu",
     spanish: true,
-    lastVerified: "2026-03-01",
+    lastVerified: "2026-04-04",
   },
   {
     id: "r-nau-foster",
@@ -381,7 +381,7 @@ export const RESOURCES: Resource[] = [
     phone: "1-800-733-5627",
     website: "https://jobcorps.gov",
     spanish: true,
-    lastVerified: "2026-03-01",
+    lastVerified: "2026-04-04",
   },
   {
     id: "r-goodwill-az",
@@ -421,7 +421,7 @@ export const RESOURCES: Resource[] = [
     phone: "602-252-9445",
     website: "https://affcf.org",
     spanish: false,
-    lastVerified: "2026-03-01",
+    lastVerified: "2026-04-04",
   },
   {
     id: "r-one-n-ten",
@@ -500,7 +500,7 @@ export const RESOURCES: Resource[] = [
     ages: [16,26],
     website: "https://affcf.org/scholarships",
     spanish: false,
-    lastVerified: "2026-03-01",
+    lastVerified: "2026-04-04",
   },
   {
     id: "r-des-cash",

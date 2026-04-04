@@ -19,23 +19,27 @@ export const CRISIS_PINS = [
     how: "Call or text 988",
     how_es: "Llama o envía mensaje al 988",
     url: "https://988lifeline.org/",
+    lastVerified: "2026-04-04",
   },
   {
     name: "Crisis Text Line",
     how: "Text HOME to 741741",
     how_es: "Envía HOME al 741741",
     url: "https://www.crisistextline.org/",
+    lastVerified: "2026-04-04",
   },
   {
     name: "AZ DCS Child Abuse Hotline",
     how: "1-888-SOS-CHILD",
     how_es: "1-888-SOS-CHILD",
     url: "https://dcs.az.gov/about/contact",
+    lastVerified: "2026-04-04",
   },
   {
     name: "ALWAYS (legal help)",
     how: "Youth legal services (AZ)",
     how_es: "Servicios legales para jóvenes (AZ)",
     url: "https://alwaysaz.org/",
+    lastVerified: "2026-04-04",
   },
 ] as const;
