@@ -30,7 +30,7 @@ export interface TopicConfig {
 
 export const TOPIC_CONFIG: TopicConfig[] = [
   { category: "rights",    label: { en: "My Rights",           es: "Mis Derechos"          }, bands: ["10-12","13-15","16-17","18-21"] },
-  { category: "case",      label: { en: "My Case",             es: "Mi Caso"               }, bands: ["10-12","13-15","16-17","18-21"] },
+  { category: "case",      label: { en: "My Case",             es: "Mi Caso"               }, bands: ["10-12","13-15","16-17"] },
   { category: "court",     label: { en: "Court & Hearings",    es: "Tribunal"              }, bands: ["13-15","16-17","18-21"] },
   { category: "safety",    label: { en: "Staying Safe",        es: "Mantenerse Seguro/a"   }, bands: ["10-12","13-15"] },
   { category: "corner",    label: { en: "Who's in My Corner",  es: "¿Quién Me Apoya?"      }, bands: ["10-12","13-15"] },
@@ -188,7 +188,7 @@ export const QUESTIONS: QAEntry[] = [
       es: "Tu trabajador/a de casos es el empleado/a de DCS asignado a tu caso. Son responsables de asegurarse de que estés seguro/a, que tus necesidades básicas se cubran y que se siga tu plan de caso. Deben visitarte regularmente — al menos una vez al mes. Puedes llevarles tus preocupaciones, preguntas y solicitudes.",
     },
     category: "case",
-    ageBands: ["10-12","13-15","16-17","18-21"],
+    ageBands: ["10-12","13-15","16-17"],
     relatedIds: ["q-caseworker-visits","q-what-is-case-plan"],
   },
 
@@ -203,7 +203,7 @@ export const QUESTIONS: QAEntry[] = [
       es: "Un plan de caso es un documento escrito que explica cuál es el objetivo para tu situación — como regresar a casa, quedarte con un familiar o ser adoptado/a — y qué pasos deben ocurrir para llegar ahí. También incluye los servicios y apoyos que deberías estar recibiendo. Tienes derecho a saber qué hay en tu plan de caso.",
     },
     category: "case",
-    ageBands: ["10-12","13-15","16-17","18-21"],
+    ageBands: ["10-12","13-15","16-17"],
     citations: ["A.R.S. §8-529"],
     relatedIds: ["q-case-plan-input","q-caseworker-role"],
   },
@@ -219,7 +219,7 @@ export const QUESTIONS: QAEntry[] = [
       es: "Tu trabajador/a de casos debe visitarte en persona al menos una vez al mes. Esas visitas deben ser privadas — lo que significa que puedes hablar con ellos sin que tu familia de acogida o cuidador esté escuchando. Si tu trabajador/a no visita regularmente, vale la pena mencionárselo a su supervisor/a o a tu abogado/a.",
     },
     category: "case",
-    ageBands: ["13-15","16-17","18-21"],
+    ageBands: ["13-15","16-17"],
     relatedIds: ["q-caseworker-role","q-rights-ignored"],
   },
 
@@ -234,7 +234,7 @@ export const QUESTIONS: QAEntry[] = [
       es: "Los cambios de colocación deben planificarse cuando sea posible, y se te debe informar qué está pasando y por qué. Pueden ocurrir mudanzas de emergencia si hay una preocupación de seguridad inmediata. Tienes derecho a saber sobre los cambios de colocación que te afectan.",
     },
     category: "case",
-    ageBands: ["10-12","13-15","16-17","18-21"],
+    ageBands: ["10-12","13-15","16-17"],
     citations: ["A.R.S. §8-529"],
     relatedIds: ["q-caseworker-role","q-rights-ignored"],
   },
@@ -250,7 +250,7 @@ export const QUESTIONS: QAEntry[] = [
       es: "Sí — tu voz importa en tu plan de caso. Tienes derecho a participar en las reuniones de planificación de casos y a compartir lo que quieres. Si tienes 14 años o más, DCS está obligado a involucrarte en la creación de tu plan de caso.",
     },
     category: "case",
-    ageBands: ["13-15","16-17","18-21"],
+    ageBands: ["13-15","16-17"],
     citations: ["A.R.S. §8-529"],
     relatedIds: ["q-what-is-case-plan","q-speak-at-hearing"],
   },
