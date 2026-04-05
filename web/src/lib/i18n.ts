@@ -26,7 +26,7 @@ export const UI_STRINGS = {
   // Nav
   nav_home:                     { en: "Home",                                     es: "Inicio" },
   nav_case:                     { en: "My Case",                                  es: "Mi Caso" },
-  nav_ask:                      { en: "Ask",                                      es: "Preguntar" },
+  nav_ask:                      { en: "Find Answers",                             es: "Encontrar Respuestas" },
   nav_rights:                   { en: "My Rights",                                es: "Mis Derechos" },
   nav_future:                   { en: "My Future",                                es: "Mi Futuro" },
   nav_resources:                { en: "Resources",                                es: "Recursos" },
@@ -52,12 +52,16 @@ export const UI_STRINGS = {
   // Resources
   resources_search_placeholder: { en: "Search resources…",                        es: "Buscar recursos…" },
   resources_spanish_label:      { en: "Spanish-speaking staff",                   es: "Personal que habla español" },
-  // Ask/Chat
-  ask_title:                    { en: "Ask Compass",                              es: "Pregúntale a Compass" },
-  ask_placeholder:              { en: "Type your question…",                      es: "Escribe tu pregunta…" },
-  ask_send:                     { en: "Send",                                     es: "Enviar" },
-  ask_thinking:                 { en: "Thinking…",                                es: "Pensando…" },
-  ask_crisis_header:            { en: "Here are people who can help you right now:", es: "Aquí hay personas que pueden ayudarte ahora mismo:" },
+  // Find Answers
+  ask_title:                    { en: "Find Answers",                             es: "Encuentra Respuestas" },
+  ask_search_placeholder:       { en: "Search for anything…",                    es: "Busca lo que quieras…" },
+  ask_search_clear:             { en: "Clear search",                             es: "Borrar búsqueda" },
+  ask_results_label:            { en: "results",                                  es: "resultados" },
+  ask_no_results_pre:           { en: "No results for",                           es: "Sin resultados para" },
+  ask_no_results_post:          { en: "— try a different word, or browse topics below.", es: "— prueba otra palabra, o navega los temas abajo." },
+  ask_browse_label:             { en: "Browse by topic",                          es: "Explorar por tema" },
+  ask_related_label:            { en: "Related questions",                        es: "Preguntas relacionadas" },
+  ask_resources_cta:            { en: "Find resources near you",                  es: "Encuentra recursos cerca de ti" },
   // Common
   common_call:                  { en: "Call",                                     es: "Llamar" },
   common_text_msg:              { en: "Text",                                     es: "Mensaje" },
