@@ -61,7 +61,7 @@ export const QUESTIONS: QAEntry[] = [
     category: "rights",
     ageBands: ["10-12","13-15","16-17","18-21"],
     citations: ["A.R.S. §8-529"],
-    relatedIds: ["q-rights-ignored","q-case-plan-input"],
+    relatedIds: ["q-rights-ignored","q-read-case-file"],
   },
 
   {
@@ -109,7 +109,7 @@ export const QUESTIONS: QAEntry[] = [
     category: "rights",
     ageBands: ["13-15","16-17","18-21"],
     citations: ["A.R.S. §8-529"],
-    relatedIds: ["q-what-are-my-rights","q-caseworker-role"],
+    relatedIds: ["q-what-are-my-rights","q-rights-ignored"],
   },
 
   {
@@ -284,7 +284,7 @@ export const QUESTIONS: QAEntry[] = [
     },
     category: "court",
     ageBands: ["13-15","16-17","18-21"],
-    relatedIds: ["q-speak-at-hearing","q-what-is-reunification"],
+    relatedIds: ["q-speak-at-hearing","q-what-is-dependency-hearing"],
   },
 
   {
@@ -408,7 +408,7 @@ export const QUESTIONS: QAEntry[] = [
       es: "Tu abogado/a está ahí para representar lo que tú quieres. No lo que quieren tus padres. No lo que quiere DCS. Lo que TÚ quieres. Habla por ti en el tribunal, te ayuda a entender lo que está pasando en tu caso y puede cuestionar decisiones con las que no estás de acuerdo.",
     },
     category: "corner",
-    ageBands: ["10-12","13-15"],
+    ageBands: ["10-12","13-15","16-17","18-21"],
     relatedIds: ["q-right-to-lawyer","q-who-is-casa"],
   },
 
@@ -423,7 +423,7 @@ export const QUESTIONS: QAEntry[] = [
       es: "El defensor del pueblo de DCS es una persona independiente cuyo trabajo es ayudar cuando DCS no te está tratando justamente. No forma parte de DCS — es independiente. Si ya hablaste con tu trabajador/a de casos y su supervisor/a y nada cambió, el defensor del pueblo es tu siguiente paso. Puedes contactarlos al 1-877-527-0765.",
     },
     category: "corner",
-    ageBands: ["13-15"],
+    ageBands: ["13-15","16-17","18-21"],
     relatedIds: ["q-rights-ignored","q-what-are-my-rights"],
   },
 
