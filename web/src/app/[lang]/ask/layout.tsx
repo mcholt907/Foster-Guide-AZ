@@ -8,15 +8,21 @@ export async function generateMetadata({
   const { lang } = await params;
   if (lang === "es") {
     return {
-      title: "Pregunta Lo Que Quieras Sobre Tu Caso",
-      description: "¿Tienes una pregunta sobre tus derechos, tu audiencia o qué pasa después? Pregúntale a Compass y obtén una respuesta real — privado, gratis, sin registro.",
-      alternates: { canonical: "https://www.fosterhubaz.com/es/ask", languages: { "en": "https://www.fosterhubaz.com/en/ask", "es": "https://www.fosterhubaz.com/es/ask" } },
+      title: "Encuentra Respuestas Sobre Tu Caso y Tus Derechos",
+      description: "Explora temas o busca cualquier pregunta sobre tus derechos, el tribunal, la vivienda y más — respuestas reales en palabras simples, sin registro.",
+      alternates: {
+        canonical: "https://www.fosterhubaz.com/es/ask",
+        languages: { en: "https://www.fosterhubaz.com/en/ask", es: "https://www.fosterhubaz.com/es/ask" },
+      },
     };
   }
   return {
-    title: "Ask Anything About Your Foster Care Case",
-    description: "Have a question about your rights, your hearing, or what happens next? Ask Compass and get a real answer — private, free, no sign-up needed.",
-    alternates: { canonical: "https://www.fosterhubaz.com/en/ask", languages: { "en": "https://www.fosterhubaz.com/en/ask", "es": "https://www.fosterhubaz.com/es/ask" } },
+    title: "Find Answers About Your Rights and Foster Care Case",
+    description: "Browse topics or search any question about your rights, court, housing, and more — real answers in plain language, no sign-up needed.",
+    alternates: {
+      canonical: "https://www.fosterhubaz.com/en/ask",
+      languages: { en: "https://www.fosterhubaz.com/en/ask", es: "https://www.fosterhubaz.com/es/ask" },
+    },
   };
 }
 
