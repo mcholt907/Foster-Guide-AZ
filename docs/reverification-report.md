@@ -1,8 +1,8 @@
 # Content Re-verification Report
 
-> **Generated:** 2026-04-04  
+> **Generated:** 2026-04-06  
 > **Mode:** Applied  
-> **Total entries checked:** 31
+> **Total entries checked:** 28
 
 ---
 
@@ -10,19 +10,8 @@
 
 | Metric | Count |
 |:---|:---|
-| ✅ Verified / Auto-corrected | 3 |
+| ✅ Verified / Auto-corrected | 0 |
 | ❌ Needs manual review | 28 |
-| 📞 Phone numbers auto-updated | 3 |
-
----
-
-## Auto-corrections Applied
-
-| Entry | Field | Old Value | New Value | Reason |
-|:---|:---|:---|:---|:---|
-| Community Legal Services | `phone` | 602-258-3434 | (800) 852-9075 | Phone number updated from organization's website |
-| Southern Arizona Legal Aid | `phone` | 520-623-9465 | (520) 623-9461 | Phone number updated from organization's website |
-| University of Arizona — Foster Youth Programs | `phone` | 520-621-9597 | (520) 621-1858 | Phone number updated from organization's website |
 
 ---
 
@@ -303,16 +292,6 @@
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | St. Mary’s Food Bank of Arizona: Help Feed the Hungry |
 | **Redirected to** | https://www.stmarysfoodbank.org/ |
-
----
-
-## Verified Entries
-
-| Entry | URL | Phone | Status |
-|:---|:---|:---|:---|
-| Community Legal Services | ✅ https://clsaz.org | 🔄 602-258-3434 → (800) 852-9075 | ✅ |
-| Southern Arizona Legal Aid | ✅ https://www.sazlegalaid.org | 🔄 520-623-9465 → (520) 623-9461 | ✅ |
-| University of Arizona — Foster Youth Programs | ✅ https://financialaid.arizona.edu | 🔄 520-621-9597 → (520) 621-1858 | ✅ |
 
 ---
 
