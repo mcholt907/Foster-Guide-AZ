@@ -3,10 +3,10 @@ import { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://www.fosterhubaz.com";
 
-  // The base paths available for each language
+  // The base paths available for each language.
+  // Do NOT include /setup — it's onboarding UI, not indexable content.
   const routes = [
     "",
-    "/setup",
     "/ask",
     "/case",
     "/future",
