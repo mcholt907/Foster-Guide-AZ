@@ -37,7 +37,7 @@ npm run preview   # serve the production build locally
 
 ### Structure
 
-```
+```text
 web/
   src/
     app/
@@ -47,33 +47,56 @@ web/
         layout.tsx            — lang layout (SideNav + BottomNav wrapper)
         page.tsx              — Home screen
         setup/page.tsx        — onboarding (age band, county, tribal)
-        rights/page.tsx       — Your Rights (A.R.S. §8-529)
+        rights/page.tsx       — Your Rights (A.R.S. §8-529) + FAQPage JSON-LD
         case/page.tsx         — My Case (dependency court stages)
         future/page.tsx       — My Future Plan (EFC/ETV/docs)
         resources/page.tsx    — Find Resources (filterable directory)
         wellness/page.tsx     — Wellness Check-In
-        ask/page.tsx          — AI Chat (RAG via backend API)
+        ask/page.tsx          — Find Answers (static browse + Fuse.js fuzzy search; no backend)
     components/
-      BottomNav.tsx           — mobile bottom nav + desktop SideNav
+      BottomNav.tsx           — floating pill nav (persistent labels, solid teal
+                                active pill, warm stone inactive, teal-tinted shadow)
       ui.tsx                  — shared primitives: Card, Modal, PrimaryButton,
                                 Chip, SectionTitle, Divider, ScreenHero,
                                 SafeNotice, StatCite
     lib/
-      i18n.ts                 — all UI strings (EN + ES)
+      i18n.ts                 — all UI strings (EN + ES); plain-language, youth voice
       prefs.ts                — usePrefs() hook (localStorage, cross-component sync)
       useOnboardingGate.ts    — redirect to /setup if onboarding not complete
-      chat.ts                 — typed API client for the RAG backend
+      chat.ts                 — typed API client for the RAG backend (dead code — no longer used)
     data/
-      constants.ts            — COUNTIES, AGE_BANDS, CRISIS_PINS
+      constants.ts            — COUNTIES, AGE_BANDS, CRISIS_PINS (+ lastVerified)
       rights.ts               — RIGHTS chunks (A.R.S. §8-529), ESCALATION_STEPS
-      court.ts                — COURT_STAGES, WHO_IN_YOUR_CASE
-      resources.ts            — RESOURCES directory (39 entries)
-      docs.ts                 — IMPORTANT_DOCS (documents youth need)
+      court.ts                — COURT_STAGES, WHO_IN_YOUR_CASE (caregiver card
+                                includes House Manager / group home staff)
+      resources.ts            — RESOURCES directory (39 entries, + lastVerified)
+      docs.ts                 — IMPORTANT_DOCS (documents youth need, + lastVerified)
+      questions.ts            — Q&A entries (QUESTIONS, TOPIC_CONFIG, RESOURCE_LINK_CATEGORIES); Fuse.js search source for Find Answers page
     public/
       favicon.svg             — browser tab icon
       icons/icon-192.svg      — PWA home screen icon (192px)
       icons/icon-512.svg      — PWA splash icon (512px)
       manifest.webmanifest    — PWA manifest
+scripts/
+  validate-content.ts         — URL, phone, date, and citation format checks
+  check-staleness.ts          — risk-tiered SLA staleness detection
+  reverify-content.ts         — auto-reverify URLs + phone numbers; auto-corrects redirects
+  generate-freshness-report.ts — markdown freshness report generator
+  check-legislation.ts        — monitors AZ statutes on the watchlist
+  watchlist.json              — legislative watchlist (§8-529, §8-514.06, §8-521, etc.)
+  ingest-review.ts            — content ingestion review helper
+.github/workflows/
+  link-check.yml              — Lychee link checker (on PR + weekly)
+  content-validation.yml      — runs validate-content.ts (on PR)
+  staleness-check.yml         — runs check-staleness.ts (weekly)
+  auto-reverify.yml           — runs reverify-content.ts (monthly)
+  legislative-watch.yml       — runs check-legislation.ts (weekly)
+  freshness-report.yml        — generates freshness report (monthly)
+  ingest-review.yml           — content ingestion review (on PR)
+.lychee.toml                  — link checker configuration
+docs/
+  freshness-report.md         — current content freshness status
+  reverification-report.md    — last auto-reverification run results
 ```
 
 ### Architecture
@@ -85,7 +108,10 @@ web/
 - Language from URL segment: `/en/*` or `/es/*`
 - User prefs (ageBand, county, tribal, onboardingDone) in `localStorage` key `fgaz_prefs_v2`
 - No router state — all navigation via Next.js `Link` and `router.push`
-- AI chat requires backend (`server/`) running on port 3001; `NEXT_PUBLIC_API_URL` env var
+- **No backend dependency** — the Find Answers page (`/ask`) uses client-side Fuse.js search over `data/questions.ts`; `NEXT_PUBLIC_API_URL` and `lib/chat.ts` are unused and can be removed
+- Canonical URLs use `www.fosterhubaz.com`; root `/` redirects server-side to `/en`
+- Per-page `hreflang` alternate links on all `[lang]` layouts
+- `sitemap.ts` generates static sitemap (no onboarding-gated paths)
 
 ### Age-Band Gating
 
@@ -100,13 +126,37 @@ Four bands: `10-12`, `13-15`, `16-17`, `18-21`. Content complexity adapts per ba
 - `useOnboardingGate(lang)` — call at top of every page; redirects to `/setup` if not onboarded
 - `usePrefs()` — returns `[prefs, loaded, patch, reset]`; dispatches `fgaz-prefs-updated` custom event so all component instances (including SideNav) stay in sync
 - `SafeNotice` — disclaimer component shown at the bottom of Rights, Case, Future, Resources, Wellness pages
-- `ScreenHero` — standard gradient hero banner used on every content screen
+- `ScreenHero` — standard gradient hero banner (3-stop: teal → `#1a5f7e` → navy); `tracking-tighter` on titles, `tracking-wide` on subtitles
+- Cards use ambient `shadow-*` (not `ring-1 ring-black/5`); inner stacked cards use `ring-slate-200`
+
+### Content Freshness
+
+All entries in `web/src/data/resources.ts`, `constants.ts`, and `docs.ts` carry a `lastVerified` date. When adding or editing entries, always set `lastVerified` to today's date (ISO format: `YYYY-MM-DD`).
+
+CI enforces freshness via GitHub Actions:
+
+- **PRs**: `content-validation.yml` (format/citation checks) + `link-check.yml` (Lychee)
+- **Weekly**: `staleness-check.yml`, `legislative-watch.yml`
+- **Monthly**: `auto-reverify.yml`, `freshness-report.yml`
+
+To run content checks locally:
+
+```bash
+npx ts-node scripts/validate-content.ts
+npx ts-node scripts/check-staleness.ts
+```
+
+### Language & Tone
+
+All user-facing copy must be **plain language, youth voice** — speak to "you" directly, avoid acronyms (spell out EFC/ETV on first use), avoid legal jargon. Max 6th-grade reading level. See `web/src/lib/i18n.ts` for EN + ES string conventions.
 
 ---
 
-## App Prototype (`app/`) — Reference / RAG Backend
+## App Prototype (`app/`) — Reference Only
 
-### Dev Commands
+> **Note:** The `fosterhub-api` Render service (Express RAG backend in `server/`) has been suspended. The production web app no longer calls it — Find Answers is fully static. The `server/` code remains in the repo as a reference if AI chat is ever reintroduced.
+
+### Dev Commands (local reference use only)
 
 ```bash
 cd server && npm run dev   # RAG backend (needs ANTHROPIC_API_KEY in server/.env)
