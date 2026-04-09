@@ -13,7 +13,7 @@ const NAV_ITEMS = [
   { id: "rights",    icon: Shield,       href: "/rights",    en: "Your Rights", es: "Tus Derechos", labelEn: "Rights", labelEs: "Derechos" },
   { id: "resources", icon: MapPin,       href: "/resources", en: "Resources", es: "Recursos",  labelEn: "Resources", labelEs: "Recursos" },
   { id: "wellness",  icon: HeartPulse,   href: "/wellness",  en: "Wellness",  es: "Bienestar", labelEn: "Wellness",  labelEs: "Bienestar" },
-  { id: "ask",       icon: MessageCircle,href: "/ask",       en: "Find Answers", es: "Encontrar Respuestas", labelEn: "Answers", labelEs: "Respuestas" },
+  { id: "ask",       icon: MessageCircle,href: "/ask",       en: "Find Answers", es: "Encontrar Respuestas", labelEn: "Answers", labelEs: "Buscar" },
 ] as const;
 
 export function BottomNav({ lang }: { lang: Lang }) {
