@@ -1,0 +1,90 @@
+name: Ingest Review Report
+on:
+  schedule:
+    - cron: "0 8 * * 2" # Every Tuesday at 8:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install tsx
+        run: npm install -g tsx
+
+      # ── Step 1: Check if reviewed file exists ───────────────────────────
+
+      - name: Check for reviewed report
+        id: check
+        run: |
+          if [ -f docs/revalidation-report-reviewed.md ]; then
+            echo "found=true" >> $GITHUB_OUTPUT
+            echo "✅ Reviewed report found"
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+            echo "📭 No reviewed report found — nothing to ingest"
+          fi
+
+      # ── Step 2: Run ingestion ───────────────────────────────────────────
+
+      - name: Ingest reviewed report
+        if: steps.check.outputs.found == 'true'
+        id: ingest
+        run: npx tsx scripts/ingest-review.ts --apply 2>&1 | tee /tmp/ingestion-output.txt
+        continue-on-error: true
+
+      # ── Step 3: Commit changes ──────────────────────────────────────────
+
+      - name: Commit changes
+        if: steps.check.outputs.found == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: ingest reviewed revalidation corrections [skip ci]
+
+          Applied corrections from docs/revalidation-report-reviewed.md.
+          See docs/ingestion-log.md for details."
+            git push
+            echo "✅ Changes committed and pushed"
+          fi
+
+      # ── Step 4: Regenerate reports ──────────────────────────────────────
+
+      - name: Regenerate reports
+        if: steps.check.outputs.found == 'true'
+        run: |
+          npx tsx scripts/generate-freshness-report.ts
+          git add docs/freshness-report.md
+          if git diff --staged --quiet; then
+            echo "No report changes"
+          else
+            git commit -m "docs: update freshness report after review ingestion [skip ci]"
+            git push
+          fi
+
+      # ── Step 5: Create issue if ingestion had failures ──────────────────
+
+      - name: Create issue on failure
+        if: steps.check.outputs.found == 'true' && steps.ingest.outcome == 'failure'
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "📥 Review ingestion had failures — check ingestion log"
+          content-filepath: /tmp/ingestion-output.txt
+          labels: |
+            content-freshness
+            ingestion-error
+            auto-detected
