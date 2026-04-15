@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FosterHub AZ - Meet Your Team</title>
+<!-- Tailwind CSS V3 CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts for child-friendly but legible typography -->
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style data-purpose="typography">
+    body {
+      font-family: 'Quicksand', sans-serif;
+    }
+    h1, h2 {
+      color: #61A4AD;
+    }
+  </style>
+<style data-purpose="custom-colors">
+    /* Custom colors based on the provided image palette */
+    .bg-sidebar { background-color: #2D5B7A; }
+    .bg-cream { background-color: #FDF7EA; }
+    .card-blue { background-color: #E1F5FE; border-color: #B3E5FC; }
+    .card-green { background-color: #E8F5E9; border-color: #C8E6C9; }
+    .card-yellow { background-color: #FFFDE7; border-color: #FFF9C4; }
+    .card-orange { background-color: #FFF3E0; border-color: #FFE0B2; }
+    .text-muted { color: #555555; }
+    .faq-item { background-color: #D1E9F6; }
+  </style>
+</head>
+<body class="bg-cream min-h-screen flex">
+<!-- BEGIN: Sidebar Navigation -->
+<aside class="w-64 bg-sidebar text-white flex flex-col flex-shrink-0" data-purpose="sidebar-navigation">
+<!-- Logo Section -->
+<div class="p-6 flex items-center space-x-3">
+<div class="w-8 h-8 bg-white rounded flex items-center justify-center">
+<svg class="h-5 w-5 text-sidebar" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+</svg>
+</div>
+<span class="font-bold text-lg">FosterHub AZ</span>
+</div>
+<!-- Nav Links -->
+<nav class="flex-grow px-4 mt-4 space-y-2">
+<a class="flex items-center space-x-3 p-3 rounded hover:bg-white/10 transition" href="#">
+<svg class="h-5 w-5 opacity-70" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Home</span>
+</a>
+<a class="flex items-center space-x-3 p-3 rounded bg-white/20 transition" href="#">
+<svg class="h-5 w-5 opacity-70" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>My Case</span>
+</a>
+<a class="flex items-center space-x-3 p-3 rounded hover:bg-white/10 transition" href="#">
+<svg class="h-5 w-5 opacity-70" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Your Rights</span>
+</a>
+<a class="flex items-center space-x-3 p-3 rounded hover:bg-white/10 transition" href="#">
+<svg class="h-5 w-5 opacity-70" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Resources</span>
+</a>
+<a class="flex items-center space-x-3 p-3 rounded hover:bg-white/10 transition" href="#">
+<svg class="h-5 w-5 opacity-70" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Wellness</span>
+</a>
+<a class="flex items-center space-x-3 p-3 rounded hover:bg-white/10 transition" href="#">
+<svg class="h-5 w-5 opacity-70" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Find Answers</span>
+</a>
+</nav>
+<!-- Footer info -->
+<div class="p-6 text-xs text-white/40 border-t border-white/10">
+      No sign up - Nothing stored
+    </div>
+</aside>
+<!-- END: Sidebar Navigation -->
+<!-- BEGIN: Main Content Area -->
+<main class="flex-grow overflow-y-auto p-12">
+<!-- BEGIN: Header Section -->
+<header class="max-w-4xl mx-auto text-center mb-12">
+<!-- Friendly Group Illustration Placeholder -->
+<div class="mb-6 flex justify-center">
+<img alt="Group of diverse, friendly adults and children" class="h-32 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-smIa44ZsPpyIKx9poYVCIdBFdRKTqVHRLZ30q0YeyNwbU6uXlcSOyIPUSXJGghKL86KEARW_5Z6gw0tM9A79B4T_5tFeoNlmjKEQnRjVu-ZDU_pswBaZvcNTiIEpixtL2_OoJiFLhuVDpc6MUumOskVRuZvTS59ciZvnY1ToCJfkhERwalXg8atAqUDGSTCI844nERa8Fwi5G4-j9tn5k5z1q7SdKkmoxkAkNBGoQe279BUjnwMg2VA-AswY-mCvQk_Pz_ptlHdz"/>
+</div>
+<h1 class="text-4xl font-bold mb-2">Who's in Your Case?</h1>
+<p class="text-xl text-gray-600">These are the helpful people here to support you on your journey.</p>
+</header>
+<!-- END: Header Section -->
+<!-- BEGIN: Team Cards Grid -->
+<section class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mb-16" data-purpose="team-member-cards">
+<!-- DCS Case Manager Card -->
+<article class="card-blue border-2 rounded-[32px] p-8 flex items-center space-x-6 shadow-sm">
+<div class="flex-shrink-0 w-24 h-24 bg-white rounded-full overflow-hidden border-2 border-blue-200">
+<img alt="Avatar of a DCS Case Manager" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9YRAVaQFdRskoPIiARO6ah8VoOkrABKiMO9fjfiS-BcBjZs9ye66ex2dFg3JNGxRIEWdf_lvozvFo43_tLIfuXIQWWQTkTwJW2ol1L0FV37EDu487m9rs-V--1kSxyS-Oa5eJkJBqS8r3h1XTEKhicJliBl18PF7jWDaN0FpJtckG-wqdMs4YFQqi-mgfN5OxJiUoELWfs3aedAPhNtDFWRcnvwUihHZrCU2XavvAdhX5qeJ1wQZ_r0Y65ba5-p_JjJjsi87PdVk-"/>
+</div>
+<div>
+<h2 class="text-2xl font-bold text-gray-800 mb-1">Your DCS Case Manager</h2>
+<p class="text-muted text-sm leading-relaxed">
+            Your main point of contact at DCS. They manage your case day-to-day — writing your case plan, scheduling visits, and connecting you to services. By law they must meet with you in person at least once a month.
+          </p>
+</div>
+</article>
+<!-- Judge Card -->
+<article class="card-green border-2 rounded-[32px] p-8 flex items-center space-x-6 shadow-sm">
+<div class="flex-shrink-0 w-24 h-24 bg-white rounded-full overflow-hidden border-2 border-green-200">
+<img alt="Avatar of a Judge" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0DqE2VhuCC_b6j6j6_rdT_S3Fj_qSJ_klQ0AYko_UbKnC8JfQTbzqsRpIlGIVaG3nE9tc2H5whE8hvV9GQG0I_V0Eb17OfcS4SuolBgSKgtRbr8qY2f8ZflEB8dXR0nsS8zSfpqkCpdWMfV6uB7DZvfR2TVpHXSrWrhcn_bddXxKoVwO_MCEaIc8BadPHpOUYNvNEWMEURxi67NVArqVvCKSyJ9quIfsdXfC5ChXguqr3N901-FRsJ4Ahljb31T_neTprnM-SXnBX"/>
+</div>
+<div>
+<h2 class="text-2xl font-bold text-gray-800 mb-1">The Judge</h2>
+<p class="text-muted text-sm leading-relaxed">
+            Makes the big legal decisions about your case — including where you live. They approve your case plan and make the final call at every hearing. You have the right to speak at hearings — your voice counts.
+          </p>
+</div>
+</article>
+<!-- Foster Parent / Caregiver Card -->
+<article class="card-yellow border-2 rounded-[32px] p-8 flex items-center space-x-6 shadow-sm">
+<div class="flex-shrink-0 w-24 h-24 bg-white rounded-full overflow-hidden border-2 border-yellow-200">
+<img alt="Avatar of a Foster Parent or Caregiver" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWP8W7bsFW-Vy7H-XlyFmIqUr-8qtrc38Q6yguJ26rafLQpjE9sGnT9Gr2PNsblsTt8kDW6UHjXGq66bx8veh9tOs7GZdm8STe03H_rsRujTcyOxAF6DCLRLJ15MsMKvKwfnZrIxUE3L-8xoLmaolZqlvLobK3EQAiJ5wREbe0TFCDwhq6LwJsxcWeYaKVV6a0jrLzajfWMIw3mH6_kP8YmJesQtEUgeOnLeIS9_J6OoZYGDAR1sWN0ZDoitF3JRIneBS51x-GjsMQ"/>
+</div>
+<div>
+<h2 class="text-2xl font-bold text-gray-800 mb-1">Foster Parent / Caregiver</h2>
+<p class="text-muted text-sm leading-relaxed">
+            The adult responsible for your day-to-day care — in a foster home, kinship home, or group home. If you ever feel unsafe where you're living, tell your case manager, attorney, or CASA right away.
+          </p>
+</div>
+</article>
+<!-- Attorney Card -->
+<article class="card-orange border-2 rounded-[32px] p-8 flex items-center space-x-6 shadow-sm">
+<div class="flex-shrink-0 w-24 h-24 bg-white rounded-full overflow-hidden border-2 border-orange-200">
+<img alt="Avatar of an Attorney" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBy5dynnhYr7DwbOskdG_8OY-0zjlRrs4OI-cVCuxq3hPBY8EoTXTuNZ7VC9DxmXky1rulJeBoQ5_ebMG-OjQdCYQn23L1hlLynG5f-VLRCsCE7eEE1zkJLsF3N9E6Bx855OqmgaXDTZ5JSmcrCy3XQ7Da07NhvxzQrMZRvYx6XUsNsKXcDb7MFqy4aJGDsx_kPvlhHjyRIkrOMPkx13VIkhsCtPfms2qnqpIhUNfyglVoRNsq8y2xDABLUMiBoBv8ETUajtzxmlaZO"/>
+</div>
+<div>
+<h2 class="text-2xl font-bold text-gray-800 mb-1">Your Attorney</h2>
+<p class="text-muted text-sm leading-relaxed">
+            Represents only you — not DCS, not your parents, not the foster family. They go to court with you, explain what's happening, and argue for what you want. Everything you tell them stays private.
+          </p>
+</div>
+</article>
+</section>
+<!-- END: Team Cards Grid -->
+<!-- BEGIN: FAQ Accordion -->
+<section class="max-w-4xl mx-auto" data-purpose="faq-section">
+<h2 class="text-center text-3xl font-bold mb-8 opacity-80">Frequently Asked Questions</h2>
+<div class="space-y-4">
+<!-- Question 1 (Open) -->
+<div class="rounded-2xl overflow-hidden shadow-sm" data-purpose="faq-item">
+<button class="w-full faq-item px-6 py-4 flex justify-between items-center text-left font-semibold text-gray-800" onclick="toggleFaq(this)">
+<span>Can I talk to the judge?</span>
+<svg class="h-5 w-5 transform transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<div class="bg-white px-6 py-4 border-t border-blue-100 block">
+<p class="text-gray-700">Yes, you can! You can tell the judge how you feel, what you want, and what's not working — through your attorney or by asking to address the court directly.</p>
+</div>
+</div>
+<!-- Question 2 -->
+<div class="rounded-2xl overflow-hidden shadow-sm" data-purpose="faq-item">
+<button class="w-full faq-item px-6 py-4 flex justify-between items-center text-left font-semibold text-gray-800" onclick="toggleFaq(this)">
+<span>Who can I talk to if I'm scared?</span>
+<svg class="h-5 w-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<div class="bg-white px-6 py-4 border-t border-blue-100 hidden">
+<p class="text-gray-700">You can talk to any of your team members. Your case manager or attorney are great people to start with. Everything you tell your attorney stays private.</p>
+</div>
+</div>
+<!-- Question 3 -->
+<div class="rounded-2xl overflow-hidden shadow-sm" data-purpose="faq-item">
+<button class="w-full faq-item px-6 py-4 flex justify-between items-center text-left font-semibold text-gray-800" onclick="toggleFaq(this)">
+<span>What if I don't like my foster home?</span>
+<svg class="h-5 w-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<div class="bg-white px-6 py-4 border-t border-blue-100 hidden">
+<p class="text-gray-700">Tell your case manager and your attorney how you feel so they can help. If you ever feel unsafe, tell them right away — you have the right to be safe.</p>
+</div>
+</div>
+<!-- Question 4 -->
+<div class="rounded-2xl overflow-hidden shadow-sm" data-purpose="faq-item">
+<button class="w-full faq-item px-6 py-4 flex justify-between items-center text-left font-semibold text-gray-800" onclick="toggleFaq(this)">
+<span>How often will I see my case manager?</span>
+<svg class="h-5 w-5 transform transition-transform duration-200" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<div class="bg-white px-6 py-4 border-t border-blue-100 hidden">
+<p class="text-gray-700">By law, at least once a month in person. But you can always ask to see them sooner if you need to talk — keep their number saved.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- END: FAQ Accordion -->
+<!-- Footer Language Link -->
+<footer class="mt-12 text-center">
+<a class="text-[#61A4AD] font-medium underline underline-offset-4 decoration-2 hover:text-[#4a8188] transition" href="#">Cambiar a Español</a>
+</footer>
+</main>
+<!-- END: Main Content Area -->
+<script data-purpose="event-handlers">
+    function toggleFaq(btn) {
+      const content = btn.nextElementSibling;
+      const icon = btn.querySelector('svg');
+      if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        content.classList.add('block');
+        icon.classList.add('rotate-180');
+      } else {
+        content.classList.add('hidden');
+        content.classList.remove('block');
+        icon.classList.remove('rotate-180');
+      }
+    }
+  </script>
+</body></html>
