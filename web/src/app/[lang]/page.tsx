@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
 import { Lock, Phone, HelpCircle, Home, Shield, Gavel, MapPin, HeartPulse, FileText, MessageCircle, ChevronRight, ExternalLink } from "lucide-react";
 import type { Lang } from "../../lib/i18n";
 import { t } from "../../lib/i18n";
@@ -15,6 +15,10 @@ import type { AgeBandKey } from "../../lib/prefs";
 // ── 10-12 tile dashboard ──────────────────────────────────────────────────────
 
 function Dashboard1012({ lang }: { lang: Lang }) {
+  const router = useRouter();
+  const [,,, reset] = usePrefs();
+  const [chipOpen, setChipOpen] = useState(false);
+
   return (
     <div className="pb-8">
       {/* Header */}
@@ -22,10 +26,42 @@ function Dashboard1012({ lang }: { lang: Lang }) {
         <h1 className="text-3xl sm:text-4xl font-bold text-[#136d41] leading-tight">
           {lang === "es" ? "¿Qué necesitas hoy?" : "What do you need today?"}
         </h1>
-        <div className="flex items-center gap-2 mt-3 bg-white/50 w-fit px-3 py-1.5 rounded-full text-xs font-semibold text-slate-500 shadow-sm border border-slate-100">
-          <span className="text-slate-400">📍</span>
+        <button
+          onClick={() => setChipOpen((o) => !o)}
+          className={`flex items-center gap-2 mt-3 w-fit px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm border transition-colors ${
+            chipOpen
+              ? "bg-[#136d41] text-white border-[#136d41]"
+              : "bg-white/50 text-slate-500 border-slate-100 hover:bg-white/80"
+          }`}
+        >
+          <span className={chipOpen ? "text-white/80" : "text-slate-400"}>📍</span>
           <span>{lang === "es" ? "10–12 años · Español" : "Ages 10–12 · English"}</span>
-        </div>
+        </button>
+
+        {chipOpen && (
+          <div className="mt-3 bg-white rounded-[20px] p-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)] border-2 border-[#fbbf24]">
+            <p className="text-sm font-semibold text-[#35322d] mb-1">
+              {lang === "es" ? "¿Cambiar configuración?" : "Change your settings?"}
+            </p>
+            <p className="text-xs text-slate-500 mb-4 leading-relaxed">
+              {lang === "es"
+                ? "Esto borra tu grupo de edad e idioma. Empezarás de nuevo desde el principio."
+                : "This clears your age group and language. You'll start fresh from the beginning."}
+            </p>
+            <button
+              onClick={() => { reset(); router.push('/'); }}
+              className="w-full rounded-full bg-[#136d41] px-4 py-3 text-sm font-bold text-white shadow-sm hover:bg-[#0f5c35] transition-colors mb-2"
+            >
+              ↩ {lang === "es" ? "Sí, empezar de nuevo" : "Yes, start over"}
+            </button>
+            <button
+              onClick={() => setChipOpen(false)}
+              className="w-full text-center text-xs font-semibold text-slate-400 hover:text-slate-600 py-1 transition-colors"
+            >
+              {lang === "es" ? "Cancelar" : "Never mind"}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* 2×2 tile grid */}
