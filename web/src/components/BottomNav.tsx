@@ -1,27 +1,33 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Home, Shield, Gavel, MapPin, HeartPulse, MessageCircle } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
+import { Home, Shield, FolderOpen, MapPin, HeartHandshake, HelpCircle, Users } from "lucide-react";
 import { motion } from "framer-motion";
 import type { Lang } from "../lib/i18n";
 import { usePrefs } from "../lib/prefs";
 
-const NAV_ITEMS = [
-  { id: "home",      icon: Home,         href: "",           en: "Home",      es: "Inicio",    labelEn: "Home",      labelEs: "Inicio" },
-  { id: "case",      icon: Gavel,        href: "/case",      en: "My Case",   es: "Mi Caso",   labelEn: "My Case",   labelEs: "Mi Caso" },
-  { id: "rights",    icon: Shield,       href: "/rights",    en: "Your Rights", es: "Tus Derechos", labelEn: "Rights", labelEs: "Derechos" },
-  { id: "resources", icon: MapPin,       href: "/resources", en: "Resources", es: "Recursos",  labelEn: "Resources", labelEs: "Recursos" },
-  { id: "wellness",  icon: HeartPulse,   href: "/wellness",  en: "Wellness",  es: "Bienestar", labelEn: "Wellness",  labelEs: "Bienestar" },
-  { id: "ask",       icon: MessageCircle,href: "/ask",       en: "Find Answers", es: "Encontrar Respuestas", labelEn: "Answers", labelEs: "Buscar" },
+const NAV_ITEMS_BASE = [
+  { id: "home",      icon: Home,           href: "",           en: "Home",        es: "Inicio",          labelEn: "Home",      labelEs: "Inicio" },
+  { id: "case",      icon: FolderOpen,     href: "/case",      en: "My Case",     es: "Mi Caso",         labelEn: "My Case",   labelEs: "Mi Caso" },
+  { id: "rights",    icon: Shield,         href: "/rights",    en: "Your Rights", es: "Tus Derechos",    labelEn: "Rights",    labelEs: "Derechos" },
+  { id: "team",      icon: Users,          href: "/team",      en: "My Team",     es: "Mi Equipo",       labelEn: "My Team",   labelEs: "Mi Equipo" },
+  { id: "resources", icon: MapPin,         href: "/resources", en: "Resources",   es: "Recursos",        labelEn: "Resources", labelEs: "Recursos" },
+  { id: "wellness",  icon: HeartHandshake, href: "/wellness",  en: "Wellness",    es: "Bienestar",       labelEn: "Wellness",  labelEs: "Bienestar" },
+  { id: "ask",       icon: HelpCircle,     href: "/ask",       en: "Find Answers",es: "Buscar",          labelEn: "Answers",   labelEs: "Buscar" },
 ] as const;
 
 export function BottomNav({ lang }: { lang: Lang }) {
   const pathname = usePathname();
   const [prefs] = usePrefs();
-  const visibleItems = NAV_ITEMS.filter(
-    (item) => !(item.id === "resources" && prefs.ageBand === "10-12")
-  );
+  const is1012 = prefs.ageBand === "10-12";
+  const visibleItems = NAV_ITEMS_BASE.filter((item) => {
+    if (item.id === "resources" && is1012) return false;
+    if (item.id === "rights" && is1012) return false;
+    if (item.id === "team" && !is1012) return false;
+    return true;
+  });
 
   return (
     <nav className="md:hidden fixed bottom-6 inset-x-4 z-40 pointer-events-none">
@@ -64,10 +70,16 @@ export function BottomNav({ lang }: { lang: Lang }) {
 
 export function SideNav({ lang }: { lang: Lang }) {
   const pathname = usePathname();
-  const [prefs] = usePrefs();
-  const visibleItems = NAV_ITEMS.filter(
-    (item) => !(item.id === "resources" && prefs.ageBand === "10-12")
-  );
+  const router = useRouter();
+  const [prefs,,, reset] = usePrefs();
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const is1012 = prefs.ageBand === "10-12";
+  const visibleItems = NAV_ITEMS_BASE.filter((item) => {
+    if (item.id === "resources" && is1012) return false;
+    if (item.id === "rights" && is1012) return false;
+    if (item.id === "team" && !is1012) return false;
+    return true;
+  });
 
   return (
     <aside className="hidden md:flex flex-col fixed left-0 top-0 h-screen w-56 z-40 bg-gradient-to-b from-[#1B3A5C] via-[#1e4a6e] to-[#2A7F8E] shadow-xl">
@@ -103,7 +115,10 @@ export function SideNav({ lang }: { lang: Lang }) {
                   : "text-white/60 hover:bg-white/8 hover:text-white/90"
               }`}
             >
-              <Icon className={`h-[18px] w-[18px] shrink-0 ${isActive ? "stroke-[2.5]" : "stroke-[1.75]"}`} />
+              <Icon 
+                className="h-[20px] w-[20px] shrink-0 transition-all duration-300" 
+                strokeWidth={isActive ? 3 : 2.5} 
+              />
               <span className="tracking-wide">{lang === "es" ? es : en}</span>
               {isActive && (
                 <div className="ml-auto h-1.5 w-1.5 rounded-full bg-amber-400 shadow-sm shadow-amber-400/50" />
@@ -116,11 +131,39 @@ export function SideNav({ lang }: { lang: Lang }) {
       {/* Footer */}
       <div className="mx-5 h-px bg-white/10 mb-4" />
       <div className="px-5 pb-6">
-        <div className="text-[10px] text-white/35 leading-relaxed tracking-wide">
+        <div className="text-[10px] text-white/35 leading-relaxed tracking-wide mb-3">
           {lang === "es"
             ? "Sin registro · Nada guardado"
             : "No sign-up · Nothing stored"}
         </div>
+        {!confirmOpen ? (
+          <button
+            type="button"
+            onClick={() => setConfirmOpen(true)}
+            className="text-[10px] text-white/35 hover:text-white/60 transition-colors tracking-wide"
+          >
+            ↩ {lang === "es" ? "Empezar de nuevo" : "Start over"}
+          </button>
+        ) : (
+          <div className="text-[10px] text-white/50 tracking-wide flex items-center gap-2">
+            <span>{lang === "es" ? "¿Resetear?" : "Reset?"}</span>
+            <button
+              type="button"
+              onClick={() => { reset(); router.push('/'); }}
+              className="text-white/70 hover:text-white font-bold transition-colors"
+            >
+              {lang === "es" ? "Sí" : "Yes"}
+            </button>
+            <span>·</span>
+            <button
+              type="button"
+              onClick={() => setConfirmOpen(false)}
+              className="text-white/35 hover:text-white/60 transition-colors"
+            >
+              {lang === "es" ? "No" : "No"}
+            </button>
+          </div>
+        )}
       </div>
     </aside>
   );
