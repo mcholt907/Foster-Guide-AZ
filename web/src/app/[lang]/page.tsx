@@ -27,6 +27,7 @@ function Dashboard1012({ lang }: { lang: Lang }) {
           {lang === "es" ? "¿Qué necesitas hoy?" : "What do you need today?"}
         </h1>
         <button
+          type="button"
           onClick={() => setChipOpen((o) => !o)}
           className={`flex items-center gap-2 mt-3 w-fit px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm border transition-colors ${
             chipOpen
@@ -49,12 +50,14 @@ function Dashboard1012({ lang }: { lang: Lang }) {
                 : "This clears your age group and language. You'll start fresh from the beginning."}
             </p>
             <button
+              type="button"
               onClick={() => { reset(); router.push('/'); }}
               className="w-full rounded-full bg-[#136d41] px-4 py-3 text-sm font-bold text-white shadow-sm hover:bg-[#0f5c35] transition-colors mb-2"
             >
               ↩ {lang === "es" ? "Sí, empezar de nuevo" : "Yes, start over"}
             </button>
             <button
+              type="button"
               onClick={() => setChipOpen(false)}
               className="w-full text-center text-xs font-semibold text-slate-400 hover:text-slate-600 py-1 transition-colors"
             >
