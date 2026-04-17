@@ -114,6 +114,17 @@ export default function DashboardPrototype({ onNavigate }: Props) {
           </a>
         </div>
 
+        {/* Start over */}
+        <div className="px-6 mt-6 pb-4 text-center">
+          <button
+            type="button"
+            onClick={() => onNavigate('onboarding')}
+            className="text-xs text-slate-400 underline hover:text-slate-600 transition-colors"
+          >
+            ↩ Start over
+          </button>
+        </div>
+
       </div>
     </div>
   );
