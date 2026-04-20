@@ -106,48 +106,30 @@ export default function DashboardTeen({ onNavigate }: { onNavigate?: (id: string
 
         <main className="max-w-[1240px] mx-auto px-6 sm:px-12 py-10 sm:py-20">
           
-          {/* Greeting Hero */}
-          <div className="mb-16">
-            <h1 className="text-4xl sm:text-6xl font-black text-[#1e293b] mb-4 tracking-[-0.05em] leading-[0.9]">
-               Good morning.
-            </h1>
-            <p className="text-slate-400 text-lg font-bold tracking-tight">
-               Today is {currentDate}. Here is your status summary.
-            </p>
+          {/* Privacy & Status Hero */}
+          <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <div>
+              <h1 className="text-4xl sm:text-6xl font-black text-[#1e293b] mb-4 tracking-[-0.05em] leading-[0.9]">
+                 Good morning.
+              </h1>
+              <p className="text-slate-400 text-lg font-bold tracking-tight">
+                 Welcome to your secure command center. {currentDate}.
+              </p>
+            </div>
+            
+            {/* Zero-Storage Badge */}
+            <div className="bg-emerald-50/50 border border-emerald-100 px-6 py-4 rounded-2xl flex items-center gap-4">
+               <div className="w-10 h-10 bg-emerald-500 text-white rounded-xl flex items-center justify-center shrink-0">
+                  <Lock size={18} strokeWidth={3} />
+               </div>
+               <div>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-emerald-600">Privacy First</p>
+                  <p className="text-[13px] font-bold text-emerald-800 leading-tight">No data is ever saved or tracked.</p>
+               </div>
+            </div>
           </div>
 
-          {/* System Insight Bar */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16">
-             <div className="bg-white p-8 rounded-[2rem] shadow-[0_12px_32px_rgba(0,0,0,0.03)] border border-white flex items-center gap-6 group hover:shadow-[0_24px_48px_rgba(0,0,0,0.06)] transition-all">
-                <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-emerald-500 group-hover:text-white transition-all">
-                   <Calendar size={22} strokeWidth={2.5} />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-300 mb-1">Next Hearing</p>
-                  <p className="text-lg font-black text-[#1a2f44]">June 12, 2026</p>
-                </div>
-             </div>
-             
-             <div className="bg-white p-8 rounded-[2rem] shadow-[0_12px_32px_rgba(0,0,0,0.03)] border border-white flex items-center gap-6 group hover:shadow-[0_24px_48px_rgba(0,0,0,0.06)] transition-all">
-                <div className="w-12 h-12 bg-sky-50 text-sky-600 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-sky-500 group-hover:text-white transition-all">
-                   <MapPin size={22} strokeWidth={2.5} />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-300 mb-1">Placement</p>
-                  <p className="text-lg font-black text-[#1a2f44]">Secured</p>
-                </div>
-             </div>
 
-             <div className="bg-white p-8 rounded-[2rem] shadow-[0_12px_32px_rgba(0,0,0,0.03)] border border-white flex items-center gap-6 group hover:shadow-[0_24px_48px_rgba(0,0,0,0.06)] transition-all">
-                <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-indigo-500 group-hover:text-white transition-all">
-                   <Briefcase size={22} strokeWidth={2.5} />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-slate-300 mb-1">Process Goal</p>
-                  <p className="text-lg font-black text-[#1a2f44]">Reunification</p>
-                </div>
-             </div>
-          </div>
 
           <div className="grid lg:grid-cols-12 gap-16 items-start">
              
