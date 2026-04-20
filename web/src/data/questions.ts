@@ -16,6 +16,8 @@ export interface QAEntry {
   id: string;
   question:    { en: string; es: string };
   answer:      { en: string; es: string };
+  /** Simplified answer for 10-12 age band (plain language, ~4th grade reading level) */
+  answer1012?: { en: string; es: string };
   category:    QACategory;
   ageBands:    AgeBandKey[];
   citations?:  string[];
@@ -58,6 +60,10 @@ export const QUESTIONS: QAEntry[] = [
       en: "Arizona law (A.R.S. §8-529) gives you specific legal rights in foster care. These aren't just rules on paper — they're guarantees that belong to you. Some of the most important ones: you have the right to be treated with respect, to know what's in your case plan, to see your siblings (unless a judge says otherwise), and to keep your personal belongings. If you ever feel like one of your rights is being ignored, you don't have to stay quiet. You can tell your caseworker, then their supervisor, and then the DCS ombudsman if needed.",
       es: "La ley de Arizona (A.R.S. §8-529) te otorga derechos legales específicos en el cuidado adoptivo. Estos no son solo reglas en papel — son garantías que te pertenecen. Algunos de los más importantes: tienes derecho a ser tratado/a con respeto, a saber qué hay en tu plan de caso, a ver a tus hermanos (a menos que un juez diga lo contrario) y a conservar tus pertenencias. Si sientes que alguno de tus derechos está siendo ignorado, no tienes que quedarte callado/a.",
     },
+    answer1012: {
+      en: "You have special rights that protect you while you're in foster care. The law says you should be treated nicely, you can see your brothers and sisters, you can keep your stuff, and you get to know what's happening with your case. If something doesn't feel right, you can tell a grown-up you trust — like your caseworker, a teacher, or your lawyer.",
+      es: "Tienes derechos especiales que te protegen mientras estás en cuidado adoptivo. La ley dice que deben tratarte bien, puedes ver a tus hermanos y hermanas, puedes quedarte con tus cosas y puedes saber lo que está pasando con tu caso. Si algo no se siente bien, puedes decirle a un adulto de confianza — como tu trabajador/a de casos, un maestro/a o tu abogado/a.",
+    },
     category: "rights",
     ageBands: ["10-12","13-15","16-17","18-21"],
     citations: ["A.R.S. §8-529"],
@@ -73,6 +79,10 @@ export const QUESTIONS: QAEntry[] = [
     answer: {
       en: "Yes — you have the right to stay in contact with your siblings. DCS is supposed to place you with your brothers and sisters when possible, or make sure you can visit if you're in different homes. If you're not getting visits with your siblings, tell your caseworker or your attorney. A judge can also order sibling visits.",
       es: "Sí — tienes derecho a mantenerte en contacto con tus hermanos. DCS debe colocarte con tus hermanos cuando sea posible, o asegurarse de que puedas visitarlos si están en hogares diferentes. Si no estás teniendo visitas con tus hermanos, habla con tu trabajador/a de casos o tu abogado/a.",
+    },
+    answer1012: {
+      en: "Yes! You have the right to see your brothers and sisters. The people in charge of your case are supposed to try to keep you together. If you live in different homes, they should help you visit each other. If you're not getting to see them, tell your caseworker or your lawyer.",
+      es: "¡Sí! Tienes derecho a ver a tus hermanos y hermanas. Las personas a cargo de tu caso deben intentar mantenerlos juntos. Si viven en casas diferentes, deben ayudarlos a visitarse. Si no puedes verlos, dile a tu trabajador/a de casos o a tu abogado/a.",
     },
     category: "rights",
     ageBands: ["10-12","13-15","16-17","18-21"],
@@ -172,6 +182,10 @@ export const QUESTIONS: QAEntry[] = [
       en: "DCS stands for the Department of Child Safety. It's the Arizona government agency in charge of your foster care case. DCS workers — called caseworkers or case managers — are the people responsible for making sure you're safe and that your needs are being met. They're the ones who create your case plan and work with the court.",
       es: "DCS son las siglas del Departamento de Seguridad Infantil. Es la agencia del gobierno de Arizona a cargo de tu caso de cuidado adoptivo. Los trabajadores de DCS — llamados trabajadores de casos — son las personas responsables de asegurarse de que estés seguro/a y que tus necesidades se estén cumpliendo.",
     },
+    answer1012: {
+      en: "DCS stands for the Department of Child Safety. They're a group of people in Arizona whose job is to make sure kids are safe. Your caseworker works for DCS. They check on you, make sure you have what you need, and help figure out what happens next.",
+      es: "DCS significa el Departamento de Seguridad Infantil. Son un grupo de personas en Arizona cuyo trabajo es asegurarse de que los niños estén seguros. Tu trabajador/a de casos trabaja para DCS. Te visitan, se aseguran de que tengas lo que necesitas y ayudan a decidir qué pasa después.",
+    },
     category: "case",
     ageBands: ["10-12","13-15"],
     relatedIds: ["q-caseworker-role","q-what-is-case-plan"],
@@ -187,6 +201,10 @@ export const QUESTIONS: QAEntry[] = [
       en: "Your caseworker is the DCS employee assigned to your case. They're responsible for making sure you're safe, that your basic needs are met, and that your case plan is being followed. They should visit you regularly — at least once a month. You can bring your worries, questions, and requests to them. If you feel like they're not listening, you can ask to speak to their supervisor.",
       es: "Tu trabajador/a de casos es el empleado/a de DCS asignado a tu caso. Son responsables de asegurarse de que estés seguro/a, que tus necesidades básicas se cubran y que se siga tu plan de caso. Deben visitarte regularmente — al menos una vez al mes. Puedes llevarles tus preocupaciones, preguntas y solicitudes.",
     },
+    answer1012: {
+      en: "Your caseworker is the person from DCS who is in charge of helping you. They check on you, make sure you have what you need, and talk to the judge about your case. They should come see you at least once a month. If you have questions or something is bothering you, your caseworker is someone you can talk to.",
+      es: "Tu trabajador/a de casos es la persona de DCS que está a cargo de ayudarte. Te visitan, se aseguran de que tengas lo que necesitas y hablan con el juez sobre tu caso. Deben venir a verte al menos una vez al mes. Si tienes preguntas o algo te molesta, puedes hablar con tu trabajador/a de casos.",
+    },
     category: "case",
     ageBands: ["10-12","13-15","16-17"],
     relatedIds: ["q-caseworker-visits","q-what-is-case-plan"],
@@ -201,6 +219,10 @@ export const QUESTIONS: QAEntry[] = [
     answer: {
       en: "A case plan is a written document that explains what the goal is for your situation — like returning home, staying with a relative, or being adopted — and what steps need to happen to get there. It also lists services and support you should be getting. You have the right to know what's in your case plan and to share your own thoughts about what you want.",
       es: "Un plan de caso es un documento escrito que explica cuál es el objetivo para tu situación — como regresar a casa, quedarte con un familiar o ser adoptado/a — y qué pasos deben ocurrir para llegar ahí. También incluye los servicios y apoyos que deberías estar recibiendo. Tienes derecho a saber qué hay en tu plan de caso.",
+    },
+    answer1012: {
+      en: "A case plan is like a written plan for what's going to happen next. It talks about the goal — like going back home or living with a family member — and what needs to happen to get there. You can ask to hear about it, and you can share what YOU want. Your feelings matter.",
+      es: "Un plan de caso es como un plan escrito de lo que va a pasar después. Habla sobre el objetivo — como regresar a casa o vivir con un familiar — y lo que tiene que pasar para lograrlo. Puedes pedir que te lo expliquen y puedes decir lo que TÚ quieres. Tus sentimientos importan.",
     },
     category: "case",
     ageBands: ["10-12","13-15","16-17"],
@@ -232,6 +254,10 @@ export const QUESTIONS: QAEntry[] = [
     answer: {
       en: "Placement changes are supposed to be planned when possible, and you should be told what's happening and why. Emergency moves can happen if there's an immediate safety concern. You have the right to know about placement changes that affect you, and your preferences should be considered. If you're being moved and no one is explaining why, ask your caseworker or attorney directly.",
       es: "Los cambios de colocación deben planificarse cuando sea posible, y se te debe informar qué está pasando y por qué. Pueden ocurrir mudanzas de emergencia si hay una preocupación de seguridad inmediata. Tienes derecho a saber sobre los cambios de colocación que te afectan.",
+    },
+    answer1012: {
+      en: "Usually, someone should tell you before you move to a new home and explain why. Sometimes moves happen quickly if there's a safety problem, but you should still be told what's going on. If nobody is telling you why, ask your caseworker or your lawyer.",
+      es: "Normalmente, alguien debe decirte antes de que te mudes a una nueva casa y explicarte por qué. A veces las mudanzas pasan rápido si hay un problema de seguridad, pero igual deben decirte lo que está pasando. Si nadie te dice por qué, pregúntale a tu trabajador/a de casos o a tu abogado/a.",
     },
     category: "case",
     ageBands: ["10-12","13-15","16-17"],
@@ -345,6 +371,10 @@ export const QUESTIONS: QAEntry[] = [
       en: "Your safety is the most important thing. If you feel unsafe right now, you can call 911. If it's not an emergency but you're worried, call the DCS Child Abuse Hotline at 1-888-767-2445 — you can call any time, day or night. You can also tell your caseworker, teacher, school counselor, or any trusted adult. You deserve to feel safe where you live, and speaking up is the right thing to do.",
       es: "Tu seguridad es lo más importante. Si no te sientes seguro/a ahora mismo, puedes llamar al 911. Si no es una emergencia pero estás preocupado/a, llama a la línea directa de DCS al 1-888-767-2445 — puedes llamar en cualquier momento, de día o de noche.",
     },
+    answer1012: {
+      en: "If you don't feel safe, that's really important. If you're in danger RIGHT NOW, call 911. If it's not an emergency but you're worried, tell a grown-up you trust — a teacher, a school counselor, or your caseworker. You can also call for help anytime, day or night: 1-888-767-2445. You deserve to feel safe, and asking for help is always the right thing to do.",
+      es: "Si no te sientes seguro/a, eso es muy importante. Si estás en peligro AHORA MISMO, llama al 911. Si no es una emergencia pero estás preocupado/a, dile a un adulto de confianza — un maestro/a, un consejero/a de la escuela o tu trabajador/a de casos. También puedes llamar para pedir ayuda a cualquier hora: 1-888-767-2445. Mereces sentirte seguro/a, y pedir ayuda siempre está bien.",
+    },
     category: "safety",
     ageBands: ["10-12","13-15"],
     relatedIds: ["q-crisis-numbers","q-report-abuse"],
@@ -360,6 +390,10 @@ export const QUESTIONS: QAEntry[] = [
       en: "You are not alone. Here are people who will pick up:\n\n• **Emergency:** Call 911\n• **Crisis Text Line:** Text HOME to 741741\n• **DCS Child Abuse Hotline:** 1-888-767-2445 (24/7)\n• **211 Arizona:** Call or text 2-1-1 for local help with shelter, food, and more\n• **Teen Line:** 1-800-852-8336 (evenings, teens helping teens)\n\nAny of these are safe to call. No one will get in trouble for reaching out.",
       es: "No estás solo/a. Aquí hay personas que atenderán:\n\n• **Emergencia:** Llama al 911\n• **Crisis Text Line:** Envía HOLA al 741741\n• **Línea directa de DCS:** 1-888-767-2445 (24/7)\n• **211 Arizona:** Llama o envía mensaje al 2-1-1 para ayuda local",
     },
+    answer1012: {
+      en: "Here are people who will answer the phone and help you:\n\n• **If it's an emergency:** Call 911\n• **If you want to text someone:** Text HOME to 741741\n• **If you need help at home:** Call 1-888-767-2445 (anytime, day or night)\n• **If you need food, clothes, or other help:** Call or text 2-1-1\n\nYou will NOT get in trouble for calling any of these numbers.",
+      es: "Aquí hay personas que contestarán el teléfono y te ayudarán:\n\n• **Si es una emergencia:** Llama al 911\n• **Si quieres enviar un mensaje:** Envía HOLA al 741741\n• **Si necesitas ayuda en casa:** Llama al 1-888-767-2445 (a cualquier hora)\n• **Si necesitas comida, ropa u otra ayuda:** Llama o envía mensaje al 2-1-1\n\nNO te meterás en problemas por llamar a ninguno de estos números.",
+    },
     category: "safety",
     ageBands: ["10-12","13-15"],
     relatedIds: ["q-feel-unsafe-placement","q-report-abuse"],
@@ -374,6 +408,10 @@ export const QUESTIONS: QAEntry[] = [
     answer: {
       en: "What's happening to you is not okay, and it is not your fault. You can report it — and you should. Call the DCS Child Abuse Hotline anytime at 1-888-767-2445. You can also call 911 if you're in danger right now. Tell a trusted adult — a teacher, counselor, or coach. You won't be in trouble for speaking up. You deserve to be safe.",
       es: "Lo que te está pasando no está bien, y no es tu culpa. Puedes reportarlo — y deberías hacerlo. Llama a la línea directa de DCS en cualquier momento al 1-888-767-2445. También puedes llamar al 911 si estás en peligro ahora mismo. Mereces estar seguro/a.",
+    },
+    answer1012: {
+      en: "If someone is hurting you, that is NOT okay and it is NOT your fault. Tell a grown-up you trust right away — a teacher, coach, school counselor, or your caseworker. You can also call for help at 1-888-767-2445 any time, day or night. If you're in danger right now, call 911. You will NOT get in trouble for telling someone. You deserve to be safe.",
+      es: "Si alguien te está lastimando, eso NO está bien y NO es tu culpa. Dile a un adulto de confianza de inmediato — un maestro/a, entrenador/a, consejero/a de la escuela o tu trabajador/a de casos. También puedes llamar al 1-888-767-2445 a cualquier hora. Si estás en peligro ahora mismo, llama al 911. NO te meterás en problemas por decirle a alguien. Mereces estar seguro/a.",
     },
     category: "safety",
     ageBands: ["10-12","13-15"],
@@ -392,6 +430,10 @@ export const QUESTIONS: QAEntry[] = [
       en: "A CASA (Court Appointed Special Advocate) is a trained volunteer who the judge assigns to speak up for you — just for you. They're not a DCS worker. They get to know you, find out what you need, and tell the judge what they think is best for your future. A Guardian ad Litem is similar — it's a lawyer the court appoints to represent your best interests. Both are on your side.",
       es: "Un CASA (Defensor Especial Designado por el Tribunal) es un voluntario capacitado que el juez asigna para hablar por ti — solo por ti. No es un trabajador/a de DCS. Te conocen, descubren lo que necesitas y le dicen al juez lo que creen que es mejor para tu futuro.",
     },
+    answer1012: {
+      en: "A CASA is a special helper that the judge picks just for you. CASA stands for Court Appointed Special Advocate — that means the judge asked this person to look out for you. They're a volunteer, not a DCS worker. Their job is to get to know you and tell the judge what they think you need. They're on YOUR side.",
+      es: "Un CASA es un ayudante especial que el juez elige solo para ti. CASA significa Defensor Especial Designado por el Tribunal — eso quiere decir que el juez le pidió a esta persona que te cuide. Son un voluntario/a, no un trabajador/a de DCS. Su trabajo es conocerte y decirle al juez lo que creen que necesitas. Están de TU lado.",
+    },
     category: "corner",
     ageBands: ["10-12","13-15"],
     relatedIds: ["q-what-does-attorney-do","q-right-to-lawyer"],
@@ -406,6 +448,10 @@ export const QUESTIONS: QAEntry[] = [
     answer: {
       en: "Your attorney — sometimes called your lawyer or your counsel — is there to represent what you want. Not what your parents want. Not what DCS wants. What YOU want. They speak for you in court, help you understand what's happening in your case, and can push back on decisions you disagree with. If you don't know who your attorney is, ask your caseworker right away.",
       es: "Tu abogado/a está ahí para representar lo que tú quieres. No lo que quieren tus padres. No lo que quiere DCS. Lo que TÚ quieres. Habla por ti en el tribunal, te ayuda a entender lo que está pasando en tu caso y puede cuestionar decisiones con las que no estás de acuerdo.",
+    },
+    answer1012: {
+      en: "Your attorney is YOUR lawyer. Their job is to listen to what YOU want and tell the judge. They're not there for your parents or for DCS — they're there for you. They can help you understand what's happening and speak up for you. If you don't know who your lawyer is, ask your caseworker.",
+      es: "Tu abogado/a es TU abogado/a. Su trabajo es escuchar lo que TÚ quieres y decirle al juez. No están ahí para tus padres ni para DCS — están ahí para ti. Pueden ayudarte a entender lo que está pasando y hablar por ti. Si no sabes quién es tu abogado/a, pregúntale a tu trabajador/a de casos.",
     },
     category: "corner",
     ageBands: ["10-12","13-15","16-17","18-21"],

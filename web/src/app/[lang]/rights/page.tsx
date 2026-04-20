@@ -33,11 +33,11 @@ export default function RightsPage() {
     <div className="pb-8">
       <ScreenHero
         icon={Shield}
-        title={lang === "es" ? "Conoce tus derechos" : "Know Your Rights"}
+        title={lang === "es" ? "Mis derechos" : "My Rights"}
         subtitle={
           lang === "es"
-            ? "Tus derechos bajo la ley de Arizona — en palabras simples."
-            : "Your rights under Arizona law — in plain words."
+            ? "Mis derechos bajo la ley de Arizona — en palabras simples."
+            : "My rights under Arizona law — in plain words."
         }
         gradient="from-[#2A7F8E] via-[#1a5f7e] to-[#1B3A5C]"
         lang={lang}

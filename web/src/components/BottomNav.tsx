@@ -10,9 +10,9 @@ import { usePrefs } from "../lib/prefs";
 
 const NAV_ITEMS_BASE = [
   { id: "home",      icon: Home,           href: "",           en: "Home",        es: "Inicio",          labelEn: "Home",      labelEs: "Inicio" },
-  { id: "case",      icon: FolderOpen,     href: "/case",      en: "My Case",     es: "Mi Caso",         labelEn: "My Case",   labelEs: "Mi Caso" },
-  { id: "rights",    icon: Shield,         href: "/rights",    en: "Your Rights", es: "Tus Derechos",    labelEn: "Rights",    labelEs: "Derechos" },
   { id: "team",      icon: Users,          href: "/team",      en: "My Team",     es: "Mi Equipo",       labelEn: "My Team",   labelEs: "Mi Equipo" },
+  { id: "case",      icon: FolderOpen,     href: "/case",      en: "My Case",     es: "Mi Caso",         labelEn: "My Case",   labelEs: "Mi Caso" },
+  { id: "rights",    icon: Shield,         href: "/rights",    en: "My Rights",   es: "Mis Derechos",    labelEn: "Rights",    labelEs: "Derechos" },
   { id: "resources", icon: MapPin,         href: "/resources", en: "Resources",   es: "Recursos",        labelEn: "Resources", labelEs: "Recursos" },
   { id: "wellness",  icon: HeartHandshake, href: "/wellness",  en: "Wellness",    es: "Bienestar",       labelEn: "Wellness",  labelEs: "Bienestar" },
   { id: "ask",       icon: HelpCircle,     href: "/ask",       en: "Find Answers",es: "Buscar",          labelEn: "Answers",   labelEs: "Buscar" },
@@ -82,22 +82,26 @@ export function SideNav({ lang }: { lang: Lang }) {
   });
 
   return (
-    <aside className="hidden md:flex flex-col fixed left-0 top-0 h-screen w-56 z-40 bg-gradient-to-b from-[#1B3A5C] via-[#1e4a6e] to-[#2A7F8E] shadow-xl">
+    <aside className="hidden md:flex flex-col fixed left-0 top-0 h-screen w-40 z-40 bg-gradient-to-b from-[#1B3A5C] via-[#1e4a6e] to-[#2A7F8E] shadow-xl">
       {/* Brand */}
-      <div className="px-5 pt-6 pb-5">
-        <div className="flex items-center gap-3">
-          <img src="/icons/icon-192.svg" className="h-9 w-9 rounded-2xl shadow-md shadow-black/20" alt="FosterHub AZ" />
-          <div>
-            <div className="text-sm font-bold text-white leading-none tracking-wide">FosterHub AZ</div>
-          </div>
+      <div className="px-3 pt-5 pb-4 flex flex-col items-center">
+        <div className="w-14 h-14 rounded-full bg-white shadow-lg border-4 border-white flex justify-center items-center overflow-hidden mb-2">
+          <img
+            src="/onboarding/welcome_icon.png"
+            alt="FosterHub AZ"
+            className="w-full h-full object-cover scale-[1.15] translate-y-1"
+          />
+        </div>
+        <div className="text-[#c8e6c9] font-bold text-[12px] uppercase tracking-[0.12em] bg-white/10 px-3 py-1 rounded-full whitespace-nowrap">
+          FosterHub AZ
         </div>
       </div>
 
       {/* Divider */}
-      <div className="mx-5 h-px bg-white/10 mb-3" />
+      <div className="mx-3 h-px bg-white/10 mb-2" />
 
       {/* Nav items */}
-      <nav className="flex-1 px-3 flex flex-col gap-0.5">
+      <nav className="flex-1 px-2 flex flex-col gap-0.5">
         {visibleItems.map(({ id, icon: Icon, href, en, es }) => {
           const fullHref = `/${lang}${href}`;
           const isActive =
@@ -109,19 +113,19 @@ export function SideNav({ lang }: { lang: Lang }) {
             <Link
               key={id}
               href={fullHref}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+              className={`inline-flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-all ${
                 isActive
                   ? "bg-white/15 text-white shadow-sm"
                   : "text-white/60 hover:bg-white/8 hover:text-white/90"
               }`}
             >
-              <Icon 
-                className="h-[20px] w-[20px] shrink-0 transition-all duration-300" 
-                strokeWidth={isActive ? 3 : 2.5} 
+              <Icon
+                className="h-[19px] w-[19px] shrink-0 transition-all duration-300"
+                strokeWidth={isActive ? 3 : 2.5}
               />
-              <span className="tracking-wide">{lang === "es" ? es : en}</span>
+              <span className="tracking-wide text-[15px] whitespace-nowrap">{lang === "es" ? es : en}</span>
               {isActive && (
-                <div className="ml-auto h-1.5 w-1.5 rounded-full bg-amber-400 shadow-sm shadow-amber-400/50" />
+                <div className="ml-1 h-1.5 w-1.5 rounded-full bg-amber-400 shadow-sm shadow-amber-400/50" />
               )}
             </Link>
           );
@@ -129,8 +133,8 @@ export function SideNav({ lang }: { lang: Lang }) {
       </nav>
 
       {/* Footer */}
-      <div className="mx-5 h-px bg-white/10 mb-4" />
-      <div className="px-5 pb-6">
+      <div className="mx-3 h-px bg-white/10 mb-3" />
+      <div className="px-3 pb-5">
         <div className="text-[10px] text-white/35 leading-relaxed tracking-wide mb-3">
           {lang === "es"
             ? "Sin registro · Nada guardado"

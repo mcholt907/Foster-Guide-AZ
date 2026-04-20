@@ -1,94 +1,75 @@
 "use client";
+
 import { useState, useMemo } from "react";
+import Link from "next/link";
 import { useParams } from "next/navigation";
-import { Search, X, ChevronRight, BookOpen } from "lucide-react";
+import {
+  ChevronLeft, Search, BookOpen, ChevronDown, ChevronUp, Scale,
+  MapPin, AlertCircle, FileText, Home, Users, DollarSign, Briefcase, Info, X, HelpCircle
+} from "lucide-react";
 import Fuse from "fuse.js";
 import type { Lang } from "../../../lib/i18n";
-import { t } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
-import { ScreenHero, Modal, SafeNotice } from "../../../components/ui";
-import {
-  QUESTIONS,
-  TOPIC_CONFIG,
-  RESOURCE_LINK_CATEGORIES,
-  type QAEntry,
-  type QACategory,
-} from "../../../data/questions";
+import { usePrefs } from "../../../lib/prefs";
+import type { AgeBandKey } from "../../../lib/prefs";
+import { QUESTIONS, TOPIC_CONFIG, type QACategory } from "../../../data/questions";
 
-// ── Age-band-specific copy ────────────────────────────────────────────────────
+function getCategoryStyles(cat: QACategory) {
+  switch (cat) {
+    case "rights":    return "bg-[#A3E8B5] text-[#2D5A3C]";
+    case "case":      return "bg-[#D6E6F5] text-[#2C4A6B]";
+    case "court":     return "bg-[#F5DCA1] text-[#6B501B]";
+    case "safety":    return "bg-[#F5D0DD] text-[#703043]";
+    case "corner":    return "bg-[#E3D6F5] text-[#4A3270]";
+    case "documents": return "bg-[#D0DDF5] text-[#2C3B6B]";
+    case "housing":   return "bg-[#F5DFCD] text-[#704A2C]";
+    case "turning18": return "bg-[#F5D0A1] text-[#70401B]";
+    case "benefits":  return "bg-[#D6F5E3] text-[#2D6B40]";
+    case "school":    return "bg-[#DDF5D0] text-[#3B6B2C]";
+    default:          return "bg-gray-200 text-gray-700";
+  }
+}
 
-const HERO_SUBTITLE: Record<string, { en: string; es: string }> = {
-  "10-12": {
-    en: "You have rights. Here's what they mean for you.",
-    es: "Tienes derechos. Aquí está lo que significan para ti.",
-  },
-  "13-15": {
-    en: "Your rights, your case, your voice — find real answers.",
-    es: "Tus derechos, tu caso, tu voz — encuentra respuestas reales.",
-  },
-  "16-17": {
-    en: "Get answers about your rights, your case, and what comes next.",
-    es: "Encuentra respuestas sobre tus derechos, tu caso y lo que viene.",
-  },
-  "18-21": {
-    en: "You've got questions about life after care. Here are real answers.",
-    es: "Tienes preguntas sobre la vida después del cuidado. Aquí hay respuestas reales.",
-  },
-};
+function getCategoryIcon(cat: QACategory) {
+  switch (cat) {
+    case "rights":    return <Scale size={16} />;
+    case "case":      return <BookOpen size={16} />;
+    case "court":     return <AlertCircle size={16} />;
+    case "safety":    return <MapPin size={16} />;
+    case "corner":    return <Users size={16} />;
+    case "documents": return <FileText size={16} />;
+    case "housing":   return <Home size={16} />;
+    case "turning18": return <Users size={16} />;
+    case "benefits":  return <DollarSign size={16} />;
+    case "school":    return <Briefcase size={16} />;
+    default:          return <Info size={16} />;
+  }
+}
 
-const COMPASS_GREETING: Record<string, { en: string; es: string }> = {
-  "10-12": {
-    en: "Being in foster care can feel really confusing. I'm here to explain things in plain language — just tap a topic or search for what's on your mind.",
-    es: "El cuidado adoptivo puede sentirse muy confuso. Estoy aquí para explicarte las cosas en palabras simples — solo toca un tema o busca lo que tienes en mente.",
-  },
-  "13-15": {
-    en: "You deserve to know what's happening in your case and what rights you have. Pick a topic or search for anything — I'll give you straight answers.",
-    es: "Mereces saber qué está pasando en tu caso y qué derechos tienes. Elige un tema o busca lo que quieras — te daré respuestas claras.",
-  },
-  "16-17": {
-    en: "There's a lot happening right now — court, turning 18, figuring out what's next. Pick a topic below or search for what's on your mind.",
-    es: "Hay mucho pasando ahora mismo — el tribunal, cumplir 18, descubrir qué sigue. Elige un tema o busca lo que tienes en mente.",
-  },
-  "18-21": {
-    en: "You're navigating a lot right now. Whether it's housing, benefits, or just figuring out your options — you're not alone. Search or browse below.",
-    es: "Estás manejando mucho ahora mismo. Ya sea vivienda, beneficios, o simplemente descubrir tus opciones — no estás solo/a. Busca o navega abajo.",
-  },
-};
-
-// ── Component ────────────────────────────────────────────────────────────────
-
-export default function FindAnswersPage() {
+export default function AskPage() {
   const { lang: rawLang } = useParams<{ lang: string }>();
   const lang: Lang = rawLang === "es" ? "es" : "en";
-  const prefs = useOnboardingGate(lang);
+  useOnboardingGate(lang);
+  const [prefs] = usePrefs();
+  const band = (prefs.ageBand ?? "13-15") as AgeBandKey;
 
-  const ageBand = prefs?.ageBand ?? "13-15";
+  const [activeCategory, setActiveCategory] = useState<QACategory | "all">("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [openIds, setOpenIds] = useState<Set<string>>(new Set());
 
-  // Visible topics for this age band
-  const visibleTopics = useMemo(
-    () => TOPIC_CONFIG.filter((tc) => tc.bands.includes(ageBand)),
-    [ageBand]
-  );
+  const toggleAccordion = (id: string) => {
+    setOpenIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
 
-  // State
-  const [query, setQuery] = useState("");
-  const [activeTopic, setActiveTopic] = useState<QACategory | null>(
-    () => visibleTopics[0]?.category ?? null
-  );
-  const [selectedEntry, setSelectedEntry] = useState<QAEntry | null>(null);
-
-  const isSearching = query.trim().length > 0;
-
-  // Band-filtered entry pool
-  const bandEntries = useMemo(
-    () => QUESTIONS.filter((q) => q.ageBands.includes(ageBand)),
-    [ageBand]
-  );
-
-  // Fuse search index (rebuilt when band or lang changes)
+  // Fuse.js for fuzzy search
   const fuse = useMemo(
     () =>
-      new Fuse(bandEntries, {
+      new Fuse(QUESTIONS, {
         keys: [
           { name: `question.${lang}`, weight: 2 },
           { name: `answer.${lang}`, weight: 1 },
@@ -96,222 +77,187 @@ export default function FindAnswersPage() {
         threshold: 0.4,
         includeScore: true,
       }),
-    [bandEntries, lang]
+    [lang]
   );
 
-  // Displayed entries: search results OR topic-filtered browse
-  const displayedEntries = useMemo(() => {
-    if (isSearching) {
-      return fuse.search(query.trim(), { limit: 8 }).map((r) => r.item);
-    }
-    if (activeTopic) {
-      return bandEntries.filter((q) => q.category === activeTopic);
-    }
-    return [];
-  }, [isSearching, query, fuse, activeTopic, bandEntries]);
+  // Filter topics and questions by age band
+  const visibleTopics = useMemo(() => TOPIC_CONFIG.filter((t) => t.bands.includes(band)), [band]);
+  const bandQuestions = useMemo(() => QUESTIONS.filter((q) => q.ageBands.includes(band)), [band]);
 
-  // Related entries for answer modal
-  const relatedEntries = useMemo(() => {
-    if (!selectedEntry?.relatedIds) return [];
-    return selectedEntry.relatedIds
-      .map((id) => bandEntries.find((q) => q.id === id))
-      .filter((q): q is QAEntry => q !== undefined)
-      .slice(0, 3);
-  }, [selectedEntry, bandEntries]);
-
-  function handleClearSearch() {
-    setQuery("");
-  }
-
-  function handleTopicSelect(category: QACategory) {
-    setActiveTopic(category);
-    setQuery("");
-  }
-
-  const heroSubtitle =
-    HERO_SUBTITLE[ageBand]?.[lang] ?? HERO_SUBTITLE["13-15"][lang];
-  const compassGreeting =
-    COMPASS_GREETING[ageBand]?.[lang] ?? COMPASS_GREETING["13-15"][lang];
+  const filteredQuestions = useMemo(() => {
+    let list = bandQuestions;
+    if (activeCategory !== "all") list = list.filter((q) => q.category === activeCategory);
+    if (!searchQuery.trim()) return list;
+    return fuse.search(searchQuery).map((r) => r.item).filter((q) => q.ageBands.includes(band) && (activeCategory === "all" || q.category === activeCategory));
+  }, [activeCategory, searchQuery, fuse, bandQuestions, band]);
 
   return (
-    <div className="flex flex-col gap-4 pb-6">
-      {/* Hero */}
-      <ScreenHero
-        icon={BookOpen}
-        title={t("ask_title", lang)}
-        subtitle={heroSubtitle}
-        gradient="from-[#2A7F8E] via-[#1a5f7e] to-[#1B3A5C]"
-        lang={lang}
-      />
+    <div className="font-['Outfit',_sans-serif] pb-8">
 
-      {/* Compass intro card */}
-      <div className="rounded-3xl bg-white/95 p-5 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
-        <div className="flex items-center gap-3 mb-3">
-          <img
-            src="/icons/icon-192.svg"
-            className="h-11 w-11 shrink-0 rounded-2xl shadow-md"
-            alt=""
-            aria-hidden="true"
-          />
-          <div>
-            <div className="text-sm font-semibold text-[#1B3A5C]">
-              {lang === "es" ? "Hola, soy Compass" : "Hi, I'm Compass"}
+      {/* Sticky header */}
+      <div className="-mx-4 px-4 py-4 flex items-center gap-3 sticky top-0 bg-[#FFF9F3]/90 backdrop-blur-md z-30">
+        <Link
+          href={`/${lang}`}
+          className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 transition-colors shrink-0"
+          aria-label={lang === "es" ? "Volver" : "Back to home"}
+        >
+          <ChevronLeft size={20} className="text-slate-600" />
+        </Link>
+        <h1 className="text-lg font-bold text-[#2D5A3C] tracking-tight flex-1">
+          {lang === "es" ? "Buscar Respuestas" : "Find Answers"}
+        </h1>
+        <div className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-lg">
+          <FileText size={18} className="text-gray-500" />
+        </div>
+      </div>
+
+      <div className="space-y-6 pb-4">
+        {/* Hero Banner */}
+        <div className="bg-gradient-to-br from-[#E6F8EA] to-[#D5F2DB] rounded-[32px] p-6 relative overflow-hidden">
+          <div className="flex flex-col items-center justify-center text-center space-y-3">
+            <div className="w-12 h-12 bg-[#82D99E] rounded-full flex items-center justify-center mb-1">
+              <HelpCircle className="text-white" size={24} />
             </div>
-            <div className="text-xs text-slate-500">
+            <h2 className="text-2xl font-bold text-[#1A4226]">
+              {lang === "es" ? "Buscar Respuestas" : "Find Answers"}
+            </h2>
+            <p className="text-[#3A6B4B] text-sm leading-relaxed px-4">
               {lang === "es"
-                ? "Aquí para ayudarte a encontrar respuestas"
-                : "Here to help you find real answers"}
+                ? "Tienes derechos. Aquí está lo que significan para ti."
+                : "You have rights. Here's what they mean for you."}
+            </p>
+          </div>
+        </div>
+
+        {/* Compass card */}
+        <div className="bg-white rounded-[24px] p-5 shadow-[0_4px_24px_rgba(0,0,0,0.04)] flex items-start space-x-4">
+          <div className="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center shadow-inner shrink-0 overflow-hidden border border-blue-100">
+            <img src="/compass_avatar.png" alt="Compass" className="w-10 h-10 object-contain" />
+          </div>
+          <div className="pt-1">
+            <div className="text-blue-900 font-bold mb-1">
+              {lang === "es" ? "Hola, soy Compass." : "Hi, I'm Compass."}
+            </div>
+            <div className="text-gray-500 text-sm leading-relaxed">
+              {lang === "es"
+                ? "Aquí para ayudarte a encontrar respuestas reales. Estar en cuidado adoptivo puede ser muy confuso... solo toca un tema o busca lo que tienes en mente."
+                : "Here to help you find real answers. Being in foster care can feel really confusing... just tap a topic or search what's on your mind."}
             </div>
           </div>
         </div>
-        <p className="text-sm text-slate-600 leading-relaxed">
-          {compassGreeting}
-        </p>
-      </div>
 
-      {/* Search bar */}
-      <div className="relative">
-        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
-        <input
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder={t("ask_search_placeholder", lang)}
-          className="w-full rounded-2xl bg-white/95 py-3 pl-10 pr-10 text-sm ring-1 ring-black/10 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2A7F8E] placeholder:text-slate-400"
-        />
-        {isSearching && (
-          <button
-            onClick={handleClearSearch}
-            aria-label={t("ask_search_clear", lang)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-slate-400 hover:text-slate-600"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        )}
-      </div>
+        {/* Search */}
+        <div className="relative">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+          <input
+            type="text"
+            placeholder={lang === "es" ? "Busca cualquier cosa..." : "Search for anything..."}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full bg-[#EAE2D7]/50 placeholder:text-gray-500 text-gray-800 rounded-full py-4 pl-12 pr-10 focus:outline-none focus:ring-2 focus:ring-[#A3E8B5] transition-all"
+          />
+          {searchQuery && (
+            <button onClick={() => setSearchQuery("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+              <X size={16} />
+            </button>
+          )}
+        </div>
 
-      {/* Topic chips — hidden while searching */}
-      {!isSearching && (
+        {/* Category pills */}
         <div>
-          <div className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400">
-            {t("ask_browse_label", lang)}
-          </div>
-          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
-            {visibleTopics.map((tc) => {
-              const isActive = tc.category === activeTopic;
+          <h3 className="text-gray-800 font-bold mb-3 px-2">
+            {lang === "es" ? "Preguntas principales" : "Top Questions"}
+          </h3>
+          <div className="flex overflow-x-auto space-x-3 pb-2 px-2 scrollbar-hide">
+            <button
+              onClick={() => setActiveCategory("all")}
+              className={`flex shrink-0 items-center space-x-2 px-4 py-2.5 rounded-full transition-colors ${activeCategory === "all" ? "bg-gray-800 text-white" : "bg-white text-gray-600 shadow-sm"}`}
+            >
+              <span className="text-sm font-semibold">{lang === "es" ? "Todos los temas" : "All Topics"}</span>
+            </button>
+            {visibleTopics.map((topic) => {
+              const isActive = activeCategory === topic.category;
+              const styleObj = getCategoryStyles(topic.category);
               return (
                 <button
-                  key={tc.category}
-                  onClick={() => handleTopicSelect(tc.category)}
-                  className={
-                    "shrink-0 rounded-full px-4 py-2 text-xs font-semibold transition-all " +
-                    (isActive
-                      ? "bg-[#2A7F8E] text-white shadow-md"
-                      : "bg-white/95 text-[#1B3A5C] ring-1 ring-black/10 hover:ring-[#2A7F8E]/40")
-                  }
+                  key={topic.category}
+                  onClick={() => setActiveCategory(topic.category)}
+                  className={`flex shrink-0 items-center space-x-2 px-4 py-2.5 rounded-full transition-all ${
+                    isActive ? styleObj + " shadow-md scale-105" : "bg-white text-gray-600 shadow-sm hover:bg-gray-50"
+                  }`}
                 >
-                  {tc.label[lang]}
+                  {getCategoryIcon(topic.category)}
+                  <span className="text-sm font-semibold">{topic.label[lang]}</span>
                 </button>
               );
             })}
           </div>
         </div>
-      )}
 
-      {/* Results / question list */}
-      <div className="flex flex-col gap-2">
-        {isSearching && (
-          <div className="text-[11px] font-semibold uppercase tracking-widest text-slate-400 mb-1">
-            {displayedEntries.length} {t("ask_results_label", lang)}
-          </div>
-        )}
-
-        {isSearching && displayedEntries.length === 0 && (
-          <div className="rounded-2xl bg-white/80 px-4 py-5 text-center text-sm text-slate-500 ring-1 ring-slate-200/80">
-            {t("ask_no_results_pre", lang)} &ldquo;{query}&rdquo;{" "}
-            {t("ask_no_results_post", lang)}
-          </div>
-        )}
-
-        {displayedEntries.map((entry) => (
-          <button
-            key={entry.id}
-            onClick={() => setSelectedEntry(entry)}
-            className="flex w-full items-center justify-between rounded-2xl bg-white/95 px-4 py-3.5 text-left shadow-[0_2px_8px_rgb(0,0,0,0.05)] ring-1 ring-black/5 hover:ring-[#2A7F8E]/30 hover:shadow-md active:scale-[0.99] transition-all"
-          >
-            <span className="text-sm font-medium text-[#1B3A5C] pr-3 leading-snug">
-              {entry.question[lang]}
-            </span>
-            <ChevronRight className="h-4 w-4 shrink-0 text-[#2A7F8E]" />
-          </button>
-        ))}
-      </div>
-
-      {/* Safe notice */}
-      <SafeNotice lang={lang} />
-
-      {/* Answer modal */}
-      <Modal
-        open={selectedEntry !== null}
-        onClose={() => setSelectedEntry(null)}
-        title={selectedEntry?.question[lang] ?? ""}
-      >
-        {selectedEntry && (
-          <div className="flex flex-col gap-4">
-            {/* Answer text */}
-            <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
-              {selectedEntry.answer[lang]}
-            </p>
-
-            {/* Citation chips */}
-            {selectedEntry.citations && selectedEntry.citations.length > 0 && (
-              <div className="flex flex-wrap gap-1.5">
-                {selectedEntry.citations.map((c) => (
-                  <span
-                    key={c}
-                    className="inline-flex items-center rounded-full bg-[#2A7F8E]/10 px-2.5 py-1 text-[10px] font-medium text-[#1B3A5C]"
-                  >
-                    {c}
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {/* Resources CTA */}
-            {RESOURCE_LINK_CATEGORIES.has(selectedEntry.category) && (
-              <a
-                href={`/${lang}/resources`}
-                className="block rounded-2xl bg-[#2A7F8E] px-4 py-3 text-center text-sm font-semibold text-white hover:bg-[#236d7a] transition-colors"
-              >
-                {t("ask_resources_cta", lang)}
-              </a>
-            )}
-
-            {/* Related questions */}
-            {relatedEntries.length > 0 && (
-              <div>
-                <div className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-slate-400">
-                  {t("ask_related_label", lang)}
-                </div>
-                <div className="flex flex-col gap-2">
-                  {relatedEntries.map((rel) => (
-                    <button
-                      key={rel.id}
-                      onClick={() => setSelectedEntry(rel)}
-                      className="flex w-full items-center justify-between rounded-xl bg-slate-50 px-4 py-3 text-left ring-1 ring-slate-200/80 hover:ring-[#2A7F8E]/30 transition-all"
-                    >
-                      <span className="text-sm text-[#1B3A5C] pr-2 leading-snug">
-                        {rel.question[lang]}
+        {/* Questions list */}
+        <div className="space-y-3">
+          {filteredQuestions.length === 0 && (
+            <div className="text-center py-10 text-gray-500">
+              {lang === "es" ? "No se encontraron preguntas. Intenta otra búsqueda." : "No questions found. Try another search."}
+            </div>
+          )}
+          {filteredQuestions.map((q) => {
+            const isOpen = openIds.has(q.id);
+            const styleObj = getCategoryStyles(q.category);
+            const questionText = q.question[lang] ?? q.question.en;
+            const answerSource = (band === "10-12" && q.answer1012) ? q.answer1012 : q.answer;
+            const answerText = answerSource[lang] ?? answerSource.en;
+            const topicLabel = TOPIC_CONFIG.find((t) => t.category === q.category)?.label[lang];
+            return (
+              <div key={q.id} className="bg-white/80 rounded-[24px] shadow-[0_2px_12px_rgba(0,0,0,0.02)] overflow-hidden transition-all duration-300">
+                <button
+                  onClick={() => toggleAccordion(q.id)}
+                  className="w-full flex items-center justify-between p-5 text-left"
+                >
+                  <div className="flex items-center space-x-4">
+                    <div className={`w-10 h-10 shrink-0 rounded-full flex items-center justify-center ${styleObj}`}>
+                      {getCategoryIcon(q.category)}
+                    </div>
+                    <span className={`font-semibold text-[15px] pr-2 ${isOpen ? "text-gray-900" : "text-gray-700"}`}>
+                      {questionText}
+                    </span>
+                  </div>
+                  <div className="text-gray-400 shrink-0">
+                    {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                  </div>
+                </button>
+                {isOpen && (
+                  <div className="px-5 pb-6 pt-1 pl-[76px] pr-5 flex flex-col space-y-4">
+                    <p className="text-sm text-gray-600 leading-relaxed">{answerText}</p>
+                    <div className="flex items-center space-x-2 pt-2">
+                      <span className={`text-[11px] font-bold uppercase tracking-wider px-2 py-1 rounded-md ${styleObj}`}>
+                        {topicLabel}
                       </span>
-                      <ChevronRight className="h-4 w-4 shrink-0 text-[#2A7F8E]" />
-                    </button>
-                  ))}
-                </div>
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
+            );
+          })}
+        </div>
+
+        {/* Disclaimer */}
+        <div className="mt-8 bg-blue-50/50 rounded-[28px] p-6 border border-blue-100/50">
+          <div className="flex items-center space-x-2 text-blue-800 font-bold mb-3 text-xs tracking-wider uppercase">
+            <Info size={14} />
+            <span>{lang === "es" ? "Para que sepas" : "Just So You Know"}</span>
           </div>
-        )}
-      </Modal>
+          <p className="text-gray-500 text-sm italic leading-relaxed">
+            {lang === "es"
+              ? "Esta información está aquí para ayudarte a entender tus derechos, pero no es asesoramiento legal. Si tienes una pregunta específica sobre tu caso, siempre es bueno hablar con tu abogado o trabajador social."
+              : "This information is here to help you understand your rights, but it isn't legal advice. Every person's situation is a little different. If you have a specific question about your case, it's always good to talk to your lawyer or caseworker."}
+          </p>
+        </div>
+
+        <div className="text-center pb-4 pt-2">
+          <p className="text-gray-400 text-xs">Kindred Path • {lang === "es" ? "Estás seguro y apoyado." : "You are safe and supported."}</p>
+        </div>
+      </div>
     </div>
   );
 }

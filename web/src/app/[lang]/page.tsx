@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useState, useMemo } from "react";
-import { Lock, Phone, HelpCircle, Home, Shield, Gavel, MapPin, HeartPulse, FileText, MessageCircle, ChevronRight, ExternalLink } from "lucide-react";
+import { Phone, HelpCircle, Home, Shield, Gavel, MapPin, HeartPulse, FileText, MessageCircle, ChevronRight, ExternalLink, RefreshCw } from "lucide-react";
 import type { Lang } from "../../lib/i18n";
 import { t } from "../../lib/i18n";
 import { useOnboardingGate } from "../../lib/useOnboardingGate";
@@ -24,19 +24,19 @@ function Dashboard1012({ lang }: { lang: Lang }) {
       {/* Header */}
       <div className="pt-8 pb-6">
         <h1 className="text-3xl sm:text-4xl font-bold text-[#136d41] leading-tight">
-          {lang === "es" ? "¿Qué necesitas hoy?" : "What do you need today?"}
+          {lang === "es" ? "¿Cómo podemos ayudarte hoy?" : "What can we help you with today?"}
         </h1>
         <button
           type="button"
           onClick={() => setChipOpen((o) => !o)}
-          className={`flex items-center gap-2 mt-3 w-fit px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm border transition-colors ${
+          className={`flex items-center gap-1.5 mt-3 w-fit pl-3.5 pr-2.5 py-1.5 rounded-full text-xs font-semibold shadow-sm border transition-colors ${
             chipOpen
               ? "bg-[#136d41] text-white border-[#136d41]"
-              : "bg-white/50 text-slate-500 border-slate-100 hover:bg-white/80"
+              : "bg-white/70 text-slate-500 border-slate-200 hover:bg-white hover:border-slate-300"
           }`}
         >
-          <span className={chipOpen ? "text-white/80" : "text-slate-400"}>📍</span>
           <span>{lang === "es" ? "10–12 años · Español" : "Ages 10–12 · English"}</span>
+          <RefreshCw size={12} className={`transition-transform ${chipOpen ? "rotate-180" : ""}`} />
         </button>
 
         {chipOpen && (
@@ -72,20 +72,20 @@ function Dashboard1012({ lang }: { lang: Lang }) {
         {/* Meet Your Team */}
         <Link
           href={`/${lang}/team`}
-          className="aspect-square bg-[#fff4cc] rounded-[2rem] p-5 flex flex-col justify-center gap-2 items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
+          className="aspect-[4/3] bg-[#fff4cc] rounded-[2rem] p-5 flex flex-col justify-center gap-2 items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
         >
           <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-[1.5rem] flex items-center justify-center overflow-hidden mix-blend-multiply drop-shadow-sm">
             <img src="/avatars/group_avatar.png" alt="" className="w-full h-full object-cover scale-[1.3] pt-2" />
           </div>
           <span className="font-bold text-[#78350f] text-lg leading-none">
-            {lang === "es" ? "Conoce tu equipo" : "Meet your team"}
+            {lang === "es" ? "Mi equipo" : "My team"}
           </span>
         </Link>
 
         {/* My Case Explained */}
         <Link
           href={`/${lang}/case`}
-          className="aspect-square bg-[#e0f2fe] rounded-[2rem] p-5 flex flex-col justify-center gap-2 items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
+          className="aspect-[4/3] bg-[#e0f2fe] rounded-[2rem] p-5 flex flex-col justify-center gap-2 items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
         >
           <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center overflow-hidden drop-shadow-sm">
             <img src="/dashboard/case.png" alt="" className="w-full h-full object-cover scale-[1.2]" />
@@ -95,23 +95,10 @@ function Dashboard1012({ lang }: { lang: Lang }) {
           </span>
         </Link>
 
-        {/* Know Your Rights — coming soon */}
-        <div className="aspect-square bg-[#dcfce7] rounded-[2rem] p-5 flex flex-col justify-center gap-2 items-start text-left shadow-sm border border-black/5 opacity-50 relative">
-          <div className="absolute top-4 right-4 bg-white/90 rounded-full px-2 py-0.5 flex items-center gap-1 text-[10px] font-bold text-slate-400">
-            <Lock size={9} /> {lang === "es" ? "Pronto" : "Soon"}
-          </div>
-          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center overflow-hidden drop-shadow-sm">
-            <img src="/dashboard/rights.png" alt="" className="w-full h-full object-cover scale-[1.2]" />
-          </div>
-          <span className="font-bold text-[#14532d] text-lg leading-none">
-            {lang === "es" ? "Conoce tus derechos" : "Know your rights"}
-          </span>
-        </div>
-
         {/* Wellness Check-In */}
         <Link
           href={`/${lang}/wellness`}
-          className="aspect-square bg-[#fce7f3] rounded-[2rem] p-5 flex flex-col justify-center gap-2 items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
+          className="aspect-[4/3] bg-[#fce7f3] rounded-[2rem] p-5 flex flex-col justify-center gap-2 items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
         >
           <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center overflow-hidden drop-shadow-sm">
             <img src="/dashboard/wellness.png" alt="" className="w-full h-full object-cover scale-[1.2]" />
@@ -120,22 +107,18 @@ function Dashboard1012({ lang }: { lang: Lang }) {
             {lang === "es" ? "Bienestar" : "Wellness check-in"}
           </span>
         </Link>
-      </div>
 
-      {/* Find Answers CTA */}
-      <div className="mb-10">
+        {/* Find Answers */}
         <Link
           href={`/${lang}/ask`}
-          className="block w-full bg-[#136d41] rounded-[2.5rem] p-8 text-center shadow-md relative overflow-hidden hover:brightness-110 transition-all"
+          className="aspect-[4/3] bg-[#dcfce7] rounded-[2rem] p-5 flex flex-col justify-center gap-2 items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
         >
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#a1f5bc] rounded-full blur-3xl opacity-20 -mr-10 -mt-10 pointer-events-none" />
-          <h2 className="text-xl font-bold text-white mb-4 relative z-10">
-            {lang === "es" ? "¿Tienes una pregunta rápida?" : "Have a quick question?"}
-          </h2>
-          <div className="bg-[#a1f5bc] text-[#004a28] w-full py-4 rounded-full font-bold text-lg flex items-center justify-center gap-2 relative z-10 shadow-lg">
-            <HelpCircle size={20} />
-            {lang === "es" ? "Buscar respuestas" : "Find Answers"}
+          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#bbf7d0] flex items-center justify-center drop-shadow-sm">
+            <HelpCircle size={28} className="text-[#136d41]" />
           </div>
+          <span className="font-bold text-[#14532d] text-lg leading-none">
+            {lang === "es" ? "Buscar respuestas" : "Find answers"}
+          </span>
         </Link>
       </div>
 
@@ -157,7 +140,7 @@ function Dashboard1012({ lang }: { lang: Lang }) {
           <Phone size={20} />
         </div>
         <div className="flex-1">
-          <h4 className="font-bold text-[#35322d]">988 Suicide &amp; Crisis</h4>
+          <h4 className="font-bold text-[#35322d]">988 Suicide &amp; Crisis Hotline</h4>
           <p className="text-xs text-[#a09c98] mt-0.5">
             {lang === "es" ? "Llama o envía un mensaje en cualquier momento" : "Call or text anytime"}
           </p>
