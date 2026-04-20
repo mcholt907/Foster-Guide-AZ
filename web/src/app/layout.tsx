@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Outfit } from "next/font/google";
+import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
 
-const outfit = Outfit({ subsets: ["latin"], display: "swap" });
+const outfit = Outfit({ subsets: ["latin"], display: "swap", variable: "--font-outfit" });
+const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.fosterhubaz.com"),
@@ -66,7 +67,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`h-full ${outfit.className}`}>
+    <html lang="en" className={`h-full ${outfit.variable} ${inter.variable} ${outfit.className}`}>
       <head>
         <link rel="apple-touch-icon" href="/icons/icon-192.svg" />
       </head>
