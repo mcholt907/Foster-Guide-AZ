@@ -40,6 +40,8 @@ const NAV_ITEMS: NavItem[] = [
   { id: "future",    icon: Sparkles,    href: "/future",     labelKey: "nav.future" },
 ];
 
+const MOBILE_BOTTOM_IDS: TeenNavId[] = ["dashboard", "case", "team", "wellness", "answers"];
+
 export function TeenShell({ active, lang, children }: TeenShellProps) {
   const router = useRouter();
   const [, , , reset] = usePrefs();
@@ -169,6 +171,28 @@ export function TeenShell({ active, lang, children }: TeenShellProps) {
       <main className="flex-1 overflow-y-auto relative w-full pt-20 md:pt-0 pb-24 md:pb-0 scroll-smooth">
         {children}
       </main>
+
+      {/* Mobile floating bottom nav */}
+      <nav className="md:hidden fixed bottom-4 left-4 right-4 z-40 bg-[#1a2f44] rounded-[1.5rem] shadow-[0_12px_40px_rgba(26,47,68,0.4)] px-3 py-2 flex justify-around">
+        {NAV_ITEMS.filter((it) => MOBILE_BOTTOM_IDS.includes(it.id)).map((item) => {
+          const isActive = item.id === active;
+          const Icon = item.icon;
+          return (
+            <Link
+              key={item.id}
+              href={`/${lang}${item.href}`}
+              className={`flex flex-col items-center gap-1 px-3 py-2 rounded-2xl transition-colors ${
+                isActive ? "bg-white/10 text-emerald-400" : "text-slate-400"
+              }`}
+            >
+              <Icon size={20} />
+              <span className="text-[10px] font-bold tracking-tight whitespace-nowrap">
+                {tt(item.labelKey, lang)}
+              </span>
+            </Link>
+          );
+        })}
+      </nav>
     </div>
   );
 }
