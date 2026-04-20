@@ -83,6 +83,17 @@ export const TEEN_STRINGS = {
   "team.label.tip":      { en: "Pro tip",                      es: "Consejo clave" },
   "team.expand":         { en: "Expand",                       es: "Expandir" },
   "team.collapse":       { en: "Collapse",                     es: "Colapsar" },
+
+  // ── Case page ───────────────────────────────────────────────────────────
+  "case.hero.tag":        { en: "Legal Roadmap",                 es: "Hoja de Ruta Legal" },
+  "case.hero.title":      { en: "How your case moves.",          es: "Cómo avanza tu caso." },
+  "case.hero.subtitle":   { en: "Four main hearings shape most dependency cases. Here's what each one is for, and how to walk in prepared.",
+                            es: "Cuatro audiencias principales estructuran la mayoría de los casos de dependencia. Aquí está para qué sirve cada una, y cómo entrar preparado/a." },
+  "case.label.what":      { en: "What happens",                  es: "Qué pasa" },
+  "case.label.teen":      { en: "For you specifically",          es: "Para ti específicamente" },
+  "case.label.insight":   { en: "Pro tip",                       es: "Consejo clave" },
+  "case.label.next":      { en: "What happens next",             es: "Qué pasa después" },
+  "case.faqs.heading":    { en: "Common Questions",              es: "Preguntas Frecuentes" },
 } as const;
 
 export type TeenStringKey = keyof typeof TEEN_STRINGS;
