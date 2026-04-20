@@ -44,6 +44,7 @@ export function TeenShell({ active, lang, children }: TeenShellProps) {
   const router = useRouter();
   const [, , , reset] = usePrefs();
   const [confirmReset, setConfirmReset] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   function handleStartOver() {
     reset();
@@ -97,8 +98,75 @@ export function TeenShell({ active, lang, children }: TeenShellProps) {
         </div>
       </aside>
 
+      {/* Mobile top header */}
+      <header className="md:hidden fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-6 py-4 bg-white/80 backdrop-blur-xl border-b border-slate-100">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 bg-slate-900 rounded-xl flex items-center justify-center overflow-hidden shadow-lg border border-white/20">
+            <img src="/onboarding/welcome_icon.png" alt="" className="w-full h-full object-cover scale-[1.1] translate-y-1" />
+          </div>
+          <span className="font-black text-[#1e293b] tracking-tight text-lg">{tt("shell.brand", lang)} AZ</span>
+        </div>
+        <button
+          type="button"
+          onClick={() => setDrawerOpen(true)}
+          aria-label="Open menu"
+          className="w-10 h-10 flex items-center justify-center bg-slate-50 text-slate-500 rounded-xl"
+        >
+          <Menu size={20} />
+        </button>
+      </header>
+
+      {/* Mobile drawer */}
+      {drawerOpen && (
+        <div className="md:hidden fixed inset-0 z-50 bg-[#1a2f44] text-white flex flex-col">
+          <div className="flex items-center justify-between p-6 border-b border-white/10">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center overflow-hidden">
+                <img src="/onboarding/welcome_icon.png" alt="" className="w-full h-full object-cover scale-[1.1] translate-y-1" />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-black text-lg tracking-tight">{tt("shell.brand", lang)}</span>
+                <span className="text-[10px] uppercase tracking-[0.3em] text-emerald-400 font-black">{tt("shell.brand_sub", lang)}</span>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setDrawerOpen(false)}
+              aria-label="Close menu"
+              className="w-10 h-10 flex items-center justify-center text-white/70 hover:text-white"
+            >
+              <X size={22} />
+            </button>
+          </div>
+          <nav className="flex flex-col px-4 gap-2 flex-1 pt-4">
+            {NAV_ITEMS.map((item) => {
+              const isActive = item.id === active;
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.id}
+                  href={`/${lang}${item.href}`}
+                  onClick={() => setDrawerOpen(false)}
+                  className={`flex items-center gap-4 px-5 py-4 rounded-[1.25rem] transition-all ${
+                    isActive
+                      ? "bg-white/15 text-white font-bold"
+                      : "text-slate-300 hover:bg-white/5 hover:text-white font-medium"
+                  }`}
+                >
+                  <Icon size={22} className={isActive ? "text-emerald-400" : ""} />
+                  <span className="text-base tracking-tight">{tt(item.labelKey, lang)}</span>
+                </Link>
+              );
+            })}
+          </nav>
+          <div className="p-6">
+            <TeenShellFooter lang={lang} confirmReset={confirmReset} setConfirmReset={setConfirmReset} handleStartOver={handleStartOver} />
+          </div>
+        </div>
+      )}
+
       {/* Main content area */}
-      <main className="flex-1 overflow-y-auto relative w-full pb-24 md:pb-0 scroll-smooth">
+      <main className="flex-1 overflow-y-auto relative w-full pt-20 md:pt-0 pb-24 md:pb-0 scroll-smooth">
         {children}
       </main>
     </div>
