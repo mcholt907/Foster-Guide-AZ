@@ -60,6 +60,20 @@ export const WHO_IN_YOUR_CASE = [
     what_es: "Maneja tu caso día a día — escribe tu plan de caso, programa visitas y te conecta con servicios. Por ley debe reunirse contigo en persona al menos una vez al mes.",
     tip: "Keep their number saved. If something feels wrong or isn't happening, they're your first call.",
     tip_es: "Guarda su número. Si algo se siente mal o no está pasando, es tu primera llamada.",
+    teen_tips: {
+      "13-15": {
+        en: "Your caseworker's number should always be in your phone. If they don't visit monthly, that's a problem you can raise.",
+        es: "El número de tu trabajador/a de casos debe estar siempre en tu teléfono. Si no te visita cada mes, eso es algo que puedes reportar.",
+      },
+      "16-17": {
+        en: "Ask your caseworker in writing about your transition plan. You're entitled to one at 16 — make sure it's being built.",
+        es: "Pídele a tu trabajador/a de casos por escrito sobre tu plan de transición. Tienes derecho a uno a los 16 — asegúrate de que lo estén desarrollando.",
+      },
+      "18-21": {
+        en: "Even if you've signed out, your caseworker can still connect you to extended services. Keep the line open.",
+        es: "Aunque hayas salido del cuidado, tu trabajador/a de casos aún puede conectarte con servicios extendidos. Mantén el contacto.",
+      },
+    },
   },
   {
     id: "judge",
@@ -75,6 +89,20 @@ export const WHO_IN_YOUR_CASE = [
     what_es: "Un juez del Tribunal Superior supervisa tu caso de dependencia. Aprueba tu plan de caso, decide la colocación y da el veredicto final en cada audiencia. Tienes el derecho de hablar — tu voz cuenta.",
     tip: "You can tell the judge how you feel, what you want, and what's not working — through your attorney or by asking to address the court directly.",
     tip_es: "Puedes decirle al juez cómo te sientes, qué quieres y qué no está funcionando — a través de tu abogado o pidiéndole al tribunal que te dé la palabra.",
+    teen_tips: {
+      "13-15": {
+        en: "Judges want to hear from you — it's not weird to speak up. Your attorney can ask for you, or you can ask to speak directly.",
+        es: "Los jueces quieren escucharte — no es raro hablar. Tu abogado/a puede pedirlo por ti, o tú puedes pedir hablar directamente.",
+      },
+      "16-17": {
+        en: "At this age the judge weighs your input heavily. Come to hearings ready with specific requests — school, placement, contact with siblings.",
+        es: "A esta edad, el juez considera mucho tu opinión. Llega a las audiencias con peticiones específicas — escuela, colocación, contacto con hermanos.",
+      },
+      "18-21": {
+        en: "If you're in extended care, the judge still oversees your case. You can request hearings to address services that aren't working.",
+        es: "Si estás en cuidado extendido, el juez aún supervisa tu caso. Puedes pedir audiencias para tratar servicios que no están funcionando.",
+      },
+    },
   },
   {
     id: "attorney",
@@ -90,6 +118,20 @@ export const WHO_IN_YOUR_CASE = [
     what_es: "La ley de Arizona le da a todo joven en cuidado adoptivo el derecho a un abogado. Va al tribunal contigo, explica lo que está pasando y argumenta lo que tú quieres. Todo lo que le cuentes queda en privado.",
     tip: "Be honest with your attorney — they can only fight for you if they know what's really going on. If you don't have one, ask your caseworker immediately.",
     tip_es: "Sé honesto con tu abogado — solo puede luchar por ti si sabe lo que realmente está pasando. Si no tienes uno, pídelo a tu trabajador/a de casos de inmediato.",
+    teen_tips: {
+      "13-15": {
+        en: "Your attorney works for you, not your parents and not DCS. If you don't know who they are, your caseworker has to tell you.",
+        es: "Tu abogado/a trabaja para ti, no para tus padres ni para DCS. Si no sabes quién es, tu trabajador/a de casos tiene que decírtelo.",
+      },
+      "16-17": {
+        en: "Ask your attorney to walk you through every court document before you sign or agree to anything. That's their job.",
+        es: "Pídele a tu abogado/a que te explique cada documento del tribunal antes de firmar o aceptar algo. Ese es su trabajo.",
+      },
+      "18-21": {
+        en: "Your attorney may change if you enter extended care. Get the new attorney's contact info at the transition hearing.",
+        es: "Tu abogado/a puede cambiar si entras al cuidado extendido. Obtén la información de contacto del nuevo abogado en la audiencia de transición.",
+      },
+    },
   },
   {
     id: "casa",
@@ -105,6 +147,20 @@ export const WHO_IN_YOUR_CASE = [
     what_es: "A diferencia de tu trabajador/a de casos, un CASA tiene un solo trabajo: determinar qué es mejor para ti y decírselo al juez. Te visita regularmente, lee tu expediente completo y escribe un informe para el tribunal. No todos los casos tienen un CASA — pero si no tienes uno, puedes pedirle a tu trabajador/a social o abogado que solicite uno.",
     tip: "CASA volunteers are not DCS employees. They chose to be there for kids. They tend to have more time for you than a caseworker does.",
     tip_es: "Los voluntarios de CASA no son empleados de DCS. Eligieron estar ahí para los jóvenes. Suelen tener más tiempo para ti que un trabajador de casos.",
+    teen_tips: {
+      "13-15": {
+        en: "A CASA volunteer can be someone you see outside of court — a steady adult who's not your caseworker and not related to you.",
+        es: "Un voluntario/a CASA puede ser alguien que ves fuera del tribunal — un adulto constante que no es tu trabajador/a de casos ni pariente.",
+      },
+      "16-17": {
+        en: "If your CASA hasn't talked with you about your long-term plan, ask them to. That's what they're there for.",
+        es: "Si tu CASA no ha hablado contigo sobre tu plan a largo plazo, pídeselo. Para eso están.",
+      },
+      "18-21": {
+        en: "CASA typically ends when your case closes. If you had one and want to stay in touch, ask — many volunteers stay connected informally.",
+        es: "CASA generalmente termina cuando tu caso se cierra. Si tuviste uno/a y quieres mantenerte en contacto, pregunta — muchos voluntarios se mantienen en contacto informalmente.",
+      },
+    },
   },
   {
     id: "caregiver",
@@ -120,6 +176,20 @@ export const WHO_IN_YOUR_CASE = [
     what_es: "Los padres adoptivos y cuidadores parientes están autorizados por DCS para proveer un hogar. Si vives en un hogar grupal, un encargado/a de hogar (también llamado personal o house parent) cumple ese rol — trabaja para la agencia del hogar grupal, no para DCS. Un cuidador pariente es un familiar o alguien que ya conocías. Ninguno de ellos es tu trabajador/a de casos, pero son responsables de tu seguridad y necesidades diarias.",
     tip: "If you ever feel unsafe where you're living — whether a foster home or group home — tell your caseworker, attorney, or CASA right away. You have the right to be safe.",
     tip_es: "Si alguna vez te sientes inseguro donde vives — ya sea en un hogar adoptivo o grupal — díselo a tu trabajador/a de casos, abogado o CASA de inmediato. Tienes el derecho a estar seguro.",
+    teen_tips: {
+      "13-15": {
+        en: "Your caregiver is responsible for your day-to-day needs. If something basic isn't happening — food, a bed, school transport — tell your caseworker.",
+        es: "Tu cuidador/a es responsable de tus necesidades diarias. Si algo básico no está pasando — comida, una cama, transporte a la escuela — dile a tu trabajador/a de casos.",
+      },
+      "16-17": {
+        en: "Caregivers can help you learn adult skills — cooking, banking, driving. Ask. It's a normal teenager thing to expect.",
+        es: "Los cuidadores pueden ayudarte a aprender habilidades de adulto — cocinar, banca, manejar. Pide. Es algo normal que un/a adolescente debe esperar.",
+      },
+      "18-21": {
+        en: "If you're staying with a former caregiver in extended care, you're technically a 'young adult in care' — your relationship is different.",
+        es: "Si estás con un/a ex-cuidador/a en cuidado extendido, técnicamente eres un/a 'adulto joven en cuidado' — tu relación es diferente.",
+      },
+    },
   },
   {
     id: "gal",
@@ -135,6 +205,20 @@ export const WHO_IN_YOUR_CASE = [
     what_es: "En algunos casos el tribunal nombra un GAL separado de tu abogado. Revisa toda tu situación — escuela, salud, colocación, relaciones — y aconseja al juez. En Arizona, este rol a veces lo cumple tu abogado o tu CASA.",
     tip: "Ask your attorney or caseworker if you have a GAL and who they are.",
     tip_es: "Pregúntale a tu abogado o trabajador/a de casos si tienes un GAL y quién es.",
+    teen_tips: {
+      "13-15": {
+        en: "A GAL is an attorney who represents your 'best interest' — sometimes different from what you want. Your own attorney is separate.",
+        es: "Un GAL es un abogado/a que representa tu 'mejor interés' — a veces diferente de lo que tú quieres. Tu propio/a abogado/a es separado.",
+      },
+      "16-17": {
+        en: "Ask the GAL to explain what 'best interest' means for your specific case. They should be able to tell you clearly.",
+        es: "Pídele al GAL que te explique qué significa 'mejor interés' para tu caso específico. Debe poder decírtelo claramente.",
+      },
+      "18-21": {
+        en: "At 18+, you typically have your own attorney directly — the GAL role often ends. Confirm with your attorney.",
+        es: "A los 18+, usualmente tienes tu propio/a abogado/a directamente — el rol de GAL a menudo termina. Confirma con tu abogado/a.",
+      },
+    },
   },
   {
     id: "supervisor",
@@ -150,5 +234,19 @@ export const WHO_IN_YOUR_CASE = [
     what_es: "Si has planteado una preocupación con tu trabajador/a de casos y nada está cambiando, pide hablar con su supervisor/a. Guarda un registro escrito de cuándo preguntaste y qué dijeron — las fechas importan.",
     tip: "Asking to escalate is normal and OK. The system is designed for it. You won't get in trouble for asking.",
     tip_es: "Pedir escalar es normal y está bien. El sistema está diseñado para ello. No te meterás en problemas por preguntar.",
+    teen_tips: {
+      "13-15": {
+        en: "A supervisor is your caseworker's boss. If something isn't being handled, this is who you call next.",
+        es: "Un supervisor/a es el jefe/a de tu trabajador/a de casos. Si algo no se está manejando, es a quien llamas después.",
+      },
+      "16-17": {
+        en: "Write things down before calling a supervisor. Dates, what you asked for, what happened. It helps everyone.",
+        es: "Escribe las cosas antes de llamar a un supervisor/a. Fechas, lo que pediste, lo que pasó. Ayuda a todos.",
+      },
+      "18-21": {
+        en: "If you disagree with a supervisor's decision, the next step is the DCS Ombudsman. Your attorney can help you file.",
+        es: "Si no estás de acuerdo con la decisión de un supervisor/a, el siguiente paso es el Defensor/a del Pueblo de DCS. Tu abogado/a puede ayudarte a presentar el caso.",
+      },
+    },
   },
 ];
