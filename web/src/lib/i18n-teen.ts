@@ -71,6 +71,18 @@ export const TEEN_STRINGS = {
   "dashboard.crisis.body":         { en: "If you're feeling overwhelmed or need immediate help, 988 is available 24/7.",
                                      es: "Si te sientes abrumado/a o necesitas ayuda inmediata, el 988 está disponible 24/7." },
   "dashboard.crisis.cta":          { en: "Call or Text 988",           es: "Llama o envía mensaje al 988" },
+
+  // ── Team page ───────────────────────────────────────────────────────────
+  "team.hero.tag":       { en: "Your Advocates",               es: "Tus Defensores" },
+  "team.hero.title":     { en: "Meet your team.",              es: "Conoce a tu equipo." },
+  "team.hero.subtitle":  { en: "Every person listed here has a defined role in your case. Knowing who does what makes it easier to get answers.",
+                           es: "Cada persona aquí tiene un rol definido en tu caso. Saber quién hace qué hace que sea más fácil obtener respuestas." },
+  "team.label.aka":      { en: "Also called",                  es: "También conocido/a como" },
+  "team.label.role":     { en: "Their role",                   es: "Su rol" },
+  "team.label.what":     { en: "What they do",                 es: "Qué hacen" },
+  "team.label.tip":      { en: "Pro tip",                      es: "Consejo clave" },
+  "team.expand":         { en: "Expand",                       es: "Expandir" },
+  "team.collapse":       { en: "Collapse",                     es: "Colapsar" },
 } as const;
 
 export type TeenStringKey = keyof typeof TEEN_STRINGS;
