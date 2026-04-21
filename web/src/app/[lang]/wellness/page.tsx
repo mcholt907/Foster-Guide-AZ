@@ -6,7 +6,10 @@ import { useParams } from "next/navigation";
 import { ChevronLeft, Phone, MessageSquare, HeartPulse } from "lucide-react";
 import type { Lang } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
+import { usePrefs } from "../../../lib/prefs";
 import { CRISIS_PINS } from "../../../data/constants";
+import { TeenShell } from "../../../components/TeenShell";
+import { WellnessTeen } from "../../../components/teen/WellnessTeen";
 
 const GROUNDING_STEPS = [
   { n: 5, senseEn: "things you can see",  senseEs: "cosas que puedes ver",   icon: "👁️" },
@@ -46,8 +49,21 @@ const COPING_TOOLS = [
 export default function WellnessPage() {
   const { lang: rawLang } = useParams<{ lang: string }>();
   const lang: Lang = rawLang === "es" ? "es" : "en";
-  useOnboardingGate(lang);
+  const prefs = useOnboardingGate(lang);
+  const [, loaded] = usePrefs();
 
+  if (!loaded) return null;
+  if (!prefs.ageBand) return null;
+  if (prefs.ageBand === "10-12") return <Wellness1012 lang={lang} />;
+
+  return (
+    <TeenShell active="wellness" lang={lang}>
+      <WellnessTeen lang={lang} />
+    </TeenShell>
+  );
+}
+
+function Wellness1012({ lang }: { lang: Lang }) {
   const [groundingActive, setGroundingActive] = useState(false);
   const [groundingStep, setGroundingStep] = useState(0);
 
