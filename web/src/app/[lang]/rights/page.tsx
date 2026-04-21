@@ -6,9 +6,12 @@ import { Shield, ChevronDown, ChevronUp } from "lucide-react";
 import type { Lang } from "../../../lib/i18n";
 import { t } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
+import { usePrefs } from "../../../lib/prefs";
 import type { AgeBandKey } from "../../../lib/prefs";
-import { RIGHTS, ESCALATION_STEPS } from "../../../data/rights";
+import { RIGHTS } from "../../../data/rights";
 import { ScreenHero, SafeNotice } from "../../../components/ui";
+import { TeenShell } from "../../../components/TeenShell";
+import { RightsTeen } from "../../../components/teen/RightsTeen";
 
 type RightsTab = "what" | "how" | "ignored";
 
@@ -16,11 +19,24 @@ export default function RightsPage() {
   const { lang: rawLang } = useParams<{ lang: string }>();
   const lang: Lang = rawLang === "es" ? "es" : "en";
   const prefs = useOnboardingGate(lang);
+  const [, loaded] = usePrefs();
 
+  if (!loaded) return null;
+  if (!prefs.ageBand) return null;
+  if (prefs.ageBand === "10-12") return <Rights1012 lang={lang} />;
+
+  return (
+    <TeenShell active="rights" lang={lang}>
+      <RightsTeen lang={lang} band={prefs.ageBand} />
+    </TeenShell>
+  );
+}
+
+function Rights1012({ lang }: { lang: Lang }) {
   const [openRight, setOpenRight] = useState<string | null>("participate");
   const [activeTab, setActiveTab] = useState<Record<string, RightsTab>>({});
 
-  const band = (prefs.ageBand ?? "13-15") as AgeBandKey;
+  const band: AgeBandKey = "10-12";
 
   function getTab(id: string): RightsTab {
     return activeTab[id] ?? "what";
@@ -70,11 +86,6 @@ export default function RightsPage() {
                         : "Ver a tus hermanos y hermanas"
                       : right.title}
                   </div>
-                  {band !== "10-12" && (
-                    <div className="mt-0.5 text-xs text-[#2A7F8E] font-medium">
-                      {right.citation}
-                    </div>
-                  )}
                 </div>
                 {isOpen ? (
                   <ChevronUp className="h-5 w-5 text-[#2A7F8E] stroke-[2] shrink-0" />
@@ -103,9 +114,7 @@ export default function RightsPage() {
                           ? t("rights_tab_what", lang)
                           : tabKey === "how"
                           ? t("rights_tab_how", lang)
-                          : band === "10-12"
-                            ? (lang === "es" ? "Si nadie escucha" : "If nobody listens")
-                            : t("rights_tab_ignored", lang)}
+                          : (lang === "es" ? "Si nadie escucha" : "If nobody listens")}
                       </button>
                     ))}
                   </div>
@@ -145,87 +154,59 @@ export default function RightsPage() {
         })}
       </div>
 
-      {/* Escalation ladder — simplified for 10-12, full for older */}
-      {band === "10-12" ? (
-        <div className="mt-4 rounded-3xl bg-white/95 p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-lg">📣</span>
-            <div className="text-base font-semibold text-[#1B3A5C]">
-              {lang === "es" ? "Si sientes que algo está mal" : "If something feels wrong"}
-            </div>
-          </div>
-          <div className="grid gap-3">
-            {[
-              {
-                emoji: "👤",
-                who: "Tell your caseworker",
-                who_es: "Dile a tu trabajador/a de casos",
-                what: "They should help fix it. Tell them clearly what you need.",
-                what_es: "Deben ayudarte a resolverlo. Diles claramente lo que necesitas.",
-              },
-              {
-                emoji: "📋",
-                who: "Tell your lawyer",
-                who_es: "Dile a tu abogado/a",
-                what: "Your lawyer's only job is to speak up for you. Tell them if something isn't right.",
-                what_es: "El único trabajo de tu abogado es hablar por ti. Dile si algo no está bien.",
-              },
-              {
-                emoji: "🏫",
-                who: "Tell a trusted adult",
-                who_es: "Dile a un adulto de confianza",
-                what: "A teacher, school counselor, or another grown-up you trust can help you ask.",
-                what_es: "Un maestro, consejero escolar u otro adulto de confianza puede ayudarte a pedir.",
-              },
-            ].map((step, i) => (
-              <div key={i} className="flex items-start gap-3">
-                <span className="text-xl shrink-0 mt-0.5">{step.emoji}</span>
-                <div>
-                  <div className="text-sm font-semibold text-slate-900">
-                    {lang === "es" ? step.who_es : step.who}
-                  </div>
-                  <div className="mt-0.5 text-sm sm:text-xs text-slate-500 leading-snug">
-                    {lang === "es" ? step.what_es : step.what}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-3 rounded-2xl bg-[#2A7F8E]/8 p-3">
-            <p className="text-sm sm:text-xs text-[#1B3A5C] leading-relaxed">
-              {lang === "es"
-                ? "💙 No tienes que resolver esto solo/a. Pedir ayuda siempre está bien."
-                : "💙 You don't have to figure this out alone. Asking for help is always okay."}
-            </p>
+      {/* Escalation ladder — simplified for 10-12 */}
+      <div className="mt-4 rounded-3xl bg-white/95 p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-lg">📣</span>
+          <div className="text-base font-semibold text-[#1B3A5C]">
+            {lang === "es" ? "Si sientes que algo está mal" : "If something feels wrong"}
           </div>
         </div>
-      ) : (
-        <div className="mt-4 rounded-3xl bg-white/95 p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-lg">📣</span>
-            <div className="text-base font-semibold text-[#1B3A5C]">
-              {t("rights_escalation_title", lang)}
-            </div>
-          </div>
-          <div className="grid gap-3">
-            {ESCALATION_STEPS.map((step) => (
-              <div key={step.step} className="flex items-start gap-3">
-                <div className="mt-0.5 h-6 w-6 rounded-full bg-[#2A7F8E] flex items-center justify-center shrink-0">
-                  <span className="text-xs font-bold text-white">{step.step}</span>
+        <div className="grid gap-3">
+          {[
+            {
+              emoji: "👤",
+              who: "Tell your caseworker",
+              who_es: "Dile a tu trabajador/a de casos",
+              what: "They should help fix it. Tell them clearly what you need.",
+              what_es: "Deben ayudarte a resolverlo. Diles claramente lo que necesitas.",
+            },
+            {
+              emoji: "📋",
+              who: "Tell your lawyer",
+              who_es: "Dile a tu abogado/a",
+              what: "Your lawyer's only job is to speak up for you. Tell them if something isn't right.",
+              what_es: "El único trabajo de tu abogado es hablar por ti. Dile si algo no está bien.",
+            },
+            {
+              emoji: "🏫",
+              who: "Tell a trusted adult",
+              who_es: "Dile a un adulto de confianza",
+              what: "A teacher, school counselor, or another grown-up you trust can help you ask.",
+              what_es: "Un maestro, consejero escolar u otro adulto de confianza puede ayudarte a pedir.",
+            },
+          ].map((step, i) => (
+            <div key={i} className="flex items-start gap-3">
+              <span className="text-xl shrink-0 mt-0.5">{step.emoji}</span>
+              <div>
+                <div className="text-sm font-semibold text-slate-900">
+                  {lang === "es" ? step.who_es : step.who}
                 </div>
-                <div>
-                  <div className="text-sm font-semibold text-slate-900">
-                    {lang === "es" ? step.who_es : step.who}
-                  </div>
-                  <div className="mt-0.5 text-sm sm:text-xs text-slate-500 leading-snug">
-                    {lang === "es" ? step.what_es : step.what}
-                  </div>
+                <div className="mt-0.5 text-sm sm:text-xs text-slate-500 leading-snug">
+                  {lang === "es" ? step.what_es : step.what}
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-      )}
+        <div className="mt-3 rounded-2xl bg-[#2A7F8E]/8 p-3">
+          <p className="text-sm sm:text-xs text-[#1B3A5C] leading-relaxed">
+            {lang === "es"
+              ? "💙 No tienes que resolver esto solo/a. Pedir ayuda siempre está bien."
+              : "💙 You don't have to figure this out alone. Asking for help is always okay."}
+          </p>
+        </div>
+      </div>
 
       <div className="mt-4">
         <SafeNotice lang={lang} />

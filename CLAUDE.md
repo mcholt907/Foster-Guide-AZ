@@ -44,31 +44,44 @@ web/
       layout.tsx              — root layout (metadata, favicon, PWA)
       page.tsx                — language-select screen (first screen users see)
       [lang]/
-        layout.tsx            — lang layout (SideNav + BottomNav wrapper)
-        page.tsx              — Home screen
+        layout.tsx            — lang layout (SideNav + BottomNav wrapper for 10-12)
+        page.tsx              — Home: 10-12 tile dashboard OR TeenShell + DashboardTeen (13+)
         setup/page.tsx        — onboarding (age band, county, tribal)
-        rights/page.tsx       — Your Rights (A.R.S. §8-529) + FAQPage JSON-LD
-        case/page.tsx         — My Case (dependency court stages)
-        future/page.tsx       — My Future Plan (EFC/ETV/docs)
-        resources/page.tsx    — Find Resources (filterable directory)
-        wellness/page.tsx     — Wellness Check-In
-        ask/page.tsx          — Find Answers (static browse + Fuse.js fuzzy search; no backend)
+        rights/page.tsx       — Your Rights (A.R.S. §8-529) + FAQPage JSON-LD; teens see RightsTeen
+        case/page.tsx         — My Case (dependency court stages); teens see CaseTeen
+        team/page.tsx         — My Team (who's in your case); teens see TeamTeen
+        future/page.tsx       — My Future Plan (EFC/ETV/docs); teens see FutureTeen
+        resources/page.tsx    — Find Resources (filterable directory); teens see ResourcesTeen
+        wellness/page.tsx     — Wellness Check-In; teens see WellnessTeen
+        ask/page.tsx          — Find Answers (static Fuse.js search); teens see AskTeen
     components/
-      BottomNav.tsx           — floating pill nav (persistent labels, solid teal
-                                active pill, warm stone inactive, teal-tinted shadow)
+      BottomNav.tsx           — floating pill nav for 10-12 (persistent labels,
+                                solid teal active pill, warm stone inactive)
+      TeenShell.tsx           — layout shell for 13+ bands: desktop SideNav,
+                                mobile header + drawer, floating bottom nav
+                                (dashboard/case/team/wellness/answers)
       ui.tsx                  — shared primitives: Card, Modal, PrimaryButton,
                                 Chip, SectionTitle, Divider, ScreenHero,
                                 SafeNotice, StatCite
+      teen/                   — teen-voiced page bodies (framer-motion animations,
+                                master-detail layouts, emerald-kicker + large-title
+                                hero, themed cards). One per route:
+                                DashboardTeen, CaseTeen, TeamTeen, WellnessTeen,
+                                AskTeen, RightsTeen, FutureTeen, ResourcesTeen
     lib/
-      i18n.ts                 — all UI strings (EN + ES); plain-language, youth voice
-      prefs.ts                — usePrefs() hook (localStorage, cross-component sync)
+      i18n.ts                 — base UI strings (EN + ES); plain-language, youth voice
+      i18n-teen.ts            — teen-voice strings; tt(key, lang, vars?) and
+                                ttBand(keyBase, band, lang) helpers
+      prefs.ts                — usePrefs() hook (localStorage, cross-component sync);
+                                AgeBandKey = "10-12" | "13-15" | "16-17" | "18-21"
       useOnboardingGate.ts    — redirect to /setup if onboarding not complete
       chat.ts                 — typed API client for the RAG backend (dead code — no longer used)
     data/
       constants.ts            — COUNTIES, AGE_BANDS, CRISIS_PINS (+ lastVerified)
       rights.ts               — RIGHTS chunks (A.R.S. §8-529), ESCALATION_STEPS
-      court.ts                — COURT_STAGES, WHO_IN_YOUR_CASE (caregiver card
-                                includes House Manager / group home staff)
+      court.ts                — COURT_STAGES, CASE_STAGES_TEEN, CASE_FAQS_TEEN,
+                                WHO_IN_YOUR_CASE (includes per-band teen_tips and
+                                caregiver card w/ House Manager / group home staff)
       resources.ts            — RESOURCES directory (39 entries, + lastVerified)
       docs.ts                 — IMPORTANT_DOCS (documents youth need, + lastVerified)
       questions.ts            — Q&A entries (QUESTIONS, TOPIC_CONFIG, RESOURCE_LINK_CATEGORIES); Fuse.js search source for Find Answers page
@@ -76,6 +89,7 @@ web/
       favicon.svg             — browser tab icon
       icons/icon-192.svg      — PWA home screen icon (192px)
       icons/icon-512.svg      — PWA splash icon (512px)
+      avatars/                — team-member illustrations used on My Team
       manifest.webmanifest    — PWA manifest
 scripts/
   validate-content.ts         — URL, phone, date, and citation format checks
@@ -104,7 +118,8 @@ docs/
 - **Next.js 16** App Router with `generateStaticParams` for EN/ES routes
 - **Tailwind CSS v4** for all styling — no CSS modules
 - **lucide-react** for icons
-- **framer-motion** not used in web (pure CSS transitions)
+- **framer-motion** used on teen pages (page/tile transitions, `layoutId` shared-element animations, `useReducedMotion` to respect `prefers-reduced-motion`); 10-12 dashboard remains pure CSS
+- **Fuse.js** powers fuzzy search on Find Answers and Resources (teen variant)
 - Language from URL segment: `/en/*` or `/es/*`
 - User prefs (ageBand, county, tribal, onboardingDone) in `localStorage` key `fgaz_prefs_v2`
 - No router state — all navigation via Next.js `Link` and `router.push`
@@ -115,19 +130,21 @@ docs/
 
 ### Age-Band Gating
 
-Four bands: `10-12`, `13-15`, `16-17`, `18-21`. Content complexity adapts per band.
+Four bands: `10-12`, `13-15`, `16-17`, `18-21`. Content complexity and layout adapt per band.
 
-- **10-12**: Resources nav item and page are hidden (redirect to home)
-- My Future Plan card hidden for 10-12 and 13-15 on Home screen
-- All other screens adapt copy/content per band
+- **10-12**: kid-friendly tile dashboard via `BottomNav`/`SideNav`; Resources nav item and page are hidden (redirect to home); Future Plan card hidden on Home
+- **13-15 / 16-17 / 18-21** ("teen" bands): routed through `TeenShell` with the `teen/*` page bodies; per-band copy is selected via `ttBand("key.base", band, lang)` which resolves to `key.base.13-15`, `key.base.16-17`, or `key.base.18-21` in `i18n-teen.ts`
+- Future Plan card hidden for 10-12 and 13-15 on Home screen
 
 ### Key Patterns
 
 - `useOnboardingGate(lang)` — call at top of every page; redirects to `/setup` if not onboarded
 - `usePrefs()` — returns `[prefs, loaded, patch, reset]`; dispatches `fgaz-prefs-updated` custom event so all component instances (including SideNav) stay in sync
-- `SafeNotice` — disclaimer component shown at the bottom of Rights, Case, Future, Resources, Wellness pages
-- `ScreenHero` — standard gradient hero banner (3-stop: teal → `#1a5f7e` → navy); `tracking-tighter` on titles, `tracking-wide` on subtitles
+- `SafeNotice` — disclaimer component shown at the bottom of Rights, Case, Future, Resources, Wellness pages (10-12 layout)
+- `ScreenHero` — 10-12 gradient hero banner (3-stop: teal → `#1a5f7e` → navy); `tracking-tighter` on titles, `tracking-wide` on subtitles
+- **Teen-page visual language** — emerald uppercase kicker + large (6xl) title + `border-l-[3px]` intro paragraph; master-detail layouts with themed cards and a gradient stripe; icon tiles use `lucide-react` with `strokeWidth={2.25}`; dark-navy (`#1a2f44`) Strategic Advisor / Pro Tip sidebars
 - Cards use ambient `shadow-*` (not `ring-1 ring-black/5`); inner stacked cards use `ring-slate-200`
+- Teen page route files do minimal work — they fetch prefs, pick the teen component, and render inside `TeenShell`; all layout/animation lives in `components/teen/*`
 
 ### Content Freshness
 
@@ -148,7 +165,7 @@ npx ts-node scripts/check-staleness.ts
 
 ### Language & Tone
 
-All user-facing copy must be **plain language, youth voice** — speak to "you" directly, avoid acronyms (spell out EFC/ETV on first use), avoid legal jargon. Max 6th-grade reading level. See `web/src/lib/i18n.ts` for EN + ES string conventions.
+All user-facing copy must be **plain language, youth voice** — speak to "you" directly, avoid acronyms (spell out EFC/ETV on first use), avoid legal jargon, and skip corporate-speak (no "Command Center", "Dashboard" as a shouted label, etc.). Max 6th-grade reading level. See `web/src/lib/i18n.ts` for the base bilingual strings and `web/src/lib/i18n-teen.ts` for teen-voice strings (with per-age-band variants via `ttBand`).
 
 ---
 
