@@ -170,6 +170,32 @@ export const TEEN_STRINGS = {
   "resources.verified":        { en: "Last verified",                     es: "Última verificación" },
   "resources.call":            { en: "Call",                              es: "Llamar" },
   "resources.visit":           { en: "Visit site",                        es: "Visitar sitio" },
+
+  // ── Future page ─────────────────────────────────────────────────────────
+  "future.hero.tag":          { en: "Launch Plan",                        es: "Plan de Lanzamiento" },
+  "future.hero.title":        { en: "What's ahead.",                      es: "Lo que viene." },
+  "future.hero.subtitle":     { en: "Documents, benefits, and housing options that become part of your story at 16, 17, and 18. Start here.",
+                                es: "Documentos, beneficios y opciones de vivienda que se vuelven parte de tu historia a los 16, 17 y 18. Empieza aquí." },
+  "future.banner.1315":       { en: "These come up later — good to know now.",
+                                es: "Esto viene después — bueno saberlo ahora." },
+  "future.banner.1617":       { en: "Start preparing now.",
+                                es: "Empieza a prepararte ahora." },
+  "future.banner.1821":       { en: "What applies right now.",
+                                es: "Lo que aplica ahora mismo." },
+  "future.docs.heading":      { en: "Documents You'll Need",              es: "Documentos que Necesitarás" },
+  "future.docs.intro":        { en: "When you age out, these pieces of paper matter. Start collecting now — it's easier than scrambling later.",
+                                es: "Cuando salgas del sistema, estos papeles importan. Empieza a juntarlos ahora — es más fácil que buscarlos después." },
+  "future.docs.howto":        { en: "How to get it",                      es: "Cómo conseguirlo" },
+  "future.docs.contact":      { en: "Contact",                            es: "Contacto" },
+  "future.efc.heading":       { en: "Extended Foster Care (EFC)",         es: "Cuidado Adoptivo Extendido (EFC)" },
+  "future.efc.body":          { en: "In Arizona you can voluntarily stay in foster care until 21 for housing, monthly stipend, and an extended support team. It's not automatic — you have to sign in. Ask your caseworker about EFC at 17.5.",
+                                es: "En Arizona puedes quedarte voluntariamente en cuidado adoptivo hasta los 21 para vivienda, estipendio mensual, y un equipo de apoyo extendido. No es automático — tienes que inscribirte. Pregúntale a tu trabajador/a de casos sobre EFC a los 17 años y medio." },
+  "future.etv.heading":       { en: "Education and Training Voucher (ETV)",
+                                es: "Vale Educativo y de Capacitación (ETV)" },
+  "future.etv.body":          { en: "Up to $5,000/year for college, trade school, or certification programs. You apply each year, and the state deadline matters. Apply early; funds are limited.",
+                                es: "Hasta $5,000 al año para universidad, escuela técnica, o programas de certificación. Aplicas cada año, y la fecha límite del estado importa. Aplica temprano; los fondos son limitados." },
+  "future.etv.deadline.label":{ en: "Current cycle deadline",              es: "Fecha límite del ciclo actual" },
+  "future.etv.deadline":      { en: "July 31, 2026",                       es: "31 de julio, 2026" },
 } as const;
 
 export type TeenStringKey = keyof typeof TEEN_STRINGS;
