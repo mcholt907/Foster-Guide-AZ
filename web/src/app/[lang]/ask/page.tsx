@@ -13,6 +13,8 @@ import { useOnboardingGate } from "../../../lib/useOnboardingGate";
 import { usePrefs } from "../../../lib/prefs";
 import type { AgeBandKey } from "../../../lib/prefs";
 import { QUESTIONS, TOPIC_CONFIG, type QACategory } from "../../../data/questions";
+import { TeenShell } from "../../../components/TeenShell";
+import { AskTeen } from "../../../components/teen/AskTeen";
 
 function getCategoryStyles(cat: QACategory) {
   switch (cat) {
@@ -49,10 +51,22 @@ function getCategoryIcon(cat: QACategory) {
 export default function AskPage() {
   const { lang: rawLang } = useParams<{ lang: string }>();
   const lang: Lang = rawLang === "es" ? "es" : "en";
-  useOnboardingGate(lang);
-  const [prefs] = usePrefs();
-  const band = (prefs.ageBand ?? "13-15") as AgeBandKey;
+  const prefs = useOnboardingGate(lang);
+  const [, loaded] = usePrefs();
 
+  if (!loaded) return null;
+  if (!prefs.ageBand) return null;
+  if (prefs.ageBand === "10-12") return <Ask1012 lang={lang} band="10-12" />;
+
+  const band = prefs.ageBand as AgeBandKey;
+  return (
+    <TeenShell active="answers" lang={lang}>
+      <AskTeen lang={lang} band={band} />
+    </TeenShell>
+  );
+}
+
+function Ask1012({ lang, band }: { lang: Lang; band: AgeBandKey }) {
   const [activeCategory, setActiveCategory] = useState<QACategory | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [openIds, setOpenIds] = useState<Set<string>>(new Set());
@@ -66,7 +80,6 @@ export default function AskPage() {
     });
   };
 
-  // Fuse.js for fuzzy search
   const fuse = useMemo(
     () =>
       new Fuse(QUESTIONS, {
@@ -80,7 +93,6 @@ export default function AskPage() {
     [lang]
   );
 
-  // Filter topics and questions by age band
   const visibleTopics = useMemo(() => TOPIC_CONFIG.filter((t) => t.bands.includes(band)), [band]);
   const bandQuestions = useMemo(() => QUESTIONS.filter((q) => q.ageBands.includes(band)), [band]);
 

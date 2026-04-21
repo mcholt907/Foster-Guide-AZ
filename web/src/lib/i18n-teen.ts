@@ -131,6 +131,16 @@ export const TEEN_STRINGS = {
   "wellness.support.dcs.desc":   { en: "1-888-767-2445. Use this if you are currently feeling unsafe or if there is an emergency in your placement.",
                                    es: "1-888-767-2445. Úsalo si te sientes inseguro/a en este momento o hay una emergencia en tu colocación." },
   "wellness.support.dcs.label":  { en: "Contact SOS",                      es: "Contactar SOS" },
+
+  // ── Ask / Search Portal ─────────────────────────────────────────────────
+  "ask.hero.tag":          { en: "Search Portal",                es: "Portal de Búsqueda" },
+  "ask.hero.title":        { en: "Find what you need.",          es: "Encuentra lo que necesitas." },
+  "ask.hero.subtitle":     { en: "Searchable answers about your rights, your case, and what comes next. Start typing or pick a category.",
+                             es: "Respuestas que puedes buscar sobre tus derechos, tu caso, y lo que sigue. Empieza a escribir o elige una categoría." },
+  "ask.search.placeholder":{ en: "Search answers…",              es: "Buscar respuestas…" },
+  "ask.chip.all":          { en: "All",                          es: "Todos" },
+  "ask.no_results":        { en: "No answers match your search. Try a different word, or pick a category above.",
+                             es: "Ningún resultado coincide. Prueba otra palabra o elige una categoría." },
 } as const;
 
 export type TeenStringKey = keyof typeof TEEN_STRINGS;
