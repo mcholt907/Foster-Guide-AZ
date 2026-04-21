@@ -144,7 +144,7 @@ export function ResourcesTeen({ lang, band, county }: ResourcesTeenProps) {
                 <p className="text-slate-600 text-sm font-medium leading-relaxed mb-5 flex-1">{desc}</p>
                 <div className="flex flex-wrap gap-2 mb-3">
                   {r.phone && (
-                    <a href={`tel:${r.phone.replace(/\D/g, "")}`} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-rose-500 text-white font-bold text-[12px] hover:bg-rose-600 transition">
+                    <a href={`tel:${r.phone.replace(/\D/g, "")}`} className="sm:hidden inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-rose-500 text-white font-bold text-[12px] hover:bg-rose-600 transition">
                       <Phone size={14} /> {tt("resources.call", lang)}
                     </a>
                   )}

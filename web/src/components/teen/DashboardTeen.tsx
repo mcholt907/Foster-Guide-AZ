@@ -84,7 +84,6 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
         <div className="grid lg:grid-cols-12 gap-16 items-start">
           {/* Tiles */}
           <div className="lg:col-span-8 flex flex-col gap-10">
-            <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-300">{tt("dashboard.section.label", lang)}</h3>
             <div className="grid sm:grid-cols-2 gap-8">
               {TILES.map((tile, idx) => (
                 <motion.div

@@ -24,13 +24,12 @@ export const TEEN_STRINGS = {
 
   "dashboard.greeting.morning":    { en: "Good morning.", es: "Buenos días." },
   "dashboard.greeting.subtitle":   {
-    en: "Welcome to your secure command center. {date}.",
-    es: "Bienvenido/a a tu centro de comando seguro. {date}.",
+    en: "{date}",
+    es: "{date}",
   },
   "dashboard.privacy.label":       { en: "Privacy First",              es: "Privacidad primero" },
   "dashboard.privacy.body":        { en: "No data is ever saved or tracked.",
                                      es: "Nunca se guardan ni se rastrean datos." },
-  "dashboard.section.label":       { en: "Command Control",            es: "Control de Comando" },
 
   "dashboard.tile.team.title":     { en: "Your Advocates",             es: "Tus Defensores" },
   "dashboard.tile.team.desc":      { en: "Direct lines to your judge, lawyer, and caseworker.",
