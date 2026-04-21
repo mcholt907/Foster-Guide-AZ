@@ -141,6 +141,22 @@ export const TEEN_STRINGS = {
   "ask.chip.all":          { en: "All",                          es: "Todos" },
   "ask.no_results":        { en: "No answers match your search. Try a different word, or pick a category above.",
                              es: "Ningún resultado coincide. Prueba otra palabra o elige una categoría." },
+
+  // ── Rights page ─────────────────────────────────────────────────────────
+  "rights.hero.tag":        { en: "Legal Protections",       es: "Protecciones Legales" },
+  "rights.hero.title":      { en: "Your rights under AZ law.",
+                              es: "Tus derechos bajo la ley de AZ." },
+  "rights.hero.subtitle":   { en: "Arizona statute A.R.S. §8-529 guarantees these rights to every foster youth. They're not favors — they're yours.",
+                              es: "El estatuto de Arizona A.R.S. §8-529 garantiza estos derechos a cada joven en cuidado adoptivo. No son favores — son tuyos." },
+  "rights.citation":        { en: "A.R.S. §8-529",            es: "A.R.S. §8-529" },
+  "rights.label.what":      { en: "What it means",            es: "Qué significa" },
+  "rights.label.example":   { en: "For example",              es: "Por ejemplo" },
+  "rights.label.how":       { en: "How to use it",            es: "Cómo usarlo" },
+  "rights.label.ignored":   { en: "If it's ignored",          es: "Si lo ignoran" },
+  "rights.escalation.heading": { en: "If a right is being ignored",
+                                 es: "Si un derecho está siendo ignorado" },
+  "rights.escalation.intro":   { en: "Start with your caseworker. If that doesn't work, go up the ladder — it exists for a reason.",
+                                 es: "Empieza con tu trabajador/a de casos. Si eso no funciona, sube la escalera — existe por una razón." },
 } as const;
 
 export type TeenStringKey = keyof typeof TEEN_STRINGS;
