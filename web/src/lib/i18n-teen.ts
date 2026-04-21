@@ -157,6 +157,19 @@ export const TEEN_STRINGS = {
                                  es: "Si un derecho está siendo ignorado" },
   "rights.escalation.intro":   { en: "Start with your caseworker. If that doesn't work, go up the ladder — it exists for a reason.",
                                  es: "Empieza con tu trabajador/a de casos. Si eso no funciona, sube la escalera — existe por una razón." },
+
+  // ── Resources page ──────────────────────────────────────────────────────
+  "resources.hero.tag":        { en: "Directory",                         es: "Directorio" },
+  "resources.hero.title":      { en: "Real support, near you.",           es: "Apoyo real, cerca de ti." },
+  "resources.hero.subtitle":   { en: "Vetted Arizona organizations that help with housing, benefits, school, mental health, and more. Every listing is verified.",
+                                 es: "Organizaciones de Arizona verificadas que ayudan con vivienda, beneficios, escuela, salud mental y más. Cada listado está verificado." },
+  "resources.search.placeholder":{ en: "Search resources…",               es: "Buscar recursos…" },
+  "resources.chip.all":        { en: "All categories",                    es: "Todas las categorías" },
+  "resources.no_results":      { en: "No resources match. Try another category or clear the search.",
+                                 es: "Ningún recurso coincide. Prueba otra categoría o borra la búsqueda." },
+  "resources.verified":        { en: "Last verified",                     es: "Última verificación" },
+  "resources.call":            { en: "Call",                              es: "Llamar" },
+  "resources.visit":           { en: "Visit site",                        es: "Visitar sitio" },
 } as const;
 
 export type TeenStringKey = keyof typeof TEEN_STRINGS;
