@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import type { Lang } from "../../lib/i18n";
 import type { AgeBandKey } from "../../lib/prefs";
@@ -27,6 +27,7 @@ interface TeamTeenProps {
 
 export function TeamTeen({ lang, band }: TeamTeenProps) {
   const [openId, setOpenId] = useState<string | null>(null);
+  const reduce = useReducedMotion();
 
   return (
     <div className="max-w-[1100px] mx-auto px-6 sm:px-12 py-10 sm:py-20">
@@ -58,7 +59,7 @@ export function TeamTeen({ lang, band }: TeamTeenProps) {
               key={member.id}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.05, duration: 0.35 }}
+              transition={{ delay: reduce ? 0 : idx * 0.05, duration: reduce ? 0 : 0.35 }}
               className={`rounded-[2rem] border border-white shadow-[0_20px_50px_rgba(0,0,0,0.03)] overflow-hidden ${bgClass}`}
             >
               <button

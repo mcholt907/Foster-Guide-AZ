@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Phone } from "lucide-react";
 import type { Lang } from "../../lib/i18n";
 import { tt } from "../../lib/i18n-teen";
@@ -28,6 +28,7 @@ const SUPPORT = [
 interface WellnessTeenProps { lang: Lang; }
 
 export function WellnessTeen({ lang }: WellnessTeenProps) {
+  const reduce = useReducedMotion();
   return (
     <div className="max-w-[1100px] mx-auto px-6 sm:px-12 py-10 sm:py-20 space-y-20">
       {/* Hero */}
@@ -47,7 +48,7 @@ export function WellnessTeen({ lang }: WellnessTeenProps) {
               key={g.n}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.06, duration: 0.3 }}
+              transition={{ delay: reduce ? 0 : idx * 0.06, duration: reduce ? 0 : 0.3 }}
               className="rounded-2xl bg-white border border-slate-100 shadow-sm p-5 text-center"
             >
               <div className="text-3xl mb-2">{g.icon}</div>
@@ -67,7 +68,7 @@ export function WellnessTeen({ lang }: WellnessTeenProps) {
               key={t.id}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.08, duration: 0.35 }}
+              transition={{ delay: reduce ? 0 : idx * 0.08, duration: reduce ? 0 : 0.35 }}
               className={`rounded-[2rem] p-8 ${t.color} border border-white shadow-[0_20px_50px_rgba(0,0,0,0.03)]`}
             >
               <div className="w-16 h-16 rounded-2xl bg-white mb-6 flex items-center justify-center overflow-hidden shadow-sm">

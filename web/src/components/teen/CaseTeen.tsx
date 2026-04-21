@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   ShieldCheck, Scale, Calendar, Zap, ChevronDown, ChevronUp,
 } from "lucide-react";
@@ -35,6 +35,7 @@ export function CaseTeen({ lang, band }: CaseTeenProps) {
   const [openStage, setOpenStage] = useState<string | null>(null);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const teenBand = (band === "10-12" ? "13-15" : band) as "13-15" | "16-17" | "18-21";
+  const reduce = useReducedMotion();
 
   return (
     <div className="max-w-[1100px] mx-auto px-6 sm:px-12 py-10 sm:py-20">
@@ -64,7 +65,7 @@ export function CaseTeen({ lang, band }: CaseTeenProps) {
               key={stage.id}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.06, duration: 0.35 }}
+              transition={{ delay: reduce ? 0 : idx * 0.06, duration: reduce ? 0 : 0.35 }}
               className={`rounded-[2rem] border border-white shadow-[0_20px_50px_rgba(0,0,0,0.03)] overflow-hidden ${bg}`}
             >
               <button

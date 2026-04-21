@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Shield, ChevronRight, Compass, Phone } from "lucide-react";
 import type { Lang } from "../../lib/i18n";
 import { tt, ttBand, type TeenStringKey } from "../../lib/i18n-teen";
@@ -52,6 +52,7 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
   const today = new Date().toLocaleDateString(lang === "es" ? "es-US" : "en-US", {
     weekday: "long", month: "long", day: "numeric",
   });
+  const reduce = useReducedMotion();
 
   return (
     <>
@@ -90,7 +91,7 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
                   key={tile.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.08, duration: 0.4 }}
+                  transition={{ delay: reduce ? 0 : idx * 0.08, duration: reduce ? 0 : 0.4 }}
                 >
                   <Link
                     href={`/${lang}${tile.href}`}
