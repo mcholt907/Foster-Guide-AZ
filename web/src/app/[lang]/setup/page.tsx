@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { Lock, CheckCircle2, ArrowRight } from "lucide-react";
 import type { Lang } from "../../../lib/i18n";
+import { t } from "../../../lib/i18n";
 import { usePrefs } from "../../../lib/prefs";
 import { COUNTIES } from "../../../data/constants";
 
@@ -80,15 +83,13 @@ export default function SetupPage() {
 
   const stepQuestion =
     step === 0
-      ? lang === "es" ? "¿Cuántos años tienes?" : "How old are you?"
+      ? t("onboarding_step_age", lang)
       : step === 1
-        ? lang === "es" ? "¿En qué condado estás?" : "What county are you in?"
-        : lang === "es" ? "¿Tienes conexión con una nación tribal?" : "Any tribal connections?";
+        ? t("onboarding_step_county", lang)
+        : t("onboarding_step_tribal", lang);
 
   const nextLabel =
-    step === 2
-      ? lang === "es" ? "Comenzar" : "Start"
-      : lang === "es" ? "Siguiente" : "Next";
+    step === 2 ? t("onboarding_btn_start_over", lang) : t("onboarding_btn_next", lang);
 
   return (
     <div className="fixed inset-0 z-50 bg-[#FDF9F3] text-[#35322d] font-['Outfit',_sans-serif] flex justify-center items-center overflow-y-auto">
@@ -98,10 +99,13 @@ export default function SetupPage() {
         <div className="px-6 pt-12 pb-6 flex flex-col items-center relative z-10 w-full text-center">
 
           <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-white shadow-lg border-[6px] border-white flex justify-center items-center overflow-hidden mb-6">
-            <img
+            <Image
               src="/onboarding/welcome_icon.png"
               alt=""
               aria-hidden="true"
+              width={320}
+              height={320}
+              priority
               className="w-full h-full object-cover scale-[1.15] translate-y-2"
             />
           </div>
@@ -276,13 +280,13 @@ export default function SetupPage() {
           {/* Language switcher */}
           <div className="text-center">
             {lang === "es" ? (
-              <a href="/en/setup" className="text-[#64748b] text-[13px] font-medium hover:text-[#115e59] underline decoration-2 underline-offset-4 transition-colors">
+              <Link href="/en/setup" className="text-[#64748b] text-[13px] font-medium hover:text-[#115e59] underline decoration-2 underline-offset-4 transition-colors">
                 Switch to English
-              </a>
+              </Link>
             ) : (
-              <a href="/es/setup" className="text-[#64748b] text-[13px] font-medium hover:text-[#115e59] underline decoration-2 underline-offset-4 transition-colors">
+              <Link href="/es/setup" className="text-[#64748b] text-[13px] font-medium hover:text-[#115e59] underline decoration-2 underline-offset-4 transition-colors">
                 Cambiar a Español
-              </a>
+              </Link>
             )}
           </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { ChevronLeft, Phone, MessageSquare, HeartPulse } from "lucide-react";
@@ -120,7 +121,7 @@ function Wellness1012({ lang }: { lang: Lang }) {
         <div className="bg-white rounded-[24px] p-6 shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
           <div className="flex items-start gap-4 mb-4">
             <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center shadow-inner shrink-0 overflow-hidden border border-blue-100">
-              <img src="/wellness/grounding.png" alt="Grounding" className="w-14 h-14 object-contain scale-[1.2]" />
+              <Image src="/wellness/grounding.png" alt="Grounding" width={192} height={192} className="w-14 h-14 object-contain scale-[1.2]" />
             </div>
             <div className="pt-2">
               <div className="text-base font-bold text-[#1B3A5C]">
@@ -177,7 +178,7 @@ function Wellness1012({ lang }: { lang: Lang }) {
             <div key={tool.id} className="rounded-[24px] bg-white p-5 shadow-[0_4px_24px_rgba(0,0,0,0.04)] border border-transparent hover:border-blue-50 transition-colors">
               <div className="flex items-start gap-4">
                 <div className="w-14 h-14 shrink-0 bg-gray-50 rounded-full flex items-center justify-center overflow-hidden border border-gray-100">
-                  <img src={tool.img} alt={lang === "es" ? tool.titleEs : tool.titleEn} className="w-12 h-12 object-contain scale-[1.2]" />
+                  <Image src={tool.img} alt={lang === "es" ? tool.titleEs : tool.titleEn} width={192} height={192} className="w-12 h-12 object-contain scale-[1.2]" />
                 </div>
                 <div className="pt-1">
                   <div className="text-[15px] font-bold text-[#1B3A5C] mb-1">

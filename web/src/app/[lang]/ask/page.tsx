@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import {
@@ -144,7 +145,7 @@ function Ask1012({ lang, band }: { lang: Lang; band: AgeBandKey }) {
         {/* Compass card */}
         <div className="bg-white rounded-[24px] p-5 shadow-[0_4px_24px_rgba(0,0,0,0.04)] flex items-start space-x-4">
           <div className="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center shadow-inner shrink-0 overflow-hidden border border-blue-100">
-            <img src="/compass_avatar.png" alt="Compass" className="w-10 h-10 object-contain" />
+            <Image src="/compass_avatar.png" alt="Compass" width={96} height={96} className="w-10 h-10 object-contain" />
           </div>
           <div className="pt-1">
             <div className="text-blue-900 font-bold mb-1">

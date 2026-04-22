@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Lock, ArrowRight, CheckCircle2 } from "lucide-react";
 
@@ -20,9 +21,12 @@ export default function RootPage() {
         <div className="px-6 pt-12 pb-6 flex flex-col items-center relative z-10 w-full text-center">
 
           <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-full bg-white shadow-lg border-[6px] border-white flex justify-center items-center overflow-hidden mb-6 relative">
-            <img
+            <Image
               src="/onboarding/welcome_icon.png"
               alt="Welcome"
+              width={384}
+              height={384}
+              priority
               className="w-full h-full object-cover scale-[1.15] translate-y-2"
             />
           </div>

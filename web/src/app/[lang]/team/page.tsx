@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { ChevronLeft, ChevronDown, ChevronUp } from "lucide-react";
@@ -140,9 +141,12 @@ function Team1012({ lang }: { lang: Lang }) {
 
       {/* Hero */}
       <div className="text-center pt-6 pb-10 flex flex-col items-center">
-        <img
+        <Image
           src="/avatars/group_avatar.png"
           alt={lang === "es" ? "Mi equipo" : "My Team"}
+          width={512}
+          height={512}
+          priority
           className="w-56 h-auto mb-6 object-cover rounded-[2.5rem] shadow-sm border border-slate-200"
         />
         <h2 className="text-3xl font-bold text-[#629DA7] mb-3">
@@ -163,9 +167,11 @@ function Team1012({ lang }: { lang: Lang }) {
             className={`rounded-3xl p-6 ${member.bgColor} shadow-sm border border-black/5 hover:shadow-md transition-shadow flex items-start space-x-5`}
           >
             <div className="shrink-0 w-24 h-24 sm:w-32 sm:h-32 bg-white rounded-full overflow-hidden shadow-inner flex items-center justify-center">
-              <img
+              <Image
                 src={member.avatar}
                 alt={lang === "es" ? member.titleEs : member.title}
+                width={256}
+                height={256}
                 className="object-cover w-full h-full scale-[1.3] pt-4"
               />
             </div>

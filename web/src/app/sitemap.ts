@@ -13,6 +13,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/resources",
     "/rights",
     "/wellness",
+    "/privacy",
+    "/terms",
+    "/accessibility",
   ];
 
   const langs = ["en", "es"];

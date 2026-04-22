@@ -1,10 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Home, Shield, FolderOpen, MapPin, HeartHandshake, HelpCircle, Users } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { Lang } from "../lib/i18n";
 import { usePrefs } from "../lib/prefs";
 
@@ -21,6 +22,7 @@ const NAV_ITEMS_BASE = [
 export function BottomNav({ lang }: { lang: Lang }) {
   const pathname = usePathname();
   const [prefs] = usePrefs();
+  const reduceMotion = useReducedMotion();
   const is1012 = prefs.ageBand === "10-12";
   const visibleItems = NAV_ITEMS_BASE.filter((item) => {
     if (item.id === "resources" && is1012) return false;
@@ -43,17 +45,21 @@ export function BottomNav({ lang }: { lang: Lang }) {
             <Link
               key={id}
               href={fullHref}
+              aria-current={isActive ? "page" : undefined}
               className={`relative flex flex-col items-center justify-center rounded-[14px] px-2.5 py-1.5 transition-colors ${
                 isActive ? "text-white" : "text-stone-500 hover:text-stone-700"
               }`}
             >
-              {isActive && (
-                <motion.div
-                  layoutId="activeNavPill"
-                  className="absolute inset-0 rounded-[14px] bg-[#2A7F8E] shadow-sm shadow-[#2A7F8E]/40"
-                  transition={{ type: "spring", stiffness: 450, damping: 30 }}
-                />
-              )}
+              {isActive &&
+                (reduceMotion ? (
+                  <div className="absolute inset-0 rounded-[14px] bg-[#2A7F8E] shadow-sm shadow-[#2A7F8E]/40" />
+                ) : (
+                  <motion.div
+                    layoutId="activeNavPill"
+                    className="absolute inset-0 rounded-[14px] bg-[#2A7F8E] shadow-sm shadow-[#2A7F8E]/40"
+                    transition={{ type: "spring", stiffness: 450, damping: 30 }}
+                  />
+                ))}
               <div className="relative z-10 flex flex-col items-center gap-1">
                 <Icon className={`h-5 w-5 shrink-0 ${isActive ? "stroke-[2.5]" : "stroke-[1.75]"}`} />
                 <span className="text-[9px] font-semibold leading-none tracking-wide whitespace-nowrap">
@@ -86,9 +92,12 @@ export function SideNav({ lang }: { lang: Lang }) {
       {/* Brand */}
       <div className="px-3 pt-5 pb-4 flex flex-col items-center">
         <div className="w-14 h-14 rounded-full bg-white shadow-lg border-4 border-white flex justify-center items-center overflow-hidden mb-2">
-          <img
+          <Image
             src="/onboarding/welcome_icon.png"
             alt="FosterHub AZ"
+            width={192}
+            height={192}
+            priority
             className="w-full h-full object-cover scale-[1.15] translate-y-1"
           />
         </div>
@@ -113,6 +122,7 @@ export function SideNav({ lang }: { lang: Lang }) {
             <Link
               key={id}
               href={fullHref}
+              aria-current={isActive ? "page" : undefined}
               className={`inline-flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-all ${
                 isActive
                   ? "bg-white/15 text-white shadow-sm"

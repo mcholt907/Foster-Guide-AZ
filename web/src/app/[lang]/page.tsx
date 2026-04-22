@@ -1,10 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Phone, HelpCircle, RefreshCw } from "lucide-react";
 import type { Lang } from "../../lib/i18n";
+import { t } from "../../lib/i18n";
 import { useOnboardingGate } from "../../lib/useOnboardingGate";
 import { usePrefs } from "../../lib/prefs";
 import type { AgeBandKey } from "../../lib/prefs";
@@ -74,7 +76,7 @@ function Dashboard1012({ lang }: { lang: Lang }) {
           className="aspect-[4/3] bg-[#fff4cc] rounded-[2rem] p-5 flex flex-col justify-center gap-2 items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
         >
           <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-[1.5rem] flex items-center justify-center overflow-hidden mix-blend-multiply drop-shadow-sm">
-            <img src="/avatars/group_avatar.png" alt="" className="w-full h-full object-cover scale-[1.3] pt-2" />
+            <Image src="/avatars/group_avatar.png" alt="" width={192} height={192} className="w-full h-full object-cover scale-[1.3] pt-2" />
           </div>
           <span className="font-bold text-[#78350f] text-lg leading-none">
             {lang === "es" ? "Mi equipo" : "My team"}
@@ -87,7 +89,7 @@ function Dashboard1012({ lang }: { lang: Lang }) {
           className="aspect-[4/3] bg-[#e0f2fe] rounded-[2rem] p-5 flex flex-col justify-center gap-2 items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
         >
           <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center overflow-hidden drop-shadow-sm">
-            <img src="/dashboard/case.png" alt="" className="w-full h-full object-cover scale-[1.2]" />
+            <Image src="/dashboard/case.png" alt="" width={192} height={192} className="w-full h-full object-cover scale-[1.2]" />
           </div>
           <span className="font-bold text-[#0c4a6e] text-lg leading-none">
             {lang === "es" ? "Mi caso explicado" : "My case explained"}
@@ -100,10 +102,10 @@ function Dashboard1012({ lang }: { lang: Lang }) {
           className="aspect-[4/3] bg-[#fce7f3] rounded-[2rem] p-5 flex flex-col justify-center gap-2 items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
         >
           <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center overflow-hidden drop-shadow-sm">
-            <img src="/dashboard/wellness.png" alt="" className="w-full h-full object-cover scale-[1.2]" />
+            <Image src="/dashboard/wellness.png" alt="" width={192} height={192} className="w-full h-full object-cover scale-[1.2]" />
           </div>
           <span className="font-bold text-[#831843] text-lg leading-none">
-            {lang === "es" ? "Bienestar" : "Wellness check-in"}
+            {t("home_wellness_short", lang)}
           </span>
         </Link>
 
@@ -116,7 +118,7 @@ function Dashboard1012({ lang }: { lang: Lang }) {
             <HelpCircle size={28} className="text-[#136d41]" />
           </div>
           <span className="font-bold text-[#14532d] text-lg leading-none">
-            {lang === "es" ? "Buscar respuestas" : "Find answers"}
+            {t("home_find_answers", lang)}
           </span>
         </Link>
       </div>
@@ -125,7 +127,7 @@ function Dashboard1012({ lang }: { lang: Lang }) {
       <div className="flex items-center justify-center mb-6">
         <div className="h-px bg-slate-200 flex-1" />
         <span className="px-3 text-[10px] font-bold tracking-widest text-[#a09c98] uppercase">
-          {lang === "es" ? "Apoyo y seguridad" : "Support & Safety"}
+          {t("home_support_safety", lang)}
         </span>
         <div className="h-px bg-slate-200 flex-1" />
       </div>
@@ -139,9 +141,9 @@ function Dashboard1012({ lang }: { lang: Lang }) {
           <Phone size={20} />
         </div>
         <div className="flex-1">
-          <h4 className="font-bold text-[#35322d]">988 Suicide &amp; Crisis Hotline</h4>
+          <h4 className="font-bold text-[#35322d]">{t("home_988_title", lang)}</h4>
           <p className="text-xs text-[#a09c98] mt-0.5">
-            {lang === "es" ? "Llama o envía un mensaje en cualquier momento" : "Call or text anytime"}
+            {t("home_988_subtitle", lang)}
           </p>
         </div>
         <div className="w-10 h-10 rounded-full bg-[#fee2e2] flex items-center justify-center text-[#b91c1c] shrink-0">
@@ -152,9 +154,9 @@ function Dashboard1012({ lang }: { lang: Lang }) {
       {/* Language switcher */}
       <div className="mt-6 text-center text-xs text-slate-400">
         {lang === "es" ? (
-          <a href="/en" className="underline hover:text-slate-600">Switch to English</a>
+          <Link href="/en" className="underline hover:text-slate-600">Switch to English</Link>
         ) : (
-          <a href="/es" className="underline hover:text-slate-600">Cambiar a Español</a>
+          <Link href="/es" className="underline hover:text-slate-600">Cambiar a Español</Link>
         )}
       </div>
     </div>

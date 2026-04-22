@@ -37,11 +37,16 @@ export function usePrefs(): [Prefs, boolean, (patch: Partial<Prefs>) => void, ()
 
   // Hydrate from localStorage on mount, and re-sync when any other
   // usePrefs instance calls patch() or reset() (e.g. SideNav vs. setup page).
+  // The setState-in-effect is intentional: this is the standard React pattern
+  // for syncing client-only state (localStorage) after hydration.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setPrefs(readFromStorage());
     setLoaded(true);
 
-    function handleSync() { setPrefs(readFromStorage()); }
+    function handleSync() {
+      setPrefs(readFromStorage());
+    }
     window.addEventListener(SYNC_EVENT, handleSync);
     return () => window.removeEventListener(SYNC_EVENT, handleSync);
   }, []);

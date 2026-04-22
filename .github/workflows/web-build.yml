@@ -1,0 +1,48 @@
+name: Web Build & Typecheck
+
+on:
+  pull_request:
+    paths:
+      - "web/**"
+      - ".github/workflows/web-build.yml"
+  push:
+    branches: [master]
+    paths:
+      - "web/**"
+      - ".github/workflows/web-build.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint --if-present
+
+      - name: Build
+        run: npm run build
+        env:
+          NODE_ENV: production
+</content>

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { BottomNav, SideNav } from "../../components/BottomNav";
+import { LangSync } from "../../components/LangSync";
+import { LegalFooter } from "../../components/LegalFooter";
 
 export function generateStaticParams() {
   return [{ lang: "en" }, { lang: "es" }];
@@ -49,10 +51,18 @@ export default async function LangLayout({
 
   return (
     <div className="min-h-screen">
+      <LangSync lang={lang as "en" | "es"} />
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-lg focus:bg-[#1B3A5C] focus:px-4 focus:py-2 focus:text-white focus:shadow-lg"
+      >
+        {lang === "es" ? "Saltar al contenido" : "Skip to content"}
+      </a>
       <SideNav lang={lang as "en" | "es"} />
-      <main className="pb-32 md:pb-8 md:pl-40">
+      <main id="main-content" tabIndex={-1} className="pb-32 md:pb-8 md:pl-40 focus:outline-none">
         <div className="w-full max-w-lg mx-auto px-4 pt-4">
           {children}
+          <LegalFooter lang={lang as "en" | "es"} />
         </div>
       </main>
       <BottomNav lang={lang as "en" | "es"} />

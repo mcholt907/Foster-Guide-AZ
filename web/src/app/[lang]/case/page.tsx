@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { ChevronLeft, ChevronDown, ChevronUp } from "lucide-react";
@@ -121,7 +122,7 @@ function Case1012({ lang }: { lang: Lang }) {
         <div className="flex justify-center mb-6">
           <div className="w-24 h-24 bg-white rounded-[2rem] shadow-sm border border-black/5 flex items-center justify-center relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-tr from-[#DDEBFA]/50 to-transparent pointer-events-none" />
-            <img src="/my_case/case_header_icon.png" alt="" className="w-24 h-24 object-cover scale-[1.15] mix-blend-multiply" />
+            <Image src="/my_case/case_header_icon.png" alt="" width={256} height={256} className="w-24 h-24 object-cover scale-[1.15] mix-blend-multiply" />
           </div>
         </div>
         <h2 className="text-4xl font-bold text-[#629DA7] mb-3">
@@ -149,7 +150,7 @@ function Case1012({ lang }: { lang: Lang }) {
                 className="w-full flex items-center gap-4 px-5 py-4 text-left hover:brightness-[0.97] transition-all"
               >
                 <div className="flex-1 flex items-center gap-4">
-                  <img src={stage.imgIcon} alt="" className="w-14 h-14 object-contain drop-shadow-sm scale-[1.1]" />
+                  <Image src={stage.imgIcon} alt="" width={192} height={192} className="w-14 h-14 object-contain drop-shadow-sm scale-[1.1]" />
                   <span className="text-xl font-bold text-gray-800">{title}</span>
                 </div>
                 {isOpen ? <ChevronUp size={20} className="shrink-0 text-gray-500" /> : <ChevronDown size={20} className="shrink-0 text-gray-500" />}

@@ -37,6 +37,13 @@ export const UI_STRINGS = {
   home_what_today:              { en: "What do you need today?",                  es: "¿Qué necesitas hoy?" },
   home_start_over:              { en: "Start over",                               es: "Empezar de nuevo" },
   home_ask_compass_btn:         { en: "Ask Compass",                              es: "Pregúntale a Compass" },
+  home_support_safety:          { en: "Support & Safety",                         es: "Apoyo y seguridad" },
+  home_988_title:               { en: "988 Suicide & Crisis Hotline",             es: "Línea de Crisis y Suicidio 988" },
+  home_988_subtitle:            { en: "Call or text anytime",                     es: "Llama o envía un mensaje en cualquier momento" },
+  home_wellness_short:          { en: "Wellness check-in",                        es: "Bienestar" },
+  home_find_answers:            { en: "Find answers",                             es: "Buscar respuestas" },
+  // Setup / step buttons
+  onboarding_btn_start_over:    { en: "Start",                                    es: "Comenzar" },
   // Feature card titles
   feature_case_title:           { en: "My case explained",                        es: "Mi caso explicado" },
   feature_rights_title:         { en: "Know your rights",                         es: "Conoce tus derechos" },

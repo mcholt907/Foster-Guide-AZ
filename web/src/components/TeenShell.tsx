@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   Home as HomeIcon, FolderOpen, Users, HeartPulse, HelpCircle,
   Shield, MapPin, Sparkles, Menu, X,
@@ -47,6 +48,7 @@ export function TeenShell({ active, lang, children }: TeenShellProps) {
   const [, , , reset] = usePrefs();
   const [confirmReset, setConfirmReset] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   function handleStartOver() {
     reset();
@@ -63,7 +65,7 @@ export function TeenShell({ active, lang, children }: TeenShellProps) {
         <div className="p-10 mb-6">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-white shadow-[0_8px_20px_rgba(255,255,255,0.15)] rounded-2xl flex items-center justify-center overflow-hidden">
-              <img src="/onboarding/welcome_icon.png" alt="" className="w-full h-full object-cover scale-[1.1] translate-y-1" />
+              <Image src="/onboarding/welcome_icon.png" alt="" width={192} height={192} className="w-full h-full object-cover scale-[1.1] translate-y-1" />
             </div>
             <div className="flex flex-col text-left">
               <span className="font-black text-xl leading-tight tracking-tight">{tt("shell.brand", lang)}</span>
@@ -80,6 +82,7 @@ export function TeenShell({ active, lang, children }: TeenShellProps) {
               <Link
                 key={item.id}
                 href={`/${lang}${item.href}`}
+                aria-current={isActive ? "page" : undefined}
                 className={`flex items-center gap-4 px-5 py-4 rounded-[1.25rem] transition-all duration-500 group relative ${
                   isActive
                     ? "bg-gradient-to-r from-white/15 to-transparent text-white font-bold shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
@@ -88,7 +91,12 @@ export function TeenShell({ active, lang, children }: TeenShellProps) {
               >
                 <Icon size={20} className={`shrink-0 transition-all duration-300 group-hover:scale-110 ${isActive ? "text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.6)]" : ""}`} />
                 <span className="text-[15.5px] tracking-tight">{tt(item.labelKey, lang)}</span>
-                {isActive && <motion.div layoutId="nav-pill" className="absolute left-0 w-1.5 h-8 bg-emerald-400 rounded-r-full shadow-[0_0_12px_rgba(52,211,153,0.8)]" />}
+                {isActive &&
+                  (reduceMotion ? (
+                    <div className="absolute left-0 w-1.5 h-8 bg-emerald-400 rounded-r-full shadow-[0_0_12px_rgba(52,211,153,0.8)]" />
+                  ) : (
+                    <motion.div layoutId="nav-pill" className="absolute left-0 w-1.5 h-8 bg-emerald-400 rounded-r-full shadow-[0_0_12px_rgba(52,211,153,0.8)]" />
+                  ))}
               </Link>
             );
           })}
@@ -104,7 +112,7 @@ export function TeenShell({ active, lang, children }: TeenShellProps) {
       <header className="md:hidden fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-6 py-4 bg-white/80 backdrop-blur-xl border-b border-slate-100">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 bg-slate-900 rounded-xl flex items-center justify-center overflow-hidden shadow-lg border border-white/20">
-            <img src="/onboarding/welcome_icon.png" alt="" className="w-full h-full object-cover scale-[1.1] translate-y-1" />
+            <Image src="/onboarding/welcome_icon.png" alt="" width={192} height={192} className="w-full h-full object-cover scale-[1.1] translate-y-1" />
           </div>
           <span className="font-black text-[#1e293b] tracking-tight text-lg">{tt("shell.brand", lang)} AZ</span>
         </div>
@@ -124,7 +132,7 @@ export function TeenShell({ active, lang, children }: TeenShellProps) {
           <div className="flex items-center justify-between p-6 border-b border-white/10">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center overflow-hidden">
-                <img src="/onboarding/welcome_icon.png" alt="" className="w-full h-full object-cover scale-[1.1] translate-y-1" />
+                <Image src="/onboarding/welcome_icon.png" alt="" width={192} height={192} className="w-full h-full object-cover scale-[1.1] translate-y-1" />
               </div>
               <div className="flex flex-col">
                 <span className="font-black text-lg tracking-tight">{tt("shell.brand", lang)}</span>
@@ -149,6 +157,7 @@ export function TeenShell({ active, lang, children }: TeenShellProps) {
                   key={item.id}
                   href={`/${lang}${item.href}`}
                   onClick={() => setDrawerOpen(false)}
+                  aria-current={isActive ? "page" : undefined}
                   className={`flex items-center gap-4 px-5 py-4 rounded-[1.25rem] transition-all ${
                     isActive
                       ? "bg-white/15 text-white font-bold"
@@ -167,10 +176,10 @@ export function TeenShell({ active, lang, children }: TeenShellProps) {
         </div>
       )}
 
-      {/* Main content area */}
-      <main className="flex-1 overflow-y-auto relative w-full pt-20 md:pt-0 pb-24 md:pb-0 scroll-smooth">
+      {/* Main content area (semantic <main> lives in the parent layout) */}
+      <div className="flex-1 overflow-y-auto relative w-full pt-20 md:pt-0 pb-24 md:pb-0 scroll-smooth">
         {children}
-      </main>
+      </div>
 
       {/* Mobile floating bottom nav */}
       <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-[rgba(26,47,68,0.85)] backdrop-blur-xl backdrop-saturate-150 border-t border-white/5 shadow-[0_-8px_30px_rgba(26,47,68,0.3)] px-4 pt-2 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] flex justify-around">
@@ -181,6 +190,7 @@ export function TeenShell({ active, lang, children }: TeenShellProps) {
             <Link
               key={item.id}
               href={`/${lang}${item.href}`}
+              aria-current={isActive ? "page" : undefined}
               className={`flex flex-col items-center gap-1.5 px-3 py-1.5 rounded-2xl transition-colors ${
                 isActive ? "text-emerald-400 font-bold" : "text-slate-400 hover:text-slate-200 font-medium"
               }`}
@@ -247,6 +257,21 @@ function TeenShellFooter({
           </div>
         </div>
       )}
+
+      <nav
+        aria-label={lang === "es" ? "Enlaces legales" : "Legal links"}
+        className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-[10px] text-slate-500"
+      >
+        <Link href={`/${lang}/privacy`} className="hover:text-white transition-colors">
+          {lang === "es" ? "Privacidad" : "Privacy"}
+        </Link>
+        <Link href={`/${lang}/terms`} className="hover:text-white transition-colors">
+          {lang === "es" ? "Términos" : "Terms"}
+        </Link>
+        <Link href={`/${lang}/accessibility`} className="hover:text-white transition-colors">
+          {lang === "es" ? "Accesibilidad" : "Accessibility"}
+        </Link>
+      </nav>
     </div>
   );
 }
