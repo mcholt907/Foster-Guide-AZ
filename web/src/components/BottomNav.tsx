@@ -30,8 +30,8 @@ export function BottomNav({ lang }: { lang: Lang }) {
   });
 
   return (
-    <nav className="md:hidden fixed bottom-6 inset-x-4 z-40 pointer-events-none">
-      <div className="mx-auto flex max-w-[400px] items-center justify-between overflow-hidden rounded-[32px] bg-white/95 p-2 shadow-[0_20px_60px_-5px_rgb(0,0,0,0.25),0_8px_20px_-8px_rgb(42,127,142,0.3)] backdrop-blur-xl ring-1 ring-black/5 pointer-events-auto">
+    <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/50 backdrop-blur-2xl backdrop-saturate-[180%] border-t border-white/50 shadow-[0_-4px_24px_-4px_rgba(0,0,0,0.05)]">
+      <div className="mx-auto flex max-w-[400px] w-full items-center justify-between px-4 pt-2 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
         {visibleItems.map(({ id, icon: Icon, href, labelEn, labelEs }) => {
           const fullHref = `/${lang}${href}`;
           const isActive =
@@ -43,18 +43,18 @@ export function BottomNav({ lang }: { lang: Lang }) {
             <Link
               key={id}
               href={fullHref}
-              className={`relative flex flex-col items-center justify-center rounded-2xl px-2.5 py-1.5 transition-colors ${
-                isActive ? "text-white" : "text-stone-400 hover:text-stone-600"
+              className={`relative flex flex-col items-center justify-center rounded-[14px] px-2.5 py-1.5 transition-colors ${
+                isActive ? "text-white" : "text-stone-500 hover:text-stone-700"
               }`}
             >
               {isActive && (
                 <motion.div
                   layoutId="activeNavPill"
-                  className="absolute inset-0 rounded-2xl bg-[#2A7F8E] shadow-md shadow-[#2A7F8E]/40"
+                  className="absolute inset-0 rounded-[14px] bg-[#2A7F8E] shadow-sm shadow-[#2A7F8E]/40"
                   transition={{ type: "spring", stiffness: 450, damping: 30 }}
                 />
               )}
-              <div className="relative z-10 flex flex-col items-center gap-0.5">
+              <div className="relative z-10 flex flex-col items-center gap-1">
                 <Icon className={`h-5 w-5 shrink-0 ${isActive ? "stroke-[2.5]" : "stroke-[1.75]"}`} />
                 <span className="text-[9px] font-semibold leading-none tracking-wide whitespace-nowrap">
                   {lang === "es" ? labelEs : labelEn}

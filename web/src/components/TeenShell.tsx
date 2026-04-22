@@ -173,7 +173,7 @@ export function TeenShell({ active, lang, children }: TeenShellProps) {
       </main>
 
       {/* Mobile floating bottom nav */}
-      <nav className="md:hidden fixed bottom-4 left-4 right-4 z-40 bg-[#1a2f44] rounded-[1.5rem] shadow-[0_12px_40px_rgba(26,47,68,0.4)] px-3 py-2 flex justify-around">
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-[rgba(26,47,68,0.85)] backdrop-blur-xl backdrop-saturate-150 border-t border-white/5 shadow-[0_-8px_30px_rgba(26,47,68,0.3)] px-4 pt-2 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] flex justify-around">
         {NAV_ITEMS.filter((it) => MOBILE_BOTTOM_IDS.includes(it.id)).map((item) => {
           const isActive = item.id === active;
           const Icon = item.icon;
@@ -181,12 +181,12 @@ export function TeenShell({ active, lang, children }: TeenShellProps) {
             <Link
               key={item.id}
               href={`/${lang}${item.href}`}
-              className={`flex flex-col items-center gap-1 px-3 py-2 rounded-2xl transition-colors ${
-                isActive ? "bg-white/10 text-emerald-400" : "text-slate-400"
+              className={`flex flex-col items-center gap-1.5 px-3 py-1.5 rounded-2xl transition-colors ${
+                isActive ? "text-emerald-400 font-bold" : "text-slate-400 hover:text-slate-200 font-medium"
               }`}
             >
-              <Icon size={20} />
-              <span className="text-[10px] font-bold tracking-tight whitespace-nowrap">
+              <Icon size={22} className={isActive ? "drop-shadow-[0_0_8px_rgba(52,211,153,0.4)]" : "opacity-80"} />
+              <span className="text-[10px] tracking-tight whitespace-nowrap">
                 {tt(item.labelKey, lang)}
               </span>
             </Link>

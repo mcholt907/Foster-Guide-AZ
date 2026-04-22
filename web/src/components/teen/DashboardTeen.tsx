@@ -64,37 +64,37 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
       {/* Background blob */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-sky-50/40 rounded-full blur-[140px] -z-10 translate-x-1/4 -translate-y-1/4 shadow-inner" />
 
-      <div className="max-w-[1240px] mx-auto px-6 sm:px-12 py-10 sm:py-20">
+      <div className="max-w-[1240px] mx-auto px-4 pt-6 pb-12 sm:px-12 sm:py-20">
         {/* Hero */}
-        <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
+        <div className="mb-8 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-8">
           <div>
-            <h1 className="text-4xl sm:text-6xl font-black text-[#1e293b] mb-4 tracking-[-0.05em] leading-[0.9]">
+            <h1 className="text-4xl sm:text-6xl font-black text-[#1e293b] mb-2 sm:mb-4 tracking-[-0.05em] leading-[0.9]">
               {tt("dashboard.greeting.morning", lang)}
             </h1>
-            <p className="text-slate-400 text-lg font-bold tracking-tight">
+            <p className="text-slate-400 text-base sm:text-lg font-bold tracking-tight">
               {tt("dashboard.greeting.subtitle", lang, { date: today })}
             </p>
           </div>
-          <div className="bg-emerald-50/50 border border-emerald-100 px-6 py-4 rounded-2xl flex items-center gap-4">
+          <div className="bg-emerald-50/50 border border-emerald-100 px-4 py-3 sm:px-6 sm:py-4 rounded-xl sm:rounded-2xl flex items-center gap-4">
             <div className="w-10 h-10 bg-emerald-500 text-white rounded-xl flex items-center justify-center shrink-0">
               <Shield size={18} strokeWidth={3} />
             </div>
             <div>
               <p className="text-[10px] font-black uppercase tracking-widest text-emerald-600">{tt("dashboard.privacy.label", lang)}</p>
-              <p className="text-[13px] font-bold text-emerald-800 leading-tight">{tt("dashboard.privacy.body", lang)}</p>
+              <p className="text-[12px] sm:text-[13px] font-bold text-emerald-800 leading-tight">{tt("dashboard.privacy.body", lang)}</p>
             </div>
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-16 items-start">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-start">
           {/* Tiles */}
-          <div className="lg:col-span-8 flex flex-col gap-10">
+          <div className="lg:col-span-8 flex flex-col gap-6 lg:gap-10">
             <div className="flex items-center justify-between">
               <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-300">
                 {tt("dashboard.kicker", lang)}
               </h3>
             </div>
-            <div className="grid sm:grid-cols-2 gap-8">
+            <div className="grid sm:grid-cols-2 gap-4 lg:gap-8">
               {TILES.map((tile, idx) => (
                 <motion.div
                   key={tile.id}
@@ -104,17 +104,18 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
                 >
                   <Link
                     href={`/${lang}${tile.href}`}
-                    className="block bg-white p-10 rounded-[2.5rem] shadow-[0_24px_64px_rgba(0,0,0,0.02)] border border-white flex flex-col items-start gap-8 group hover:shadow-[0_32px_80px_rgba(0,0,0,0.1)] hover:-translate-y-2 transition-all text-left overflow-hidden relative"
+                    className="block bg-white p-6 md:p-10 rounded-3xl md:rounded-[2.5rem] shadow-[0_24px_64px_rgba(0,0,0,0.02)] border border-white flex flex-col items-start gap-5 md:gap-8 group hover:shadow-[0_32px_80px_rgba(0,0,0,0.1)] hover:-translate-y-2 transition-all text-left overflow-hidden relative"
                   >
                     <div className={`absolute top-0 right-0 w-32 h-32 ${tile.hoverBlobColor} rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity`} />
-                    <div className={`w-16 h-16 ${tile.bgColor} rounded-[1.5rem] flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform`}>
-                      <tile.Icon size={28} strokeWidth={2.25} className={tile.iconColor} />
+                    <div className={`w-14 h-14 md:w-16 md:h-16 ${tile.bgColor} rounded-[1.25rem] md:rounded-[1.5rem] flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform`}>
+                      <tile.Icon size={24} strokeWidth={2.25} className={`md:hidden ${tile.iconColor}`} />
+                      <tile.Icon size={28} strokeWidth={2.25} className={`hidden md:block ${tile.iconColor}`} />
                     </div>
-                    <div className="flex flex-col gap-2 relative z-10">
-                      <h4 className={`text-2xl font-black ${tile.textColor} tracking-tight leading-none`}>{tt(tile.titleKey, lang)}</h4>
+                    <div className="flex flex-col gap-2 relative z-10 w-full">
+                      <h4 className={`text-xl md:text-2xl font-black ${tile.textColor} tracking-tight leading-none`}>{tt(tile.titleKey, lang)}</h4>
                       <p className="text-slate-400 text-sm font-bold leading-relaxed">{tt(tile.descKey, lang)}</p>
                     </div>
-                    <div className={`w-full pt-6 border-t border-slate-50 flex items-center justify-between ${tile.accentColor} font-black text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all`}>
+                    <div className={`w-full pt-4 md:pt-6 border-t border-slate-50 flex items-center justify-between ${tile.accentColor} font-black text-[10px] uppercase tracking-widest opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-all`}>
                       {tt(tile.ctaKey, lang)} <ChevronRight size={14} strokeWidth={3} />
                     </div>
                   </Link>
@@ -124,37 +125,37 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
           </div>
 
           {/* Side column */}
-          <div className="lg:col-span-4 sticky top-10 flex flex-col gap-8">
+          <div className="lg:col-span-4 sticky top-10 flex flex-col gap-6 md:gap-8">
             {/* Strategic Tip */}
-            <div className="bg-[#1a2f44] text-white p-10 rounded-[2.5rem] shadow-[0_24px_80px_rgba(0,0,0,0.15)] relative overflow-hidden group">
+            <div className="bg-[#1a2f44] text-white p-8 md:p-10 rounded-3xl md:rounded-[2.5rem] shadow-[0_24px_80px_rgba(0,0,0,0.15)] relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-400/5 blur-3xl rounded-full" />
-              <div className="flex items-center gap-4 mb-8">
-                <div className="w-10 h-10 bg-white shadow-[0_12px_24px_rgba(255,255,255,0.1)] rounded-2xl flex items-center justify-center shrink-0">
+              <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
+                <div className="w-10 h-10 bg-white shadow-[0_12px_24px_rgba(255,255,255,0.1)] rounded-xl md:rounded-2xl flex items-center justify-center shrink-0">
                   <Compass size={20} className="text-[#1a2f44]" strokeWidth={3} />
                 </div>
-                <h4 className="font-black text-lg tracking-tight">{tt("dashboard.tip.heading", lang)}</h4>
+                <h4 className="font-black text-[17px] md:text-lg tracking-tight">{tt("dashboard.tip.heading", lang)}</h4>
               </div>
-              <p className="text-slate-100 text-base font-bold leading-relaxed mb-6">
+              <p className="text-slate-100 text-[15px] md:text-base font-bold leading-relaxed mb-6">
                 {ttBand("dashboard.tip", band, lang)}
               </p>
               <Link
                 href={`/${lang}/ask`}
-                className="flex items-center gap-3 text-xs font-black uppercase tracking-widest text-emerald-400 hover:text-emerald-300 transition-colors"
+                className="flex items-center gap-3 text-[11px] md:text-xs font-black uppercase tracking-widest text-emerald-400 hover:text-emerald-300 transition-colors"
               >
                 {tt("dashboard.tip.cta", lang)} <ChevronRight size={14} strokeWidth={3} />
               </Link>
             </div>
 
             {/* Crisis */}
-            <div className="bg-rose-50 rounded-[2.5rem] p-10 border border-rose-100/50 shadow-sm flex flex-col items-center text-center group">
-              <div className="w-20 h-20 bg-white rounded-[2rem] shadow-sm flex items-center justify-center mb-8 rotate-3 group-hover:rotate-0 transition-all">
-                <Phone size={32} className="text-rose-500" />
+            <div className="bg-rose-50 rounded-3xl md:rounded-[2.5rem] p-8 md:p-10 border border-rose-100/50 shadow-sm flex flex-col items-center text-center group">
+              <div className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-[1.5rem] md:rounded-[2rem] shadow-sm flex items-center justify-center mb-6 md:mb-8 rotate-3 group-hover:rotate-0 transition-all">
+                <Phone className="text-rose-500 w-8 h-8 md:w-10 md:h-10" />
               </div>
-              <h5 className="font-black text-rose-900 mb-4 tracking-tight text-xl">{tt("dashboard.crisis.title", lang)}</h5>
-              <p className="text-rose-700/60 text-sm font-bold leading-relaxed mb-10">{tt("dashboard.crisis.body", lang)}</p>
+              <h5 className="font-black text-rose-900 mb-3 md:mb-4 tracking-tight text-lg md:text-xl">{tt("dashboard.crisis.title", lang)}</h5>
+              <p className="text-rose-700/60 text-[13px] md:text-sm font-bold leading-relaxed mb-8 md:mb-10">{tt("dashboard.crisis.body", lang)}</p>
               <a
                 href="tel:988"
-                className="w-full py-5 rounded-2xl bg-rose-500 text-white font-black text-xs uppercase tracking-[0.2em] shadow-lg shadow-rose-200 hover:bg-rose-600 hover:-translate-y-1 active:translate-y-0 transition-all"
+                className="w-full py-4 md:py-5 rounded-2xl bg-rose-500 text-white font-black text-[11px] md:text-xs uppercase tracking-[0.2em] shadow-lg shadow-rose-200 hover:bg-rose-600 hover:-translate-y-1 active:translate-y-0 transition-all"
               >
                 {tt("dashboard.crisis.cta", lang)}
               </a>

@@ -63,36 +63,36 @@ export function AskTeen({ lang, band }: AskTeenProps) {
   );
 
   return (
-    <div className="max-w-[1240px] mx-auto px-6 sm:px-12 py-10 sm:py-20">
+    <div className="max-w-[1240px] mx-auto px-4 pt-6 pb-12 sm:px-12 sm:py-20">
       {/* Background blob */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-50/40 rounded-full blur-[140px] -z-10 translate-x-1/4 -translate-y-1/4 shadow-inner" />
 
       {/* Hero + search */}
-      <div className="mb-16 sm:mb-20">
-        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-600 mb-6">
+      <div className="mb-10 sm:mb-20">
+        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-600 mb-4 sm:mb-6">
           {tt("ask.hero.tag", lang)}
         </p>
-        <h1 className="text-4xl sm:text-6xl font-black text-[#1e293b] mb-10 tracking-[-0.05em] leading-[0.9]">
+        <h1 className="text-4xl sm:text-6xl font-black text-[#1e293b] mb-6 sm:mb-10 tracking-[-0.05em] leading-[0.9]">
           {tt("ask.hero.title", lang)}
         </h1>
 
         <div className="relative group max-w-3xl">
           <div className="absolute inset-x-0 bottom-[-20px] h-10 bg-black/5 blur-2xl rounded-full scale-95 opacity-50 group-hover:opacity-70 transition-opacity" />
           <div className="relative flex items-center">
-            <Search size={22} className="absolute left-7 text-emerald-500" strokeWidth={3} />
+            <Search size={22} className="absolute left-5 sm:left-7 text-emerald-500" strokeWidth={3} />
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={tt("ask.search.placeholder", lang)}
-              className="w-full bg-white rounded-[2rem] py-6 sm:py-8 pl-16 sm:pl-18 pr-16 text-lg sm:text-xl font-bold text-slate-800 shadow-[0_24px_48px_rgba(0,0,0,0.06)] border border-white focus:outline-none focus:ring-4 focus:ring-emerald-400/10 transition-all placeholder:text-slate-300 placeholder:font-medium"
+              className="w-full bg-white rounded-[1.5rem] sm:rounded-[2rem] py-4 sm:py-8 pl-14 sm:pl-18 pr-14 sm:pr-16 text-base sm:text-xl font-bold text-slate-800 shadow-[0_12px_32px_rgba(0,0,0,0.06)] border border-white focus:outline-none focus:ring-4 focus:ring-emerald-400/10 transition-all placeholder:text-slate-400 placeholder:font-medium text-ellipsis"
             />
             {query && (
               <button
                 type="button"
                 onClick={() => setQuery("")}
                 aria-label="Clear"
-                className="absolute right-5 w-9 h-9 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors"
+                className="absolute right-4 sm:right-5 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:text-slate-700 transition-colors"
               >
                 <X size={16} />
               </button>
@@ -102,23 +102,23 @@ export function AskTeen({ lang, band }: AskTeenProps) {
       </div>
 
       {/* Quick Topics */}
-      <div className="mb-16 sm:mb-20 overflow-visible">
-        <div className="flex items-center justify-between mb-8 px-2">
-          <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-300">
+      <div className="mb-10 sm:mb-20 overflow-visible">
+        <div className="flex items-center justify-between mb-6 px-1">
+          <h3 className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.3em] sm:tracking-[0.4em] text-slate-400">
             {tt("ask.topics.kicker", lang)}
           </h3>
           <button
             type="button"
             onClick={() => setActiveCat("all")}
-            className={`text-xs font-black uppercase tracking-widest transition-colors ${
-              activeCat === "all" ? "text-emerald-500" : "text-slate-400 hover:text-slate-600"
+            className={`text-[10px] sm:text-xs font-black uppercase tracking-widest transition-colors ${
+              activeCat === "all" ? "text-emerald-500" : "text-slate-500 hover:text-slate-700"
             }`}
           >
             {tt("ask.topics.clear", lang)}
           </button>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-6 gap-3 sm:gap-4">
           {visibleTopics.map((topic) => {
             const Icon = CATEGORY_ICONS[topic.category] ?? FileText;
             const isActive = activeCat === topic.category;
@@ -127,25 +127,25 @@ export function AskTeen({ lang, band }: AskTeenProps) {
                 key={topic.category}
                 type="button"
                 onClick={() => setActiveCat(topic.category)}
-                className={`relative p-6 rounded-[2rem] border transition-all duration-500 flex flex-col items-center text-center group ${
+                className={`relative px-3 py-4 sm:p-6 rounded-2xl sm:rounded-[2rem] border transition-all duration-300 flex flex-col items-center justify-center text-center group ${
                   isActive
-                    ? "bg-white shadow-[0_12px_32px_rgba(0,0,0,0.05)] border-emerald-100 scale-105 z-10"
-                    : "bg-transparent border-transparent text-slate-400 hover:bg-white/60 hover:border-slate-100"
+                    ? "bg-white shadow-[0_8px_24px_rgba(0,0,0,0.08)] border-emerald-200 scale-105 z-10"
+                    : "bg-white/50 border-slate-200 hover:bg-white hover:border-slate-300 hover:shadow-sm"
                 }`}
               >
                 <div
-                  className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 transition-all duration-500 ${
+                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center mb-2 sm:mb-4 transition-all duration-300 ${
                     isActive
-                      ? "bg-[#1a2f44] text-white shadow-lg rotate-12"
-                      : "bg-slate-50 text-slate-300 group-hover:bg-white group-hover:text-slate-500"
+                      ? "bg-[#1a2f44] text-white shadow-md rotate-6"
+                      : "bg-slate-100 text-slate-500 group-hover:bg-[#1a2f44] group-hover:text-white"
                   }`}
                 >
-                  <Icon size={20} />
+                  <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                 </div>
-                <span className={`text-[13px] font-black tracking-tight leading-none ${isActive ? "text-slate-900" : ""}`}>
+                <span className={`text-[12px] sm:text-[13px] font-black tracking-tight leading-tight ${isActive ? "text-slate-900" : "text-slate-600 group-hover:text-slate-800"}`}>
                   {topic.label[lang]}
                 </span>
-                {isActive && <motion.div layoutId="topic-dot" className="mt-2 w-1 h-1 bg-emerald-500 rounded-full" />}
+                {isActive && <motion.div layoutId="topic-dot" className="mt-2 w-1.5 h-1.5 bg-emerald-500 rounded-full" />}
               </button>
             );
           })}
