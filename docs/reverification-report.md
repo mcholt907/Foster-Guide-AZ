@@ -1,8 +1,8 @@
 # Content Re-verification Report
 
-> **Generated:** 2026-04-20  
+> **Generated:** 2026-04-27  
 > **Mode:** Applied  
-> **Total entries checked:** 7
+> **Total entries checked:** 4
 
 ---
 
@@ -10,16 +10,8 @@
 
 | Metric | Count |
 |:---|:---|
-| ✅ Verified / Auto-corrected | 3 |
+| ✅ Verified / Auto-corrected | 0 |
 | ❌ Needs manual review | 4 |
-
----
-
-## Auto-corrections Applied
-
-| Entry | Field | Old Value | New Value | Reason |
-|:---|:---|:---|:---|:---|
-| *(only lastVerified dates updated)* | | | | |
 
 ---
 
@@ -62,16 +54,6 @@
 | **URL** | https://azregents.edu/foster-youth |
 | **Reason** | HTTP 404 — page returned an error |
 | **File** | `server/src/data/resources.ts` |
-
----
-
-## Verified Entries
-
-| Entry | URL | Phone | Status |
-|:---|:---|:---|:---|
-| 988 Suicide & Crisis Lifeline | ✅ https://988lifeline.org/ | — | ✅ |
-| Crisis Text Line | ✅ https://www.crisistextline.org/ | — | ✅ |
-| ALWAYS (legal help) | ✅ https://alwaysaz.org/ | — | ✅ |
 
 ---
 
