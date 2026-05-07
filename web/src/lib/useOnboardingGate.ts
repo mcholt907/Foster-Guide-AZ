@@ -1,30 +1,18 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { usePrefs } from "./prefs";
 import type { Lang } from "./i18n";
 
 /**
- * Call this at the top of every screen page.
- * If onboarding hasn't been completed, redirects to /[lang]/setup.
+ * Returns the user's prefs. Pages that call this hook fall back to a default
+ * age band when none is set, so search engines and first-time visitors get
+ * indexable content. Onboarding is reached via the root language picker
+ * (`/` → `/[lang]/setup`), not by gating individual pages — gating with a
+ * client-side redirect produced "Page with redirect" reports in Google Search
+ * Console and shipped blank HTML to crawlers that didn't run the redirect.
  */
-export function useOnboardingGate(lang: Lang) {
-  const [prefs, loaded] = usePrefs();
-  const router = useRouter();
-
-  useEffect(() => {
-    // Only redirect after localStorage has been read (loaded=true).
-    // Without this guard the default prefs (onboardingDone: false) fire a
-    // redirect on every page load before the saved values are hydrated.
-    if (loaded && !prefs.onboardingDone) {
-      // Prevent redirecting search engine bots so they can index the page
-      const isBot = /bot|googlebot|crawler|spider|robot|crawling/i.test(navigator.userAgent);
-      if (!isBot) {
-        router.replace(`/${lang}/setup`);
-      }
-    }
-  }, [loaded, prefs.onboardingDone, lang, router]);
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function useOnboardingGate(_lang: Lang) {
+  const [prefs] = usePrefs();
   return prefs;
 }
