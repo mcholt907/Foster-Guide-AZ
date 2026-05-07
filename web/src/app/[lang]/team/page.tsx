@@ -7,7 +7,6 @@ import { useParams } from "next/navigation";
 import { ChevronLeft, ChevronDown, ChevronUp } from "lucide-react";
 import type { Lang } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
-import { usePrefs } from "../../../lib/prefs";
 import type { AgeBandKey } from "../../../lib/prefs";
 import { TeenShell } from "../../../components/TeenShell";
 import { TeamTeen } from "../../../components/teen/TeamTeen";
@@ -102,16 +101,14 @@ export default function TeamPage() {
   const { lang: rawLang } = useParams<{ lang: string }>();
   const lang: Lang = rawLang === "es" ? "es" : "en";
   const prefs = useOnboardingGate(lang);
-  const [, loaded] = usePrefs();
 
-  if (!loaded) return null;
-  if (!prefs.ageBand) return null;
-
-  if (prefs.ageBand === "10-12") {
+  // Default to the 13-15 teen variant when prefs aren't set yet (first-time
+  // visitors, search engines). Avoids returning blank HTML on SSR.
+  const band: AgeBandKey = prefs.ageBand ?? "13-15";
+  if (band === "10-12") {
     return <Team1012 lang={lang} />;
   }
 
-  const band = prefs.ageBand as AgeBandKey;
   return (
     <TeenShell active="team" lang={lang}>
       <TeamTeen lang={lang} band={band} />

@@ -170,12 +170,13 @@ export default function HomePage() {
   const lang: Lang = rawLang === "es" ? "es" : "en";
   const prefs = useOnboardingGate(lang);
 
-  if (!prefs.ageBand) return null;
-  if (prefs.ageBand === "10-12") {
+  // Default to the 13-15 teen variant when prefs aren't set yet (first-time
+  // visitors, search engines). Avoids returning blank HTML on SSR.
+  const band: AgeBandKey = prefs.ageBand ?? "13-15";
+  if (band === "10-12") {
     return <Dashboard1012 lang={lang} />;
   }
 
-  const band = prefs.ageBand as AgeBandKey;
   return (
     <TeenShell active="dashboard" lang={lang}>
       <DashboardTeen lang={lang} band={band} />

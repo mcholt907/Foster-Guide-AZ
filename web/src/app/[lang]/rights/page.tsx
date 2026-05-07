@@ -6,7 +6,6 @@ import { Shield, ChevronDown, ChevronUp } from "lucide-react";
 import type { Lang } from "../../../lib/i18n";
 import { t } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
-import { usePrefs } from "../../../lib/prefs";
 import type { AgeBandKey } from "../../../lib/prefs";
 import { RIGHTS } from "../../../data/rights";
 import { ScreenHero, SafeNotice } from "../../../components/ui";
@@ -19,15 +18,15 @@ export default function RightsPage() {
   const { lang: rawLang } = useParams<{ lang: string }>();
   const lang: Lang = rawLang === "es" ? "es" : "en";
   const prefs = useOnboardingGate(lang);
-  const [, loaded] = usePrefs();
 
-  if (!loaded) return null;
-  if (!prefs.ageBand) return null;
-  if (prefs.ageBand === "10-12") return <Rights1012 lang={lang} />;
+  // Default to the 13-15 teen variant when prefs aren't set yet (first-time
+  // visitors, search engines). Avoids returning blank HTML on SSR.
+  const band: AgeBandKey = prefs.ageBand ?? "13-15";
+  if (band === "10-12") return <Rights1012 lang={lang} />;
 
   return (
     <TeenShell active="rights" lang={lang}>
-      <RightsTeen lang={lang} band={prefs.ageBand} />
+      <RightsTeen lang={lang} band={band} />
     </TeenShell>
   );
 }
