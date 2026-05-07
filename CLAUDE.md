@@ -74,7 +74,12 @@ web/
                                 ttBand(keyBase, band, lang) helpers
       prefs.ts                — usePrefs() hook (localStorage, cross-component sync);
                                 AgeBandKey = "10-12" | "13-15" | "16-17" | "18-21"
-      useOnboardingGate.ts    — redirect to /setup if onboarding not complete
+      useOnboardingGate.ts    — thin wrapper over usePrefs(); returns prefs.
+                                Pages fall back to ageBand="13-15" when no prefs
+                                are set, so search engines and first-time
+                                visitors get indexable HTML on SSR. (Used to
+                                redirect to /setup; that produced GSC "Page with
+                                redirect" reports — see PR #9.)
       chat.ts                 — typed API client for the RAG backend (dead code — no longer used)
     data/
       constants.ts            — COUNTIES, AGE_BANDS, CRISIS_PINS (+ lastVerified)
@@ -138,7 +143,7 @@ Four bands: `10-12`, `13-15`, `16-17`, `18-21`. Content complexity and layout ad
 
 ### Key Patterns
 
-- `useOnboardingGate(lang)` — call at top of every page; redirects to `/setup` if not onboarded
+- `useOnboardingGate(lang)` — call at top of every page; returns the user's prefs. Pages must default `ageBand` to `"13-15"` when it's `null` (`prefs.ageBand ?? "13-15"`) so SSR HTML is never blank for crawlers or first-time visitors. Onboarding is reached via the root language picker → `/[lang]/setup` flow, not via auto-redirect from gated pages.
 - `usePrefs()` — returns `[prefs, loaded, patch, reset]`; dispatches `fgaz-prefs-updated` custom event so all component instances (including SideNav) stay in sync
 - `SafeNotice` — disclaimer component shown at the bottom of Rights, Case, Future, Resources, Wellness pages (10-12 layout)
 - `ScreenHero` — 10-12 gradient hero banner (3-stop: teal → `#1a5f7e` → navy); `tracking-tighter` on titles, `tracking-wide` on subtitles
