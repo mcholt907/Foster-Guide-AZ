@@ -12,6 +12,7 @@ import {
 import type { Lang } from "../lib/i18n";
 import { tt, type TeenStringKey } from "../lib/i18n-teen";
 import { usePrefs } from "../lib/prefs";
+import { useSwipeNav } from "../lib/useSwipeNav";
 
 export type TeenNavId =
   | "dashboard" | "case" | "team" | "wellness" | "answers"
@@ -49,6 +50,7 @@ export function TeenShell({ active, lang, children }: TeenShellProps) {
   const [confirmReset, setConfirmReset] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const reduceMotion = useReducedMotion();
+  const swipeRef = useSwipeNav({ items: NAV_ITEMS, currentId: active, lang });
 
   function handleStartOver() {
     reset();
@@ -177,7 +179,7 @@ export function TeenShell({ active, lang, children }: TeenShellProps) {
       )}
 
       {/* Main content area (semantic <main> lives in the parent layout) */}
-      <div className="flex-1 overflow-y-auto relative w-full pt-20 md:pt-0 pb-24 md:pb-0 scroll-smooth">
+      <div ref={swipeRef} className="flex-1 overflow-y-auto relative w-full pt-20 md:pt-0 pb-24 md:pb-0 scroll-smooth">
         {children}
       </div>
 
