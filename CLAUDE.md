@@ -44,8 +44,8 @@ web/
       layout.tsx              — root layout (metadata, favicon, PWA)
       page.tsx                — language-select screen (first screen users see)
       [lang]/
-        layout.tsx            — lang layout (SideNav + BottomNav wrapper for 10-12)
-        page.tsx              — Home: 10-12 tile dashboard OR TeenShell + DashboardTeen (13+)
+        layout.tsx            — lang layout: metadata + skip-link, wraps children in <BandShell>
+        page.tsx              — Home: 10-12 tile dashboard OR teen DashboardTeen (chrome is in BandShell)
         setup/page.tsx        — onboarding (age band, county, tribal)
         rights/page.tsx       — Your Rights (A.R.S. §8-529) + FAQPage JSON-LD; teens see RightsTeen
         case/page.tsx         — My Case (dependency court stages); teens see CaseTeen
@@ -55,11 +55,26 @@ web/
         wellness/page.tsx     — Wellness Check-In; teens see WellnessTeen
         ask/page.tsx          — Find Answers (static Fuse.js search); teens see AskTeen
     components/
-      BottomNav.tsx           — floating pill nav for 10-12 (persistent labels,
-                                solid teal active pill, warm stone inactive)
-      TeenShell.tsx           — layout shell for 13+ bands: desktop SideNav,
-                                mobile header + drawer, floating bottom nav
-                                (dashboard/case/team/wellness/answers)
+      BandShell.tsx           — client wrapper rendered by [lang]/layout.tsx;
+                                picks chrome based on band + pathname (10-12
+                                chrome for /setup, /privacy, /terms,
+                                /accessibility, OR band==="10-12"; otherwise
+                                <TeenShell>). Mounts once per /[lang]/ visit
+                                and persists across teen route changes — bottom
+                                nav scroll position survives, side nav doesn't
+                                re-render, framer-motion layoutId on the
+                                desktop active pill animates between sections.
+      BottomNav.tsx           — floating pill nav (band-aware: filters items
+                                based on prefs.ageBand) used by BandShell's
+                                10-12 chrome for both desktop SideNav and
+                                mobile floating BottomNav exports.
+      TeenShell.tsx           — persistent layout shell for teen bands: desktop
+                                SideNav, mobile header + hamburger drawer,
+                                floating bottom nav scrollable across ALL 8
+                                sections. Active section derived from
+                                usePathname() via lib/teenNav.ts. Touch swipe
+                                on the main content area navigates prev/next
+                                section via useSwipeNav.
       ui.tsx                  — shared primitives: Card, Modal, PrimaryButton,
                                 Chip, SectionTitle, Divider, ScreenHero,
                                 SafeNotice, StatCite
@@ -80,6 +95,16 @@ web/
                                 visitors get indexable HTML on SSR. (Used to
                                 redirect to /setup; that produced GSC "Page with
                                 redirect" reports — see PR #9.)
+      useSwipeNav.ts          — touch-gesture hook attached to TeenShell's main
+                                content area. Detects horizontal swipes (≥60px,
+                                must be more horizontal than vertical, ignores
+                                gestures starting within 20px of the viewport
+                                edge so iOS browser-back wins) and routes
+                                prev/next through the items array. Stops at
+                                edges, no wrap. Prefetches adjacent routes.
+      teenNav.ts              — activeFromPathname(pathname, lang) maps URL
+                                segments to TeenNavId. Single source of truth
+                                shared by TeenShell and useSwipeNav.
       chat.ts                 — typed API client for the RAG backend (dead code — no longer used)
     data/
       constants.ts            — COUNTIES, AGE_BANDS, CRISIS_PINS (+ lastVerified)
@@ -149,7 +174,8 @@ Four bands: `10-12`, `13-15`, `16-17`, `18-21`. Content complexity and layout ad
 - `ScreenHero` — 10-12 gradient hero banner (3-stop: teal → `#1a5f7e` → navy); `tracking-tighter` on titles, `tracking-wide` on subtitles
 - **Teen-page visual language** — emerald uppercase kicker + large (6xl) title + `border-l-[3px]` intro paragraph; master-detail layouts with themed cards and a gradient stripe; icon tiles use `lucide-react` with `strokeWidth={2.25}`; dark-navy (`#1a2f44`) Strategic Advisor / Pro Tip sidebars
 - Cards use ambient `shadow-*` (not `ring-1 ring-black/5`); inner stacked cards use `ring-slate-200`
-- Teen page route files do minimal work — they fetch prefs, pick the teen component, and render inside `TeenShell`; all layout/animation lives in `components/teen/*`
+- Teen page route files do minimal work — they fetch prefs, pick the teen component, and return it directly. The chrome (TeenShell or 10-12 SideNav/BottomNav) is decided once by `BandShell` in `[lang]/layout.tsx` and persists across navigations within `/[lang]/`. All teen layout/animation lives in `components/teen/*`.
+- **Persistent shell guards:** `<html>` carries `data-scroll-behavior="smooth"` so Next.js can opt out during route transitions, and `globals.css` scopes `scroll-behavior: smooth` to `html` only (a wildcard `*` selector caused visible scroll animations on first load, see commit b73e148). The TeenShell outer + main use `overflow-x: clip` rather than `overflow-x: hidden` so they hide overflow without becoming programmatic scroll containers — `clip` cannot be set via `scrollLeft`, so accidental horizontal scroll state is impossible. `<main>` also resets `scrollLeft = 0` on every pathname change as a final guard.
 
 ### Content Freshness
 
