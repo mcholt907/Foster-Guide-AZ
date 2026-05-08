@@ -53,11 +53,11 @@ export function TeenShell({ active, lang, children }: TeenShellProps) {
 
   useEffect(() => {
     activeBottomItemRef.current?.scrollIntoView({
-      behavior: reduceMotion ? "auto" : "smooth",
+      behavior: "auto",
       inline: "center",
       block: "nearest",
     });
-  }, [active, reduceMotion]);
+  }, [active]);
 
   function handleStartOver() {
     reset();
