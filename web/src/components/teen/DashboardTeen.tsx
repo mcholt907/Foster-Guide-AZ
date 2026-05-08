@@ -68,9 +68,6 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
         {/* Hero */}
         <div className="mb-8 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-8">
           <div>
-            <h1 className="text-4xl sm:text-6xl font-black text-[#1e293b] mb-2 sm:mb-4 tracking-[-0.05em] leading-[0.9]">
-              {tt("dashboard.greeting.morning", lang)}
-            </h1>
             <p className="text-slate-400 text-base sm:text-lg font-bold tracking-tight">
               {tt("dashboard.greeting.subtitle", lang, { date: today })}
             </p>

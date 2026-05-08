@@ -22,7 +22,6 @@ export const TEEN_STRINGS = {
   "shell.start_over_no":     { en: "Cancel",                 es: "Cancelar" },
   "shell.footer_tagline":    { en: "Arizona Youth Services", es: "Servicios para Jóvenes de Arizona" },
 
-  "dashboard.greeting.morning":    { en: "Good morning.", es: "Buenos días." },
   "dashboard.greeting.subtitle":   {
     en: "Here's your space. {date}.",
     es: "Aquí está tu espacio. {date}.",
