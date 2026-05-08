@@ -59,7 +59,7 @@ export default function AskPage() {
   if (band === "10-12") return <Ask1012 lang={lang} band="10-12" />;
 
   return (
-    <TeenShell active="answers" lang={lang}>
+    <TeenShell lang={lang}>
       <AskTeen lang={lang} band={band} />
     </TeenShell>
   );

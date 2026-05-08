@@ -88,7 +88,7 @@ export default function CasePage() {
   if (band === "10-12") return <Case1012 lang={lang} />;
 
   return (
-    <TeenShell active="case" lang={lang}>
+    <TeenShell lang={lang}>
       <CaseTeen lang={lang} band={band} />
     </TeenShell>
   );

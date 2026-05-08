@@ -20,7 +20,7 @@ export default function FuturePage() {
   if (band === "10-12") return <Future1012 lang={lang} />;
 
   return (
-    <TeenShell active="future" lang={lang}>
+    <TeenShell lang={lang}>
       <FutureTeen lang={lang} band={band} />
     </TeenShell>
   );

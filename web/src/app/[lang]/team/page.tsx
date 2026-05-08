@@ -110,7 +110,7 @@ export default function TeamPage() {
   }
 
   return (
-    <TeenShell active="team" lang={lang}>
+    <TeenShell lang={lang}>
       <TeamTeen lang={lang} band={band} />
     </TeenShell>
   );

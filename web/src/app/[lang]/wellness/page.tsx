@@ -57,7 +57,7 @@ export default function WellnessPage() {
   if (band === "10-12") return <Wellness1012 lang={lang} />;
 
   return (
-    <TeenShell active="wellness" lang={lang}>
+    <TeenShell lang={lang}>
       <WellnessTeen lang={lang} />
     </TeenShell>
   );

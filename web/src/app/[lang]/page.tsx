@@ -178,7 +178,7 @@ export default function HomePage() {
   }
 
   return (
-    <TeenShell active="dashboard" lang={lang}>
+    <TeenShell lang={lang}>
       <DashboardTeen lang={lang} band={band} />
     </TeenShell>
   );

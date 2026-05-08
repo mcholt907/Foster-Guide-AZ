@@ -25,7 +25,7 @@ export default function RightsPage() {
   if (band === "10-12") return <Rights1012 lang={lang} />;
 
   return (
-    <TeenShell active="rights" lang={lang}>
+    <TeenShell lang={lang}>
       <RightsTeen lang={lang} band={band} />
     </TeenShell>
   );

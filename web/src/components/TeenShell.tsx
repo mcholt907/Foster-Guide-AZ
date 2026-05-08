@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   Home as HomeIcon, FolderOpen, Users, HeartPulse, HelpCircle,
@@ -13,13 +13,13 @@ import type { Lang } from "../lib/i18n";
 import { tt, type TeenStringKey } from "../lib/i18n-teen";
 import { usePrefs } from "../lib/prefs";
 import { useSwipeNav } from "../lib/useSwipeNav";
+import { activeFromPathname } from "../lib/teenNav";
 
 export type TeenNavId =
   | "dashboard" | "case" | "team" | "wellness" | "answers"
   | "rights" | "resources" | "future";
 
 interface TeenShellProps {
-  active: TeenNavId;
   lang: Lang;
   children: React.ReactNode;
 }
@@ -42,8 +42,10 @@ const NAV_ITEMS: NavItem[] = [
   { id: "future",    icon: Sparkles,    href: "/future",     labelKey: "nav.future" },
 ];
 
-export function TeenShell({ active, lang, children }: TeenShellProps) {
+export function TeenShell({ lang, children }: TeenShellProps) {
   const router = useRouter();
+  const pathname = usePathname();
+  const active = activeFromPathname(pathname, lang);
   const [, , , reset] = usePrefs();
   const [confirmReset, setConfirmReset] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);

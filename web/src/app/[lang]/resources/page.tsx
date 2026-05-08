@@ -27,7 +27,7 @@ export default function ResourcesPage() {
   if (band === "10-12") return null;
 
   return (
-    <TeenShell active="resources" lang={lang}>
+    <TeenShell lang={lang}>
       <ResourcesTeen lang={lang} band={band} county={prefs.county ?? "Unknown"} />
     </TeenShell>
   );
