@@ -67,7 +67,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`h-full ${outfit.variable} ${inter.variable} ${outfit.className}`}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`h-full ${outfit.variable} ${inter.variable} ${outfit.className}`}
+    >
       <head>
         <link rel="apple-touch-icon" href="/icons/icon-192.svg" />
       </head>

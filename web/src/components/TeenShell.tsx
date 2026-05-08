@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -51,14 +51,21 @@ export function TeenShell({ lang, children }: TeenShellProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const reduceMotion = useReducedMotion();
   const swipeRef = useSwipeNav({ items: NAV_ITEMS, currentId: active, lang });
+  const bottomNavScrollRef = useRef<HTMLDivElement>(null);
   const activeBottomItemRef = useRef<HTMLAnchorElement>(null);
 
+  useLayoutEffect(() => {
+    const main = swipeRef.current;
+    if (!main) return;
+    main.scrollLeft = 0;
+  }, [pathname, swipeRef]);
+
   useEffect(() => {
-    activeBottomItemRef.current?.scrollIntoView({
-      behavior: "auto",
-      inline: "center",
-      block: "nearest",
-    });
+    const item = activeBottomItemRef.current;
+    const container = bottomNavScrollRef.current;
+    if (!item || !container) return;
+    const target = item.offsetLeft + item.offsetWidth / 2 - container.clientWidth / 2;
+    container.scrollLeft = Math.max(0, target);
   }, [active]);
 
   function handleStartOver() {
@@ -68,7 +75,7 @@ export function TeenShell({ lang, children }: TeenShellProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex w-full bg-[#FDFBF7] text-[#2d3748] overflow-x-hidden selection:bg-emerald-100/80"
+      className="fixed inset-0 z-50 flex w-full bg-[#FDFBF7] text-[#2d3748] overflow-x-clip selection:bg-emerald-100/80"
       style={{ fontFamily: "var(--font-inter), Inter, system-ui, sans-serif" }}
     >
       {/* Desktop sidebar */}
@@ -192,14 +199,14 @@ export function TeenShell({ lang, children }: TeenShellProps) {
         id="main-content"
         tabIndex={-1}
         ref={swipeRef}
-        className="flex-1 overflow-y-auto relative w-full pt-20 md:pt-0 pb-24 md:pb-0 scroll-smooth focus:outline-none"
+        className="flex-1 min-w-0 overflow-y-auto overflow-x-clip relative pt-20 md:pt-0 pb-24 md:pb-0 scroll-smooth focus:outline-none"
       >
         {children}
       </main>
 
       {/* Mobile floating bottom nav */}
       <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-[rgba(26,47,68,0.85)] backdrop-blur-xl backdrop-saturate-150 border-t border-white/5 shadow-[0_-8px_30px_rgba(26,47,68,0.3)] pt-2 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
-        <div className="flex overflow-x-auto px-4 gap-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+        <div ref={bottomNavScrollRef} className="flex overflow-x-auto px-4 gap-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {NAV_ITEMS.map((item) => {
             const isActive = item.id === active;
             const Icon = item.icon;
