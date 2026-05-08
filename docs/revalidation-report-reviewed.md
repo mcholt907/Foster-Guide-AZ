@@ -1,8 +1,8 @@
 # Revalidation Report — Reviewed
 
-> **Original Report Date:** 2026-04-13
-> **Review Completed:** 2026-04-13
-> **Total entries reviewed:** 28
+> **Original Report Date:** 2026-04-13  
+> **Last Review Completed:** 2026-04-29  
+> **Total entries reviewed:** 28 (original) · 4 re-checked on 2026-04-29
 
 ---
 
@@ -170,7 +170,7 @@
 | **URL** | https://azregents.edu/foster-youth | **No single URL — program administered by individual institutions** |
 | **Phone** | N/A | Contact varies by institution |
 
-**Notes:** Program is active but no longer has a single dedicated page on azregents.edu. Applications go through Foster Success Education Services. Contact: AzETV@fostersuccess.org or (219) 426-2166. Consider linking to the relevant university financial aid pages instead.
+**Notes:** Program is active but no longer has a single dedicated page on azregents.edu. Applications go through Foster Success Education Services. Contact: AzETV@fostersuccess.org or (219) 426-2166. **Recommended replacement URL:** https://www.fosteringadvocatesarizona.org/aging-out-now-what/arizona-tuition-waiver-atw/ (verified live 2026-04-29, HTTP 200). This page provides eligibility criteria, application instructions, and links for foster youth seeking tuition waiver information.
 
 ---
 
@@ -344,4 +344,4 @@ The following 3 resources could not be located online and may be defunct or oper
 
 ---
 
-*Reviewed 2026-04-13. Research conducted via web search. All findings should be independently verified before updating production data.*
+*Originally reviewed 2026-04-13. Re-verified 2026-04-29 against reverification report dated 2026-04-20 (4 items: ALWAYS, Fostering Advocates AZ, DCS Child Abuse Hotline, AZ Foster Care Tuition Waiver). All prior findings confirmed still accurate — no changes required. Research conducted via web search. All findings should be independently verified before updating production data.*
