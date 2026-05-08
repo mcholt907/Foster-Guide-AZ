@@ -13,7 +13,6 @@ import type { Lang } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
 import type { AgeBandKey } from "../../../lib/prefs";
 import { QUESTIONS, TOPIC_CONFIG, type QACategory } from "../../../data/questions";
-import { TeenShell } from "../../../components/TeenShell";
 import { AskTeen } from "../../../components/teen/AskTeen";
 
 function getCategoryStyles(cat: QACategory) {
@@ -58,11 +57,7 @@ export default function AskPage() {
   const band: AgeBandKey = prefs.ageBand ?? "13-15";
   if (band === "10-12") return <Ask1012 lang={lang} band="10-12" />;
 
-  return (
-    <TeenShell lang={lang}>
-      <AskTeen lang={lang} band={band} />
-    </TeenShell>
-  );
+  return <AskTeen lang={lang} band={band} />;
 }
 
 function Ask1012({ lang, band }: { lang: Lang; band: AgeBandKey }) {

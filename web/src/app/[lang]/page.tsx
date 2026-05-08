@@ -10,7 +10,6 @@ import { t } from "../../lib/i18n";
 import { useOnboardingGate } from "../../lib/useOnboardingGate";
 import { usePrefs } from "../../lib/prefs";
 import type { AgeBandKey } from "../../lib/prefs";
-import { TeenShell } from "../../components/TeenShell";
 import { DashboardTeen } from "../../components/teen/DashboardTeen";
 
 // ── 10-12 tile dashboard ──────────────────────────────────────────────────────
@@ -177,9 +176,5 @@ export default function HomePage() {
     return <Dashboard1012 lang={lang} />;
   }
 
-  return (
-    <TeenShell lang={lang}>
-      <DashboardTeen lang={lang} band={band} />
-    </TeenShell>
-  );
+  return <DashboardTeen lang={lang} band={band} />;
 }

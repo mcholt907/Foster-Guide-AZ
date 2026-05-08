@@ -6,7 +6,6 @@ import type { Lang } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
 import type { AgeBandKey } from "../../../lib/prefs";
 import { ScreenHero, SafeNotice } from "../../../components/ui";
-import { TeenShell } from "../../../components/TeenShell";
 import { FutureTeen } from "../../../components/teen/FutureTeen";
 
 export default function FuturePage() {
@@ -19,11 +18,7 @@ export default function FuturePage() {
   const band: AgeBandKey = prefs.ageBand ?? "13-15";
   if (band === "10-12") return <Future1012 lang={lang} />;
 
-  return (
-    <TeenShell lang={lang}>
-      <FutureTeen lang={lang} band={band} />
-    </TeenShell>
-  );
+  return <FutureTeen lang={lang} band={band} />;
 }
 
 function Future1012({ lang }: { lang: Lang }) {

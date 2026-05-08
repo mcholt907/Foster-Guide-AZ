@@ -6,7 +6,6 @@ import type { Lang } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
 import { usePrefs } from "../../../lib/prefs";
 import type { AgeBandKey } from "../../../lib/prefs";
-import { TeenShell } from "../../../components/TeenShell";
 import { ResourcesTeen } from "../../../components/teen/ResourcesTeen";
 
 export default function ResourcesPage() {
@@ -26,9 +25,5 @@ export default function ResourcesPage() {
   const band: AgeBandKey = prefs.ageBand ?? "13-15";
   if (band === "10-12") return null;
 
-  return (
-    <TeenShell lang={lang}>
-      <ResourcesTeen lang={lang} band={band} county={prefs.county ?? "Unknown"} />
-    </TeenShell>
-  );
+  return <ResourcesTeen lang={lang} band={band} county={prefs.county ?? "Unknown"} />;
 }

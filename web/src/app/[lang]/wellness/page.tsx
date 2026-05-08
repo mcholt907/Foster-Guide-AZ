@@ -8,7 +8,6 @@ import { ChevronLeft, Phone, MessageSquare, HeartPulse } from "lucide-react";
 import type { Lang } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
 import { CRISIS_PINS } from "../../../data/constants";
-import { TeenShell } from "../../../components/TeenShell";
 import { WellnessTeen } from "../../../components/teen/WellnessTeen";
 
 const GROUNDING_STEPS = [
@@ -56,11 +55,7 @@ export default function WellnessPage() {
   const band = prefs.ageBand ?? "13-15";
   if (band === "10-12") return <Wellness1012 lang={lang} />;
 
-  return (
-    <TeenShell lang={lang}>
-      <WellnessTeen lang={lang} />
-    </TeenShell>
-  );
+  return <WellnessTeen lang={lang} />;
 }
 
 function Wellness1012({ lang }: { lang: Lang }) {

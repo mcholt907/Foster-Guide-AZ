@@ -8,7 +8,6 @@ import { ChevronLeft, ChevronDown, ChevronUp } from "lucide-react";
 import type { Lang } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
 import type { AgeBandKey } from "../../../lib/prefs";
-import { TeenShell } from "../../../components/TeenShell";
 import { CaseTeen } from "../../../components/teen/CaseTeen";
 
 const STAGES = [
@@ -87,11 +86,7 @@ export default function CasePage() {
   const band: AgeBandKey = prefs.ageBand ?? "13-15";
   if (band === "10-12") return <Case1012 lang={lang} />;
 
-  return (
-    <TeenShell lang={lang}>
-      <CaseTeen lang={lang} band={band} />
-    </TeenShell>
-  );
+  return <CaseTeen lang={lang} band={band} />;
 }
 
 function Case1012({ lang }: { lang: Lang }) {

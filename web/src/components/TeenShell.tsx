@@ -187,10 +187,15 @@ export function TeenShell({ lang, children }: TeenShellProps) {
         </div>
       )}
 
-      {/* Main content area (semantic <main> lives in the parent layout) */}
-      <div ref={swipeRef} className="flex-1 overflow-y-auto relative w-full pt-20 md:pt-0 pb-24 md:pb-0 scroll-smooth">
+      {/* Main content area — also the skip-link target */}
+      <main
+        id="main-content"
+        tabIndex={-1}
+        ref={swipeRef}
+        className="flex-1 overflow-y-auto relative w-full pt-20 md:pt-0 pb-24 md:pb-0 scroll-smooth focus:outline-none"
+      >
         {children}
-      </div>
+      </main>
 
       {/* Mobile floating bottom nav */}
       <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-[rgba(26,47,68,0.85)] backdrop-blur-xl backdrop-saturate-150 border-t border-white/5 shadow-[0_-8px_30px_rgba(26,47,68,0.3)] pt-2 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">

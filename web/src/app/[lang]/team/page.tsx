@@ -8,7 +8,6 @@ import { ChevronLeft, ChevronDown, ChevronUp } from "lucide-react";
 import type { Lang } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
 import type { AgeBandKey } from "../../../lib/prefs";
-import { TeenShell } from "../../../components/TeenShell";
 import { TeamTeen } from "../../../components/teen/TeamTeen";
 
 const TEAM_MEMBERS = [
@@ -109,11 +108,7 @@ export default function TeamPage() {
     return <Team1012 lang={lang} />;
   }
 
-  return (
-    <TeenShell lang={lang}>
-      <TeamTeen lang={lang} band={band} />
-    </TeenShell>
-  );
+  return <TeamTeen lang={lang} band={band} />;
 }
 
 function Team1012({ lang }: { lang: Lang }) {

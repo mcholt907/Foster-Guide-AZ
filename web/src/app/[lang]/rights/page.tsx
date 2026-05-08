@@ -9,7 +9,6 @@ import { useOnboardingGate } from "../../../lib/useOnboardingGate";
 import type { AgeBandKey } from "../../../lib/prefs";
 import { RIGHTS } from "../../../data/rights";
 import { ScreenHero, SafeNotice } from "../../../components/ui";
-import { TeenShell } from "../../../components/TeenShell";
 import { RightsTeen } from "../../../components/teen/RightsTeen";
 
 type RightsTab = "what" | "how" | "ignored";
@@ -24,11 +23,7 @@ export default function RightsPage() {
   const band: AgeBandKey = prefs.ageBand ?? "13-15";
   if (band === "10-12") return <Rights1012 lang={lang} />;
 
-  return (
-    <TeenShell lang={lang}>
-      <RightsTeen lang={lang} band={band} />
-    </TeenShell>
-  );
+  return <RightsTeen lang={lang} band={band} />;
 }
 
 function Rights1012({ lang }: { lang: Lang }) {

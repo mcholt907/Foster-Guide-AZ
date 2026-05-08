@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { BottomNav, SideNav } from "../../components/BottomNav";
+import { BandShell } from "../../components/BandShell";
 import { LangSync } from "../../components/LangSync";
-import { LegalFooter } from "../../components/LegalFooter";
 
 export function generateStaticParams() {
   return [{ lang: "en" }, { lang: "es" }];
@@ -58,14 +57,7 @@ export default async function LangLayout({
       >
         {lang === "es" ? "Saltar al contenido" : "Skip to content"}
       </a>
-      <SideNav lang={lang as "en" | "es"} />
-      <main id="main-content" tabIndex={-1} className="pb-32 md:pb-8 md:pl-40 focus:outline-none">
-        <div className="w-full max-w-lg mx-auto px-4 pt-4">
-          {children}
-          <LegalFooter lang={lang as "en" | "es"} />
-        </div>
-      </main>
-      <BottomNav lang={lang as "en" | "es"} />
+      <BandShell lang={lang as "en" | "es"}>{children}</BandShell>
     </div>
   );
 }

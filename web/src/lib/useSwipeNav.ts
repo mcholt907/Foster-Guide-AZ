@@ -25,7 +25,7 @@ export function useSwipeNav<T extends SwipeNavItem>({
   lang,
 }: UseSwipeNavOptions<T>) {
   const router = useRouter();
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLElement>(null);
   const startRef = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
