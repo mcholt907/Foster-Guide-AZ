@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -42,8 +42,6 @@ const NAV_ITEMS: NavItem[] = [
   { id: "future",    icon: Sparkles,    href: "/future",     labelKey: "nav.future" },
 ];
 
-const MOBILE_BOTTOM_IDS: TeenNavId[] = ["dashboard", "case", "team", "wellness", "answers"];
-
 export function TeenShell({ active, lang, children }: TeenShellProps) {
   const router = useRouter();
   const [, , , reset] = usePrefs();
@@ -51,6 +49,15 @@ export function TeenShell({ active, lang, children }: TeenShellProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const reduceMotion = useReducedMotion();
   const swipeRef = useSwipeNav({ items: NAV_ITEMS, currentId: active, lang });
+  const activeBottomItemRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    activeBottomItemRef.current?.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      inline: "center",
+      block: "nearest",
+    });
+  }, [active, reduceMotion]);
 
   function handleStartOver() {
     reset();
@@ -184,26 +191,29 @@ export function TeenShell({ active, lang, children }: TeenShellProps) {
       </div>
 
       {/* Mobile floating bottom nav */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-[rgba(26,47,68,0.85)] backdrop-blur-xl backdrop-saturate-150 border-t border-white/5 shadow-[0_-8px_30px_rgba(26,47,68,0.3)] px-4 pt-2 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] flex justify-around">
-        {NAV_ITEMS.filter((it) => MOBILE_BOTTOM_IDS.includes(it.id)).map((item) => {
-          const isActive = item.id === active;
-          const Icon = item.icon;
-          return (
-            <Link
-              key={item.id}
-              href={`/${lang}${item.href}`}
-              aria-current={isActive ? "page" : undefined}
-              className={`flex flex-col items-center gap-1.5 px-3 py-1.5 rounded-2xl transition-colors ${
-                isActive ? "text-emerald-400 font-bold" : "text-slate-400 hover:text-slate-200 font-medium"
-              }`}
-            >
-              <Icon size={22} className={isActive ? "drop-shadow-[0_0_8px_rgba(52,211,153,0.4)]" : "opacity-80"} />
-              <span className="text-[10px] tracking-tight whitespace-nowrap">
-                {tt(item.labelKey, lang)}
-              </span>
-            </Link>
-          );
-        })}
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-[rgba(26,47,68,0.85)] backdrop-blur-xl backdrop-saturate-150 border-t border-white/5 shadow-[0_-8px_30px_rgba(26,47,68,0.3)] pt-2 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
+        <div className="flex overflow-x-auto px-4 gap-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          {NAV_ITEMS.map((item) => {
+            const isActive = item.id === active;
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.id}
+                ref={isActive ? activeBottomItemRef : null}
+                href={`/${lang}${item.href}`}
+                aria-current={isActive ? "page" : undefined}
+                className={`shrink-0 min-w-[80px] flex flex-col items-center gap-1.5 px-3 py-1.5 rounded-2xl transition-colors ${
+                  isActive ? "text-emerald-400 font-bold" : "text-slate-400 hover:text-slate-200 font-medium"
+                }`}
+              >
+                <Icon size={22} className={isActive ? "drop-shadow-[0_0_8px_rgba(52,211,153,0.4)]" : "opacity-80"} />
+                <span className="text-[10px] tracking-tight whitespace-nowrap">
+                  {tt(item.labelKey, lang)}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
       </nav>
     </div>
   );
