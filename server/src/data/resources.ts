@@ -39,7 +39,7 @@ export const RESOURCES: Resource[] = [
     phone: "988",
     website: "https://988lifeline.org",
     spanish: true,
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-05-11",
   },
   {
     id: "r-crisistextline",
@@ -52,7 +52,7 @@ export const RESOURCES: Resource[] = [
     phone: "741741",
     website: "https://www.crisistextline.org",
     spanish: true,
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-05-11",
   },
   {
     id: "r-dcs-hotline",
@@ -91,7 +91,7 @@ export const RESOURCES: Resource[] = [
     phone: "211",
     website: "https://211arizona.org",
     spanish: true,
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-05-11",
   },
   // LEGAL
   {
@@ -115,10 +115,10 @@ export const RESOURCES: Resource[] = [
     categories: ["legal"],
     counties: ["Apache","Coconino","Navajo"],
     ages: [0,99],
-    phone: "1-833-362-1102",
+    phone: "(928) 871-4151",
     website: "https://dnalegalservices.org",
     spanish: false,
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-05-11",
   },
   {
     id: "r-southern-az-legal",
@@ -197,7 +197,7 @@ export const RESOURCES: Resource[] = [
     phone: "520-293-1136",
     website: "https://yoto.org",
     spanish: true,
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-05-11",
   },
   // HEALTH
   {
@@ -211,7 +211,7 @@ export const RESOURCES: Resource[] = [
     phone: "602-417-4000",
     website: "https://www.azahcccs.gov/Members/GetCovered/Categories/YATI.html",
     spanish: true,
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-05-11",
   },
   {
     id: "r-mercy-care-dcs",
@@ -290,7 +290,7 @@ export const RESOURCES: Resource[] = [
     phone: "(520) 621-1858",
     website: "https://financialaid.arizona.edu",
     spanish: true,
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-05-11",
   },
   {
     id: "r-nau-foster",
@@ -353,9 +353,9 @@ export const RESOURCES: Resource[] = [
     counties: ["statewide"],
     ages: [16,24],
     phone: "1-800-733-5627",
-    website: "https://jobcorps.gov",
+    website: "https://www.jobcorps.gov",
     spanish: true,
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-05-11",
   },
   {
     id: "r-goodwill-az",
@@ -393,9 +393,9 @@ export const RESOURCES: Resource[] = [
     counties: ["statewide"],
     ages: [0,26],
     phone: "602-252-9445",
-    website: "https://affcf.org",
+    website: "https://www.affcf.org/",
     spanish: false,
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-05-11",
   },
   {
     id: "r-one-n-ten",
@@ -459,9 +459,9 @@ export const RESOURCES: Resource[] = [
     categories: ["financial","education"],
     counties: ["statewide"],
     ages: [16,26],
-    website: "https://affcf.org/scholarships",
+    website: "https://www.affcf.org/ways-we-help/post-secondary/scholarships/",
     spanish: false,
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-05-11",
   },
   {
     id: "r-des-cash",
@@ -487,6 +487,6 @@ export const RESOURCES: Resource[] = [
     phone: "1-800-944-7611",
     website: "https://www.arizonaschildren.org/services/young-adult-services/",
     spanish: false,
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-05-11",
   },
 ]

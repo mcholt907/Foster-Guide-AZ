@@ -10,7 +10,7 @@ export const RESOURCES = [
     url: "https://alwaysaz.org",
     description: "Youth legal services and advocacy; helps kids navigate dependency court and rights.",
     description_es: "Servicios legales y defensa juvenil; ayuda a jóvenes a navegar la corte de dependencia y sus derechos.",
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-05-11",
   },
   {
     id: "211",
@@ -23,7 +23,7 @@ export const RESOURCES = [
     url: "https://211arizona.org/",
     description: "Human navigators for food, shelter, help paying bills, and more. Great fallback when unsure.",
     description_es: "Navegadores humanos para comida, alojamiento, ayuda con cuentas y más. Excelente opción cuando no sabes a dónde llamar.",
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-05-11",
   },
   {
     id: "yati",
@@ -36,7 +36,7 @@ export const RESOURCES = [
     url: "https://www.azahcccs.gov/Members/GetCovered/Categories/YATI.html",
     description: "Health coverage pathway for eligible young adults formerly in foster care.",
     description_es: "Cobertura de salud para jóvenes adultos elegibles que estuvieron en cuidado adoptivo.",
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-05-11",
   },
   {
     id: "azca",
@@ -97,11 +97,11 @@ export const RESOURCES = [
     counties: ["Statewide"],
     ages: [0, 21] as [number, number],
     spanish: true,
-    phone: "(602) 438-7230",
+    phone: "(602) 252-9445",
     url: "https://www.affcf.org/",
     description: "Programs and support for foster youth and caregivers; resources vary by need.",
     description_es: "Programas y apoyo para jóvenes en cuidado adoptivo y cuidadores; los recursos varían según la necesidad.",
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-05-11",
   },
   {
     id: "arizonaatwork",
