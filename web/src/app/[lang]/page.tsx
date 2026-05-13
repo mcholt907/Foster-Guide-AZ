@@ -72,53 +72,73 @@ function Dashboard1012({ lang }: { lang: Lang }) {
         {/* Meet Your Team */}
         <Link
           href={`/${lang}/team`}
-          className="aspect-[4/3] bg-[#fff4cc] rounded-[2rem] p-5 flex flex-col justify-center gap-2 items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
+          className="aspect-[4/3] bg-[#fff4cc] rounded-[2rem] p-5 flex flex-col justify-between items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
         >
-          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-[1.5rem] flex items-center justify-center overflow-hidden mix-blend-multiply drop-shadow-sm">
+          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-[1.5rem] flex items-center justify-center overflow-hidden mix-blend-multiply drop-shadow-sm">
             <Image src="/avatars/group_avatar.png" alt="" width={192} height={192} className="w-full h-full object-cover scale-[1.3] pt-2" />
           </div>
-          <span className="font-bold text-[#78350f] text-lg leading-none">
-            {lang === "es" ? "Mi equipo" : "My team"}
-          </span>
+          <div className="flex flex-col gap-1">
+            <span className="font-bold text-[#78350f] text-lg leading-tight">
+              {lang === "es" ? "Mi equipo" : "My team"}
+            </span>
+            <span className="text-[#78350f]/70 text-sm font-medium leading-tight">
+              {t("home_tile_team_sub", lang)}
+            </span>
+          </div>
         </Link>
 
         {/* My Case Explained */}
         <Link
           href={`/${lang}/case`}
-          className="aspect-[4/3] bg-[#e0f2fe] rounded-[2rem] p-5 flex flex-col justify-center gap-2 items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
+          className="aspect-[4/3] bg-[#e0f2fe] rounded-[2rem] p-5 flex flex-col justify-between items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
         >
-          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center overflow-hidden drop-shadow-sm">
+          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center overflow-hidden drop-shadow-sm">
             <Image src="/dashboard/case.png" alt="" width={192} height={192} className="w-full h-full object-cover scale-[1.2]" />
           </div>
-          <span className="font-bold text-[#0c4a6e] text-lg leading-none">
-            {lang === "es" ? "Mi caso explicado" : "My case explained"}
-          </span>
+          <div className="flex flex-col gap-1">
+            <span className="font-bold text-[#0c4a6e] text-lg leading-tight">
+              {lang === "es" ? "Mi caso explicado" : "My case explained"}
+            </span>
+            <span className="text-[#0c4a6e]/70 text-sm font-medium leading-tight">
+              {t("home_tile_case_sub", lang)}
+            </span>
+          </div>
         </Link>
 
         {/* Wellness Check-In */}
         <Link
           href={`/${lang}/wellness`}
-          className="aspect-[4/3] bg-[#fce7f3] rounded-[2rem] p-5 flex flex-col justify-center gap-2 items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
+          className="aspect-[4/3] bg-[#fce7f3] rounded-[2rem] p-5 flex flex-col justify-between items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
         >
-          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center overflow-hidden drop-shadow-sm">
+          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center overflow-hidden drop-shadow-sm">
             <Image src="/dashboard/wellness.png" alt="" width={192} height={192} className="w-full h-full object-cover scale-[1.2]" />
           </div>
-          <span className="font-bold text-[#831843] text-lg leading-none">
-            {t("home_wellness_short", lang)}
-          </span>
+          <div className="flex flex-col gap-1">
+            <span className="font-bold text-[#831843] text-lg leading-tight">
+              {t("home_wellness_short", lang)}
+            </span>
+            <span className="text-[#831843]/70 text-sm font-medium leading-tight">
+              {t("home_tile_wellness_sub", lang)}
+            </span>
+          </div>
         </Link>
 
         {/* Find Answers */}
         <Link
           href={`/${lang}/ask`}
-          className="aspect-[4/3] bg-[#dcfce7] rounded-[2rem] p-5 flex flex-col justify-center gap-2 items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
+          className="aspect-[4/3] bg-[#dcfce7] rounded-[2rem] p-5 flex flex-col justify-between items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
         >
-          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#bbf7d0] flex items-center justify-center drop-shadow-sm">
-            <HelpCircle size={28} className="text-[#136d41]" />
+          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-[#bbf7d0] flex items-center justify-center drop-shadow-sm">
+            <HelpCircle size={44} className="text-[#136d41]" strokeWidth={2.25} />
           </div>
-          <span className="font-bold text-[#14532d] text-lg leading-none">
-            {t("home_find_answers", lang)}
-          </span>
+          <div className="flex flex-col gap-1">
+            <span className="font-bold text-[#14532d] text-lg leading-tight">
+              {t("home_find_answers", lang)}
+            </span>
+            <span className="text-[#14532d]/70 text-sm font-medium leading-tight">
+              {t("home_tile_answers_sub", lang)}
+            </span>
+          </div>
         </Link>
       </div>
 
