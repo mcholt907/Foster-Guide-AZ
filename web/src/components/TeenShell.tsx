@@ -92,7 +92,7 @@ export function TeenShell({ lang, children }: TeenShellProps) {
           </div>
         </div>
 
-        <nav className="flex flex-col px-6 gap-2 flex-1">
+        <nav className="flex flex-col px-6 gap-2 flex-1 min-h-0 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {NAV_ITEMS.map((item) => {
             const isActive = item.id === active;
             const Icon = item.icon;
@@ -121,7 +121,7 @@ export function TeenShell({ lang, children }: TeenShellProps) {
         </nav>
 
         {/* Footer: band+lang badge + start-over */}
-        <div className="p-8">
+        <div className="p-8 flex-shrink-0">
           <TeenShellFooter lang={lang} confirmReset={confirmReset} setConfirmReset={setConfirmReset} handleStartOver={handleStartOver} />
         </div>
       </aside>
@@ -166,7 +166,7 @@ export function TeenShell({ lang, children }: TeenShellProps) {
               <X size={22} />
             </button>
           </div>
-          <nav className="flex flex-col px-4 gap-2 flex-1 pt-4">
+          <nav className="flex flex-col px-4 gap-2 flex-1 min-h-0 overflow-y-auto pt-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             {NAV_ITEMS.map((item) => {
               const isActive = item.id === active;
               const Icon = item.icon;
@@ -188,7 +188,7 @@ export function TeenShell({ lang, children }: TeenShellProps) {
               );
             })}
           </nav>
-          <div className="p-6">
+          <div className="p-6 flex-shrink-0">
             <TeenShellFooter lang={lang} confirmReset={confirmReset} setConfirmReset={setConfirmReset} handleStartOver={handleStartOver} />
           </div>
         </div>
