@@ -42,6 +42,10 @@ export const UI_STRINGS = {
   home_988_subtitle:            { en: "Call or text anytime",                     es: "Llama o envía un mensaje en cualquier momento" },
   home_wellness_short:          { en: "Wellness check-in",                        es: "Bienestar" },
   home_find_answers:            { en: "Find answers",                             es: "Buscar respuestas" },
+  home_tile_team_sub:           { en: "Who's helping you",                        es: "Quién te está ayudando" },
+  home_tile_case_sub:           { en: "What happens in court",                    es: "Qué pasa en la corte" },
+  home_tile_wellness_sub:       { en: "How you're feeling",                       es: "Cómo te sientes" },
+  home_tile_answers_sub:        { en: "Look stuff up",                            es: "Busca lo que quieras saber" },
   // Setup / step buttons
   onboarding_btn_start_over:    { en: "Start",                                    es: "Comenzar" },
   // Feature card titles
