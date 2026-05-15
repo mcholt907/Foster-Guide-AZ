@@ -20,9 +20,17 @@ FosterHub AZ helps Arizona foster youth (ages 10–21) navigate rights, court pr
 - <https://www.fosterhubaz.com> — same
 - Hosted on Render (`fosterhub-web` web service), auto-deploys from `master`
 
+## Environment
+
+- Development is on Windows; account for path translation in bash commands.
+- The `.claude` folder is hidden by default on Windows (dot-prefix).
+- After installing CLI tools (e.g., `gh`), a new shell may be needed for PATH refresh.
+
 ## Permissions & Autonomy
 
-- Be less cautious about asking permission for routine operations (file edits, git commits, package installs already discussed).
+- Be less cautious about asking permission for routine operations (file edits, git commits, reading files in the project, package installs already discussed).
+- Batch related operations rather than prompting for each step.
+- Default to action on clear, scoped requests; only ask when truly ambiguous.
 - When auto-merge is appropriate for a PR, enable it without re-asking.
 - Only pause for confirmation on destructive operations (force push, data deletion, schema changes).
 
@@ -250,8 +258,17 @@ cd app && npm run dev      # React prototype (http://localhost:5173)
 ## Git & PR Workflow
 
 - Default to: build → verify → group related changes into logical commits → push → open PR with gh CLI → enable auto-merge.
+- Group related changes into logical commits with clear messages.
 - Always run the production build before pushing if TypeScript/Vite files changed.
 - Use `gh pr create` with a pre-filled body; never block waiting for the user to write PR descriptions.
+- Auto-merge PRs when CI passes (user preference).
+- Update `MEMORY.md` / design docs after major architectural changes.
+
+## Verification
+
+- Run the build after multi-file refactors before committing.
+- For CSS/layout changes, verify on a mobile viewport and check for horizontal overflow (use `overflow-x: clip` for cutoff fixes).
+- Validate YAML files (especially GitHub Actions workflows) before committing — watch for stray closing tags from generated content.
 
 ## Privacy
 
