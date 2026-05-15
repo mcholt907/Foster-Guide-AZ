@@ -20,6 +20,12 @@ FosterHub AZ helps Arizona foster youth (ages 10–21) navigate rights, court pr
 - <https://www.fosterhubaz.com> — same
 - Hosted on Render (`fosterhub-web` web service), auto-deploys from `master`
 
+## Permissions & Autonomy
+
+- Be less cautious about asking permission for routine operations (file edits, git commits, package installs already discussed).
+- When auto-merge is appropriate for a PR, enable it without re-asking.
+- Only pause for confirmation on destructive operations (force push, data deletion, schema changes).
+
 ---
 
 ## Web App (`web/`) — Primary Codebase
@@ -229,6 +235,23 @@ cd app && npm run dev      # React prototype (http://localhost:5173)
 - **Never use:** red, bright yellow, pure black backgrounds, neon
 - Typography: serif headings, humanist sans body, max 6th-grade reading level
 - Icon/logo: house with amber heart on teal rounded background (`/icons/icon-192.svg`)
+
+## UI Refinement Conventions
+
+- When user asks to make a sidebar/element 'narrower' or 'wider', change the container width itself first — do NOT just shrink font or padding unless asked.
+- Account for visual size of UPPERCASE vs lowercase when matching brand/text sizes (uppercase reads ~15% larger at the same pixel size).
+- Use 'Your' consistently over 'My' (per prior decisions).
+
+## Local Dev Server
+
+- When running long-lived dev servers (Vite, Node, Python http.server), use `nohup` or detach from the bash shell so the server survives bash session exit. Example: `nohup npm run dev > /tmp/dev.log 2>&1 &`
+- Verify the server is actually responding (e.g., `curl -I http://localhost:PORT`) before reporting it as running.
+
+## Git & PR Workflow
+
+- Default to: build → verify → group related changes into logical commits → push → open PR with gh CLI → enable auto-merge.
+- Always run the production build before pushing if TypeScript/Vite files changed.
+- Use `gh pr create` with a pre-filled body; never block waiting for the user to write PR descriptions.
 
 ## Privacy
 
