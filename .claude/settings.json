@@ -7,5 +7,22 @@
       "mcp__playwright__browser_close",
       "Bash(npm audit)"
     ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/typecheck-web.js",
+            "shell": "bash",
+            "async": true,
+            "timeout": 60,
+            "statusMessage": "Typechecking web/..."
+          }
+        ]
+      }
+    ]
   }
 }
