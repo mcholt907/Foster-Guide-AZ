@@ -1,8 +1,8 @@
 # Content Re-verification Report
 
-> **Generated:** 2026-05-11  
+> **Generated:** 2026-05-18  
 > **Mode:** Applied  
-> **Total entries checked:** 48
+> **Total entries checked:** 31
 
 ---
 
@@ -10,10 +10,9 @@
 
 | Metric | Count |
 |:---|:---|
-| ✅ Verified / Auto-corrected | 17 |
-| ❌ Needs manual review | 31 |
-| 📞 Phone numbers auto-updated | 2 |
-| 🔄 URLs auto-updated (redirects) | 3 |
+| ✅ Verified / Auto-corrected | 4 |
+| ❌ Needs manual review | 27 |
+| 📞 Phone numbers auto-updated | 1 |
 
 ---
 
@@ -21,11 +20,7 @@
 
 | Entry | Field | Old Value | New Value | Reason |
 |:---|:---|:---|:---|:---|
-| Arizona Friends of Foster Children Foundation (AFFCF) | `phone` | (602) 438-7230 | (602) 252-9445 | Phone number updated from organization's website |
-| DNA People's Legal Services | `phone` | 1-833-362-1102 | (928) 871-4151 | Phone number updated from organization's website |
-| Job Corps | `website` | https://jobcorps.gov | https://www.jobcorps.gov | URL redirected to new location |
-| Arizona Friends of Foster Children Foundation (AFFCF) | `website` | https://affcf.org | https://www.affcf.org/ | URL redirected to new location |
-| Arizona Foster Youth Scholarship Fund | `website` | https://affcf.org/scholarships | https://www.affcf.org/ways-we-help/post-secondary/scholarships/ | URL redirected to new location |
+| Education and Training Voucher (ETV) — AzCA | `phone` | 480-651-3348 | (800) 944-7611 | Phone number updated from organization's website |
 
 ---
 
@@ -60,7 +55,7 @@
 | **Reason** | Network error: getaddrinfo EAI_AGAIN www.tumbleweed.org |
 | **File** | `server/src/data/resources.ts` |
 
-### 🚫 HTTP Errors (page moved or access denied) (7)
+### 🚫 HTTP Errors (page moved or access denied) (8)
 
 #### AZ DCS Child Abuse Hotline
 
@@ -95,6 +90,14 @@
 | **URL** | https://www.mercycareaz.org/dcschp/index.html |
 | **Phone (on file)** | 602-212-4983 |
 | **Reason** | HTTP 403 — page returned an error |
+| **File** | `server/src/data/resources.ts` |
+
+#### Arizona Foster Care Tuition Waiver
+
+| Field | Value |
+|:---|:---|
+| **URL** | https://azregents.edu/foster-youth |
+| **Reason** | HTTP 404 — page returned an error |
 | **File** | `server/src/data/resources.ts` |
 
 #### Arizona@Work
@@ -146,15 +149,7 @@
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | Home - United Food Bank |
 
-### ⏱️ Timeouts (server unresponsive) (6)
-
-#### ALWAYS (legal help)
-
-| Field | Value |
-|:---|:---|
-| **URL** | https://alwaysaz.org/ |
-| **Reason** | Network error: Timeout after 15000ms |
-| **File** | `web/src/data/constants.ts` |
+### 📵 Phone Number Not Found (no candidates) (14)
 
 #### Arizona's Children Association (AzCA) — Transition supports
 
@@ -162,45 +157,9 @@
 |:---|:---|
 | **URL** | https://www.arizonaschildren.org/ |
 | **Phone (on file)** | (480) 247-1413 |
-| **Reason** | Network error: Timeout after 15000ms |
+| **Reason** | Phone "(480) 247-1413" not found; no phone numbers detected on page |
 | **File** | `web/src/data/resources.ts` |
-
-#### Community Legal Services
-
-| Field | Value |
-|:---|:---|
-| **URL** | https://clsaz.org |
-| **Phone (on file)** | (800) 852-9075 |
-| **Reason** | Network error: Timeout after 15000ms |
-| **File** | `server/src/data/resources.ts` |
-
-#### Southern Arizona Legal Aid
-
-| Field | Value |
-|:---|:---|
-| **URL** | https://www.sazlegalaid.org |
-| **Phone (on file)** | (520) 623-9461 |
-| **Reason** | Network error: Timeout after 15000ms |
-| **File** | `server/src/data/resources.ts` |
-
-#### Arizona Foster Care Tuition Waiver
-
-| Field | Value |
-|:---|:---|
-| **URL** | https://azregents.edu/foster-youth |
-| **Reason** | Network error: Timeout after 15000ms |
-| **File** | `server/src/data/resources.ts` |
-
-#### Education and Training Voucher (ETV) — AzCA
-
-| Field | Value |
-|:---|:---|
-| **URL** | https://www.arizonaschildren.org/services/young-adult-services/ |
-| **Phone (on file)** | 480-651-3348 |
-| **Reason** | Network error: Timeout after 15000ms |
-| **File** | `server/src/data/resources.ts` |
-
-### 📵 Phone Number Not Found (no candidates) (13)
+| **Page title** | Home - Arizona Children&#039;s Association |
 
 #### New Culture
 
@@ -336,23 +295,10 @@
 
 | Entry | URL | Phone | Status |
 |:---|:---|:---|:---|
-| 988 Suicide & Crisis Lifeline | ✅ https://988lifeline.org/ | — | ✅ |
-| Crisis Text Line | ✅ https://www.crisistextline.org/ | — | ✅ |
-| ALWAYS | ✅ https://alwaysaz.org | ✅ (602) 248-7055 | ✅ |
-| 211 Arizona | ✅ https://211arizona.org/ | ✅ 2-1-1 | ✅ |
-| AHCCCS — YATI (Young Adults Transitional Insurance) | ✅ https://www.azahcccs.gov/Members/GetCovered/Categories/YATI.html | ✅ (602) 417-4000 | ✅ |
-| Arizona Friends of Foster Children Foundation (AFFCF) | ✅ https://www.affcf.org/ | 🔄 (602) 438-7230 → (602) 252-9445 | ✅ |
-| 988 Suicide & Crisis Lifeline | ✅ https://988lifeline.org | ✅ 988 | ✅ |
-| Crisis Text Line | ✅ https://www.crisistextline.org | ✅ 741741 | ✅ |
-| 211 Arizona | ✅ https://211arizona.org | ✅ 211 | ✅ |
-| DNA People's Legal Services | ✅ https://dnalegalservices.org | 🔄 1-833-362-1102 → (928) 871-4151 | ✅ |
-| Youth On Their Own (YOTO) | ✅ https://yoto.org | ✅ 520-293-1136 | ✅ |
-| AHCCCS — Young Adult Transition Initiative (YATI) | ✅ https://www.azahcccs.gov/Members/GetCovered/Categories/YATI.html | ✅ 602-417-4000 | ✅ |
-| University of Arizona — Foster Youth Programs | ✅ https://financialaid.arizona.edu | ✅ (520) 621-1858 | ✅ |
-| Job Corps | 🔄 → https://www.jobcorps.gov | ✅ 1-800-733-5627 | ✅ |
-| Arizona Friends of Foster Children Foundation (AFFCF) | 🔄 → https://www.affcf.org/ | ✅ 602-252-9445 | ✅ |
-| Arizona Foster Youth Scholarship Fund | 🔄 → https://www.affcf.org/ways-we-help/post-secondary/scholarships/ | — | ✅ |
-| Arizona Independent Living Account (IDA) | ✅ https://www.arizonaschildren.org/services/young-adult-services/ | ✅ 1-800-944-7611 | ✅ |
+| ALWAYS (legal help) | ✅ https://alwaysaz.org/ | — | ✅ |
+| Community Legal Services | ✅ https://clsaz.org | ✅ (800) 852-9075 | ✅ |
+| Southern Arizona Legal Aid | ✅ https://www.sazlegalaid.org | ✅ (520) 623-9461 | ✅ |
+| Education and Training Voucher (ETV) — AzCA | ✅ https://www.arizonaschildren.org/services/young-adult-services/ | 🔄 480-651-3348 → (800) 944-7611 | ✅ |
 
 ---
 

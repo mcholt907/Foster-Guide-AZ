@@ -40,6 +40,6 @@ export const CRISIS_PINS = [
     how: "Youth legal services (AZ)",
     how_es: "Servicios legales para jóvenes (AZ)",
     url: "https://alwaysaz.org/",
-    lastVerified: "2026-04-20",
+    lastVerified: "2026-05-18",
   },
 ] as const;

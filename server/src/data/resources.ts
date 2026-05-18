@@ -105,7 +105,7 @@ export const RESOURCES: Resource[] = [
     phone: "(800) 852-9075",
     website: "https://clsaz.org",
     spanish: true,
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-05-18",
   },
   {
     id: "r-dna-legal",
@@ -131,7 +131,7 @@ export const RESOURCES: Resource[] = [
     phone: "(520) 623-9461",
     website: "https://www.sazlegalaid.org",
     spanish: true,
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-05-18",
   },
   {
     id: "r-fostering-advocates",
@@ -325,10 +325,10 @@ export const RESOURCES: Resource[] = [
     categories: ["education","financial"],
     counties: ["statewide"],
     ages: [14,26],
-    phone: "480-651-3348",
+    phone: "(800) 944-7611",
     website: "https://www.arizonaschildren.org/services/young-adult-services/",
     spanish: true,
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-05-18",
   },
   // EMPLOYMENT
   {
