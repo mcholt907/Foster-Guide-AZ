@@ -1,8 +1,8 @@
 # Content Re-verification Report
 
-> **Generated:** 2026-05-18  
+> **Generated:** 2026-05-25  
 > **Mode:** Applied  
-> **Total entries checked:** 31
+> **Total entries checked:** 27
 
 ---
 
@@ -10,17 +10,8 @@
 
 | Metric | Count |
 |:---|:---|
-| ✅ Verified / Auto-corrected | 4 |
+| ✅ Verified / Auto-corrected | 0 |
 | ❌ Needs manual review | 27 |
-| 📞 Phone numbers auto-updated | 1 |
-
----
-
-## Auto-corrections Applied
-
-| Entry | Field | Old Value | New Value | Reason |
-|:---|:---|:---|:---|:---|
-| Education and Training Voucher (ETV) — AzCA | `phone` | 480-651-3348 | (800) 944-7611 | Phone number updated from organization's website |
 
 ---
 
@@ -149,7 +140,18 @@
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | Home - United Food Bank |
 
-### 📵 Phone Number Not Found (no candidates) (14)
+### ⏱️ Timeouts (server unresponsive) (1)
+
+#### Fostering Advocates Arizona
+
+| Field | Value |
+|:---|:---|
+| **URL** | https://www.fosteringadvocatesarizona.org |
+| **Phone (on file)** | (602) 266-0707 |
+| **Reason** | Network error: Timeout after 15000ms |
+| **File** | `web/src/data/resources.ts` |
+
+### 📵 Phone Number Not Found (no candidates) (13)
 
 #### Arizona's Children Association (AzCA) — Transition supports
 
@@ -178,16 +180,6 @@
 | **Phone (on file)** | (520) 299-4614 |
 | **Reason** | Phone "(520) 299-4614" not found; no phone numbers detected on page |
 | **File** | `web/src/data/resources.ts` |
-
-#### Fostering Advocates Arizona
-
-| Field | Value |
-|:---|:---|
-| **URL** | https://www.fosteringadvocatesarizona.org |
-| **Phone (on file)** | (602) 266-0707 |
-| **Reason** | Phone "(602) 266-0707" not found; no phone numbers detected on page |
-| **File** | `web/src/data/resources.ts` |
-| **Page title** | Fostering Advocates Arizona - Youth. Speak. Change. |
 
 #### UMOM New Day Centers
 
@@ -288,17 +280,6 @@
 | **Reason** | Phone "602-242-3663" not found; no phone numbers detected on page |
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | St. Mary’s Food Bank of Arizona: Help Feed the Hungry |
-
----
-
-## Verified Entries
-
-| Entry | URL | Phone | Status |
-|:---|:---|:---|:---|
-| ALWAYS (legal help) | ✅ https://alwaysaz.org/ | — | ✅ |
-| Community Legal Services | ✅ https://clsaz.org | ✅ (800) 852-9075 | ✅ |
-| Southern Arizona Legal Aid | ✅ https://www.sazlegalaid.org | ✅ (520) 623-9461 | ✅ |
-| Education and Training Voucher (ETV) — AzCA | ✅ https://www.arizonaschildren.org/services/young-adult-services/ | 🔄 480-651-3348 → (800) 944-7611 | ✅ |
 
 ---
 
