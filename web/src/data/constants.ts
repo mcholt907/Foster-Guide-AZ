@@ -19,14 +19,14 @@ export const CRISIS_PINS = [
     how: "Call or text 988",
     how_es: "Llama o envía mensaje al 988",
     url: "https://988lifeline.org/",
-    lastVerified: "2026-05-11",
+    lastVerified: "2026-06-01",
   },
   {
     name: "Crisis Text Line",
     how: "Text HOME to 741741",
     how_es: "Envía HOME al 741741",
     url: "https://www.crisistextline.org/",
-    lastVerified: "2026-05-11",
+    lastVerified: "2026-06-01",
   },
   {
     name: "AZ DCS Child Abuse Hotline",

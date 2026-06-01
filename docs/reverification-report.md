@@ -1,8 +1,8 @@
 # Content Re-verification Report
 
-> **Generated:** 2026-05-25  
+> **Generated:** 2026-06-01  
 > **Mode:** Applied  
-> **Total entries checked:** 27
+> **Total entries checked:** 29
 
 ---
 
@@ -10,8 +10,16 @@
 
 | Metric | Count |
 |:---|:---|
-| ✅ Verified / Auto-corrected | 0 |
+| ✅ Verified / Auto-corrected | 2 |
 | ❌ Needs manual review | 27 |
+
+---
+
+## Auto-corrections Applied
+
+| Entry | Field | Old Value | New Value | Reason |
+|:---|:---|:---|:---|:---|
+| *(only lastVerified dates updated)* | | | | |
 
 ---
 
@@ -140,18 +148,7 @@
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | Home - United Food Bank |
 
-### ⏱️ Timeouts (server unresponsive) (1)
-
-#### Fostering Advocates Arizona
-
-| Field | Value |
-|:---|:---|
-| **URL** | https://www.fosteringadvocatesarizona.org |
-| **Phone (on file)** | (602) 266-0707 |
-| **Reason** | Network error: Timeout after 15000ms |
-| **File** | `web/src/data/resources.ts` |
-
-### 📵 Phone Number Not Found (no candidates) (13)
+### 📵 Phone Number Not Found (no candidates) (14)
 
 #### Arizona's Children Association (AzCA) — Transition supports
 
@@ -180,6 +177,16 @@
 | **Phone (on file)** | (520) 299-4614 |
 | **Reason** | Phone "(520) 299-4614" not found; no phone numbers detected on page |
 | **File** | `web/src/data/resources.ts` |
+
+#### Fostering Advocates Arizona
+
+| Field | Value |
+|:---|:---|
+| **URL** | https://www.fosteringadvocatesarizona.org |
+| **Phone (on file)** | (602) 266-0707 |
+| **Reason** | Phone "(602) 266-0707" not found; no phone numbers detected on page |
+| **File** | `web/src/data/resources.ts` |
+| **Page title** | Fostering Advocates Arizona - Youth. Speak. Change. |
 
 #### UMOM New Day Centers
 
@@ -280,6 +287,15 @@
 | **Reason** | Phone "602-242-3663" not found; no phone numbers detected on page |
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | St. Mary’s Food Bank of Arizona: Help Feed the Hungry |
+
+---
+
+## Verified Entries
+
+| Entry | URL | Phone | Status |
+|:---|:---|:---|:---|
+| 988 Suicide & Crisis Lifeline | ✅ https://988lifeline.org/ | — | ✅ |
+| Crisis Text Line | ✅ https://www.crisistextline.org/ | — | ✅ |
 
 ---
 
