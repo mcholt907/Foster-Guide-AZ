@@ -315,7 +315,7 @@ export const RESOURCES: Resource[] = [
     ages: [16,26],
     website: "https://azregents.edu/foster-youth",
     spanish: false,
-    lastVerified: "2026-03-01",
+    lastVerified: "2026-06-08",
   },
   {
     id: "r-etv-azca",
@@ -408,7 +408,7 @@ export const RESOURCES: Resource[] = [
     phone: "(602) 400-2601",
     website: "https://onenten.org",
     spanish: false,
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-06-08",
   },
   // FOOD
   {

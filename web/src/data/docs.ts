@@ -19,7 +19,7 @@ export const IMPORTANT_DOCS = [
     ],
     contact: "ADHS Vital Records: (602) 364-1300",
     contact_es: "Registros Vitales de ADHS: (602) 364-1300",
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-06-08",
   },
   {
     id: "ssn-card",
@@ -41,7 +41,7 @@ export const IMPORTANT_DOCS = [
     ],
     contact: "Social Security Administration: 1-800-772-1213",
     contact_es: "Administración del Seguro Social: 1-800-772-1213",
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-06-08",
   },
   {
     id: "state-id",
@@ -63,7 +63,7 @@ export const IMPORTANT_DOCS = [
     ],
     contact: "AZ Motor Vehicle Division: azmvdnow.gov",
     contact_es: "División de Vehículos de Motor de AZ: azmvdnow.gov",
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-06-08",
   },
   {
     id: "immunizations",
@@ -85,7 +85,7 @@ export const IMPORTANT_DOCS = [
     ],
     contact: "AZ Immunization Registry: (602) 364-3630",
     contact_es: "Registro de Vacunas de AZ: (602) 364-3630",
-    lastVerified: "2026-04-04",
+    lastVerified: "2026-06-08",
   },
 ] as const;
 

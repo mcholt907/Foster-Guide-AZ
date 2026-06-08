@@ -1,8 +1,8 @@
 # Content Re-verification Report
 
-> **Generated:** 2026-06-01  
+> **Generated:** 2026-06-08  
 > **Mode:** Applied  
-> **Total entries checked:** 29
+> **Total entries checked:** 32
 
 ---
 
@@ -10,8 +10,8 @@
 
 | Metric | Count |
 |:---|:---|
-| ✅ Verified / Auto-corrected | 2 |
-| ❌ Needs manual review | 27 |
+| ✅ Verified / Auto-corrected | 7 |
+| ❌ Needs manual review | 25 |
 
 ---
 
@@ -64,6 +64,15 @@
 | **Reason** | HTTP 403 — page returned an error |
 | **File** | `web/src/data/constants.ts` |
 
+#### Fostering Advocates Arizona
+
+| Field | Value |
+|:---|:---|
+| **URL** | https://www.fosteringadvocatesarizona.org |
+| **Phone (on file)** | (602) 266-0707 |
+| **Reason** | HTTP 500 — page returned an error |
+| **File** | `web/src/data/resources.ts` |
+
 #### ARIZONA@WORK — Local Job Center Locator
 
 | Field | Value |
@@ -89,14 +98,6 @@
 | **URL** | https://www.mercycareaz.org/dcschp/index.html |
 | **Phone (on file)** | 602-212-4983 |
 | **Reason** | HTTP 403 — page returned an error |
-| **File** | `server/src/data/resources.ts` |
-
-#### Arizona Foster Care Tuition Waiver
-
-| Field | Value |
-|:---|:---|
-| **URL** | https://azregents.edu/foster-youth |
-| **Reason** | HTTP 404 — page returned an error |
 | **File** | `server/src/data/resources.ts` |
 
 #### Arizona@Work
@@ -148,7 +149,7 @@
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | Home - United Food Bank |
 
-### 📵 Phone Number Not Found (no candidates) (14)
+### 📵 Phone Number Not Found (no candidates) (12)
 
 #### Arizona's Children Association (AzCA) — Transition supports
 
@@ -177,16 +178,6 @@
 | **Phone (on file)** | (520) 299-4614 |
 | **Reason** | Phone "(520) 299-4614" not found; no phone numbers detected on page |
 | **File** | `web/src/data/resources.ts` |
-
-#### Fostering Advocates Arizona
-
-| Field | Value |
-|:---|:---|
-| **URL** | https://www.fosteringadvocatesarizona.org |
-| **Phone (on file)** | (602) 266-0707 |
-| **Reason** | Phone "(602) 266-0707" not found; no phone numbers detected on page |
-| **File** | `web/src/data/resources.ts` |
-| **Page title** | Fostering Advocates Arizona - Youth. Speak. Change. |
 
 #### UMOM New Day Centers
 
@@ -268,16 +259,6 @@
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | Home - Arizona Children&#039;s Association |
 
-#### One•n•Ten
-
-| Field | Value |
-|:---|:---|
-| **URL** | https://onenten.org |
-| **Phone (on file)** | (602) 400-2601 |
-| **Reason** | Phone "(602) 400-2601" not found; no phone numbers detected on page |
-| **File** | `server/src/data/resources.ts` |
-| **Page title** | LGBTQ Youth Support | one•n•ten |
-
 #### St. Mary's Food Bank
 
 | Field | Value |
@@ -294,8 +275,13 @@
 
 | Entry | URL | Phone | Status |
 |:---|:---|:---|:---|
-| 988 Suicide & Crisis Lifeline | ✅ https://988lifeline.org/ | — | ✅ |
-| Crisis Text Line | ✅ https://www.crisistextline.org/ | — | ✅ |
+| ALWAYS (legal help) | ✅ https://alwaysaz.org/ | — | ✅ |
+| Arizona Foster Care Tuition Waiver | ✅ https://azregents.edu/foster-youth | — | ✅ |
+| One•n•Ten | ✅ https://onenten.org | ✅ (602) 400-2601 | ✅ |
+| Birth certificate | ✅ — | — | ✅ |
+| Social Security card | ✅ — | — | ✅ |
+| State ID / driver's license | ✅ — | — | ✅ |
+| Immunization records | ✅ — | — | ✅ |
 
 ---
 
