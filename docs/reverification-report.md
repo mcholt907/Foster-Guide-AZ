@@ -1,8 +1,8 @@
 # Content Re-verification Report
 
-> **Generated:** 2026-06-22  
+> **Generated:** 2026-06-29  
 > **Mode:** Applied  
-> **Total entries checked:** 30
+> **Total entries checked:** 28
 
 ---
 
@@ -11,7 +11,7 @@
 | Metric | Count |
 |:---|:---|
 | ✅ Verified / Auto-corrected | 3 |
-| ❌ Needs manual review | 27 |
+| ❌ Needs manual review | 25 |
 
 ---
 
@@ -140,18 +140,7 @@
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | Home - United Food Bank |
 
-### ⏱️ Timeouts (server unresponsive) (1)
-
-#### Native Connections — Youth Crisis Housing
-
-| Field | Value |
-|:---|:---|
-| **URL** | https://www.nativeconnections.org |
-| **Phone (on file)** | 602-254-3247 |
-| **Reason** | Network error: Timeout after 15000ms |
-| **File** | `server/src/data/resources.ts` |
-
-### 📵 Phone Number Not Found (no candidates) (14)
+### 📵 Phone Number Not Found (no candidates) (13)
 
 #### Arizona's Children Association (AzCA) — Transition supports
 
@@ -191,26 +180,6 @@
 | **File** | `web/src/data/resources.ts` |
 | **Page title** | Fostering Advocates Arizona - Youth. Speak. Change. |
 
-#### Community Legal Services
-
-| Field | Value |
-|:---|:---|
-| **URL** | https://clsaz.org |
-| **Phone (on file)** | (800) 852-9075 |
-| **Reason** | Phone "(800) 852-9075" not found; no phone numbers detected on page |
-| **File** | `server/src/data/resources.ts` |
-| **Page title** | One moment, please... |
-
-#### Southern Arizona Legal Aid
-
-| Field | Value |
-|:---|:---|
-| **URL** | https://www.sazlegalaid.org |
-| **Phone (on file)** | (520) 623-9461 |
-| **Reason** | Phone "(520) 623-9461" not found; no phone numbers detected on page |
-| **File** | `server/src/data/resources.ts` |
-| **Page title** | One moment, please... |
-
 #### UMOM New Day Centers
 
 | Field | Value |
@@ -220,6 +189,16 @@
 | **Reason** | Phone "(602) 889-3597" not found; no phone numbers detected on page |
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | UMOM New Day Centers |
+
+#### Native Connections — Youth Crisis Housing
+
+| Field | Value |
+|:---|:---|
+| **URL** | https://www.nativeconnections.org |
+| **Phone (on file)** | 602-254-3247 |
+| **Reason** | Phone "602-254-3247" not found; no phone numbers detected on page |
+| **File** | `server/src/data/resources.ts` |
+| **Page title** | Home - Native American Connections |
 
 #### EMPACT-SPC
 
@@ -297,9 +276,9 @@
 
 | Entry | URL | Phone | Status |
 |:---|:---|:---|:---|
-| 988 Suicide & Crisis Lifeline | ✅ https://988lifeline.org/ | — | ✅ |
-| Crisis Text Line | ✅ https://www.crisistextline.org/ | — | ✅ |
-| Education and Training Voucher (ETV) — AzCA | ✅ https://www.arizonaschildren.org/services/young-adult-services/ | ✅ (800) 944-7611 | ✅ |
+| ALWAYS (legal help) | ✅ https://alwaysaz.org/ | — | ✅ |
+| Community Legal Services | ✅ https://clsaz.org | ✅ (800) 852-9075 | ✅ |
+| Southern Arizona Legal Aid | ✅ https://www.sazlegalaid.org | ✅ (520) 623-9461 | ✅ |
 
 ---
 
