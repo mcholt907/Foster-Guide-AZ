@@ -1,8 +1,8 @@
 # Content Re-verification Report
 
-> **Generated:** 2026-07-06  
+> **Generated:** 2026-07-13  
 > **Mode:** Applied  
-> **Total entries checked:** 25
+> **Total entries checked:** 29
 
 ---
 
@@ -10,8 +10,16 @@
 
 | Metric | Count |
 |:---|:---|
-| ✅ Verified / Auto-corrected | 0 |
-| ❌ Needs manual review | 25 |
+| ✅ Verified / Auto-corrected | 3 |
+| ❌ Needs manual review | 26 |
+
+---
+
+## Auto-corrections Applied
+
+| Entry | Field | Old Value | New Value | Reason |
+|:---|:---|:---|:---|:---|
+| *(only lastVerified dates updated)* | | | | |
 
 ---
 
@@ -46,7 +54,7 @@
 | **Reason** | Network error: getaddrinfo EAI_AGAIN www.tumbleweed.org |
 | **File** | `server/src/data/resources.ts` |
 
-### 🚫 HTTP Errors (page moved or access denied) (7)
+### 🚫 HTTP Errors (page moved or access denied) (8)
 
 #### AZ DCS Child Abuse Hotline
 
@@ -81,6 +89,14 @@
 | **URL** | https://www.mercycareaz.org/dcschp/index.html |
 | **Phone (on file)** | 602-212-4983 |
 | **Reason** | HTTP 403 — page returned an error |
+| **File** | `server/src/data/resources.ts` |
+
+#### Arizona Foster Care Tuition Waiver
+
+| Field | Value |
+|:---|:---|
+| **URL** | https://azregents.edu/foster-youth |
+| **Reason** | HTTP 404 — page returned an error |
 | **File** | `server/src/data/resources.ts` |
 
 #### Arizona@Work
@@ -261,6 +277,16 @@
 | **Reason** | Phone "602-242-3663" not found; no phone numbers detected on page |
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | St. Mary’s Food Bank of Arizona: Help Feed the Hungry |
+
+---
+
+## Verified Entries
+
+| Entry | URL | Phone | Status |
+|:---|:---|:---|:---|
+| 988 Suicide & Crisis Lifeline | ✅ https://988lifeline.org/ | — | ✅ |
+| Crisis Text Line | ✅ https://www.crisistextline.org/ | — | ✅ |
+| One•n•Ten | ✅ https://onenten.org | ✅ (602) 400-2601 | ✅ |
 
 ---
 
