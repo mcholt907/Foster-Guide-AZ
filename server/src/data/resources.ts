@@ -105,7 +105,7 @@ export const RESOURCES: Resource[] = [
     phone: "(800) 852-9075",
     website: "https://clsaz.org",
     spanish: true,
-    lastVerified: "2026-06-29",
+    lastVerified: "2026-08-03",
   },
   {
     id: "r-dna-legal",
@@ -131,7 +131,7 @@ export const RESOURCES: Resource[] = [
     phone: "(520) 623-9461",
     website: "https://www.sazlegalaid.org",
     spanish: true,
-    lastVerified: "2026-06-29",
+    lastVerified: "2026-08-03",
   },
   {
     id: "r-fostering-advocates",

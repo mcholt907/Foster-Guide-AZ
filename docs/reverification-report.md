@@ -1,8 +1,8 @@
 # Content Re-verification Report
 
-> **Generated:** 2026-07-27  
+> **Generated:** 2026-08-03  
 > **Mode:** Applied  
-> **Total entries checked:** 27
+> **Total entries checked:** 30
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Metric | Count |
 |:---|:---|
-| ✅ Verified / Auto-corrected | 1 |
+| ✅ Verified / Auto-corrected | 4 |
 | ❌ Needs manual review | 26 |
 
 ---
@@ -148,18 +148,7 @@
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | Home - United Food Bank |
 
-### ⏱️ Timeouts (server unresponsive) (1)
-
-#### Fostering Advocates Arizona
-
-| Field | Value |
-|:---|:---|
-| **URL** | https://www.fosteringadvocatesarizona.org |
-| **Phone (on file)** | (602) 266-0707 |
-| **Reason** | Network error: Timeout after 15000ms |
-| **File** | `web/src/data/resources.ts` |
-
-### 📵 Phone Number Not Found (no candidates) (12)
+### 📵 Phone Number Not Found (no candidates) (13)
 
 #### Arizona's Children Association (AzCA) — Transition supports
 
@@ -188,6 +177,16 @@
 | **Phone (on file)** | (520) 299-4614 |
 | **Reason** | Phone "(520) 299-4614" not found; no phone numbers detected on page |
 | **File** | `web/src/data/resources.ts` |
+
+#### Fostering Advocates Arizona
+
+| Field | Value |
+|:---|:---|
+| **URL** | https://www.fosteringadvocatesarizona.org |
+| **Phone (on file)** | (602) 266-0707 |
+| **Reason** | Phone "(602) 266-0707" not found; no phone numbers detected on page |
+| **File** | `web/src/data/resources.ts` |
+| **Page title** | Fostering Advocates Arizona - Youth. Speak. Change. |
 
 #### UMOM New Day Centers
 
@@ -285,7 +284,10 @@
 
 | Entry | URL | Phone | Status |
 |:---|:---|:---|:---|
-| Education and Training Voucher (ETV) — AzCA | ✅ https://www.arizonaschildren.org/services/young-adult-services/ | ✅ (800) 944-7611 | ✅ |
+| 988 Suicide & Crisis Lifeline | ✅ https://988lifeline.org/ | — | ✅ |
+| Crisis Text Line | ✅ https://www.crisistextline.org/ | — | ✅ |
+| Community Legal Services | ✅ https://clsaz.org | ✅ (800) 852-9075 | ✅ |
+| Southern Arizona Legal Aid | ✅ https://www.sazlegalaid.org | ✅ (520) 623-9461 | ✅ |
 
 ---
 
