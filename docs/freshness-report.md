@@ -1,6 +1,6 @@
 # FosterHub AZ — Content Freshness Report
 
-> Generated: **2026-08-01**
+> Generated: **2026-08-03**
 
 ---
 
@@ -8,10 +8,10 @@
 
 | Metric | Value |
 |:---|:---|
-| **Overall Content Health** | 🔴 **42%** within SLA |
+| **Overall Content Health** | 🔴 **50%** within SLA |
 | Total tracked entries | 52 |
-| Within SLA | ✅ 22 |
-| Overdue | 🔴 30 |
+| Within SLA | ✅ 26 |
+| Overdue | 🔴 26 |
 
 ### SLA Thresholds
 
@@ -26,14 +26,14 @@
 
 ## Crisis Contacts
 
-> 25% within 14-day SLA (1/4)
+> 75% within 14-day SLA (3/4)
 
 | Status | Entry | Last Verified | Age (days) | SLA |
 |:---|:---|:---|:---|:---|
-| 🔴 | AZ DCS Child Abuse Hotline | 2026-04-04 | 119 | 14 |
-| 🔴 | 988 Suicide & Crisis Lifeline | 2026-07-13 | 19 | 14 |
-| 🔴 | Crisis Text Line | 2026-07-13 | 19 | 14 |
-| 🟡 | ALWAYS (legal help) | 2026-07-20 | 12 | 14 |
+| 🔴 | AZ DCS Child Abuse Hotline | 2026-04-04 | 121 | 14 |
+| 🟡 | ALWAYS (legal help) | 2026-07-20 | 14 | 14 |
+| ✅ | 988 Suicide & Crisis Lifeline | 2026-08-03 | 0 | 14 |
+| ✅ | Crisis Text Line | 2026-08-03 | 0 | 14 |
 
 ---
 
@@ -43,59 +43,59 @@
 
 | Status | Entry | Last Verified | Age (days) | SLA |
 |:---|:---|:---|:---|:---|
-| 🔴 | Arizona's Children Association (AzCA) — Transition supports | 2026-04-04 | 119 | 30 |
-| 🔴 | New Culture | 2026-04-04 | 119 | 30 |
-| 🔴 | Thrive AZ — Transitional Housing | 2026-04-04 | 119 | 30 |
-| 🔴 | Fostering Advocates Arizona | 2026-04-04 | 119 | 30 |
-| 🔴 | ARIZONA@WORK — Local Job Center Locator | 2026-04-04 | 119 | 30 |
-| ✅ | ALWAYS | 2026-07-20 | 12 | 30 |
-| ✅ | 211 Arizona | 2026-07-20 | 12 | 30 |
-| ✅ | AHCCCS — YATI (Young Adults Transitional Insurance) | 2026-07-20 | 12 | 30 |
-| ✅ | Arizona Friends of Foster Children Foundation (AFFCF) | 2026-07-20 | 12 | 30 |
+| 🔴 | Arizona's Children Association (AzCA) — Transition supports | 2026-04-04 | 121 | 30 |
+| 🔴 | New Culture | 2026-04-04 | 121 | 30 |
+| 🔴 | Thrive AZ — Transitional Housing | 2026-04-04 | 121 | 30 |
+| 🔴 | Fostering Advocates Arizona | 2026-04-04 | 121 | 30 |
+| 🔴 | ARIZONA@WORK — Local Job Center Locator | 2026-04-04 | 121 | 30 |
+| ✅ | ALWAYS | 2026-07-20 | 14 | 30 |
+| ✅ | 211 Arizona | 2026-07-20 | 14 | 30 |
+| ✅ | AHCCCS — YATI (Young Adults Transitional Insurance) | 2026-07-20 | 14 | 30 |
+| ✅ | Arizona Friends of Foster Children Foundation (AFFCF) | 2026-07-20 | 14 | 30 |
 
 ---
 
 ## Server Resources
 
-> 37% within 30-day SLA (13/35)
+> 43% within 30-day SLA (15/35)
 
 | Status | Entry | Last Verified | Age (days) | SLA |
 |:---|:---|:---|:---|:---|
-| 🔴 | ALWAYS (AZ Legal Aid for Youth) | 2026-03-01 | 153 | 30 |
-| 🔴 | Fostering Advocates Arizona | 2026-03-01 | 153 | 30 |
-| 🔴 | Arizona DCS Child Abuse Hotline | 2026-04-04 | 119 | 30 |
-| 🔴 | Tumbleweed Center for Youth Development | 2026-04-04 | 119 | 30 |
-| 🔴 | UMOM New Day Centers | 2026-04-04 | 119 | 30 |
-| 🔴 | Native Connections — Youth Crisis Housing | 2026-04-04 | 119 | 30 |
-| 🔴 | Mercy Care — DCS CHP (Comprehensive Health Plan) | 2026-04-04 | 119 | 30 |
-| 🔴 | EMPACT-SPC | 2026-04-04 | 119 | 30 |
-| 🔴 | Copa Health | 2026-04-04 | 119 | 30 |
-| 🔴 | La Frontera Arizona | 2026-04-04 | 119 | 30 |
-| 🔴 | ASU Foster Youth Success Initiative | 2026-04-04 | 119 | 30 |
-| 🔴 | Northern Arizona University — Foster Youth Assistance | 2026-04-04 | 119 | 30 |
-| 🔴 | Arizona@Work | 2026-04-04 | 119 | 30 |
-| 🔴 | Goodwill of Central & Northern Arizona | 2026-04-04 | 119 | 30 |
-| 🔴 | Arizona's Children Association (AzCA) | 2026-04-04 | 119 | 30 |
-| 🔴 | St. Mary's Food Bank | 2026-04-04 | 119 | 30 |
-| 🔴 | United Food Bank | 2026-04-04 | 119 | 30 |
-| 🔴 | Arizona SNAP (Food Stamps) | 2026-04-04 | 119 | 30 |
-| 🔴 | Arizona DES — Cash Assistance (TANF) | 2026-04-04 | 119 | 30 |
-| 🔴 | Arizona Foster Care Tuition Waiver | 2026-06-08 | 54 | 30 |
-| 🔴 | Community Legal Services | 2026-06-29 | 33 | 30 |
-| 🔴 | Southern Arizona Legal Aid | 2026-06-29 | 33 | 30 |
-| 🟡 | One•n•Ten | 2026-07-13 | 19 | 30 |
-| ✅ | 988 Suicide & Crisis Lifeline | 2026-07-20 | 12 | 30 |
-| ✅ | Crisis Text Line | 2026-07-20 | 12 | 30 |
-| ✅ | 211 Arizona | 2026-07-20 | 12 | 30 |
-| ✅ | DNA People's Legal Services | 2026-07-20 | 12 | 30 |
-| ✅ | Youth On Their Own (YOTO) | 2026-07-20 | 12 | 30 |
-| ✅ | AHCCCS — Young Adult Transition Initiative (YATI) | 2026-07-20 | 12 | 30 |
-| ✅ | University of Arizona — Foster Youth Programs | 2026-07-20 | 12 | 30 |
-| ✅ | Job Corps | 2026-07-20 | 12 | 30 |
-| ✅ | Arizona Friends of Foster Children Foundation (AFFCF) | 2026-07-20 | 12 | 30 |
-| ✅ | Arizona Foster Youth Scholarship Fund | 2026-07-20 | 12 | 30 |
-| ✅ | Arizona Independent Living Account (IDA) | 2026-07-20 | 12 | 30 |
-| ✅ | Education and Training Voucher (ETV) — AzCA | 2026-07-27 | 5 | 30 |
+| 🔴 | ALWAYS (AZ Legal Aid for Youth) | 2026-03-01 | 155 | 30 |
+| 🔴 | Fostering Advocates Arizona | 2026-03-01 | 155 | 30 |
+| 🔴 | Arizona DCS Child Abuse Hotline | 2026-04-04 | 121 | 30 |
+| 🔴 | Tumbleweed Center for Youth Development | 2026-04-04 | 121 | 30 |
+| 🔴 | UMOM New Day Centers | 2026-04-04 | 121 | 30 |
+| 🔴 | Native Connections — Youth Crisis Housing | 2026-04-04 | 121 | 30 |
+| 🔴 | Mercy Care — DCS CHP (Comprehensive Health Plan) | 2026-04-04 | 121 | 30 |
+| 🔴 | EMPACT-SPC | 2026-04-04 | 121 | 30 |
+| 🔴 | Copa Health | 2026-04-04 | 121 | 30 |
+| 🔴 | La Frontera Arizona | 2026-04-04 | 121 | 30 |
+| 🔴 | ASU Foster Youth Success Initiative | 2026-04-04 | 121 | 30 |
+| 🔴 | Northern Arizona University — Foster Youth Assistance | 2026-04-04 | 121 | 30 |
+| 🔴 | Arizona@Work | 2026-04-04 | 121 | 30 |
+| 🔴 | Goodwill of Central & Northern Arizona | 2026-04-04 | 121 | 30 |
+| 🔴 | Arizona's Children Association (AzCA) | 2026-04-04 | 121 | 30 |
+| 🔴 | St. Mary's Food Bank | 2026-04-04 | 121 | 30 |
+| 🔴 | United Food Bank | 2026-04-04 | 121 | 30 |
+| 🔴 | Arizona SNAP (Food Stamps) | 2026-04-04 | 121 | 30 |
+| 🔴 | Arizona DES — Cash Assistance (TANF) | 2026-04-04 | 121 | 30 |
+| 🔴 | Arizona Foster Care Tuition Waiver | 2026-06-08 | 56 | 30 |
+| 🟡 | One•n•Ten | 2026-07-13 | 21 | 30 |
+| ✅ | 988 Suicide & Crisis Lifeline | 2026-07-20 | 14 | 30 |
+| ✅ | Crisis Text Line | 2026-07-20 | 14 | 30 |
+| ✅ | 211 Arizona | 2026-07-20 | 14 | 30 |
+| ✅ | DNA People's Legal Services | 2026-07-20 | 14 | 30 |
+| ✅ | Youth On Their Own (YOTO) | 2026-07-20 | 14 | 30 |
+| ✅ | AHCCCS — Young Adult Transition Initiative (YATI) | 2026-07-20 | 14 | 30 |
+| ✅ | University of Arizona — Foster Youth Programs | 2026-07-20 | 14 | 30 |
+| ✅ | Job Corps | 2026-07-20 | 14 | 30 |
+| ✅ | Arizona Friends of Foster Children Foundation (AFFCF) | 2026-07-20 | 14 | 30 |
+| ✅ | Arizona Foster Youth Scholarship Fund | 2026-07-20 | 14 | 30 |
+| ✅ | Arizona Independent Living Account (IDA) | 2026-07-20 | 14 | 30 |
+| ✅ | Education and Training Voucher (ETV) — AzCA | 2026-07-27 | 7 | 30 |
+| ✅ | Community Legal Services | 2026-08-03 | 0 | 30 |
+| ✅ | Southern Arizona Legal Aid | 2026-08-03 | 0 | 30 |
 
 ---
 
@@ -105,10 +105,10 @@
 
 | Status | Entry | Last Verified | Age (days) | SLA |
 |:---|:---|:---|:---|:---|
-| 🟡 | Birth certificate | 2026-06-08 | 54 | 60 |
-| 🟡 | Social Security card | 2026-06-08 | 54 | 60 |
-| 🟡 | State ID / driver's license | 2026-06-08 | 54 | 60 |
-| 🟡 | Immunization records | 2026-06-08 | 54 | 60 |
+| 🟡 | Birth certificate | 2026-06-08 | 56 | 60 |
+| 🟡 | Social Security card | 2026-06-08 | 56 | 60 |
+| 🟡 | State ID / driver's license | 2026-06-08 | 56 | 60 |
+| 🟡 | Immunization records | 2026-06-08 | 56 | 60 |
 
 ---
 
