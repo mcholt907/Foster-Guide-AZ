@@ -1,8 +1,8 @@
 # Content Re-verification Report
 
-> **Generated:** 2026-08-03  
+> **Generated:** 2026-08-10  
 > **Mode:** Applied  
-> **Total entries checked:** 30
+> **Total entries checked:** 31
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Metric | Count |
 |:---|:---|
-| ✅ Verified / Auto-corrected | 4 |
+| ✅ Verified / Auto-corrected | 5 |
 | ❌ Needs manual review | 26 |
 
 ---
@@ -284,10 +284,11 @@
 
 | Entry | URL | Phone | Status |
 |:---|:---|:---|:---|
-| 988 Suicide & Crisis Lifeline | ✅ https://988lifeline.org/ | — | ✅ |
-| Crisis Text Line | ✅ https://www.crisistextline.org/ | — | ✅ |
-| Community Legal Services | ✅ https://clsaz.org | ✅ (800) 852-9075 | ✅ |
-| Southern Arizona Legal Aid | ✅ https://www.sazlegalaid.org | ✅ (520) 623-9461 | ✅ |
+| ALWAYS (legal help) | ✅ https://alwaysaz.org/ | — | ✅ |
+| Birth certificate | ✅ — | — | ✅ |
+| Social Security card | ✅ — | — | ✅ |
+| State ID / driver's license | ✅ — | — | ✅ |
+| Immunization records | ✅ — | — | ✅ |
 
 ---
 
