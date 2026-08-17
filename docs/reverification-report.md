@@ -1,8 +1,8 @@
 # Content Re-verification Report
 
-> **Generated:** 2026-08-10  
+> **Generated:** 2026-08-17  
 > **Mode:** Applied  
-> **Total entries checked:** 31
+> **Total entries checked:** 27
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Metric | Count |
 |:---|:---|
-| ✅ Verified / Auto-corrected | 5 |
+| ✅ Verified / Auto-corrected | 1 |
 | ❌ Needs manual review | 26 |
 
 ---
@@ -148,7 +148,18 @@
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | Home - United Food Bank |
 
-### 📵 Phone Number Not Found (no candidates) (13)
+### ⏱️ Timeouts (server unresponsive) (1)
+
+#### Fostering Advocates Arizona
+
+| Field | Value |
+|:---|:---|
+| **URL** | https://www.fosteringadvocatesarizona.org |
+| **Phone (on file)** | (602) 266-0707 |
+| **Reason** | Network error: Timeout after 15000ms |
+| **File** | `web/src/data/resources.ts` |
+
+### 📵 Phone Number Not Found (no candidates) (12)
 
 #### Arizona's Children Association (AzCA) — Transition supports
 
@@ -177,16 +188,6 @@
 | **Phone (on file)** | (520) 299-4614 |
 | **Reason** | Phone "(520) 299-4614" not found; no phone numbers detected on page |
 | **File** | `web/src/data/resources.ts` |
-
-#### Fostering Advocates Arizona
-
-| Field | Value |
-|:---|:---|
-| **URL** | https://www.fosteringadvocatesarizona.org |
-| **Phone (on file)** | (602) 266-0707 |
-| **Reason** | Phone "(602) 266-0707" not found; no phone numbers detected on page |
-| **File** | `web/src/data/resources.ts` |
-| **Page title** | Fostering Advocates Arizona - Youth. Speak. Change. |
 
 #### UMOM New Day Centers
 
@@ -284,11 +285,7 @@
 
 | Entry | URL | Phone | Status |
 |:---|:---|:---|:---|
-| ALWAYS (legal help) | ✅ https://alwaysaz.org/ | — | ✅ |
-| Birth certificate | ✅ — | — | ✅ |
-| Social Security card | ✅ — | — | ✅ |
-| State ID / driver's license | ✅ — | — | ✅ |
-| Immunization records | ✅ — | — | ✅ |
+| One•n•Ten | ✅ https://onenten.org | ✅ (602) 400-2601 | ✅ |
 
 ---
 

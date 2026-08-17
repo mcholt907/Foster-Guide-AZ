@@ -408,7 +408,7 @@ export const RESOURCES: Resource[] = [
     phone: "(602) 400-2601",
     website: "https://onenten.org",
     spanish: false,
-    lastVerified: "2026-07-13",
+    lastVerified: "2026-08-17",
   },
   // FOOD
   {
