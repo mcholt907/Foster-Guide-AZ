@@ -1,6 +1,6 @@
 # Content Re-verification Report
 
-> **Generated:** 2026-08-31  
+> **Generated:** 2026-09-07  
 > **Mode:** Applied  
 > **Total entries checked:** 28
 
@@ -10,8 +10,8 @@
 
 | Metric | Count |
 |:---|:---|
-| ✅ Verified / Auto-corrected | 2 |
-| ❌ Needs manual review | 26 |
+| ✅ Verified / Auto-corrected | 1 |
+| ❌ Needs manual review | 27 |
 
 ---
 
@@ -54,7 +54,7 @@
 | **Reason** | Network error: getaddrinfo EAI_AGAIN www.tumbleweed.org |
 | **File** | `server/src/data/resources.ts` |
 
-### 🚫 HTTP Errors (page moved or access denied) (8)
+### 🚫 HTTP Errors (page moved or access denied) (9)
 
 #### AZ DCS Child Abuse Hotline
 
@@ -79,6 +79,15 @@
 |:---|:---|
 | **URL** | https://dcs.az.gov/report-child-abuse |
 | **Phone (on file)** | 1-888-767-2445 |
+| **Reason** | HTTP 403 — page returned an error |
+| **File** | `server/src/data/resources.ts` |
+
+#### Community Legal Services
+
+| Field | Value |
+|:---|:---|
+| **URL** | https://clsaz.org |
+| **Phone (on file)** | (800) 852-9075 |
 | **Reason** | HTTP 403 — page returned an error |
 | **File** | `server/src/data/resources.ts` |
 
@@ -284,8 +293,7 @@
 
 | Entry | URL | Phone | Status |
 |:---|:---|:---|:---|
-| ALWAYS (legal help) | ✅ https://alwaysaz.org/ | — | ✅ |
-| Education and Training Voucher (ETV) — AzCA | ✅ https://www.arizonaschildren.org/services/young-adult-services/ | ✅ (800) 944-7611 | ✅ |
+| Southern Arizona Legal Aid | ✅ https://www.sazlegalaid.org | ✅ (520) 623-9461 | ✅ |
 
 ---
 
