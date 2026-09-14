@@ -1,8 +1,8 @@
 # Content Re-verification Report
 
-> **Generated:** 2026-09-07  
+> **Generated:** 2026-09-14  
 > **Mode:** Applied  
-> **Total entries checked:** 28
+> **Total entries checked:** 29
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Metric | Count |
 |:---|:---|
-| ✅ Verified / Auto-corrected | 1 |
+| ✅ Verified / Auto-corrected | 2 |
 | ❌ Needs manual review | 27 |
 
 ---
@@ -157,7 +157,18 @@
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | Home - United Food Bank |
 
-### 📵 Phone Number Not Found (no candidates) (13)
+### ⏱️ Timeouts (server unresponsive) (1)
+
+#### Fostering Advocates Arizona
+
+| Field | Value |
+|:---|:---|
+| **URL** | https://www.fosteringadvocatesarizona.org |
+| **Phone (on file)** | (602) 266-0707 |
+| **Reason** | Network error: Timeout after 15000ms |
+| **File** | `web/src/data/resources.ts` |
+
+### 📵 Phone Number Not Found (no candidates) (12)
 
 #### Arizona's Children Association (AzCA) — Transition supports
 
@@ -186,16 +197,6 @@
 | **Phone (on file)** | (520) 299-4614 |
 | **Reason** | Phone "(520) 299-4614" not found; no phone numbers detected on page |
 | **File** | `web/src/data/resources.ts` |
-
-#### Fostering Advocates Arizona
-
-| Field | Value |
-|:---|:---|
-| **URL** | https://www.fosteringadvocatesarizona.org |
-| **Phone (on file)** | (602) 266-0707 |
-| **Reason** | Phone "(602) 266-0707" not found; no phone numbers detected on page |
-| **File** | `web/src/data/resources.ts` |
-| **Page title** | Fostering Advocates Arizona - Youth. Speak. Change. |
 
 #### UMOM New Day Centers
 
@@ -293,7 +294,8 @@
 
 | Entry | URL | Phone | Status |
 |:---|:---|:---|:---|
-| Southern Arizona Legal Aid | ✅ https://www.sazlegalaid.org | ✅ (520) 623-9461 | ✅ |
+| 988 Suicide & Crisis Lifeline | ✅ https://988lifeline.org/ | — | ✅ |
+| Crisis Text Line | ✅ https://www.crisistextline.org/ | — | ✅ |
 
 ---
 
