@@ -1,6 +1,6 @@
 # Content Re-verification Report
 
-> **Generated:** 2026-09-14  
+> **Generated:** 2026-09-21  
 > **Mode:** Applied  
 > **Total entries checked:** 29
 
@@ -10,8 +10,8 @@
 
 | Metric | Count |
 |:---|:---|
-| ✅ Verified / Auto-corrected | 2 |
-| ❌ Needs manual review | 27 |
+| ✅ Verified / Auto-corrected | 1 |
+| ❌ Needs manual review | 28 |
 
 ---
 
@@ -157,18 +157,7 @@
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | Home - United Food Bank |
 
-### ⏱️ Timeouts (server unresponsive) (1)
-
-#### Fostering Advocates Arizona
-
-| Field | Value |
-|:---|:---|
-| **URL** | https://www.fosteringadvocatesarizona.org |
-| **Phone (on file)** | (602) 266-0707 |
-| **Reason** | Network error: Timeout after 15000ms |
-| **File** | `web/src/data/resources.ts` |
-
-### 📵 Phone Number Not Found (no candidates) (12)
+### 📵 Phone Number Not Found (no candidates) (14)
 
 #### Arizona's Children Association (AzCA) — Transition supports
 
@@ -197,6 +186,16 @@
 | **Phone (on file)** | (520) 299-4614 |
 | **Reason** | Phone "(520) 299-4614" not found; no phone numbers detected on page |
 | **File** | `web/src/data/resources.ts` |
+
+#### Fostering Advocates Arizona
+
+| Field | Value |
+|:---|:---|
+| **URL** | https://www.fosteringadvocatesarizona.org |
+| **Phone (on file)** | (602) 266-0707 |
+| **Reason** | Phone "(602) 266-0707" not found; no phone numbers detected on page |
+| **File** | `web/src/data/resources.ts` |
+| **Page title** | Fostering Advocates Arizona - Youth. Speak. Change. |
 
 #### UMOM New Day Centers
 
@@ -278,6 +277,16 @@
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | Home - Arizona Children&#039;s Association |
 
+#### One•n•Ten
+
+| Field | Value |
+|:---|:---|
+| **URL** | https://onenten.org |
+| **Phone (on file)** | (602) 400-2601 |
+| **Reason** | Phone "(602) 400-2601" not found; no phone numbers detected on page |
+| **File** | `server/src/data/resources.ts` |
+| **Page title** | LGBTQ Youth Support | one•n•ten |
+
 #### St. Mary's Food Bank
 
 | Field | Value |
@@ -294,8 +303,7 @@
 
 | Entry | URL | Phone | Status |
 |:---|:---|:---|:---|
-| 988 Suicide & Crisis Lifeline | ✅ https://988lifeline.org/ | — | ✅ |
-| Crisis Text Line | ✅ https://www.crisistextline.org/ | — | ✅ |
+| ALWAYS (legal help) | ✅ https://alwaysaz.org/ | — | ✅ |
 
 ---
 
