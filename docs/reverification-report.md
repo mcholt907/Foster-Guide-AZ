@@ -1,8 +1,8 @@
 # Content Re-verification Report
 
-> **Generated:** 2026-09-21  
+> **Generated:** 2026-09-28  
 > **Mode:** Applied  
-> **Total entries checked:** 29
+> **Total entries checked:** 43
 
 ---
 
@@ -10,8 +10,8 @@
 
 | Metric | Count |
 |:---|:---|
-| ✅ Verified / Auto-corrected | 1 |
-| ❌ Needs manual review | 28 |
+| ✅ Verified / Auto-corrected | 14 |
+| ❌ Needs manual review | 29 |
 
 ---
 
@@ -54,7 +54,7 @@
 | **Reason** | Network error: getaddrinfo EAI_AGAIN www.tumbleweed.org |
 | **File** | `server/src/data/resources.ts` |
 
-### 🚫 HTTP Errors (page moved or access denied) (9)
+### 🚫 HTTP Errors (page moved or access denied) (10)
 
 #### AZ DCS Child Abuse Hotline
 
@@ -88,6 +88,15 @@
 |:---|:---|
 | **URL** | https://clsaz.org |
 | **Phone (on file)** | (800) 852-9075 |
+| **Reason** | HTTP 403 — page returned an error |
+| **File** | `server/src/data/resources.ts` |
+
+#### DNA People's Legal Services
+
+| Field | Value |
+|:---|:---|
+| **URL** | https://dnalegalservices.org |
+| **Phone (on file)** | (928) 871-4151 |
 | **Reason** | HTTP 403 — page returned an error |
 | **File** | `server/src/data/resources.ts` |
 
@@ -303,7 +312,20 @@
 
 | Entry | URL | Phone | Status |
 |:---|:---|:---|:---|
-| ALWAYS (legal help) | ✅ https://alwaysaz.org/ | — | ✅ |
+| ALWAYS | ✅ https://alwaysaz.org | ✅ (602) 248-7055 | ✅ |
+| 211 Arizona | ✅ https://211arizona.org/ | ✅ 2-1-1 | ✅ |
+| AHCCCS — YATI (Young Adults Transitional Insurance) | ✅ https://www.azahcccs.gov/Members/GetCovered/Categories/YATI.html | ✅ (602) 417-4000 | ✅ |
+| Arizona Friends of Foster Children Foundation (AFFCF) | ✅ https://www.affcf.org/ | ✅ (602) 252-9445 | ✅ |
+| 988 Suicide & Crisis Lifeline | ✅ https://988lifeline.org | ✅ 988 | ✅ |
+| Crisis Text Line | ✅ https://www.crisistextline.org | ✅ 741741 | ✅ |
+| 211 Arizona | ✅ https://211arizona.org | ✅ 211 | ✅ |
+| Youth On Their Own (YOTO) | ✅ https://yoto.org | ✅ 520-293-1136 | ✅ |
+| AHCCCS — Young Adult Transition Initiative (YATI) | ✅ https://www.azahcccs.gov/Members/GetCovered/Categories/YATI.html | ✅ 602-417-4000 | ✅ |
+| University of Arizona — Foster Youth Programs | ✅ https://financialaid.arizona.edu | ✅ (520) 621-1858 | ✅ |
+| Job Corps | ✅ https://www.jobcorps.gov | ✅ 1-800-733-5627 | ✅ |
+| Arizona Friends of Foster Children Foundation (AFFCF) | ✅ https://www.affcf.org/ | ✅ 602-252-9445 | ✅ |
+| Arizona Foster Youth Scholarship Fund | ✅ https://www.affcf.org/ways-we-help/post-secondary/scholarships/ | — | ✅ |
+| Arizona Independent Living Account (IDA) | ✅ https://www.arizonaschildren.org/services/young-adult-services/ | ✅ 1-800-944-7611 | ✅ |
 
 ---
 
