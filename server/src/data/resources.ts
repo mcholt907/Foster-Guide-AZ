@@ -328,7 +328,7 @@ export const RESOURCES: Resource[] = [
     phone: "(800) 944-7611",
     website: "https://www.arizonaschildren.org/services/young-adult-services/",
     spanish: true,
-    lastVerified: "2026-08-31",
+    lastVerified: "2026-10-05",
   },
   // EMPLOYMENT
   {
