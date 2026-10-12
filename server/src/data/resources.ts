@@ -131,7 +131,7 @@ export const RESOURCES: Resource[] = [
     phone: "(520) 623-9461",
     website: "https://www.sazlegalaid.org",
     spanish: true,
-    lastVerified: "2026-09-07",
+    lastVerified: "2026-10-12",
   },
   {
     id: "r-fostering-advocates",

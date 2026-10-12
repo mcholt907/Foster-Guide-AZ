@@ -1,8 +1,8 @@
 # Content Re-verification Report
 
-> **Generated:** 2026-10-05  
+> **Generated:** 2026-10-12  
 > **Mode:** Applied  
-> **Total entries checked:** 32
+> **Total entries checked:** 35
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Metric | Count |
 |:---|:---|
-| ✅ Verified / Auto-corrected | 3 |
+| ✅ Verified / Auto-corrected | 6 |
 | ❌ Needs manual review | 29 |
 
 ---
@@ -166,18 +166,7 @@
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | Home - United Food Bank |
 
-### ⏱️ Timeouts (server unresponsive) (1)
-
-#### EMPACT-SPC
-
-| Field | Value |
-|:---|:---|
-| **URL** | https://lafronteraaz-empact.org |
-| **Phone (on file)** | 480-784-1500 |
-| **Reason** | Network error: Timeout after 15000ms |
-| **File** | `server/src/data/resources.ts` |
-
-### 📵 Phone Number Not Found (no candidates) (13)
+### 📵 Phone Number Not Found (no candidates) (14)
 
 #### Arizona's Children Association (AzCA) — Transition supports
 
@@ -187,7 +176,7 @@
 | **Phone (on file)** | (480) 247-1413 |
 | **Reason** | Phone "(480) 247-1413" not found; no phone numbers detected on page |
 | **File** | `web/src/data/resources.ts` |
-| **Page title** | Home - Arizona Children&#039;s Association |
+| **Page title** | Arizona&#039;s Children Association - Make a Difference! |
 
 #### New Culture
 
@@ -237,6 +226,16 @@
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | Home - Native American Connections |
 
+#### EMPACT-SPC
+
+| Field | Value |
+|:---|:---|
+| **URL** | https://lafronteraaz-empact.org |
+| **Phone (on file)** | 480-784-1500 |
+| **Reason** | Phone "480-784-1500" not found; no phone numbers detected on page |
+| **File** | `server/src/data/resources.ts` |
+| **Page title** | La Frontera Empact | |
+
 #### La Frontera Arizona
 
 | Field | Value |
@@ -285,7 +284,7 @@
 | **Phone (on file)** | 1-800-944-7611 |
 | **Reason** | Phone "1-800-944-7611" not found; no phone numbers detected on page |
 | **File** | `server/src/data/resources.ts` |
-| **Page title** | Home - Arizona Children&#039;s Association |
+| **Page title** | Arizona&#039;s Children Association - Make a Difference! |
 
 #### One•n•Ten
 
@@ -313,9 +312,12 @@
 
 | Entry | URL | Phone | Status |
 |:---|:---|:---|:---|
-| 988 Suicide & Crisis Lifeline | ✅ https://988lifeline.org/ | — | ✅ |
-| Crisis Text Line | ✅ https://www.crisistextline.org/ | — | ✅ |
-| Education and Training Voucher (ETV) — AzCA | ✅ https://www.arizonaschildren.org/services/young-adult-services/ | ✅ (800) 944-7611 | ✅ |
+| ALWAYS (legal help) | ✅ https://alwaysaz.org/ | — | ✅ |
+| Southern Arizona Legal Aid | ✅ https://www.sazlegalaid.org | ✅ (520) 623-9461 | ✅ |
+| Birth certificate | ✅ — | — | ✅ |
+| Social Security card | ✅ — | — | ✅ |
+| State ID / driver's license | ✅ — | — | ✅ |
+| Immunization records | ✅ — | — | ✅ |
 
 ---
 
