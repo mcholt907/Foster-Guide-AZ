@@ -1,8 +1,8 @@
 # Content Re-verification Report
 
-> **Generated:** 2026-10-12  
+> **Generated:** 2026-10-19  
 > **Mode:** Applied  
-> **Total entries checked:** 35
+> **Total entries checked:** 29
 
 ---
 
@@ -10,16 +10,8 @@
 
 | Metric | Count |
 |:---|:---|
-| ✅ Verified / Auto-corrected | 6 |
+| ✅ Verified / Auto-corrected | 0 |
 | ❌ Needs manual review | 29 |
-
----
-
-## Auto-corrections Applied
-
-| Entry | Field | Old Value | New Value | Reason |
-|:---|:---|:---|:---|:---|
-| *(only lastVerified dates updated)* | | | | |
 
 ---
 
@@ -305,19 +297,6 @@
 | **Reason** | Phone "602-242-3663" not found; no phone numbers detected on page |
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | St. Mary’s Food Bank of Arizona: Help Feed the Hungry |
-
----
-
-## Verified Entries
-
-| Entry | URL | Phone | Status |
-|:---|:---|:---|:---|
-| ALWAYS (legal help) | ✅ https://alwaysaz.org/ | — | ✅ |
-| Southern Arizona Legal Aid | ✅ https://www.sazlegalaid.org | ✅ (520) 623-9461 | ✅ |
-| Birth certificate | ✅ — | — | ✅ |
-| Social Security card | ✅ — | — | ✅ |
-| State ID / driver's license | ✅ — | — | ✅ |
-| Immunization records | ✅ — | — | ✅ |
 
 ---
 
