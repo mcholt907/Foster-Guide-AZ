@@ -1,8 +1,8 @@
 # Content Re-verification Report
 
-> **Generated:** 2026-10-19  
+> **Generated:** 2026-10-26  
 > **Mode:** Applied  
-> **Total entries checked:** 29
+> **Total entries checked:** 31
 
 ---
 
@@ -10,8 +10,16 @@
 
 | Metric | Count |
 |:---|:---|
-| ✅ Verified / Auto-corrected | 0 |
+| ✅ Verified / Auto-corrected | 2 |
 | ❌ Needs manual review | 29 |
+
+---
+
+## Auto-corrections Applied
+
+| Entry | Field | Old Value | New Value | Reason |
+|:---|:---|:---|:---|:---|
+| *(only lastVerified dates updated)* | | | | |
 
 ---
 
@@ -297,6 +305,15 @@
 | **Reason** | Phone "602-242-3663" not found; no phone numbers detected on page |
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | St. Mary’s Food Bank of Arizona: Help Feed the Hungry |
+
+---
+
+## Verified Entries
+
+| Entry | URL | Phone | Status |
+|:---|:---|:---|:---|
+| 988 Suicide & Crisis Lifeline | ✅ https://988lifeline.org/ | — | ✅ |
+| Crisis Text Line | ✅ https://www.crisistextline.org/ | — | ✅ |
 
 ---
 
