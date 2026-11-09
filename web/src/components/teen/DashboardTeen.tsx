@@ -10,6 +10,7 @@ import type { LucideIcon } from "lucide-react";
 import type { Lang } from "../../lib/i18n";
 import { tt, ttBand, type TeenStringKey } from "../../lib/i18n-teen";
 import type { AgeBandKey } from "../../lib/prefs";
+import { CrisisQuickLinks } from "../CrisisQuickLinks";
 
 interface DashboardTeenProps {
   lang: Lang;
@@ -144,18 +145,16 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
             </div>
 
             {/* Crisis */}
-            <div className="bg-rose-50 rounded-3xl md:rounded-[2.5rem] p-8 md:p-10 border border-rose-100/50 shadow-sm flex flex-col items-center text-center group">
-              <div className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-[1.5rem] md:rounded-[2rem] shadow-sm flex items-center justify-center mb-6 md:mb-8 rotate-3 group-hover:rotate-0 transition-all">
-                <Phone className="text-rose-500 w-8 h-8 md:w-10 md:h-10" />
+            <div className="bg-[#FEF6E7] rounded-3xl md:rounded-[2.5rem] p-6 md:p-8 border border-[#F5D9A8]/60 shadow-sm flex flex-col items-center text-center group">
+              <div className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-[1.5rem] md:rounded-[2rem] shadow-sm flex items-center justify-center mb-5 md:mb-6 rotate-3 group-hover:rotate-0 transition-all">
+                <Phone className="text-[#B45309] w-8 h-8 md:w-10 md:h-10" />
               </div>
-              <h5 className="font-black text-rose-900 mb-3 md:mb-4 tracking-tight text-lg md:text-xl">{tt("dashboard.crisis.title", lang)}</h5>
-              <p className="text-rose-700/60 text-[13px] md:text-sm font-bold leading-relaxed mb-8 md:mb-10">{tt("dashboard.crisis.body", lang)}</p>
-              <a
-                href="tel:988"
-                className="w-full py-4 md:py-5 rounded-2xl bg-rose-500 text-white font-black text-[11px] md:text-xs uppercase tracking-[0.2em] shadow-lg shadow-rose-200 hover:bg-rose-600 hover:-translate-y-1 active:translate-y-0 transition-all"
-              >
-                {tt("dashboard.crisis.cta", lang)}
-              </a>
+              <h5 className="font-black text-[#1B3A5C] mb-3 tracking-tight text-lg md:text-xl">{tt("dashboard.crisis.title", lang)}</h5>
+              <p className="text-[#1B3A5C]/75 text-[13px] md:text-sm font-bold leading-relaxed mb-5">{tt("dashboard.crisis.body", lang)}</p>
+              {/* 911, 988 and the DCS hotline as tap-to-call, from data/constants.ts */}
+              <div className="w-full">
+                <CrisisQuickLinks lang={lang} variant="compact" />
+              </div>
             </div>
           </div>
         </div>

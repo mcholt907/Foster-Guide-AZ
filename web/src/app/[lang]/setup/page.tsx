@@ -96,7 +96,7 @@ export default function SetupPage() {
       <div className="w-full max-w-[480px] min-h-svh max-h-svh flex flex-col overflow-y-auto">
 
         {/* Top area — icon + headline */}
-        <div className="px-6 pt-[clamp(1rem,3vh,3rem)] pb-[clamp(0.5rem,1.5vh,1.5rem)] flex flex-col items-center relative z-10 w-full text-center flex-1 justify-center">
+        <div className="px-6 pt-16 pb-[clamp(0.5rem,1.5vh,1.5rem)] flex flex-col items-center relative z-10 w-full text-center flex-1 justify-center">
 
           <div className="w-[clamp(5rem,16vh,10rem)] h-[clamp(5rem,16vh,10rem)] rounded-full bg-white shadow-lg border-[6px] border-white flex justify-center items-center overflow-hidden mb-[clamp(0.75rem,2vh,1.5rem)] shrink-0">
             <Image
@@ -120,7 +120,7 @@ export default function SetupPage() {
 
           <p className="text-slate-600 font-medium text-[clamp(0.9rem,1.8vh,1.125rem)] leading-relaxed max-w-sm mb-[clamp(0.75rem,2vh,1.5rem)] px-2">
             {lang === "es"
-              ? "El cuidado adoptivo puede ser confuso. Este es un espacio tranquilo y seguro para encontrar respuestas reales y conocer tus derechos."
+              ? "El cuidado de crianza puede ser confuso. Este es un espacio tranquilo y seguro para encontrar respuestas reales y conocer tus derechos."
               : "Foster care can be confusing and overwhelming. This is a calm, safe space to find real answers and learn your rights."}
           </p>
 

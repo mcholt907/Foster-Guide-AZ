@@ -199,7 +199,7 @@ export function TeenShell({ lang, children }: TeenShellProps) {
         id="main-content"
         tabIndex={-1}
         ref={swipeRef}
-        className="flex-1 min-w-0 overflow-y-auto overflow-x-clip relative pt-20 md:pt-0 pb-24 md:pb-0 scroll-smooth focus:outline-none"
+        className="flex-1 min-w-0 overflow-y-auto overflow-x-clip relative pt-20 md:pt-0 pb-40 md:pb-20 scroll-smooth focus:outline-none"
       >
         {children}
       </main>

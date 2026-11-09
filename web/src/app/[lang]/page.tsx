@@ -10,6 +10,7 @@ import { t } from "../../lib/i18n";
 import { useOnboardingGate } from "../../lib/useOnboardingGate";
 import { usePrefs } from "../../lib/prefs";
 import type { AgeBandKey } from "../../lib/prefs";
+import { CrisisQuickLinks } from "../../components/CrisisQuickLinks";
 import { DashboardTeen } from "../../components/teen/DashboardTeen";
 
 // ── 10-12 tile dashboard ──────────────────────────────────────────────────────
@@ -151,24 +152,25 @@ function Dashboard1012({ lang }: { lang: Lang }) {
         <div className="h-px bg-slate-200 flex-1" />
       </div>
 
-      {/* Crisis line */}
-      <a
-        href="tel:988"
-        className="bg-white rounded-[1.5rem] p-4 flex items-center gap-4 shadow-sm border border-black/5 hover:bg-slate-50 transition-colors"
-      >
-        <div className="w-12 h-12 rounded-full bg-[#fee2e2] flex shrink-0 items-center justify-center text-[#b91c1c]">
-          <Phone size={20} />
+      {/* Crisis lines — 911, 988 and the DCS hotline, from data/constants.ts */}
+      <div className="bg-white rounded-[1.5rem] p-4 shadow-sm border border-black/5">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-11 h-11 rounded-full bg-[#FDECD2] flex shrink-0 items-center justify-center text-[#9A5505]">
+            <Phone size={20} />
+          </div>
+          <div className="flex-1">
+            <h4 className="font-bold text-[#35322d] leading-tight">
+              {lang === "es" ? "¿Necesitas ayuda ya?" : "Need help right now?"}
+            </h4>
+            <p className="text-xs text-slate-600 mt-0.5">
+              {lang === "es"
+                ? "Toca para llamar. No estás en problemas por pedir ayuda."
+                : "Tap to call. You are not in trouble for asking for help."}
+            </p>
+          </div>
         </div>
-        <div className="flex-1">
-          <h4 className="font-bold text-[#35322d]">{t("home_988_title", lang)}</h4>
-          <p className="text-xs text-[#a09c98] mt-0.5">
-            {t("home_988_subtitle", lang)}
-          </p>
-        </div>
-        <div className="w-10 h-10 rounded-full bg-[#fee2e2] flex items-center justify-center text-[#b91c1c] shrink-0">
-          <Phone size={16} />
-        </div>
-      </a>
+        <CrisisQuickLinks lang={lang} variant="compact" />
+      </div>
 
       {/* Language switcher */}
       <div className="mt-6 text-center text-xs text-slate-400">

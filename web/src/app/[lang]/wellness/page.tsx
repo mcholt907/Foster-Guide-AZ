@@ -4,10 +4,10 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { ChevronLeft, Phone, MessageSquare, HeartPulse } from "lucide-react";
+import { ChevronLeft, HeartPulse } from "lucide-react";
 import type { Lang } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
-import { CRISIS_PINS } from "../../../data/constants";
+import { CrisisQuickLinks } from "../../../components/CrisisQuickLinks";
 import { WellnessTeen } from "../../../components/teen/WellnessTeen";
 
 const GROUNDING_STEPS = [
@@ -195,31 +195,13 @@ function Wellness1012({ lang }: { lang: Lang }) {
               {lang === "es" ? "No estás solo — personas reales que se preocupan" : "You're not alone — real people who care"}
             </div>
           </div>
-          <div className="grid gap-3">
-            {CRISIS_PINS.map((c) => (
-              <div key={c.name} className="rounded-[20px] bg-white p-4 shadow-sm">
-                <div className="text-[15px] font-bold text-gray-800 mb-0.5">{c.name}</div>
-                <div className="text-xs text-gray-500 mb-3">{lang === "es" ? c.how_es : c.how}</div>
-                <div className="flex gap-2">
-                  {c.url.startsWith("tel:") ? (
-                    <a href={c.url} className="flex items-center gap-1.5 rounded-full bg-[#E1EAF4] hover:bg-[#C9DBEE] px-4 py-2 text-[13px] font-bold text-[#1B3A5C] transition-colors">
-                      <Phone className="h-4 w-4" />
-                      {lang === "es" ? "Llamar" : "Call"}
-                    </a>
-                  ) : c.url.startsWith("sms:") ? (
-                    <a href={c.url} className="flex items-center gap-1.5 rounded-full bg-[#E1EAF4] hover:bg-[#C9DBEE] px-4 py-2 text-[13px] font-bold text-[#1B3A5C] transition-colors">
-                      <MessageSquare className="h-4 w-4" />
-                      {lang === "es" ? "Texto" : "Text"}
-                    </a>
-                  ) : (
-                    <a href={c.url} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 rounded-full bg-gray-100 hover:bg-gray-200 px-4 py-2 text-[13px] font-bold text-gray-600 transition-colors">
-                      {lang === "es" ? "Abrir" : "Open"}
-                    </a>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+          <p className="text-sm text-[#2C5F8E] font-medium leading-relaxed mb-4">
+            {lang === "es"
+              ? "Toca un botón para llamar o escribir. No estás en problemas por pedir ayuda."
+              : "Tap a button to call or text. You are not in trouble for asking for help."}
+          </p>
+          {/* Call / Text buttons come from CRISIS_PINS in data/constants.ts */}
+          <CrisisQuickLinks lang={lang} variant="full" />
         </div>
 
         {/* Reminder */}
