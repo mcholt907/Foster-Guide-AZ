@@ -1,24 +1,40 @@
 /**
  * reverify-content.ts
  *
- * Automated re-verification AND auto-correction of stale content in FosterHub AZ.
+ * Automated re-check of stale content in FosterHub AZ (live site data only:
+ * web/src/data/resources.ts, constants.ts, docs.ts).
+ *
+ * SAFETY RULES (youth rely on these numbers — do not loosen without review):
+ *   • This script NEVER writes a phone number. If the stored number is not on
+ *     the page, the entry goes in the report under
+ *     "Needs human review: possible phone number change" and nothing changes.
+ *   • `lastVerified` is only bumped when the script positively confirmed
+ *     something: the stored phone number(s) appear on the entry's page, or the
+ *     entry has no phone number and its URL loaded with no redirect.
+ *     "The link returned 200" alone is NOT verification.
+ *   • The only data value it may rewrite (besides the date) is a URL that
+ *     permanently (301/308) redirects to an https URL on the same host
+ *     (ignoring a leading "www."). Every such change is listed in the report.
+ *     Any other redirect is reported for a human and left alone.
  *
  * For each entry past its SLA:
- *   1. Fetches the entry's URL (follows redirects, captures final URL)
- *   2. If URL redirected permanently → auto-updates the URL in the source file
- *   3. Checks the page body for the phone number we have on file
- *   4. If phone NOT found → scrapes the page for phone numbers and auto-updates
- *      if exactly one strong candidate is found (same area code as original)
- *   5. Updates lastVerified for all entries that pass (or are auto-corrected)
- *   6. Writes a structured report to docs/reverification-report.md
+ *   1. Fetch the entry's URL (follow redirects, capture final URL)
+ *   2. Look for the stored phone number(s) in the page text
+ *   3. Classify: confirmed / possible phone change / not confirmed
+ *   4. Write a report to docs/reverification-report.md
  *
  * Run:
- *   npx tsx scripts/reverify-content.ts           # dry run (report only)
- *   npx tsx scripts/reverify-content.ts --apply    # update files + write report
+ *   npx tsx scripts/reverify-content.ts            # check + write report only
+ *   npx tsx scripts/reverify-content.ts --apply    # also bump confirmed dates
+ *                                                  #   and fix safe redirects
+ *   npx tsx scripts/reverify-content.ts --dry-run  # write NOTHING (no data
+ *                                                  #   files, no report file)
+ *   --limit N                                      # only check first N stale
  *
  * Exit codes:
- *   0 — all entries verified (or auto-corrected)
- *   1 — some entries need manual review (report generated)
+ *   0 — every stale entry was confirmed
+ *   1 — some entries need a human (report generated)
+ *   2 — fatal error
  */
 
 import * as fs from "fs";
@@ -29,11 +45,21 @@ import * as http from "http";
 // ── Config ───────────────────────────────────────────────────────────────────
 
 const TODAY = new Date().toISOString().split("T")[0]!;
-const APPLY = process.argv.includes("--apply");
+const DRY_RUN = process.argv.includes("--dry-run");
+const APPLY = process.argv.includes("--apply") && !DRY_RUN;
+const LIMIT = (() => {
+  const i = process.argv.indexOf("--limit");
+  const n = i >= 0 ? Number(process.argv[i + 1]) : NaN;
+  return Number.isInteger(n) && n > 0 ? n : Infinity;
+})();
+const MODE_LABEL = DRY_RUN ? "Dry run (nothing written)" : APPLY ? "Applied" : "Report only";
+
 const TIMEOUT_MS = 15_000;
 const MAX_CONCURRENT = 5;
 const MIN_BODY_BYTES = 200;
-const MAX_BODY_BYTES = 100_000;
+const MAX_BODY_BYTES = 1_500_000;
+const MAX_URL_LENGTH = 300;
+const MAX_CANDIDATES_SHOWN = 10;
 
 const PARKED_SIGNALS = [
   "domain is for sale",
@@ -63,50 +89,64 @@ interface DataFile {
   displayPath: string;
   absPath: string;
   nameField: string;
-  urlField: string;
-  phoneField: string;
+  /** Field holding the entry's URL, or null if entries have none. */
+  urlField: string | null;
+  /** Field holding exactly one phone number, or null. */
+  phoneField: string | null;
+  /** Free-text field that may contain phone numbers / short codes, or null. */
+  contactTextField: string | null;
   slaKey: string;
 }
 
-interface Entry {
-  name: string;
-  url: string;
-  phone: string;
-  lastVerified: string;
-  dateSourceLiteral: string;
+/** Absolute character offsets of a string literal's value (between the quotes). */
+interface Span {
+  start: number;
+  end: number;
 }
 
-type FailureCategory =
-  | "dns_failure"
-  | "http_error"
-  | "parked_domain"
-  | "timeout"
-  | "empty_response"
-  | "phone_changed"
-  | "phone_removed"
-  | "unknown";
+interface Entry {
+  /** `id` field when the entry has one, otherwise its name. */
+  id: string;
+  name: string;
+  url: string;
+  /** Stored phone numbers / short codes that must all be found on the page. */
+  phones: string[];
+  lastVerified: string;
+  urlSpan: Span | null;
+  dateSpan: Span;
+}
+
+type Outcome =
+  | "confirmed" //          positively confirmed → lastVerified may be bumped
+  | "phone_mismatch" //     stored number missing, other numbers on the page
+  | "phone_not_found" //    stored number missing, no numbers on the page
+  | "redirected" //         no phone to check and the URL redirected
+  | "no_url" //             nothing this script can check
+  | "unreachable"; //       DNS / HTTP / timeout / parked / empty
 
 interface VerifyResult {
   entry: Entry;
   file: DataFile;
-  passed: boolean;
-  httpStatus: number | null;
-  urlOk: boolean;
-  phoneOk: boolean | null;
+  outcome: Outcome;
+  /** Honest, human-readable statement of exactly what was (not) established. */
   reason: string;
-  failureCategory: FailureCategory | null;
-  /** If the URL redirected, the final resolved URL */
+  httpStatus: number | null;
+  /** Final URL when the request was redirected, else null. */
   resolvedUrl: string | null;
-  /** Phone numbers scraped from the page (when our number wasn't found) */
+  /** True when resolvedUrl is safe to write back automatically. */
+  redirectAutoFixable: boolean;
+  /** Why a redirect was not auto-corrected (when it wasn't). */
+  redirectNote: string | null;
+  /** Stored numbers that were not found on the page. */
+  phonesMissing: string[];
+  /** Other phone numbers seen on the page. NEVER written to data files. */
   phoneCandidates: string[];
-  /** The auto-selected replacement phone, if any */
-  autoPhoneReplacement: string | null;
-  /** The page body (for report context) */
   pageTitle: string | null;
 }
 
 interface FileUpdate {
-  absPath: string;
+  displayPath: string;
+  entryId: string;
   entryName: string;
   field: string;
   oldValue: string;
@@ -114,7 +154,7 @@ interface FileUpdate {
   reason: string;
 }
 
-// ── Data files ───────────────────────────────────────────────────────────────
+// ── Data files (live site only — the retired server/ data is not scanned) ────
 
 const ROOT = path.resolve(__dirname, "..");
 
@@ -124,7 +164,9 @@ const DATA_FILES: DataFile[] = [
     absPath: path.join(ROOT, "web/src/data/constants.ts"),
     nameField: "name",
     urlField: "url",
-    phoneField: "__none__",
+    phoneField: null,
+    // CRISIS_PINS keep the number inside free text, e.g. "Call or text 988".
+    contactTextField: "how",
     slaKey: "crisis",
   },
   {
@@ -133,22 +175,18 @@ const DATA_FILES: DataFile[] = [
     nameField: "name",
     urlField: "url",
     phoneField: "phone",
+    contactTextField: null,
     slaKey: "resources",
   },
   {
-    displayPath: "server/src/data/resources.ts",
-    absPath: path.join(ROOT, "server/src/data/resources.ts"),
-    nameField: "name",
-    urlField: "website",
-    phoneField: "phone",
-    slaKey: "resources",
-  },
-  {
+    // No url field: these can never be confirmed automatically. They are
+    // listed in the report as "not confirmed" and their date is left alone.
     displayPath: "web/src/data/docs.ts",
     absPath: path.join(ROOT, "web/src/data/docs.ts"),
     nameField: "label",
-    urlField: "__none__",
-    phoneField: "__none__",
+    urlField: null,
+    phoneField: null,
+    contactTextField: null,
     slaKey: "documents",
   },
 ];
@@ -166,160 +204,168 @@ function escapeRegex(str: string): string {
   return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+/** Find `field: "value"` inside a block; returns value + absolute offsets. */
+function findField(
+  block: string,
+  blockOffset: number,
+  field: string
+): { value: string; span: Span } | null {
+  const m = new RegExp(`\\b${escapeRegex(field)}:\\s*"([^"\\\\\\n]*)"`).exec(block);
+  if (!m) return null;
+  const start = blockOffset + m.index + m[0].length - 1 - m[1]!.length;
+  return { value: m[1]!, span: { start, end: start + m[1]!.length } };
+}
+
 function extractEntries(content: string, file: DataFile): Entry[] {
   const entries: Entry[] = [];
-  const blocks = content.split(/\{/).slice(1);
+  // Each object literal starts at a "{"; a block runs to the next "{".
+  const starts: number[] = [];
+  for (let i = content.indexOf("{"); i !== -1; i = content.indexOf("{", i + 1)) starts.push(i);
 
-  for (const block of blocks) {
-    const nameMatch = block.match(new RegExp(`${file.nameField}:\\s*"([^"]+)"`));
-    const dateMatch = block.match(/lastVerified:\s*"([^"]+)"/);
-    const urlMatch =
-      file.urlField !== "__none__"
-        ? block.match(new RegExp(`${file.urlField}:\\s*"([^"]+)"`))
-        : null;
-    const phoneMatch =
-      file.phoneField !== "__none__"
-        ? block.match(new RegExp(`${file.phoneField}:\\s*"([^"]+)"`))
-        : null;
+  for (let b = 0; b < starts.length; b++) {
+    const offset = starts[b]!;
+    const block = content.slice(offset, starts[b + 1] ?? content.length);
 
-    if (nameMatch && dateMatch) {
-      entries.push({
-        name: nameMatch[1],
-        url: urlMatch ? urlMatch[1] : "",
-        phone: phoneMatch ? phoneMatch[1] : "",
-        lastVerified: dateMatch[1],
-        dateSourceLiteral: `lastVerified: "${dateMatch[1]}"`,
-      });
-    }
+    const name = findField(block, offset, file.nameField);
+    const date = findField(block, offset, "lastVerified");
+    if (!name || !date) continue;
+
+    const id = findField(block, offset, "id");
+    const url = file.urlField ? findField(block, offset, file.urlField) : null;
+    const phone = file.phoneField ? findField(block, offset, file.phoneField) : null;
+    const contact = file.contactTextField
+      ? findField(block, offset, file.contactTextField)
+      : null;
+
+    const phones: string[] = [];
+    if (phone && phone.value.trim()) phones.push(phone.value.trim());
+    if (contact) phones.push(...extractContactTokens(contact.value));
+
+    entries.push({
+      id: id ? id.value : name.value,
+      name: name.value,
+      url: url ? url.value : "",
+      phones: [...new Set(phones)],
+      lastVerified: date.value,
+      urlSpan: url ? url.span : null,
+      dateSpan: date.span,
+    });
   }
   return entries;
 }
 
 // ── Phone number utilities ───────────────────────────────────────────────────
 
-function normalizePhone(phone: string): string[] {
-  const variants: string[] = [];
-  const digitsOnly = phone.replace(/[^0-9]/g, "");
-  if (digitsOnly.length >= 3) variants.push(digitsOnly);
-  variants.push(phone);
+/** Optional separators allowed between the characters of a phone number. */
+const SEP = "[\\s.\\-()/\\u2010-\\u2015\\u00b7]{0,3}";
 
-  if (digitsOnly.length === 10) {
-    variants.push(`${digitsOnly.slice(0, 3)}-${digitsOnly.slice(3, 6)}-${digitsOnly.slice(6)}`);
-    variants.push(`(${digitsOnly.slice(0, 3)}) ${digitsOnly.slice(3, 6)}-${digitsOnly.slice(6)}`);
-    variants.push(`${digitsOnly.slice(0, 3)}.${digitsOnly.slice(3, 6)}.${digitsOnly.slice(6)}`);
-  }
+const KEYPAD: Record<string, string> = {
+  a: "2", b: "2", c: "2", d: "3", e: "3", f: "3", g: "4", h: "4", i: "4",
+  j: "5", k: "5", l: "5", m: "6", n: "6", o: "6", p: "7", q: "7", r: "7",
+  s: "7", t: "8", u: "8", v: "8", w: "9", x: "9", y: "9", z: "9",
+};
 
-  if (digitsOnly.length === 11 && digitsOnly.startsWith("1")) {
-    const short = digitsOnly.slice(1);
-    variants.push(short);
-    variants.push(`${short.slice(0, 3)}-${short.slice(3, 6)}-${short.slice(6)}`);
-    variants.push(`(${short.slice(0, 3)}) ${short.slice(3, 6)}-${short.slice(6)}`);
-  }
-
-  const vanityMatch = phone.match(/1-(\d{3})-([A-Z]+-?\d*)/i);
-  if (vanityMatch) {
-    variants.push(vanityMatch[2]);
-    variants.push(vanityMatch[2].replace(/-/g, ""));
-  }
-
-  return [...new Set(variants.filter((v) => v.length >= 3))];
+/**
+ * Pull phone numbers / short codes out of free text such as
+ * "Call or text 988", "Text HOME to 741741" or "1-888-SOS-CHILD".
+ */
+function extractContactTokens(text: string): string[] {
+  const re =
+    /(?<![\w-])1-\d{3}-[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*|\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}|(?<![\w-])\d{3,6}(?![\w-])/g;
+  return [...new Set(text.match(re) ?? [])];
 }
 
-function phoneFoundOnPage(phone: string, pageBody: string): boolean {
-  if (!phone) return true;
-  const variants = normalizePhone(phone);
-  const bodyLower = pageBody.toLowerCase();
-  const bodyClean = pageBody.replace(/\s+/g, " ");
+/** Reduce HTML to searchable text; keeps tel: link targets. */
+function pageToText(html: string): string {
+  const tels = [...html.matchAll(/href\s*=\s*["']tel:([^"']+)["']/gi)].map((m) =>
+    decodeURIComponentSafe(m[1]!)
+  );
+  const text = html
+    .replace(/<script\b[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style\b[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;|&#160;|&#xa0;/gi, " ")
+    .replace(/&#40;|&lpar;/gi, "(")
+    .replace(/&#41;|&rpar;/gi, ")")
+    .replace(/&#45;|&hyphen;|&dash;|&ndash;|&#8209;|&#8211;/gi, "-")
+    .replace(/\s+/g, " ");
+  return `${tels.join(" ")} ${text}`;
+}
 
-  for (const variant of variants) {
-    if (bodyLower.includes(variant.toLowerCase())) return true;
-    if (bodyClean.toLowerCase().includes(variant.toLowerCase())) return true;
+function decodeURIComponentSafe(s: string): string {
+  try {
+    return decodeURIComponent(s);
+  } catch {
+    return s;
   }
-  return false;
 }
 
 /**
- * Scrape all phone-number-like patterns from an HTML page body.
- * Returns de-duplicated phone strings in a normalized format.
+ * Build regexes that match a stored number in page text. Matches must be
+ * bounded by non-digits so "988" does not match inside "19880".
  */
-function scrapePhoneNumbers(pageBody: string): string[] {
-  // Strip HTML tags for cleaner extraction
-  const textOnly = pageBody.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
+function phonePatterns(phone: string): RegExp[] {
+  const chars = phone.replace(/[^0-9A-Za-z]/g, "");
+  if (chars.length < 3) return [];
 
-  const patterns = [
-    // (xxx) xxx-xxxx
-    /\((\d{3})\)\s*(\d{3})[-.]\s*(\d{4})/g,
-    // xxx-xxx-xxxx or xxx.xxx.xxxx
-    /(?<!\d)(\d{3})[-.]\s*(\d{3})[-.]\s*(\d{4})(?!\d)/g,
-    // 1-xxx-xxx-xxxx
-    /1[-.]\s*(\d{3})[-.]\s*(\d{3})[-.]\s*(\d{4})/g,
-    // href="tel:xxxxx"
-    /tel:\+?1?(\d{10})/g,
-    /tel:\+?1?(\d{3})[-.]\s*(\d{3})[-.]\s*(\d{4})/g,
-  ];
+  const build = (core: string, optionalOne: boolean): RegExp =>
+    new RegExp(
+      `(?<![0-9A-Za-z])${optionalOne ? `(?:\\+?1${SEP})?` : ""}` +
+        core.split("").map(escapeRegex).join(SEP) +
+        `(?![0-9A-Za-z])`,
+      "i"
+    );
 
-  const found = new Set<string>();
-
-  for (const pattern of patterns) {
-    let match;
-    while ((match = pattern.exec(textOnly)) !== null) {
-      // Reconstruct as (xxx) xxx-xxxx
-      const groups = match.slice(1).filter(Boolean);
-      if (groups.length === 1 && groups[0].length === 10) {
-        // tel:xxxxxxxxxx
-        const d = groups[0];
-        found.add(`(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`);
-      } else if (groups.length >= 3) {
-        found.add(`(${groups[0]}) ${groups[1]}-${groups[2]}`);
-      }
-    }
+  const forms = new Set<string>([chars]);
+  if (/[A-Za-z]/.test(chars)) {
+    // Vanity number: also accept its all-digit keypad form.
+    // Vanity words often run past the real number, so keep 10 digits (+1).
+    const digits = chars.toLowerCase().replace(/[a-z]/g, (c) => KEYPAD[c]!);
+    forms.add(digits.startsWith("1") ? digits.slice(0, 11) : digits.slice(0, 10));
   }
 
+  const patterns: RegExp[] = [];
+  for (const form of forms) {
+    const hasCountryCode = form.length >= 11 && form.startsWith("1");
+    const core = hasCountryCode ? form.slice(1) : form;
+    patterns.push(build(core, core.length >= 10));
+  }
+  return patterns;
+}
+
+function phoneFoundOnPage(phone: string, pageText: string): boolean {
+  return phonePatterns(phone).some((re) => re.test(pageText));
+}
+
+/**
+ * Collect phone-number-like strings from a page, for a human to look at.
+ * These are shown in the report only — they are never written to data files.
+ */
+function scrapePhoneNumbers(pageText: string): string[] {
+  const found = new Set<string>();
+  const re = /(?<!\d)(?:\+?1[\s.-]?)?\(?(\d{3})\)?[\s.-]{0,2}(\d{3})[\s.-]{0,2}(\d{4})(?!\d)/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(pageText)) !== null) {
+    found.add(`(${m[1]}) ${m[2]}-${m[3]}`);
+  }
   return [...found];
 }
 
-/**
- * Select the best replacement phone number from candidates.
- * Prefers same area code as the original.
- * Returns null if no confident match.
- */
-function pickBestPhone(
-  oldPhone: string,
-  candidates: string[]
-): string | null {
-  if (candidates.length === 0) return null;
-
-  // If there's exactly one candidate, use it
-  if (candidates.length === 1) return candidates[0];
-
-  // Extract area code from old phone
-  const oldDigits = oldPhone.replace(/[^0-9]/g, "");
-  const oldAreaCode = oldDigits.length >= 10
-    ? oldDigits.slice(oldDigits.length - 10, oldDigits.length - 7)
-    : oldDigits.slice(0, 3);
-
-  // Filter to same area code
-  const sameArea = candidates.filter((c) => {
-    const d = c.replace(/[^0-9]/g, "");
-    const areaCode = d.length >= 10
-      ? d.slice(d.length - 10, d.length - 7)
-      : d.slice(0, 3);
-    return areaCode === oldAreaCode;
-  });
-
-  // If exactly one with same area code, use it
-  if (sameArea.length === 1) return sameArea[0];
-
-  // Too ambiguous — don't auto-replace
-  return null;
-}
-
-/**
- * Extract the page <title> for context in reports.
- */
+/** Page <title>, reduced to harmless characters (it goes into a PR body). */
 function extractTitle(body: string): string | null {
   const match = body.match(/<title[^>]*>([^<]+)<\/title>/i);
-  return match ? match[1].trim().slice(0, 100) : null;
+  if (!match) return null;
+  const clean = match[1]!.replace(/[^\w\s.,'&:()\-]/g, " ").replace(/\s+/g, " ").trim();
+  return clean ? clean.slice(0, 80) : null;
+}
+
+/** Make scraped / external text safe to drop into a markdown table cell. */
+function md(value: string): string {
+  return value.replace(/[|`<>\r\n]/g, " ").replace(/@/g, "(at)").trim();
+}
+
+function mdCode(value: string): string {
+  return "`" + value.replace(/[`|<>\r\n]/g, "").trim() + "`";
 }
 
 // ── HTTP fetcher with redirect tracking ──────────────────────────────────────
@@ -332,15 +378,23 @@ interface FetchResult {
   finalUrl: string;
   /** Whether any redirects were followed */
   redirected: boolean;
+  /** True when every redirect hop was permanent (301/308) */
+  permanent: boolean;
 }
 
-function fetchUrl(url: string, originalUrl?: string, redirectsLeft = 5): Promise<FetchResult> {
+function fetchUrl(
+  url: string,
+  originalUrl?: string,
+  redirectsLeft = 5,
+  permanent = true
+): Promise<FetchResult> {
   const startUrl = originalUrl || url;
+  const base = { finalUrl: url, redirected: url !== startUrl, permanent };
 
   return new Promise((resolve) => {
     const protocol = url.startsWith("https") ? https : http;
     const timer = setTimeout(() => {
-      resolve({ status: 0, body: "", error: `Timeout after ${TIMEOUT_MS}ms`, finalUrl: url, redirected: url !== startUrl });
+      resolve({ status: 0, body: "", error: `Timeout after ${TIMEOUT_MS}ms`, ...base });
     }, TIMEOUT_MS);
 
     try {
@@ -359,11 +413,18 @@ function fetchUrl(url: string, originalUrl?: string, redirectsLeft = 5): Promise
 
           if ([301, 302, 303, 307, 308].includes(status) && res.headers.location && redirectsLeft > 0) {
             clearTimeout(timer);
-            const redirectUrl = res.headers.location.startsWith("http")
-              ? res.headers.location
-              : new URL(res.headers.location, url).toString();
+            let redirectUrl: string;
+            try {
+              redirectUrl = new URL(res.headers.location, url).toString();
+            } catch {
+              res.resume();
+              resolve({ status, body: "", error: "Invalid redirect location", ...base });
+              return;
+            }
             res.resume();
-            resolve(fetchUrl(redirectUrl, startUrl, redirectsLeft - 1));
+            resolve(
+              fetchUrl(redirectUrl, startUrl, redirectsLeft - 1, permanent && (status === 301 || status === 308))
+            );
             return;
           }
 
@@ -375,26 +436,26 @@ function fetchUrl(url: string, originalUrl?: string, redirectsLeft = 5): Promise
           res.on("end", () => {
             clearTimeout(timer);
             const body = Buffer.concat(chunks).toString("utf-8").slice(0, MAX_BODY_BYTES);
-            resolve({ status, body, error: null, finalUrl: url, redirected: url !== startUrl });
+            resolve({ status, body, error: null, ...base });
           });
           res.on("error", (err) => {
             clearTimeout(timer);
-            resolve({ status, body: "", error: err.message, finalUrl: url, redirected: url !== startUrl });
+            resolve({ status, body: "", error: err.message, ...base });
           });
         }
       );
       req.on("error", (err) => {
         clearTimeout(timer);
-        resolve({ status: 0, body: "", error: err.message, finalUrl: url, redirected: url !== startUrl });
+        resolve({ status: 0, body: "", error: err.message, ...base });
       });
       req.on("timeout", () => {
         clearTimeout(timer);
         req.destroy();
-        resolve({ status: 0, body: "", error: `Timeout after ${TIMEOUT_MS}ms`, finalUrl: url, redirected: url !== startUrl });
+        resolve({ status: 0, body: "", error: `Timeout after ${TIMEOUT_MS}ms`, ...base });
       });
     } catch (err: unknown) {
       clearTimeout(timer);
-      resolve({ status: 0, body: "", error: err instanceof Error ? err.message : String(err), finalUrl: url, redirected: url !== startUrl });
+      resolve({ status: 0, body: "", error: err instanceof Error ? err.message : String(err), ...base });
     }
   });
 }
@@ -404,118 +465,106 @@ function isParkedDomain(body: string): boolean {
   return PARKED_SIGNALS.some((signal) => lower.includes(signal));
 }
 
-// ── Verify + auto-correct ────────────────────────────────────────────────────
+/**
+ * A redirect target may be written back to the data file only when it is a
+ * permanent redirect to a plain https URL on the same host (ignoring "www.").
+ * Returns null when safe, otherwise the reason it is not.
+ */
+function redirectUnsafeReason(fromUrl: string, toUrl: string, permanent: boolean): string | null {
+  if (!permanent) return "redirect is temporary (302/303/307), not permanent";
+  if (toUrl.length > MAX_URL_LENGTH) return "redirect target is unusually long";
+  if (/["'\\`\s<>{}$]/.test(toUrl)) return "redirect target contains unsafe characters";
+  let from: URL, to: URL;
+  try {
+    from = new URL(fromUrl);
+    to = new URL(toUrl);
+  } catch {
+    return "redirect target is not a valid URL";
+  }
+  if (to.protocol !== "https:") return "redirect target is not https";
+  if (to.username || to.password) return "redirect target contains credentials";
+  const host = (u: URL) => u.hostname.toLowerCase().replace(/^www\./, "");
+  if (host(from) !== host(to)) return `redirects to a different site (${host(to)})`;
+  return null;
+}
+
+// ── Verify (read-only) ───────────────────────────────────────────────────────
 
 async function verifyEntry(entry: Entry, file: DataFile): Promise<VerifyResult> {
-  // No URL to check (e.g., docs.ts) — auto-pass
+  const base: VerifyResult = {
+    entry, file, outcome: "unreachable", reason: "", httpStatus: null,
+    resolvedUrl: null, redirectAutoFixable: false, redirectNote: null,
+    phonesMissing: [], phoneCandidates: [], pageTitle: null,
+  };
+
+  // Nothing to fetch (e.g. docs.ts) — this script cannot confirm anything.
   if (!entry.url) {
     return {
-      entry, file, passed: true, httpStatus: null, urlOk: true, phoneOk: null,
-      reason: "No URL field — auto-verified (date reset only)",
-      failureCategory: null, resolvedUrl: null, phoneCandidates: [],
-      autoPhoneReplacement: null, pageTitle: null,
+      ...base, outcome: "no_url",
+      reason: "Entry has no URL for this script to check — a person must verify it",
     };
   }
 
-  const { status, body, error, finalUrl, redirected } = await fetchUrl(entry.url);
+  const { status, body, error, finalUrl, redirected, permanent } = await fetchUrl(entry.url);
+  const resolvedUrl = redirected && finalUrl !== entry.url ? finalUrl : null;
 
-  // ── Network / DNS error ─────────────────────────────────────────────────
   if (error) {
-    const category: FailureCategory = error.includes("ENOTFOUND") || error.includes("EAI_AGAIN")
-      ? "dns_failure"
-      : error.includes("Timeout")
-      ? "timeout"
-      : "unknown";
-    return {
-      entry, file, passed: false, httpStatus: status, urlOk: false, phoneOk: null,
-      reason: `Network error: ${error}`,
-      failureCategory: category, resolvedUrl: null, phoneCandidates: [],
-      autoPhoneReplacement: null, pageTitle: null,
-    };
+    return { ...base, httpStatus: status, reason: `Could not load the page: ${error}` };
   }
-
-  // ── HTTP error ──────────────────────────────────────────────────────────
-  if (status >= 400) {
-    return {
-      entry, file, passed: false, httpStatus: status, urlOk: false, phoneOk: null,
-      reason: `HTTP ${status} — page returned an error`,
-      failureCategory: "http_error", resolvedUrl: redirected ? finalUrl : null,
-      phoneCandidates: [], autoPhoneReplacement: null, pageTitle: null,
-    };
+  if (status >= 400 || status < 200) {
+    return { ...base, httpStatus: status, resolvedUrl, reason: `Page returned HTTP ${status}` };
   }
-
-  // ── Empty response ──────────────────────────────────────────────────────
   if (body.length < MIN_BODY_BYTES) {
-    return {
-      entry, file, passed: false, httpStatus: status, urlOk: false, phoneOk: null,
-      reason: `Response body too small (${body.length} bytes)`,
-      failureCategory: "empty_response", resolvedUrl: redirected ? finalUrl : null,
-      phoneCandidates: [], autoPhoneReplacement: null, pageTitle: null,
-    };
+    return { ...base, httpStatus: status, resolvedUrl, reason: `Page was nearly empty (${body.length} bytes)` };
   }
-
-  // ── Parked domain ───────────────────────────────────────────────────────
   if (isParkedDomain(body)) {
     return {
-      entry, file, passed: false, httpStatus: status, urlOk: false, phoneOk: null,
-      reason: "Page appears to be a parked/suspended domain",
-      failureCategory: "parked_domain", resolvedUrl: redirected ? finalUrl : null,
-      phoneCandidates: [], autoPhoneReplacement: null,
-      pageTitle: extractTitle(body),
+      ...base, httpStatus: status, resolvedUrl, pageTitle: extractTitle(body),
+      reason: "Page looks like a parked or for-sale domain",
     };
   }
 
-  // ── URL is live — check for redirect ────────────────────────────────────
-  const urlToReport = redirected ? finalUrl : null;
-  const title = extractTitle(body);
+  // ── Page loaded. Work out what, if anything, that confirms. ─────────────
+  const redirectNote = resolvedUrl ? redirectUnsafeReason(entry.url, resolvedUrl, permanent) : null;
+  const live: VerifyResult = {
+    ...base, httpStatus: status, resolvedUrl,
+    redirectAutoFixable: resolvedUrl !== null && redirectNote === null,
+    redirectNote, pageTitle: extractTitle(body),
+  };
+  const pageText = pageToText(body);
 
-  // ── Phone number check ──────────────────────────────────────────────────
-  if (entry.phone) {
-    const found = phoneFoundOnPage(entry.phone, body);
+  if (entry.phones.length > 0) {
+    const missing = entry.phones.filter((p) => !phoneFoundOnPage(p, pageText));
 
-    if (!found) {
-      // Scrape page for phone numbers as replacement candidates
-      const candidates = scrapePhoneNumbers(body);
-      const bestMatch = pickBestPhone(entry.phone, candidates);
-
-      if (bestMatch) {
-        // Auto-correctable: we found a confident replacement
-        return {
-          entry, file, passed: true, httpStatus: status, urlOk: true, phoneOk: false,
-          reason: `Phone changed: "${entry.phone}" → "${bestMatch}" (auto-corrected, same area code)`,
-          failureCategory: null, resolvedUrl: urlToReport,
-          phoneCandidates: candidates, autoPhoneReplacement: bestMatch,
-          pageTitle: title,
-        };
-      }
-
-      // Could not auto-determine — needs manual review
+    if (missing.length === 0) {
       return {
-        entry, file, passed: false, httpStatus: status, urlOk: true, phoneOk: false,
-        reason: candidates.length > 0
-          ? `Phone "${entry.phone}" not found; ${candidates.length} other number(s) on page`
-          : `Phone "${entry.phone}" not found; no phone numbers detected on page`,
-        failureCategory: candidates.length > 0 ? "phone_changed" : "phone_removed",
-        resolvedUrl: urlToReport, phoneCandidates: candidates,
-        autoPhoneReplacement: null, pageTitle: title,
+        ...live, outcome: "confirmed",
+        reason: `link reachable and stored number found on page (${entry.phones.join(", ")})`,
       };
     }
 
-    // Phone confirmed on page
+    const candidates = scrapePhoneNumbers(pageText).filter(
+      (c) => !entry.phones.some((p) => phoneFoundOnPage(p, c))
+    );
     return {
-      entry, file, passed: true, httpStatus: status, urlOk: true, phoneOk: true,
-      reason: `HTTP ${status} OK, phone "${entry.phone}" confirmed on page`,
-      failureCategory: null, resolvedUrl: urlToReport,
-      phoneCandidates: [], autoPhoneReplacement: null, pageTitle: title,
+      ...live, phonesMissing: missing, phoneCandidates: candidates,
+      outcome: candidates.length > 0 ? "phone_mismatch" : "phone_not_found",
+      reason: candidates.length > 0
+        ? `link reachable, but stored number ${missing.join(", ")} was NOT found on page; other number(s) were`
+        : `link reachable, but stored number ${missing.join(", ")} was NOT found on page (no phone numbers detected)`,
     };
   }
 
-  // No phone to check, URL passed
+  // No phone number on this entry: a clean load is all we can confirm.
+  if (resolvedUrl) {
+    return {
+      ...live, outcome: "redirected",
+      reason: "link reachable but it redirected; entry has no phone number to confirm against",
+    };
+  }
   return {
-    entry, file, passed: true, httpStatus: status, urlOk: true, phoneOk: null,
-    reason: `HTTP ${status} OK — page content present (${body.length} bytes)`,
-    failureCategory: null, resolvedUrl: urlToReport,
-    phoneCandidates: [], autoPhoneReplacement: null, pageTitle: title,
+    ...live, outcome: "confirmed",
+    reason: "link reachable with no redirect (entry has no phone number to check)",
   };
 }
 
@@ -539,209 +588,207 @@ async function verifyInBatches(
 }
 
 // ── File update engine ───────────────────────────────────────────────────────
+//
+// Writes ONLY: (a) lastVerified for "confirmed" entries, and (b) url for safe
+// same-host permanent redirects. There is deliberately no code path here that
+// writes a phone number.
 
-function applyUpdates(results: VerifyResult[]): { updates: FileUpdate[]; errors: string[] } {
+function planUpdates(results: VerifyResult[]): FileUpdate[] {
   const updates: FileUpdate[] = [];
-  const errors: string[] = [];
-
-  // Group results by file
-  const byFile = new Map<string, VerifyResult[]>();
   for (const r of results) {
-    if (!r.passed) continue;
-    const key = r.file.absPath;
-    if (!byFile.has(key)) byFile.set(key, []);
-    byFile.get(key)!.push(r);
-  }
-
-  for (const [absPath, fileResults] of byFile) {
-    let content = fs.readFileSync(absPath, "utf-8");
-    const file = fileResults[0].file;
-
-    for (const r of fileResults) {
-      // 1. Update lastVerified date
-      const oldDateLiteral = r.entry.dateSourceLiteral;
-      const newDateLiteral = `lastVerified: "${TODAY}"`;
-      const datePattern = new RegExp(
-        `(${escapeRegex(r.entry.name)}[\\s\\S]*?)${escapeRegex(oldDateLiteral)}`
-      );
-
-      if (datePattern.test(content)) {
-        content = content.replace(datePattern, `$1${newDateLiteral}`);
-        updates.push({
-          absPath, entryName: r.entry.name, field: "lastVerified",
-          oldValue: r.entry.lastVerified, newValue: TODAY,
-          reason: "Verification passed",
-        });
-      }
-
-      // 2. Update URL if it redirected to a new location
-      if (r.resolvedUrl && r.resolvedUrl !== r.entry.url) {
-        const oldUrlLiteral = `${file.urlField}: "${r.entry.url}"`;
-        const newUrlLiteral = `${file.urlField}: "${r.resolvedUrl}"`;
-        const urlPattern = new RegExp(
-          `(${escapeRegex(r.entry.name)}[\\s\\S]*?)${escapeRegex(oldUrlLiteral)}`
-        );
-
-        if (urlPattern.test(content)) {
-          content = content.replace(urlPattern, `$1${newUrlLiteral}`);
-          updates.push({
-            absPath, entryName: r.entry.name, field: file.urlField,
-            oldValue: r.entry.url, newValue: r.resolvedUrl,
-            reason: "URL redirected to new location",
-          });
-        }
-      }
-
-      // 3. Update phone if auto-corrected
-      if (r.autoPhoneReplacement && r.autoPhoneReplacement !== r.entry.phone) {
-        const oldPhoneLiteral = `${file.phoneField}: "${r.entry.phone}"`;
-        const newPhoneLiteral = `${file.phoneField}: "${r.autoPhoneReplacement}"`;
-        const phonePattern = new RegExp(
-          `(${escapeRegex(r.entry.name)}[\\s\\S]*?)${escapeRegex(oldPhoneLiteral)}`
-        );
-
-        if (phonePattern.test(content)) {
-          content = content.replace(phonePattern, `$1${newPhoneLiteral}`);
-          updates.push({
-            absPath, entryName: r.entry.name, field: file.phoneField,
-            oldValue: r.entry.phone, newValue: r.autoPhoneReplacement,
-            reason: "Phone number updated from organization's website",
-          });
-        } else {
-          errors.push(`Could not locate phone literal for "${r.entry.name}" in ${file.displayPath}`);
-        }
-      }
+    if (r.outcome === "confirmed") {
+      updates.push({
+        displayPath: r.file.displayPath, entryId: r.entry.id, entryName: r.entry.name,
+        field: "lastVerified", oldValue: r.entry.lastVerified, newValue: TODAY,
+        reason: r.reason,
+      });
     }
+    if (r.redirectAutoFixable && r.resolvedUrl && r.file.urlField && r.entry.urlSpan) {
+      updates.push({
+        displayPath: r.file.displayPath, entryId: r.entry.id, entryName: r.entry.name,
+        field: r.file.urlField, oldValue: r.entry.url, newValue: r.resolvedUrl,
+        reason: "Permanent redirect to the same site",
+      });
+    }
+  }
+  return updates;
+}
 
-    fs.writeFileSync(absPath, content, "utf-8");
+function writeUpdates(
+  results: VerifyResult[],
+  sources: Map<string, string>
+): string[] {
+  const errors: string[] = [];
+  const edits = new Map<string, { span: Span; expect: string; value: string }[]>();
+  const add = (file: DataFile, span: Span, expect: string, value: string) => {
+    if (!edits.has(file.absPath)) edits.set(file.absPath, []);
+    edits.get(file.absPath)!.push({ span, expect, value });
+  };
+
+  for (const r of results) {
+    if (r.outcome === "confirmed") add(r.file, r.entry.dateSpan, r.entry.lastVerified, TODAY);
+    if (r.redirectAutoFixable && r.resolvedUrl && r.entry.urlSpan) {
+      add(r.file, r.entry.urlSpan, r.entry.url, r.resolvedUrl);
+    }
   }
 
-  return { updates, errors };
+  for (const [absPath, fileEdits] of edits) {
+    const original = sources.get(absPath)!;
+    if (fs.readFileSync(absPath, "utf-8") !== original) {
+      errors.push(`${absPath} changed while the check was running — no updates written to it`);
+      continue;
+    }
+    let content = original;
+    // Apply from the end of the file backwards so earlier offsets stay valid.
+    for (const e of fileEdits.sort((a, b) => b.span.start - a.span.start)) {
+      if (content.slice(e.span.start, e.span.end) !== e.expect) {
+        errors.push(`Unexpected text at offset ${e.span.start} in ${absPath} — edit skipped`);
+        continue;
+      }
+      content = content.slice(0, e.span.start) + e.value + content.slice(e.span.end);
+    }
+    if (content !== original) fs.writeFileSync(absPath, content, "utf-8");
+  }
+  return errors;
 }
 
 // ── Report generator ─────────────────────────────────────────────────────────
 
 function generateReport(results: VerifyResult[], updates: FileUpdate[]): string {
   const lines: string[] = [];
-  const passed = results.filter((r) => r.passed);
-  const failed = results.filter((r) => !r.passed);
+  const by = (o: Outcome) => results.filter((r) => r.outcome === o);
+  const confirmed = by("confirmed");
+  const phoneReview = by("phone_mismatch");
+  const notConfirmed = results.filter(
+    (r) => r.outcome !== "confirmed" && r.outcome !== "phone_mismatch"
+  );
+  const urlFixes = updates.filter((u) => u.field !== "lastVerified");
+  const redirectsLeft = results.filter((r) => r.resolvedUrl && !r.redirectAutoFixable);
+  const willOrDid = APPLY ? "" : " (not applied in this mode)";
 
   lines.push(`# Content Re-verification Report`);
   lines.push(``);
   lines.push(`> **Generated:** ${TODAY}  `);
-  lines.push(`> **Mode:** ${APPLY ? "Applied" : "Dry Run"}  `);
-  lines.push(`> **Total entries checked:** ${results.length}`);
+  lines.push(`> **Mode:** ${MODE_LABEL}  `);
+  lines.push(`> **Stale entries checked:** ${results.length}`);
   lines.push(``);
-  lines.push(`---`);
+  lines.push(
+    `This is an automated check. It loads each entry's web page and looks for the ` +
+      `phone number we have stored. Nobody called any number. The script never ` +
+      `changes a phone number, and it only updates \`lastVerified\` for entries in ` +
+      `the "Confirmed" section below.`
+  );
   lines.push(``);
-
-  // ── Summary ─────────────────────────────────────────────────────────────
   lines.push(`## Summary`);
   lines.push(``);
-  lines.push(`| Metric | Count |`);
+  lines.push(`| Result | Count |`);
   lines.push(`|:---|:---|`);
-  lines.push(`| ✅ Verified / Auto-corrected | ${passed.length} |`);
-  lines.push(`| ❌ Needs manual review | ${failed.length} |`);
-
-  const autoPhones = results.filter((r) => r.autoPhoneReplacement).length;
-  const autoUrls = results.filter((r) => r.resolvedUrl && r.passed).length;
-  if (autoPhones > 0) lines.push(`| 📞 Phone numbers auto-updated | ${autoPhones} |`);
-  if (autoUrls > 0) lines.push(`| 🔄 URLs auto-updated (redirects) | ${autoUrls} |`);
+  lines.push(`| Confirmed (\`lastVerified\` updated${willOrDid}) | ${confirmed.length} |`);
+  lines.push(`| Needs human review: possible phone number change | ${phoneReview.length} |`);
+  lines.push(`| Not confirmed (\`lastVerified\` left unchanged) | ${notConfirmed.length} |`);
+  lines.push(`| URL redirects auto-corrected${willOrDid} | ${urlFixes.length} |`);
+  lines.push(`| URL redirects needing human review | ${redirectsLeft.length} |`);
   lines.push(``);
 
-  // ── Auto-corrections applied ────────────────────────────────────────────
-  if (updates.length > 0) {
-    lines.push(`---`);
+  // ── Possible phone changes ──────────────────────────────────────────────
+  lines.push(`## Needs human review: possible phone number change`);
+  lines.push(``);
+  if (phoneReview.length === 0) {
+    lines.push(`None.`);
+  } else {
+    lines.push(
+      `The stored number was **not** found on the page, and other numbers were. ` +
+        `Nothing was changed. Call or check the organization before editing the ` +
+        `data file — a number found on a page may be a fax line, another office, ` +
+        `or an unrelated business.`
+    );
     lines.push(``);
-    lines.push(`## Auto-corrections Applied`);
+    lines.push(`| Entry id | Name | Stored number | Number(s) found on page | Source URL | File |`);
+    lines.push(`|:---|:---|:---|:---|:---|:---|`);
+    for (const r of phoneReview) {
+      const shown = r.phoneCandidates.slice(0, MAX_CANDIDATES_SHOWN).join(", ");
+      const more = r.phoneCandidates.length > MAX_CANDIDATES_SHOWN
+        ? ` (+${r.phoneCandidates.length - MAX_CANDIDATES_SHOWN} more)`
+        : "";
+      lines.push(
+        `| ${mdCode(r.entry.id)} | ${md(r.entry.name)} | ${md(r.phonesMissing.join(", "))} | ` +
+          `${shown}${more} | ${mdCode(r.resolvedUrl ?? r.entry.url)} | \`${r.file.displayPath}\` |`
+      );
+    }
+  }
+  lines.push(``);
+
+  // ── Not confirmed ───────────────────────────────────────────────────────
+  lines.push(`## Not confirmed (lastVerified left unchanged)`);
+  lines.push(``);
+  if (notConfirmed.length === 0) {
+    lines.push(`None.`);
+  } else {
+    lines.push(`A person needs to check each of these, fix the data file if needed, and set \`lastVerified\` by hand.`);
     lines.push(``);
-    lines.push(`| Entry | Field | Old Value | New Value | Reason |`);
+    lines.push(`| Entry id | Name | Stored number | URL | Why it was not confirmed | Last verified | File |`);
+    lines.push(`|:---|:---|:---|:---|:---|:---|:---|`);
+    for (const r of notConfirmed) {
+      const why = r.pageTitle ? `${r.reason} — page title: "${r.pageTitle}"` : r.reason;
+      lines.push(
+        `| ${mdCode(r.entry.id)} | ${md(r.entry.name)} | ${md(r.entry.phones.join(", ")) || "—"} | ` +
+          `${r.entry.url ? mdCode(r.entry.url) : "—"} | ${md(why)} | ${md(r.entry.lastVerified)} | \`${r.file.displayPath}\` |`
+      );
+    }
+  }
+  lines.push(``);
+
+  // ── Redirects ───────────────────────────────────────────────────────────
+  lines.push(`## URL redirects auto-corrected${willOrDid}`);
+  lines.push(``);
+  if (urlFixes.length === 0) {
+    lines.push(`None.`);
+  } else {
+    lines.push(`Only permanent (301/308) redirects to an https URL on the same site are changed. Please open each new URL once before merging.`);
+    lines.push(``);
+    lines.push(`| Entry id | Name | Old URL | New URL | File |`);
     lines.push(`|:---|:---|:---|:---|:---|`);
-    for (const u of updates) {
-      if (u.field === "lastVerified") continue; // Don't list date bumps
-      lines.push(`| ${u.entryName} | \`${u.field}\` | ${u.oldValue} | ${u.newValue} | ${u.reason} |`);
+    for (const u of urlFixes) {
+      lines.push(
+        `| ${mdCode(u.entryId)} | ${md(u.entryName)} | ${mdCode(u.oldValue)} | ${mdCode(u.newValue)} | \`${u.displayPath}\` |`
+      );
     }
+  }
+  lines.push(``);
 
-    const substantive = updates.filter((u) => u.field !== "lastVerified");
-    if (substantive.length === 0) {
-      lines.push(`| *(only lastVerified dates updated)* | | | | |`);
+  if (redirectsLeft.length > 0) {
+    lines.push(`## URL redirects needing human review (not changed)`);
+    lines.push(``);
+    lines.push(`| Entry id | Name | Stored URL | Redirects to | Why it was not auto-corrected | File |`);
+    lines.push(`|:---|:---|:---|:---|:---|:---|`);
+    for (const r of redirectsLeft) {
+      lines.push(
+        `| ${mdCode(r.entry.id)} | ${md(r.entry.name)} | ${mdCode(r.entry.url)} | ${mdCode(r.resolvedUrl!)} | ` +
+          `${md(r.redirectNote ?? "page did not load cleanly")} | \`${r.file.displayPath}\` |`
+      );
     }
     lines.push(``);
   }
 
-  // ── Failures by category ────────────────────────────────────────────────
-  if (failed.length > 0) {
-    lines.push(`---`);
-    lines.push(``);
-    lines.push(`## Failures Requiring Manual Review`);
-    lines.push(``);
-
-    const categories: { key: FailureCategory; label: string; icon: string }[] = [
-      { key: "dns_failure", label: "DNS Failures (domain no longer exists)", icon: "🌐" },
-      { key: "http_error", label: "HTTP Errors (page moved or access denied)", icon: "🚫" },
-      { key: "parked_domain", label: "Parked / Suspended Domains", icon: "🅿️" },
-      { key: "timeout", label: "Timeouts (server unresponsive)", icon: "⏱️" },
-      { key: "empty_response", label: "Empty Responses", icon: "📭" },
-      { key: "phone_changed", label: "Phone Number Changed (candidates found)", icon: "📞" },
-      { key: "phone_removed", label: "Phone Number Not Found (no candidates)", icon: "📵" },
-      { key: "unknown", label: "Other Errors", icon: "❓" },
-    ];
-
-    for (const cat of categories) {
-      const items = failed.filter((r) => r.failureCategory === cat.key);
-      if (items.length === 0) continue;
-
-      lines.push(`### ${cat.icon} ${cat.label} (${items.length})`);
-      lines.push(``);
-
-      for (const r of items) {
-        lines.push(`#### ${r.entry.name}`);
-        lines.push(``);
-        lines.push(`| Field | Value |`);
-        lines.push(`|:---|:---|`);
-        lines.push(`| **URL** | ${r.entry.url} |`);
-        if (r.entry.phone) lines.push(`| **Phone (on file)** | ${r.entry.phone} |`);
-        lines.push(`| **Reason** | ${r.reason} |`);
-        lines.push(`| **File** | \`${r.file.displayPath}\` |`);
-        if (r.pageTitle) lines.push(`| **Page title** | ${r.pageTitle} |`);
-        if (r.resolvedUrl) lines.push(`| **Redirected to** | ${r.resolvedUrl} |`);
-
-        if (r.phoneCandidates.length > 0) {
-          lines.push(`| **Phone numbers found on page** | ${r.phoneCandidates.join(", ")} |`);
-        }
-        lines.push(``);
-      }
-    }
-  }
-
-  // ── Verified entries ────────────────────────────────────────────────────
-  if (passed.length > 0) {
-    lines.push(`---`);
-    lines.push(``);
-    lines.push(`## Verified Entries`);
-    lines.push(``);
-    lines.push(`| Entry | URL | Phone | Status |`);
+  // ── Confirmed ───────────────────────────────────────────────────────────
+  lines.push(`## Confirmed`);
+  lines.push(``);
+  if (confirmed.length === 0) {
+    lines.push(`None.`);
+  } else {
+    lines.push(`| Entry id | Name | What was confirmed | File |`);
     lines.push(`|:---|:---|:---|:---|`);
-    for (const r of passed) {
-      const phoneStatus = r.phoneOk === true
-        ? `✅ ${r.entry.phone}`
-        : r.autoPhoneReplacement
-        ? `🔄 ${r.entry.phone} → ${r.autoPhoneReplacement}`
-        : r.phoneOk === null
-        ? "—"
-        : "❓";
-      const urlStatus = r.resolvedUrl
-        ? `🔄 → ${r.resolvedUrl}`
-        : `✅ ${r.entry.url || "—"}`;
-      lines.push(`| ${r.entry.name} | ${urlStatus} | ${phoneStatus} | ✅ |`);
+    for (const r of confirmed) {
+      lines.push(
+        `| ${mdCode(r.entry.id)} | ${md(r.entry.name)} | ${md(r.reason)} | \`${r.file.displayPath}\` |`
+      );
     }
-    lines.push(``);
   }
+  lines.push(``);
 
-  // ── Footer ──────────────────────────────────────────────────────────────
   lines.push(`---`);
   lines.push(``);
-  lines.push(`*Generated by \`scripts/reverify-content.ts\`. To fix a failed entry, update the data file and set \`lastVerified\` to today's date.*`);
+  lines.push(`*Generated by \`scripts/reverify-content.ts\`. To clear an unconfirmed entry, verify it yourself, update the data file, and set \`lastVerified\` to today's date.*`);
   lines.push(``);
 
   return lines.join("\n");
@@ -750,20 +797,22 @@ function generateReport(results: VerifyResult[], updates: FileUpdate[]): string 
 // ── Main ─────────────────────────────────────────────────────────────────────
 
 async function main(): Promise<void> {
-  console.log(`\n🔄 FosterHub AZ — Automated Content Re-verification`);
+  console.log(`\nFosterHub AZ — Automated Content Re-verification`);
   console.log(`   Date: ${TODAY}`);
-  console.log(`   Mode: ${APPLY ? "🟢 APPLY (update files + write report)" : "🔵 DRY RUN (report only)"}`);
-  console.log(`   Checks: URL liveness → redirect resolution → phone-on-page → auto-correct\n`);
+  console.log(`   Mode: ${MODE_LABEL}`);
+  console.log(`   Phone numbers are never changed by this script.\n`);
 
   // ── Collect stale entries ───────────────────────────────────────────────
-  const staleItems: { entry: Entry; file: DataFile }[] = [];
+  let staleItems: { entry: Entry; file: DataFile }[] = [];
+  const sources = new Map<string, string>();
 
   for (const file of DATA_FILES) {
     if (!fs.existsSync(file.absPath)) {
-      console.log(`   ⚠️  File not found: ${file.displayPath}`);
+      console.log(`   WARNING: file not found: ${file.displayPath}`);
       continue;
     }
     const content = fs.readFileSync(file.absPath, "utf-8");
+    sources.set(file.absPath, content);
     const entries = extractEntries(content, file);
     const sla = SLA[file.slaKey] || 30;
 
@@ -775,100 +824,96 @@ async function main(): Promise<void> {
   }
 
   if (staleItems.length === 0) {
-    console.log("✅ No stale entries found — all content is within SLA.\n");
+    console.log("No stale entries found — all content is within SLA.\n");
     process.exit(0);
   }
 
-  console.log(`📋 Found ${staleItems.length} stale entries to verify:\n`);
+  if (staleItems.length > LIMIT) {
+    console.log(`   --limit ${LIMIT}: checking the first ${LIMIT} of ${staleItems.length} stale entries`);
+    staleItems = staleItems.slice(0, LIMIT);
+  }
+
+  console.log(`Found ${staleItems.length} stale entries to check:\n`);
   for (const { entry, file } of staleItems) {
-    console.log(`   • ${entry.name} (${daysSince(entry.lastVerified)}d old) — ${file.displayPath}`);
+    console.log(`   - ${entry.name} (${daysSince(entry.lastVerified)}d old) — ${file.displayPath}`);
   }
 
   // ── Verify ──────────────────────────────────────────────────────────────
   console.log(`\n   Checking ${staleItems.length} entries (max ${MAX_CONCURRENT} concurrent)...\n`);
   const results = await verifyInBatches(staleItems);
 
-  const passed = results.filter((r) => r.passed);
-  const failed = results.filter((r) => !r.passed);
-  const autoPhones = results.filter((r) => r.autoPhoneReplacement);
-  const autoUrls = results.filter((r) => r.resolvedUrl && r.passed);
+  const confirmed = results.filter((r) => r.outcome === "confirmed");
+  const phoneReview = results.filter((r) => r.outcome === "phone_mismatch");
+  const notConfirmed = results.filter(
+    (r) => r.outcome !== "confirmed" && r.outcome !== "phone_mismatch"
+  );
 
   // ── Console report ──────────────────────────────────────────────────────
   console.log();
-  if (passed.length > 0) {
-    console.log(`   ✅ PASSED (${passed.length}):\n`);
-    for (const r of passed) {
-      const tags: string[] = [];
-      if (r.phoneOk === true) tags.push("📞✅");
-      if (r.autoPhoneReplacement) tags.push(`📞🔄 → ${r.autoPhoneReplacement}`);
-      if (r.resolvedUrl) tags.push(`🔗🔄 → ${r.resolvedUrl}`);
-      console.log(`      ✅ ${r.entry.name} ${tags.join(" ")}`);
-      console.log(`         ${r.reason}`);
+  if (confirmed.length > 0) {
+    console.log(`   CONFIRMED (${confirmed.length}):\n`);
+    for (const r of confirmed) console.log(`      [ok] ${r.entry.name}\n           ${r.reason}`);
+    console.log();
+  }
+  if (phoneReview.length > 0) {
+    console.log(`   NEEDS HUMAN REVIEW — possible phone number change (${phoneReview.length}):\n`);
+    for (const r of phoneReview) {
+      console.log(`      [review] ${r.entry.name}`);
+      console.log(`           stored: ${r.phonesMissing.join(", ")}`);
+      console.log(`           found on page: ${r.phoneCandidates.slice(0, MAX_CANDIDATES_SHOWN).join(", ")}`);
+      console.log(`           source: ${r.resolvedUrl ?? r.entry.url}`);
     }
     console.log();
   }
-
-  if (failed.length > 0) {
-    console.log(`   ❌ FAILED (${failed.length}) — see report for details:\n`);
-    for (const r of failed) {
-      const urlTag = r.urlOk ? "🌐✅" : "🌐❌";
-      const phoneTag = r.phoneOk === false ? " 📞❌" : "";
-      console.log(`      ❌ ${r.entry.name} ${urlTag}${phoneTag}`);
-      console.log(`         ${r.reason}`);
-      if (r.phoneCandidates.length > 0) {
-        console.log(`         Phone candidates: ${r.phoneCandidates.join(", ")}`);
-      }
-    }
+  if (notConfirmed.length > 0) {
+    console.log(`   NOT CONFIRMED (${notConfirmed.length}) — lastVerified left unchanged:\n`);
+    for (const r of notConfirmed) console.log(`      [not confirmed] ${r.entry.name}\n           ${r.reason}`);
     console.log();
   }
 
   // ── Apply updates ───────────────────────────────────────────────────────
-  let allUpdates: FileUpdate[] = [];
+  const updates = planUpdates(results);
+  const dateUpdates = updates.filter((u) => u.field === "lastVerified");
+  const urlUpdates = updates.filter((u) => u.field !== "lastVerified");
 
-  if (APPLY && passed.length > 0) {
-    console.log(`📝 Applying updates...\n`);
-    const { updates, errors } = applyUpdates(results);
-    allUpdates = updates;
+  for (const u of urlUpdates) {
+    console.log(`   URL redirect${APPLY ? "" : " (would be corrected with --apply)"}: ${u.entryName}: "${u.oldValue}" -> "${u.newValue}"`);
+  }
 
-    const dateUpdates = updates.filter((u) => u.field === "lastVerified").length;
-    const urlUpdates = updates.filter((u) => u.field !== "lastVerified" && u.field !== "phone").length;
-    const phoneUpdates = updates.filter((u) => u.field === "phone").length;
-
-    console.log(`   📅 lastVerified dates updated: ${dateUpdates}`);
-    if (urlUpdates > 0) console.log(`   🔗 URLs updated (redirects):   ${urlUpdates}`);
-    if (phoneUpdates > 0) console.log(`   📞 Phone numbers updated:      ${phoneUpdates}`);
-
-    for (const u of updates.filter((u) => u.field !== "lastVerified")) {
-      console.log(`      • ${u.entryName}: ${u.field} "${u.oldValue}" → "${u.newValue}"`);
-    }
-
+  if (APPLY) {
+    const errors = writeUpdates(results, sources);
+    console.log(`   lastVerified dates updated: ${dateUpdates.length}`);
+    console.log(`   URLs updated (redirects):   ${urlUpdates.length}`);
     if (errors.length > 0) {
-      console.log(`\n   ⚠️  Update errors:`);
+      console.log(`\n   Update errors:`);
       for (const e of errors) console.log(`      ${e}`);
     }
-  } else if (!APPLY && passed.length > 0) {
-    console.log(`💡 Run with --apply to update ${passed.length} entries and generate report:`);
-    console.log(`   npx tsx scripts/reverify-content.ts --apply\n`);
+  } else {
+    console.log(`   Nothing was changed in the data files (${MODE_LABEL}).`);
   }
 
   // ── Write report ────────────────────────────────────────────────────────
-  const report = generateReport(results, allUpdates);
-  const reportDir = path.resolve(ROOT, "docs");
-  if (!fs.existsSync(reportDir)) fs.mkdirSync(reportDir, { recursive: true });
-  const reportPath = path.join(reportDir, "reverification-report.md");
-  fs.writeFileSync(reportPath, report, "utf-8");
-  console.log(`\n📄 Report written to: docs/reverification-report.md`);
+  const report = generateReport(results, updates);
+  if (DRY_RUN) {
+    console.log(`\n--- Report (dry run — not written to disk) ---\n`);
+    console.log(report);
+  } else {
+    const reportDir = path.resolve(ROOT, "docs");
+    if (!fs.existsSync(reportDir)) fs.mkdirSync(reportDir, { recursive: true });
+    fs.writeFileSync(path.join(reportDir, "reverification-report.md"), report, "utf-8");
+    console.log(`\nReport written to: docs/reverification-report.md`);
+  }
 
   // ── Summary ─────────────────────────────────────────────────────────────
-  console.log(`\n─── Summary ───`);
-  console.log(`   Total stale:        ${staleItems.length}`);
-  console.log(`   ✅ Verified:        ${passed.length}`);
-  console.log(`   ❌ Need review:     ${failed.length}`);
-  if (autoPhones.length > 0) console.log(`   📞 Phones corrected: ${autoPhones.length}`);
-  if (autoUrls.length > 0) console.log(`   🔗 URLs corrected:   ${autoUrls.length}`);
+  console.log(`\n--- Summary ---`);
+  console.log(`   Stale entries checked:          ${results.length}`);
+  console.log(`   Confirmed:                      ${confirmed.length}`);
+  console.log(`   Possible phone number change:   ${phoneReview.length}`);
+  console.log(`   Not confirmed:                  ${notConfirmed.length}`);
+  console.log(`   URL redirects auto-corrected:   ${APPLY ? urlUpdates.length : 0}`);
   console.log();
 
-  if (failed.length > 0) {
+  if (phoneReview.length + notConfirmed.length > 0) {
     process.exit(1);
   }
 }

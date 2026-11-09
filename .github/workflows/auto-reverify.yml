@@ -1,11 +1,26 @@
 name: Auto Re-verify Content
+
+# SAFETY: this workflow must never push to the default branch (it auto-deploys
+# to production). All changes go to the `auto-reverify` branch and a pull
+# request that a person reviews and merges. No auto-merge, no [skip ci].
+#
+# Repo requirements:
+#   - Settings → Actions → General → "Allow GitHub Actions to create and
+#     approve pull requests" must be enabled, or the PR step fails.
+#   - PRs opened with the default GITHUB_TOKEN do NOT trigger other workflows
+#     (content-validation, link-check). To have them run automatically, add a
+#     fine-grained PAT (contents + pull requests: write) as the secret
+#     AUTO_REVERIFY_TOKEN. Without it, a reviewer must close and reopen the PR
+#     to start the checks; this workflow also runs content validation itself
+#     and puts the result in the PR body.
+
 on:
   schedule:
     - cron: "0 7 * * 1" # Every Monday at 7:00 UTC
   workflow_dispatch:
     inputs:
       dry_run:
-        description: "Dry run — report only, don't update files"
+        description: "Dry run — report only, don't update files or open a PR"
         required: false
         default: "false"
         type: choice
@@ -15,13 +30,25 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
   issues: write
+
+concurrency:
+  group: auto-reverify
+  cancel-in-progress: false
+
+env:
+  PR_BRANCH: auto-reverify
+  BASE_BRANCH: ${{ github.event.repository.default_branch }}
+  DRY_RUN: ${{ inputs.dry_run || 'false' }}
 
 jobs:
   reverify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.AUTO_REVERIFY_TOKEN || github.token }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -32,112 +59,164 @@ jobs:
         run: npm install -g tsx
 
       # ── Step 1: Run reverification ──────────────────────────────────────
+      # The script never writes a phone number, and only bumps lastVerified
+      # for entries it positively confirmed. Exit 0 = all confirmed,
+      # 1 = some entries need a person, 2+ = the script crashed.
 
       - name: Re-verify stale content
         id: reverify
+        shell: bash
         run: |
-          if [[ "${{ inputs.dry_run }}" == "true" ]]; then
+          set +e
+          echo "TODAY=$(date -u +%F)" >> "$GITHUB_ENV"
+          if [[ "$DRY_RUN" == "true" ]]; then
             npx tsx scripts/reverify-content.ts 2>&1 | tee /tmp/reverify-output.txt
           else
             npx tsx scripts/reverify-content.ts --apply 2>&1 | tee /tmp/reverify-output.txt
           fi
-        continue-on-error: true
+          code=${PIPESTATUS[0]}
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          if [[ "$code" -ge 2 ]]; then
+            echo "::error::reverify-content.ts crashed (exit $code)"
+            exit "$code"
+          fi
 
-      # ── Step 2: Commit all changes (data files + reports) ───────────────
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reverification-report
+          path: |
+            docs/reverification-report.md
+            /tmp/reverify-output.txt
+          if-no-files-found: ignore
 
-      - name: Commit changes
-        if: inputs.dry_run != 'true'
+      # ── Step 2: Open (or update) a pull request — never push to master ──
+
+      - name: Open or update pull request
+        if: env.DRY_RUN != 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.AUTO_REVERIFY_TOKEN || github.token }}
         run: |
+          set -euo pipefail
+
+          # Only the files the script is allowed to change. Never `git add -A`.
+          DATA_FILES=(web/src/data/resources.ts web/src/data/constants.ts web/src/data/docs.ts)
+          git add -- "${DATA_FILES[@]}"
+
+          if git diff --staged --quiet; then
+            echo "No data file changes — no pull request needed."
+            git status --short
+            exit 0
+          fi
+
+          # Data changed: refresh the reports so they ship in the same PR.
+          npx tsx scripts/generate-freshness-report.ts || echo "::warning::freshness report generation failed"
+          for f in docs/reverification-report.md docs/freshness-report.md; do
+            if [[ -f "$f" ]]; then git add -- "$f"; fi
+          done
+
+          VALIDATION="passed"
+          if ! npx tsx scripts/validate-content.ts > /tmp/validate-output.txt 2>&1; then
+            VALIDATION="FAILED — see the workflow run log before merging"
+            cat /tmp/validate-output.txt
+          fi
+
+          echo "Files in this pull request:"
+          git diff --staged --name-only
+
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add -A
-          if git diff --staged --quiet; then
-            echo "No files changed — nothing to commit"
+          git checkout -B "$PR_BRANCH"
+          git commit -m "chore: auto-reverify content ($TODAY)" \
+            -m "Automated check by scripts/reverify-content.ts. Needs human review before merge. Phone numbers are never changed by automation; lastVerified is bumped only for entries the script positively confirmed. Report: docs/reverification-report.md"
+          git push --force origin "$PR_BRANCH"
+
+          {
+            echo "Automated weekly re-check of stale content. **A person must review this before merging — merging deploys to production.**"
+            echo
+            echo "- No phone number is ever changed by this automation. Possible phone changes are listed below for you to check by hand."
+            echo "- \`lastVerified\` is updated only where the stored number was found on the entry's page (or the entry has no number and its link loaded without a redirect). Nobody called any number."
+            echo "- Any URL change is a permanent same-site redirect and is listed below. Please open each new link once."
+            echo "- Content validation run by this workflow: **$VALIDATION**."
+            echo "- If the PR checks (content-validation, link-check) did not start, close and reopen this PR to trigger them."
+            echo
+            echo "Workflow run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo
+            echo "---"
+            echo
+            if [[ -f docs/reverification-report.md ]]; then
+              head -c 55000 docs/reverification-report.md
+            else
+              echo "(No report file was generated — see the workflow run log.)"
+            fi
+          } > /tmp/pr-body.md
+
+          TITLE="chore: auto-reverify content — review needed ($TODAY)"
+          PR_NUMBER=$(gh pr list --head "$PR_BRANCH" --base "$BASE_BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [[ -n "$PR_NUMBER" ]]; then
+            gh pr edit "$PR_NUMBER" --title "$TITLE" --body-file /tmp/pr-body.md
+            echo "Updated pull request #$PR_NUMBER"
           else
-            # Build a descriptive commit message
-            CHANGED_FILES=$(git diff --staged --name-only | head -20)
-            echo "Changed files:"
-            echo "$CHANGED_FILES"
-
-            git commit -m "chore: auto-reverify content — update data + report [skip ci]
-
-          Automated verification results:
-          - URL liveness checks performed
-          - Phone numbers validated against org websites
-          - Redirect URLs auto-corrected
-          - Changed phone numbers auto-corrected (same area code)
-          - Report: docs/reverification-report.md
-
-          Files updated:
-          $CHANGED_FILES"
-            git push
-            echo "✅ Changes committed and pushed"
+            gh pr create --base "$BASE_BRANCH" --head "$PR_BRANCH" --title "$TITLE" --body-file /tmp/pr-body.md
           fi
 
-      # ── Step 3: Create issue for failed entries ─────────────────────────
+      # ── Step 3: Issue for entries that need a person ────────────────────
 
-      - name: Create issue for failures
-        if: steps.reverify.outcome == 'failure'
+      - name: Build issue body
+        if: steps.reverify.outputs.exit_code == '1'
+        shell: bash
         run: |
-          # Build issue body from the generated report
-          if [ -f docs/reverification-report.md ]; then
-            REPORT=$(cat docs/reverification-report.md)
-          else
-            REPORT=$(cat /tmp/reverify-output.txt)
-          fi
+          {
+            echo "## Content re-verification — manual review required"
+            echo
+            echo "The automated check could not confirm some entries. Nothing was changed for them: phone numbers are never auto-corrected, and their \`lastVerified\` dates were left alone."
+            echo
+            echo "### How to resolve"
+            echo "1. For each entry below, check the organization's website or call the number."
+            echo "2. Fix the entry in \`web/src/data/\` if needed."
+            echo "3. Set \`lastVerified\` to today's date and open a pull request."
+            echo
+            echo "Workflow run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo
+            echo "---"
+            echo
+            if [[ -f docs/reverification-report.md ]]; then
+              head -c 55000 docs/reverification-report.md
+            else
+              echo '```'
+              tail -60 /tmp/reverify-output.txt
+              echo '```'
+            fi
+          } > /tmp/issue-body.md
 
-          # Count failures by reading the output
-          FAIL_COUNT=$(grep -c "^      ❌" /tmp/reverify-output.txt || echo "unknown")
+      - name: Find existing open issue
+        id: existing_issue
+        if: steps.reverify.outputs.exit_code == '1'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          NUMBER=$(gh issue list --repo "$GITHUB_REPOSITORY" --label reverify-failed --state open --json number --jq '.[0].number // empty' || true)
+          echo "number=$NUMBER" >> "$GITHUB_OUTPUT"
 
-          cat << 'ISSUE_EOF' > /tmp/issue-body.md
-          ## 🔍 Content Re-verification — Manual Review Required
+      - name: Update existing issue
+        if: steps.reverify.outputs.exit_code == '1' && steps.existing_issue.outputs.number != ''
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ steps.existing_issue.outputs.number }}
+        run: gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file /tmp/issue-body.md
 
-          The automated re-verification found entries that could not be automatically verified or corrected.
-
-          **Action needed:** Review each failed entry, manually verify the information, and update the data file.
-
-          ### Quick Links
-          - [Full Report](docs/reverification-report.md)
-          - [Server Resources](server/src/data/resources.ts)
-          - [Web Resources](web/src/data/resources.ts)
-
-          ### How to resolve
-          1. Open the report at `docs/reverification-report.md`
-          2. For each failed entry, manually check the URL and phone number
-          3. Update the entry in the data file with correct info
-          4. Set `lastVerified` to today's date
-          5. Commit with: `chore: verify [resource-name] — confirmed [what you checked]`
-
-          ISSUE_EOF
-
-          # Append the console output summary
-          echo '### Console Output' >> /tmp/issue-body.md
-          echo '```' >> /tmp/issue-body.md
-          tail -40 /tmp/reverify-output.txt >> /tmp/issue-body.md
-          echo '```' >> /tmp/issue-body.md
-
-      - name: Post issue
-        if: steps.reverify.outcome == 'failure'
+      - name: Post new issue
+        if: steps.reverify.outputs.exit_code == '1' && steps.existing_issue.outputs.number == ''
         uses: peter-evans/create-issue-from-file@v5
         with:
-          title: "🔍 Content re-verification failures — ${{ env.TODAY || 'manual review needed' }}"
+          title: "Content re-verification — manual review needed (${{ env.TODAY }})"
           content-filepath: /tmp/issue-body.md
           labels: |
             content-freshness
             reverify-failed
             manual-review
             auto-detected
-
-      # ── Step 4: Regenerate freshness report ─────────────────────────────
-
-      - name: Regenerate freshness report
-        if: inputs.dry_run != 'true'
-        run: |
-          npx tsx scripts/generate-freshness-report.ts
-          git add docs/freshness-report.md
-          if git diff --staged --quiet; then
-            echo "No report changes"
-          else
-            git commit -m "docs: update freshness report after reverification [skip ci]"
-            git push
-          fi
