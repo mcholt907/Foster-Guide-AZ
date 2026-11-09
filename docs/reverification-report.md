@@ -1,8 +1,8 @@
 # Content Re-verification Report
 
-> **Generated:** 2026-11-02  
+> **Generated:** 2026-11-09  
 > **Mode:** Applied  
-> **Total entries checked:** 44
+> **Total entries checked:** 31
 
 ---
 
@@ -10,16 +10,8 @@
 
 | Metric | Count |
 |:---|:---|
-| ✅ Verified / Auto-corrected | 14 |
-| ❌ Needs manual review | 30 |
-
----
-
-## Auto-corrections Applied
-
-| Entry | Field | Old Value | New Value | Reason |
-|:---|:---|:---|:---|:---|
-| *(only lastVerified dates updated)* | | | | |
+| ✅ Verified / Auto-corrected | 0 |
+| ❌ Needs manual review | 31 |
 
 ---
 
@@ -164,9 +156,9 @@
 | **Phone (on file)** | 480-926-4897 |
 | **Reason** | Page appears to be a parked/suspended domain |
 | **File** | `server/src/data/resources.ts` |
-| **Page title** | United Food Bank - | Uniting Communities to Alleviate Hunger |
+| **Page title** | United Food Bank | Uniting Communities to Alleviate Hunger |
 
-### 📵 Phone Number Not Found (no candidates) (15)
+### 📵 Phone Number Not Found (no candidates) (16)
 
 #### Arizona's Children Association (AzCA) — Transition supports
 
@@ -266,6 +258,16 @@
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | Guide to financial aid | NAU |
 
+#### Education and Training Voucher (ETV) — AzCA
+
+| Field | Value |
+|:---|:---|
+| **URL** | https://www.arizonaschildren.org/services/young-adult-services/ |
+| **Phone (on file)** | (800) 944-7611 |
+| **Reason** | Phone "(800) 944-7611" not found; no phone numbers detected on page |
+| **File** | `server/src/data/resources.ts` |
+| **Page title** | Young Adult Services | Support for Youth in Foster Care | Arizona&#039;s Children Association |
+
 #### Goodwill of Central & Northern Arizona
 
 | Field | Value |
@@ -315,27 +317,6 @@
 | **Reason** | Phone "1-800-944-7611" not found; no phone numbers detected on page |
 | **File** | `server/src/data/resources.ts` |
 | **Page title** | Young Adult Services | Support for Youth in Foster Care | Arizona&#039;s Children Association |
-
----
-
-## Verified Entries
-
-| Entry | URL | Phone | Status |
-|:---|:---|:---|:---|
-| ALWAYS (legal help) | ✅ https://alwaysaz.org/ | — | ✅ |
-| ALWAYS | ✅ https://alwaysaz.org | ✅ (602) 248-7055 | ✅ |
-| 211 Arizona | ✅ https://211arizona.org/ | ✅ 2-1-1 | ✅ |
-| AHCCCS — YATI (Young Adults Transitional Insurance) | ✅ https://www.azahcccs.gov/Members/GetCovered/Categories/YATI.html | ✅ (602) 417-4000 | ✅ |
-| Arizona Friends of Foster Children Foundation (AFFCF) | ✅ https://www.affcf.org/ | ✅ (602) 252-9445 | ✅ |
-| 988 Suicide & Crisis Lifeline | ✅ https://988lifeline.org | ✅ 988 | ✅ |
-| Crisis Text Line | ✅ https://www.crisistextline.org | ✅ 741741 | ✅ |
-| 211 Arizona | ✅ https://211arizona.org | ✅ 211 | ✅ |
-| Youth On Their Own (YOTO) | ✅ https://yoto.org | ✅ 520-293-1136 | ✅ |
-| AHCCCS — Young Adult Transition Initiative (YATI) | ✅ https://www.azahcccs.gov/Members/GetCovered/Categories/YATI.html | ✅ 602-417-4000 | ✅ |
-| University of Arizona — Foster Youth Programs | ✅ https://financialaid.arizona.edu | ✅ (520) 621-1858 | ✅ |
-| Job Corps | ✅ https://www.jobcorps.gov | ✅ 1-800-733-5627 | ✅ |
-| Arizona Friends of Foster Children Foundation (AFFCF) | ✅ https://www.affcf.org/ | ✅ 602-252-9445 | ✅ |
-| Arizona Foster Youth Scholarship Fund | ✅ https://www.affcf.org/ways-we-help/post-secondary/scholarships/ | — | ✅ |
 
 ---
 
