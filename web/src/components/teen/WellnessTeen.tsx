@@ -5,6 +5,8 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Phone, MessageSquare, Zap, ArrowRight, LifeBuoy, Sparkles } from "lucide-react";
 import type { Lang } from "../../lib/i18n";
 import { tt, type TeenStringKey } from "../../lib/i18n-teen";
+import { th } from "../../lib/i18n-help";
+import { CRISIS_CONTACTS, crisisActions, type CrisisAction, type CrisisContact } from "../../data/constants";
 
 const GROUNDING = [
   { n: 5, nounKey: "wellness.grounding.1.noun" as TeenStringKey, icon: "👁️" },
@@ -20,11 +22,19 @@ const TOOLS = [
   { id: "move",    icon: "🎧", titleKey: "wellness.tool.move.title"    as TeenStringKey, descKey: "wellness.tool.move.desc"    as TeenStringKey },
 ];
 
-const SUPPORT = [
-  { id: "988",  nameKey: "wellness.support.988.name"  as TeenStringKey, descKey: "wellness.support.988.desc"  as TeenStringKey, labelKey: "wellness.support.988.label"  as TeenStringKey, href: "tel:988",          kind: "tel" as const },
-  { id: "text", nameKey: "wellness.support.text.name" as TeenStringKey, descKey: "wellness.support.text.desc" as TeenStringKey, labelKey: "wellness.support.text.label" as TeenStringKey, href: "sms:741741",       kind: "sms" as const },
-  { id: "dcs",  nameKey: "wellness.support.dcs.name"  as TeenStringKey, descKey: "wellness.support.dcs.desc"  as TeenStringKey, labelKey: "wellness.support.dcs.label"  as TeenStringKey, href: "tel:18887672445", kind: "tel" as const },
-];
+// Numbers and tap-to-call / tap-to-text links come from CRISIS_PINS in
+// data/constants.ts. Teen-voice name/description overrides are optional.
+const TEEN_COPY: Partial<Record<CrisisContact["id"], { nameKey: TeenStringKey; descKey: TeenStringKey }>> = {
+  "988":         { nameKey: "wellness.support.988.name",  descKey: "wellness.support.988.desc" },
+  "crisis-text": { nameKey: "wellness.support.text.name", descKey: "wellness.support.text.desc" },
+  dcs:           { nameKey: "wellness.support.dcs.name",  descKey: "wellness.support.dcs.desc" },
+};
+
+function actionLabel(a: CrisisAction, lang: Lang): string {
+  if (a.kind === "tel") return th("help.call", lang, { n: a.display });
+  if (a.keyword) return th("help.text_keyword", lang, { k: a.keyword, n: a.display });
+  return th("help.text", lang, { n: a.display });
+}
 
 interface WellnessTeenProps {
   lang: Lang;
@@ -184,8 +194,10 @@ export function WellnessTeen({ lang }: WellnessTeenProps) {
         </div>
 
         <div className="lg:col-span-8 flex flex-col gap-6">
-          {SUPPORT.map((c, idx) => {
-            const PhoneIcon = c.kind === "sms" ? MessageSquare : Phone;
+          {CRISIS_CONTACTS.map((c, idx) => {
+            const actions = crisisActions(c, lang);
+            const copy = TEEN_COPY[c.id];
+            const HeadIcon = actions[0]?.kind === "sms" ? MessageSquare : Phone;
             return (
               <motion.div
                 key={c.id}
@@ -193,21 +205,34 @@ export function WellnessTeen({ lang }: WellnessTeenProps) {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: reduce ? 0 : idx * 0.1, duration: reduce ? 0 : 0.4 }}
-                className="bg-white rounded-[2.5rem] p-10 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-slate-100 group flex flex-col sm:flex-row items-center gap-8 text-center sm:text-left"
+                className="bg-white rounded-[2.5rem] p-8 sm:p-10 shadow-[0_4px_24px_rgba(0,0,0,0.02)] border border-slate-100 group flex flex-col sm:flex-row items-center gap-6 sm:gap-8 text-center sm:text-left"
               >
                 <div className="w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center shrink-0 border border-slate-100 group-hover:bg-sky-900 group-hover:text-white transition-all">
-                  <PhoneIcon size={24} />
+                  <HeadIcon size={24} />
                 </div>
-                <div className="flex-1">
-                  <h4 className="text-xl font-black text-[#1e293b] mb-2 tracking-tight">{tt(c.nameKey, lang)}</h4>
-                  <p className="text-slate-400 text-[13px] font-bold leading-relaxed max-w-md">{tt(c.descKey, lang)}</p>
+                <div className="flex-1 min-w-0">
+                  <h4 className="text-xl font-black text-[#1e293b] mb-2 tracking-tight">
+                    {copy ? tt(copy.nameKey, lang) : lang === "es" ? c.name_es : c.name}
+                  </h4>
+                  <p className="text-slate-500 text-[13px] font-bold leading-relaxed max-w-md">
+                    {copy ? tt(copy.descKey, lang) : lang === "es" ? c.desc_es : c.desc}
+                  </p>
                 </div>
-                <a
-                  href={c.href}
-                  className="px-8 py-4 rounded-xl bg-slate-900 text-white font-black text-xs uppercase tracking-widest hover:bg-sky-400 transition-all hover:scale-105 shadow-[0_8px_20px_rgba(0,0,0,0.1)] shrink-0"
-                >
-                  {tt(c.labelKey, lang)}
-                </a>
+                <div className="flex flex-col gap-2 w-full sm:w-auto shrink-0">
+                  {actions.map((a) => {
+                    const Icon = a.kind === "sms" ? MessageSquare : Phone;
+                    return (
+                      <a
+                        key={a.href}
+                        href={a.href}
+                        className="min-h-[48px] px-6 py-3 rounded-xl bg-slate-900 text-white font-black text-[13px] tracking-wide hover:bg-[#2A7F8E] transition-colors shadow-[0_8px_20px_rgba(0,0,0,0.1)] inline-flex items-center justify-center gap-2 whitespace-nowrap"
+                      >
+                        <Icon size={16} strokeWidth={2.5} aria-hidden="true" />
+                        {actionLabel(a, lang)}
+                      </a>
+                    );
+                  })}
+                </div>
               </motion.div>
             );
           })}

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Lock, ArrowRight, CheckCircle2 } from "lucide-react";
+import { HelpNow } from "../components/HelpNow";
 
 export default function RootPage() {
   const [selected, setSelected] = useState<"en" | "es" | null>(null);
@@ -15,10 +16,11 @@ export default function RootPage() {
 
   return (
     <div className="min-h-svh bg-[#FDF9F3] text-[#35322d] font-['Outfit',_sans-serif] flex justify-center items-center">
+      <HelpNow lang={selected ?? "en"} placement="top" />
       <div className="w-full max-w-[480px] min-h-svh max-h-svh overflow-y-auto shadow-2xl bg-[#FDF9F3] relative flex flex-col overflow-x-hidden">
 
         {/* Top area — icon + headline */}
-        <div className="px-6 pt-[clamp(1rem,3vh,3rem)] pb-[clamp(0.5rem,1.5vh,1.5rem)] flex flex-col items-center relative z-10 w-full text-center flex-1 justify-center">
+        <div className="px-6 pt-16 pb-[clamp(0.5rem,1.5vh,1.5rem)] flex flex-col items-center relative z-10 w-full text-center flex-1 justify-center">
 
           <div className="w-[clamp(6rem,18vh,12rem)] h-[clamp(6rem,18vh,12rem)] rounded-full bg-white shadow-lg border-[6px] border-white flex justify-center items-center overflow-hidden mb-[clamp(0.75rem,2vh,1.5rem)] relative shrink-0">
             <Image
@@ -41,7 +43,7 @@ export default function RootPage() {
 
           <p className="text-slate-600 font-medium text-[clamp(0.9rem,1.8vh,1.125rem)] leading-relaxed max-w-sm mb-[clamp(0.75rem,2vh,1.5rem)] px-2">
             {selected === "es"
-              ? "El cuidado adoptivo puede ser confuso. Este es un espacio tranquilo y seguro para encontrar respuestas reales y conocer tus derechos."
+              ? "El cuidado de crianza puede ser confuso. Este es un espacio tranquilo y seguro para encontrar respuestas reales y conocer tus derechos."
               : "Foster care can be confusing and overwhelming. This is a calm, safe space to find real answers and learn your rights."}
           </p>
 
