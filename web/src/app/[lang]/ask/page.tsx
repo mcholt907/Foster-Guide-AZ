@@ -8,11 +8,13 @@ import {
   ChevronLeft, Search, BookOpen, ChevronDown, ChevronUp, Scale,
   MapPin, AlertCircle, FileText, Home, Users, DollarSign, Briefcase, Info, X, HelpCircle
 } from "lucide-react";
-import Fuse from "fuse.js";
 import type { Lang } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
 import type { AgeBandKey } from "../../../lib/prefs";
-import { QUESTIONS, TOPIC_CONFIG, type QACategory } from "../../../data/questions";
+import { TOPIC_CONFIG, type QACategory } from "../../../data/questions";
+import { searchQuestions, isCrisisQuery } from "../../../lib/questionSearch";
+import { tt } from "../../../lib/i18n-teen";
+import { CrisisQuickLinks } from "../../../components/CrisisQuickLinks";
 import { AskTeen } from "../../../components/teen/AskTeen";
 
 function getCategoryStyles(cat: QACategory) {
@@ -74,28 +76,14 @@ function Ask1012({ lang, band }: { lang: Lang; band: AgeBandKey }) {
     });
   };
 
-  const fuse = useMemo(
-    () =>
-      new Fuse(QUESTIONS, {
-        keys: [
-          { name: `question.${lang}`, weight: 2 },
-          { name: `answer.${lang}`, weight: 1 },
-        ],
-        threshold: 0.4,
-        includeScore: true,
-      }),
-    [lang]
-  );
-
   const visibleTopics = useMemo(() => TOPIC_CONFIG.filter((t) => t.bands.includes(band)), [band]);
-  const bandQuestions = useMemo(() => QUESTIONS.filter((q) => q.ageBands.includes(band)), [band]);
 
-  const filteredQuestions = useMemo(() => {
-    let list = bandQuestions;
-    if (activeCategory !== "all") list = list.filter((q) => q.category === activeCategory);
-    if (!searchQuery.trim()) return list;
-    return fuse.search(searchQuery).map((r) => r.item).filter((q) => q.ageBands.includes(band) && (activeCategory === "all" || q.category === activeCategory));
-  }, [activeCategory, searchQuery, fuse, bandQuestions, band]);
+  // Shared search: matches whole worried sentences, typos, and both languages.
+  const filteredQuestions = useMemo(
+    () => searchQuestions(searchQuery, { band, category: activeCategory }),
+    [activeCategory, searchQuery, band]
+  );
+  const showCrisis = useMemo(() => isCrisisQuery(searchQuery), [searchQuery]);
 
   return (
     <div className="font-['Outfit',_sans-serif] pb-8">
@@ -146,7 +134,7 @@ function Ask1012({ lang, band }: { lang: Lang; band: AgeBandKey }) {
             </div>
             <div className="text-gray-500 text-sm leading-relaxed">
               {lang === "es"
-                ? "Aquí para ayudarte a encontrar respuestas reales. Estar en cuidado adoptivo puede ser muy confuso... solo toca un tema o busca lo que tienes en mente."
+                ? "Aquí para ayudarte a encontrar respuestas reales. Estar en cuidado de crianza puede ser muy confuso... solo toca un tema o busca lo que tienes en mente."
                 : "Here to help you find real answers. Being in foster care can feel really confusing... just tap a topic or search what's on your mind."}
             </div>
           </div>
@@ -168,6 +156,15 @@ function Ask1012({ lang, band }: { lang: Lang; band: AgeBandKey }) {
             </button>
           )}
         </div>
+
+          {/* Self-harm / danger wording: always show people to talk to first */}
+          {showCrisis && (
+            <div role="status" className="rounded-[24px] bg-[#E3F1F3] border border-[#2A7F8E]/30 p-5">
+              <h2 className="text-lg font-bold text-[#1B3A5C] mb-1">{tt("ask.crisis.heading", lang)}</h2>
+              <p className="text-[15px] text-[#1B3A5C] leading-relaxed mb-4">{tt("ask.crisis.body", lang)}</p>
+              <CrisisQuickLinks lang={lang} variant="compact" />
+            </div>
+          )}
 
         {/* Category pills */}
         <div>
@@ -203,8 +200,19 @@ function Ask1012({ lang, band }: { lang: Lang; band: AgeBandKey }) {
         {/* Questions list */}
         <div className="space-y-3">
           {filteredQuestions.length === 0 && (
-            <div className="text-center py-10 text-gray-500">
-              {lang === "es" ? "No se encontraron preguntas. Intenta otra búsqueda." : "No questions found. Try another search."}
+            <div className="text-center py-8 px-5 bg-white/80 rounded-[24px]">
+              <p className="text-gray-600 mb-5">
+                {lang === "es" ? "No encontramos esa pregunta. Intenta con otra palabra." : "We didn't find that question. Try another word."}
+              </p>
+              {!showCrisis && (
+                <>
+                  <p className="text-[#1B3A5C] font-bold mb-3">{tt("help.person_now", lang)}</p>
+                  <div className="flex justify-center mb-4">
+                    <CrisisQuickLinks lang={lang} variant="compact" />
+                  </div>
+                </>
+              )}
+              <p className="text-sm text-gray-600">{tt("help.everyday_211", lang)}</p>
             </div>
           )}
           {filteredQuestions.map((q) => {
@@ -234,7 +242,7 @@ function Ask1012({ lang, band }: { lang: Lang; band: AgeBandKey }) {
                 </button>
                 {isOpen && (
                   <div className="px-5 pb-6 pt-1 pl-[76px] pr-5 flex flex-col space-y-4">
-                    <p className="text-sm text-gray-600 leading-relaxed">{answerText}</p>
+                    <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">{answerText}</p>
                     <div className="flex items-center space-x-2 pt-2">
                       <span className={`text-[11px] font-bold uppercase tracking-wider px-2 py-1 rounded-md ${styleObj}`}>
                         {topicLabel}
