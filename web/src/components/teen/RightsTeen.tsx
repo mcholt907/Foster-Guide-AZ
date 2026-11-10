@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   Shield, Scale, ArrowRight, MessageSquare, Sparkles,
-  AlertTriangle, Phone,
+  AlertTriangle, Phone, Landmark,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { Lang } from "../../lib/i18n";
@@ -24,7 +24,7 @@ const THEMES: Record<string, Theme> = {
 
 const THEME_ORDER: (keyof typeof THEMES)[] = ["emerald", "indigo", "amber", "rose", "violet"];
 
-const ESCALATION_ICONS: LucideIcon[] = [MessageSquare, Shield, Phone, Scale];
+const ESCALATION_ICONS: LucideIcon[] = [MessageSquare, Shield, Phone, Landmark, Scale];
 
 interface RightsTeenProps {
   lang: Lang;
@@ -240,7 +240,7 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
           </p>
         </div>
 
-        <ol className="relative grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <ol className="relative grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-5">
           {ESCALATION_STEPS.map((s, idx) => {
             const who = lang === "es" ? s.who_es : s.who;
             const what = lang === "es" ? s.what_es : s.what;

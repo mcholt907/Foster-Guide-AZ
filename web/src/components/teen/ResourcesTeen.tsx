@@ -8,6 +8,7 @@ import type { Lang } from "../../lib/i18n";
 import type { AgeBandKey } from "../../lib/prefs";
 import { tt } from "../../lib/i18n-teen";
 import { RESOURCES, CATEGORY_LABELS_ES } from "../../data/resources";
+import { CrisisQuickLinks } from "../CrisisQuickLinks";
 
 const CATEGORY_LABELS_EN: Record<string, string> = {
   emergency: "emergency",
@@ -122,8 +123,13 @@ export function ResourcesTeen({ lang, band, county }: ResourcesTeenProps) {
 
       {/* Results */}
       {results.length === 0 ? (
-        <div className="rounded-2xl bg-white border border-slate-100 p-8 text-center text-slate-500 font-medium">
-          {tt("resources.no_results", lang)}
+        <div className="rounded-2xl bg-white border border-slate-100 p-8 text-center">
+          <p className="text-slate-600 font-medium mb-6">{tt("resources.no_results", lang)}</p>
+          <p className="text-[#1B3A5C] text-lg font-black tracking-tight mb-4">{tt("help.person_now", lang)}</p>
+          <div className="flex justify-center mb-5">
+            <CrisisQuickLinks lang={lang} variant="compact" />
+          </div>
+          <p className="text-slate-600 text-sm font-medium">{tt("help.everyday_211", lang)}</p>
         </div>
       ) : (
         <div className="grid md:grid-cols-2 gap-5">
@@ -144,7 +150,7 @@ export function ResourcesTeen({ lang, band, county }: ResourcesTeenProps) {
                 <p className="text-slate-600 text-sm font-medium leading-relaxed mb-5 flex-1">{desc}</p>
                 <div className="flex flex-wrap gap-2 mb-3">
                   {r.phone && (
-                    <a href={`tel:${r.phone.replace(/\D/g, "")}`} className="sm:hidden inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-rose-500 text-white font-bold text-[12px] hover:bg-rose-600 transition">
+                    <a href={`tel:${r.phone.replace(/\D/g, "")}`} className="sm:hidden inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#2A7F8E] text-white font-bold text-[12px] hover:bg-[#236b78] transition">
                       <Phone size={14} /> {tt("resources.call", lang)}
                     </a>
                   )}

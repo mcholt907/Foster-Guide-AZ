@@ -8,12 +8,13 @@ import {
   CreditCard, Building2, Sparkles, Home as HomeIcon, GraduationCap,
   Compass, Info,
 } from "lucide-react";
-import Fuse from "fuse.js";
 import type { LucideIcon } from "lucide-react";
 import type { Lang } from "../../lib/i18n";
 import type { AgeBandKey } from "../../lib/prefs";
 import { tt } from "../../lib/i18n-teen";
-import { QUESTIONS, TOPIC_CONFIG, type QAEntry, type QACategory } from "../../data/questions";
+import { TOPIC_CONFIG, type QAEntry, type QACategory } from "../../data/questions";
+import { searchQuestions, isCrisisQuery } from "../../lib/questionSearch";
+import { CrisisQuickLinks } from "../CrisisQuickLinks";
 
 const CATEGORY_ICONS: Record<QACategory, LucideIcon> = {
   rights: Scale,
@@ -38,24 +39,12 @@ export function AskTeen({ lang, band }: AskTeenProps) {
   const [activeCat, setActiveCat] = useState<QACategory | "all">("all");
   const [openId, setOpenId] = useState<string | null>(null);
 
-  const bandQuestions = useMemo(
-    () => QUESTIONS.filter((q) => q.ageBands.includes(band)),
-    [band]
+  // Shared search: matches whole worried sentences, typos, and both languages.
+  const results = useMemo(
+    () => searchQuestions(query, { band, category: activeCat }),
+    [query, activeCat, band]
   );
-
-  const fuse = useMemo(
-    () =>
-      new Fuse(bandQuestions, {
-        keys: [`question.${lang}`, `answer.${lang}`],
-        threshold: 0.35,
-      }),
-    [bandQuestions, lang]
-  );
-
-  const results = useMemo(() => {
-    const base = query.trim() ? fuse.search(query).map((r) => r.item) : bandQuestions;
-    return activeCat === "all" ? base : base.filter((q) => q.category === activeCat);
-  }, [query, activeCat, bandQuestions, fuse]);
+  const showCrisis = useMemo(() => isCrisisQuery(query), [query]);
 
   const visibleTopics = useMemo(
     () => TOPIC_CONFIG.filter((t) => t.bands.includes(band)),
@@ -100,6 +89,23 @@ export function AskTeen({ lang, band }: AskTeenProps) {
           </div>
         </div>
       </div>
+
+
+          {/* Self-harm / danger wording: always show people to talk to first */}
+          {showCrisis && (
+            <div
+              role="status"
+              className="mb-10 max-w-3xl rounded-[2rem] bg-[#E3F1F3] border border-[#2A7F8E]/30 p-6 sm:p-8"
+            >
+              <h2 className="text-xl sm:text-2xl font-black text-[#1B3A5C] tracking-tight mb-2">
+                {tt("ask.crisis.heading", lang)}
+              </h2>
+              <p className="text-[#1B3A5C] text-base font-medium leading-relaxed mb-5">
+                {tt("ask.crisis.body", lang)}
+              </p>
+              <CrisisQuickLinks lang={lang} variant="compact" />
+            </div>
+          )}
 
       {/* Quick Topics */}
       <div className="mb-10 sm:mb-20 overflow-visible">
@@ -156,9 +162,21 @@ export function AskTeen({ lang, band }: AskTeenProps) {
       <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
         {/* Question list */}
         <div className="lg:col-span-8 flex flex-col gap-4">
+
           {results.length === 0 ? (
-            <div className="py-20 text-center bg-white rounded-[2.5rem] border border-dashed border-slate-200">
-              <p className="text-slate-400 font-bold">{tt("ask.no_results", lang)}</p>
+            <div className="py-10 px-6 sm:px-10 text-center bg-white rounded-[2.5rem] border border-dashed border-slate-200">
+              <p className="text-slate-600 font-bold mb-6">{tt("ask.no_results", lang)}</p>
+              {!showCrisis && (
+                <>
+                  <p className="text-[#1B3A5C] text-lg font-black tracking-tight mb-4">
+                    {tt("help.person_now", lang)}
+                  </p>
+                  <div className="flex justify-center mb-5">
+                    <CrisisQuickLinks lang={lang} variant="compact" />
+                  </div>
+                </>
+              )}
+              <p className="text-slate-600 text-sm font-medium">{tt("help.everyday_211", lang)}</p>
             </div>
           ) : (
             results.map((q: QAEntry) => {

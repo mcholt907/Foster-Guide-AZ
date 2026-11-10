@@ -184,15 +184,22 @@ export const ESCALATION_STEPS = [
   {
     step: 3,
     who: "DCS Ombudsman",
-    who_es: "Defensor del Pueblo de DCS",
-    what: "Call 1-877-527-7250. They're independent and handle complaints about DCS.",
-    what_es: "Llama al 1-877-527-7250. Son independientes y manejan quejas sobre DCS.",
+    who_es: "Ombudsman (defensor del pueblo) de DCS",
+    what: "Call 1-877-527-0765 (or 602-364-0777). This office is part of DCS. Its job is to look into complaints about DCS.",
+    what_es: "Llama al 1-877-527-0765 (o al 602-364-0777). Esta oficina es parte de DCS. Su trabajo es revisar quejas sobre DCS.",
   },
   {
     step: 4,
+    who: "Arizona Ombudsman-Citizens' Aide",
+    who_es: "Ombudsman de Arizona (Citizens' Aide)",
+    what: "Still stuck? Call 602-277-7292. This office is not part of DCS. It looks into complaints about state agencies.",
+    what_es: "¿Sigues sin respuesta? Llama al 602-277-7292. Esta oficina no es parte de DCS. Revisa quejas sobre agencias del estado.",
+  },
+  {
+    step: 5,
     who: "Your Attorney / Court",
     who_es: "Tu abogado/a / Tribunal",
-    what: "Your attorney can raise violations at your next hearing, or file a motion.",
-    what_es: "Tu abogado/a puede plantear violaciones en tu próxima audiencia o presentar una moción.",
+    what: "You can talk to your attorney at any step. They can bring it up at your next hearing or ask the judge to step in.",
+    what_es: "Puedes hablar con tu abogado/a en cualquier paso. Puede plantearlo en tu próxima audiencia o pedirle al juez que intervenga.",
   },
 ];
