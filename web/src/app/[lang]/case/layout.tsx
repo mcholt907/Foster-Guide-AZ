@@ -8,8 +8,8 @@ export async function generateMetadata({
   const { lang } = await params;
   if (lang === "es") {
     return {
-      title: "¿Qué pasa en mis audiencias?",
-      description: "¿Nervioso por el tribunal? Aprende qué significa cada audiencia, quién estará en la sala y qué puedes decir. Una guía sencilla de lo que está pasando en tu caso.",
+      title: "¿Qué pasa en tus audiencias en la corte?",
+      description: "¿Te da miedo la corte? Aprende qué significa cada audiencia, quién estará en la sala y qué puedes decir. Una guía sencilla de lo que está pasando en tu caso.",
       alternates: { canonical: "https://www.fosterhubaz.com/es/case", languages: { "en": "https://www.fosterhubaz.com/en/case", "es": "https://www.fosterhubaz.com/es/case" } },
     };
   }

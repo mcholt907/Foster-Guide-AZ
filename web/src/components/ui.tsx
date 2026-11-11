@@ -172,8 +172,8 @@ export function SafeNotice({ lang }: { lang?: Lang | null }) {
       </div>
       <div className="mt-1">
         {lang === "es"
-          ? "Comparto información para ayudarte a entender tu situación — pero no puedo dar consejos legales ni médicos. Para tu situación específica, habla con tu trabajador/a de casos, abogado/a o un adulto de confianza."
-          : "I share information to help you understand your situation — but I can't give legal or medical advice. For your specific situation, talk to your caseworker, lawyer, or a trusted adult."}
+          ? "Este sitio comparte información para ayudarte a entender tu situación — pero no puede dar consejos legales ni médicos. Para tu situación específica, habla con tu trabajador/a de casos, abogado/a o un adulto de confianza."
+          : "This site shares information to help you understand your situation — but it can't give legal or medical advice. For your specific situation, talk to your caseworker, lawyer, or a trusted adult."}
       </div>
     </div>
   );

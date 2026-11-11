@@ -9,7 +9,10 @@ import {
 import type { Lang } from "../../lib/i18n";
 import type { AgeBandKey } from "../../lib/prefs";
 import { tt } from "../../lib/i18n-teen";
+import { tc } from "../../lib/i18n-case";
 import { WHO_IN_YOUR_CASE } from "../../data/court";
+import { CrisisQuickLinks } from "../CrisisQuickLinks";
+import { TribalNote } from "../TribalNote";
 
 type Theme = { primary: string; light: string; accent: string; shadow: string };
 
@@ -32,33 +35,40 @@ const HEX_TO_THEME: Record<string, keyof typeof THEMES> = {
 };
 
 const MEMBER_META: Record<string, { icon: typeof UserCircle2; short: { en: string; es: string } }> = {
-  caseworker: { icon: UserCircle2,   short: { en: "Caseworker", es: "Trabajador/a" } },
+  caseworker: { icon: UserCircle2,   short: { en: "Caseworker", es: "Trabajador/a de casos" } },
   judge:      { icon: Scale,         short: { en: "Judge",      es: "Juez" } },
-  attorney:   { icon: Briefcase,     short: { en: "Attorney",   es: "Abogado/a" } },
+  attorney:   { icon: Briefcase,     short: { en: "Lawyer",     es: "Abogado/a" } },
   casa:       { icon: HeartHandshake,short: { en: "CASA",       es: "CASA" } },
   caregiver:  { icon: HomeIcon,      short: { en: "Caregiver",  es: "Cuidador/a" } },
   gal:        { icon: Shield,        short: { en: "GAL",        es: "GAL" } },
   supervisor: { icon: Users,         short: { en: "Supervisor", es: "Supervisor" } },
 };
 
-const FAQS: { q: { en: string; es: string }; a: { en: string; es: string } }[] = [
+const FAQS: { q: { en: string; es: string }; a: { en: string; es: string }; crisis?: boolean }[] = [
   {
-    q: { en: "Can I talk directly to the judge?",
-         es: "¿Puedo hablar directamente con el juez?" },
-    a: { en: "Yes — you have the right to address the judge. You can speak in court or request an in-chambers meeting. Your attorney can help you arrange it.",
-         es: "Sí — tienes el derecho de dirigirte al juez. Puedes hablar en el tribunal o pedir una reunión en la cámara del juez. Tu abogado/a puede ayudarte." },
+    q: { en: "Can I talk to the judge?",
+         es: "¿Puedo hablar con el juez?" },
+    a: { en: "Yes. You can ask your lawyer to help you talk to the judge — in court, or sometimes in a smaller room with the lawyers there.",
+         es: "Sí. Puedes pedirle a tu abogado/a que te ayude a hablar con el juez — en la sala del tribunal, o a veces en un cuarto más pequeño con los abogados presentes." },
   },
   {
     q: { en: "Who should I contact if I feel unsafe?",
-         es: "¿A quién contacto si me siento inseguro/a?" },
-    a: { en: "Reach out to your caseworker, CASA, or attorney immediately. Their legal obligation is to make sure you're in a safe environment.",
-         es: "Contacta a tu trabajador/a de casos, CASA o abogado/a de inmediato. Su obligación legal es asegurar que estés en un lugar seguro." },
+         es: "¿A quién contacto si no me siento a salvo?" },
+    a: { en: `${tc("safety.now", "en")} ${tc("safety.then.teen", "en")}`,
+         es: `${tc("safety.now", "es")} ${tc("safety.then.teen", "es")}` },
+    crisis: true,
   },
   {
-    q: { en: "What if my placement isn't working out?",
-         es: "¿Qué hago si mi ubicación no está funcionando?" },
-    a: { en: "Tell your caseworker and attorney. They're obligated to listen and advocate for a transition plan if the placement isn't suitable.",
-         es: "Dile a tu trabajador/a de casos y a tu abogado/a. Están obligados a escuchar y abogar por un cambio si la ubicación no es adecuada." },
+    q: { en: "Is my lawyer the same as a guardian ad litem (GAL)?",
+         es: "¿Mi abogado/a es lo mismo que un tutor ad litem (GAL)?" },
+    a: { en: "Not always. A lawyer tells the judge what you want. A GAL tells the judge what they think is best for you. You may have one or both. Ask: \"Are you my lawyer or my GAL? Do you tell the judge what I want, or what you think is best?\" Ask them what they keep private, too.",
+         es: "No siempre. Un/a abogado/a le dice al juez lo que tú quieres. Un GAL le dice al juez lo que cree que es mejor para ti. Puedes tener uno o los dos. Pregunta: «¿Eres mi abogado/a o mi GAL? ¿Le dices al juez lo que yo quiero, o lo que tú crees que es mejor?» También pregúntale qué mantiene en privado." },
+  },
+  {
+    q: { en: "What if the place I live isn't working out?",
+         es: "¿Qué hago si el lugar donde vivo no está funcionando?" },
+    a: { en: "Tell your caseworker and your lawyer. They should listen, and they can ask for a change if where you live is not a good fit. If you are not safe, call 911 or 1-888-767-2445.",
+         es: "Díselo a tu trabajador/a de casos y a tu abogado/a. Deben escucharte, y pueden pedir un cambio si el lugar donde vives no es adecuado para ti. Si no estás a salvo, llama al 911 o al 1-888-767-2445." },
   },
 ];
 
@@ -236,6 +246,8 @@ export function TeamTeen({ lang, band }: TeamTeenProps) {
         </div>
       </div>
 
+      <TribalNote lang={lang} variant="teen" className="mt-10" />
+
       {/* FAQ section */}
       <div className="flex flex-col lg:grid lg:grid-cols-2 gap-16 md:gap-24 items-start py-16 md:py-32 border-t border-slate-200/80 mt-10">
         <div>
@@ -286,6 +298,11 @@ export function TeamTeen({ lang, band }: TeamTeenProps) {
                       <div className="px-8 pb-10">
                         <div className="pt-6 border-t border-slate-50 text-sm sm:text-base font-medium leading-[1.7] text-slate-500 tracking-tight">
                           {faq.a[lang]}
+                          {faq.crisis && (
+                            <div className="mt-5">
+                              <CrisisQuickLinks lang={lang} variant="compact" />
+                            </div>
+                          )}
                         </div>
                       </div>
                     </motion.div>

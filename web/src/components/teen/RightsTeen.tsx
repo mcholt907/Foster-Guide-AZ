@@ -3,14 +3,32 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
-  Shield, Scale, ArrowRight, MessageSquare, Sparkles,
-  AlertTriangle, Phone, Landmark,
+  Shield, Scale, ArrowRight, ArrowLeft, MessageSquare, Sparkles,
+  AlertTriangle, Phone, Landmark, ShieldCheck, Mic, Home, Users,
+  GraduationCap, HeartPulse, Backpack, Trophy, Feather, Lock, Megaphone,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { Lang } from "../../lib/i18n";
 import type { AgeBandKey } from "../../lib/prefs";
 import { tt } from "../../lib/i18n-teen";
+import { tr } from "../../lib/i18n-rights";
 import { RIGHTS, ESCALATION_STEPS } from "../../data/rights";
+
+// One icon per right, keyed by id so the list can grow or be reordered
+// without touching layout code. Unknown ids fall back to Shield.
+export const RIGHT_ICONS: Record<string, LucideIcon> = {
+  safety: ShieldCheck,
+  participate: Mic,
+  family: Home,
+  siblings: Users,
+  school: GraduationCap,
+  health: HeartPulse,
+  belongings: Backpack,
+  activities: Trophy,
+  identity: Feather,
+  privacy: Lock,
+  speakup: Megaphone,
+};
 
 type Theme = { primary: string; light: string; accent: string; shadow: string };
 
@@ -36,10 +54,27 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
   const reduce = useReducedMotion();
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  const detailRef = useRef<HTMLDivElement>(null);
+
+  // Keep the active tile centered in the horizontal (mobile) list. Scrolls the
+  // list itself only — never the page — so picking a right can't make the
+  // screen jump.
   useEffect(() => {
-    const active = scrollRef.current?.querySelector('[data-active="true"]');
-    if (active) (active as HTMLElement).scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-  }, [openId]);
+    const box = scrollRef.current;
+    const el = box?.querySelector<HTMLElement>('[data-active="true"]');
+    if (!box || !el || box.scrollWidth <= box.clientWidth) return;
+    const left = el.offsetLeft - box.offsetLeft - (box.clientWidth - el.clientWidth) / 2;
+    box.scrollTo({ left: Math.max(0, left), behavior: reduce ? "auto" : "smooth" });
+  }, [openId, reduce]);
+
+  // Back / Next: show the new right from its top if the reader had scrolled past it.
+  function go(id: string) {
+    setOpenId(id);
+    const el = detailRef.current;
+    if (el && el.getBoundingClientRect().top < 0) {
+      el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    }
+  }
 
   const activeIdx = Math.max(0, RIGHTS.findIndex((r) => r.id === openId));
   const active = RIGHTS[activeIdx] ?? RIGHTS[0];
@@ -52,6 +87,9 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
   const example = lang === "es" ? tier.example_es : tier.example;
   const howToAsk = lang === "es" ? tier.howToAsk_es : tier.howToAsk;
   const ifIgnored = lang === "es" ? tier.ifIgnored_es : tier.ifIgnored;
+  const ActiveIcon = RIGHT_ICONS[active.id] ?? Shield;
+  const prev = RIGHTS[activeIdx - 1];
+  const next = RIGHTS[activeIdx + 1];
 
   return (
     <div className="max-w-[1240px] mx-auto px-6 sm:px-12 py-10 sm:py-20">
@@ -75,25 +113,32 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
       {/* Master-detail */}
       <div className="flex flex-col lg:grid lg:grid-cols-12 gap-10">
         {/* Rights list */}
-        <div className="lg:col-span-4 -mx-6 px-6 md:mx-0 md:px-0">
+        <div className="lg:col-span-4 -mx-6 px-6 md:mx-0 md:px-0 min-w-0">
+          <p className="text-[13px] font-semibold text-slate-500 mb-3">
+            {tr("list.hint", lang)} <span className="text-slate-400">({RIGHTS.length})</span>
+          </p>
           <div
             ref={scrollRef}
-            className="flex lg:flex-col gap-3.5 overflow-x-auto lg:overflow-x-visible pb-6 md:pb-0 snap-x lg:max-h-[700px] lg:pr-2"
+            role="group"
+            aria-label={tr("list.label", lang)}
+            className="flex lg:flex-col gap-3.5 overflow-x-auto lg:overflow-x-visible pt-1 pb-6 lg:pb-0 snap-x lg:pr-2"
           >
             {RIGHTS.map((r, idx) => {
               const isActive = openId === r.id;
               const rThemeKey = THEME_ORDER[idx % THEME_ORDER.length];
               const rTheme = THEMES[rThemeKey];
               const shortTitle = lang === "es" ? r.title_es : r.title;
+              const RIcon = RIGHT_ICONS[r.id] ?? Shield;
               return (
                 <motion.button
                   key={r.id}
                   type="button"
                   data-active={isActive}
+                  aria-pressed={isActive}
                   onClick={() => setOpenId(r.id)}
                   initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: reduce ? 0 : idx * 0.05, duration: reduce ? 0 : 0.3 }}
+                  transition={{ delay: reduce ? 0 : Math.min(idx, 6) * 0.05, duration: reduce ? 0 : 0.3 }}
                   className={`snap-center flex-shrink-0 w-[240px] lg:w-auto flex items-start gap-4 p-5 rounded-[1.5rem] transition-all duration-300 text-left relative group ${
                     isActive
                       ? "bg-white scale-[1.02] z-10 border-2"
@@ -109,7 +154,7 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
                         : { backgroundColor: "rgba(241, 245, 249, 0.8)", color: "#64748b" }
                     }
                   >
-                    <Shield size={18} strokeWidth={isActive ? 2.5 : 2} />
+                    <RIcon size={18} strokeWidth={isActive ? 2.5 : 2.25} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">{r.citation}</p>
@@ -132,7 +177,7 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
         </div>
 
         {/* Detail card */}
-        <div className="lg:col-span-8">
+        <div ref={detailRef} className="lg:col-span-8 min-w-0 lg:sticky lg:top-8 lg:self-start scroll-mt-24 lg:scroll-mt-8">
           <AnimatePresence mode="wait">
             <motion.div
               key={openId}
@@ -155,6 +200,9 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
               {/* Header */}
               <div className="flex items-start justify-between mb-10 relative z-10 gap-4">
                 <div className="max-w-xl">
+                  <p className="text-[12px] font-bold text-slate-500 mb-2">
+                    {tr("counter", lang, { n: activeIdx + 1, total: RIGHTS.length })}
+                  </p>
                   <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-3">{active.citation}</p>
                   <h2 className="text-2xl sm:text-4xl font-black text-[#1e293b] tracking-tighter leading-tight">
                     {title}
@@ -165,7 +213,7 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
                   style={{ color: theme.primary }}
                 >
                   <div className="absolute inset-0 rounded-[1.75rem] blur-xl -z-10" style={{ backgroundColor: theme.light }} />
-                  <Shield size={32} strokeWidth={1.75} />
+                  <ActiveIcon size={32} strokeWidth={1.75} />
                 </div>
               </div>
 
@@ -222,6 +270,28 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
                     {ifIgnored}
                   </p>
                 </div>
+              </div>
+
+              {/* Back / Next — so every right is reachable without finding the list */}
+              <div className="relative z-10 mt-8 flex items-center justify-between gap-3">
+                {prev ? (
+                  <button
+                    type="button"
+                    onClick={() => go(prev.id)}
+                    className="inline-flex items-center gap-2 min-h-[44px] rounded-full px-4 py-2.5 text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors"
+                  >
+                    <ArrowLeft size={16} strokeWidth={2.5} /> {tr("prev", lang)}
+                  </button>
+                ) : <span />}
+                {next ? (
+                  <button
+                    type="button"
+                    onClick={() => go(next.id)}
+                    className="inline-flex items-center gap-2 min-h-[44px] rounded-full px-5 py-2.5 text-sm font-bold text-white bg-[#1a2f44] hover:bg-[#24405c] transition-colors"
+                  >
+                    {tr("next", lang)} <ArrowRight size={16} strokeWidth={2.5} />
+                  </button>
+                ) : <span />}
               </div>
             </motion.div>
           </AnimatePresence>

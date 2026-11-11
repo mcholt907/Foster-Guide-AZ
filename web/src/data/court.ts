@@ -1,77 +1,109 @@
+// Court stages and "who is in your case" content.
+//
+// Wording rules for this file:
+// - Plain words, 6th-grade reading level, speak to "you".
+// - "caseworker" in English, "trabajador/a de casos" in Spanish.
+// - Foster care is "cuidado de crianza" in Spanish (never "adoptivo").
+// - A lawyer speaks for what the youth WANTS. A guardian ad litem (GAL) tells
+//   the judge what they think is BEST. A youth may have one or both
+//   (A.R.S. §8-221). Never promise that everything a youth says stays private.
+
 export const COURT_STAGES = [
   {
     id: "prelim",
     title: "First safety hearing (Preliminary Protective Hearing)",
     title_es: "Primera audiencia de seguridad (Audiencia Preliminar de Protección)",
-    what: "The judge checks if you're safe and decides what happens right away — usually within a few days.",
-    what_es: "El juez verifica si estás seguro y decide qué pasa de inmediato — generalmente en unos pocos días.",
-    youth: "Before it starts, tell your lawyer what you want the judge to hear. They're there to speak up for you.",
-    youth_es: "Antes de que comience, dile a tu abogado lo que quieres que el juez escuche. Están ahí para hablar por ti.",
+    what: "The judge checks if you're safe and decides where you stay for now — usually within a few days.",
+    what_es: "El juez revisa si estás a salvo y decide dónde te quedas por ahora — generalmente en unos pocos días.",
+    youth: "Before it starts, tell your lawyer what you want the judge to hear.",
+    youth_es: "Antes de que comience, dile a tu abogado/a lo que quieres que el juez escuche.",
     next: "Dates for the next hearings are set.",
-    next_es: "Se establecen fechas para las próximas audiencias.",
+    next_es: "Se fijan las fechas de las próximas audiencias.",
   },
   {
     id: "adjudication",
     title: "Facts hearing (Adjudication)",
     title_es: "Audiencia de hechos (Adjudicación)",
-    what: "The court decides if the concerns in your case are proven and whether the case continues.",
-    what_es: "El tribunal decide si las preocupaciones en tu caso están probadas y si el caso continúa.",
+    what: "The judge decides if the worries in your case are true and whether the case keeps going.",
+    what_es: "El juez decide si las preocupaciones en tu caso son ciertas y si el caso continúa.",
     youth: `Ask your lawyer: "What does this mean for where I live and my school?"`,
-    youth_es: "Pregúntale a tu abogado: '¿Qué significa esto para dónde vivo y mi escuela?'",
-    next: "Your case plan and services get reviewed and updated.",
-    next_es: "Tu plan de caso y los servicios se revisan y actualizan.",
+    youth_es: "Pregúntale a tu abogado/a: «¿Qué significa esto para dónde vivo y mi escuela?»",
+    next: "The judge decides on a plan for your case.",
+    next_es: "El juez decide un plan para tu caso.",
+  },
+  {
+    id: "disposition",
+    title: "Plan hearing (Disposition)",
+    title_es: "Audiencia del plan (Disposición)",
+    what: "The judge decides where you will live for now and what the case plan is. This can happen the same day as the facts hearing.",
+    what_es: "El juez decide dónde vivirás por ahora y cuál es el plan de caso. Puede pasar el mismo día que la audiencia de hechos.",
+    youth: "Ask for a copy of your case plan. Ask your lawyer to explain it in plain words.",
+    youth_es: "Pide una copia de tu plan de caso. Pídele a tu abogado/a que te lo explique en palabras sencillas.",
+    next: "Check-in hearings start.",
+    next_es: "Empiezan las audiencias de seguimiento.",
   },
   {
     id: "review",
     title: "Check‑in hearing (Review Hearing)",
     title_es: "Audiencia de seguimiento (Audiencia de Revisión)",
-    what: "The judge checks in on how your plan is going and what needs to change.",
-    what_es: "El juez verifica cómo va tu plan y qué necesita cambiar.",
-    youth: "Come with 1–2 updates you want people to know: what's working and what isn't.",
-    youth_es: "Ven con 1 o 2 actualizaciones que quieres que la gente sepa: qué está funcionando y qué no.",
-    next: "More check-ins are scheduled, or you move toward a long-term plan hearing.",
+    what: "The judge checks in on how your plan is going and what needs to change. This happens at least every six months.",
+    what_es: "El juez revisa cómo va tu plan y qué necesita cambiar. Esto pasa al menos cada seis meses.",
+    youth: "Come with 1 or 2 things you want people to know: what's working and what isn't.",
+    youth_es: "Ven con 1 o 2 cosas que quieres que la gente sepa: qué está funcionando y qué no.",
+    next: "More check-ins are set, or you move toward a long-term plan hearing.",
     next_es: "Se programan más seguimientos, o avanzas hacia una audiencia de plan a largo plazo.",
   },
   {
     id: "permanency",
     title: "Long‑term plan hearing (Permanency Hearing)",
     title_es: "Audiencia de plan a largo plazo (Audiencia de Permanencia)",
-    what: "The judge discusses the long-term plan for you — like going home, guardianship, or adoption.",
-    what_es: "El juez discute el plan a largo plazo para ti — como regresar a casa, tutela o adopción.",
-    youth: "Ask your lawyer to walk you through each option in plain words. You have a say in this.",
-    youth_es: "Pídele a tu abogado que te explique cada opción en palabras simples. Tienes voz en esto.",
+    what: "The judge talks about the long-term plan for you — like going home, living with a guardian, or adoption.",
+    what_es: "El juez habla del plan a largo plazo para ti — como regresar a casa, vivir con un tutor o la adopción.",
+    youth: "Ask your lawyer to walk you through each choice in plain words. You get to say what you want.",
+    youth_es: "Pídele a tu abogado/a que te explique cada opción en palabras sencillas. Puedes decir lo que quieres.",
     next: "Everyone takes steps toward the long-term plan.",
-    next_es: "Todos toman medidas hacia el plan a largo plazo.",
+    next_es: "Todos dan pasos hacia el plan a largo plazo.",
+  },
+  {
+    id: "severance",
+    title: "If a parent's rights end (Termination of Parental Rights, or \"severance\")",
+    title_es: "Si terminan los derechos de un padre o madre (Terminación de la Patria Potestad)",
+    what: "In some cases, the judge is asked to decide if a parent's legal rights should end. This is the judge's decision. It is not your fault. Many cases never get to this step.",
+    what_es: "En algunos casos, se le pide al juez que decida si los derechos legales de un padre o madre deben terminar. Es decisión del juez. No es tu culpa. Muchos casos nunca llegan a este paso.",
+    youth: `Ask your lawyer: "Is this happening in my case? What does it mean for me?"`,
+    youth_es: "Pregúntale a tu abogado/a: «¿Esto está pasando en mi caso? ¿Qué significa para mí?»",
+    next: "The team works on a lasting home for you, like adoption or living with a guardian.",
+    next_es: "El equipo trabaja en un hogar duradero para ti, como la adopción o vivir con un tutor.",
   },
 ];
 
 export const WHO_IN_YOUR_CASE = [
   {
     id: "caseworker",
-    title: "Your DCS Case Manager",
-    title_es: "Tu trabajador/a de casos (DCS)",
-    aka: "Also called: caseworker",
-    aka_es: "También llamado: caseworker",
+    title: "Your Caseworker",
+    title_es: "Tu trabajador/a de casos",
+    aka: "Also called: DCS case manager, DCS specialist",
+    aka_es: "También se le dice: administrador/a de casos de DCS, especialista de DCS",
     emoji: "👤",
     color: "#2A7F8E",
-    role: "Your main point of contact at the Department of Child Safety (DCS).",
+    role: "Your main contact at the Department of Child Safety (DCS).",
     role_es: "Tu contacto principal en el Departamento de Seguridad Infantil (DCS).",
-    what: "They manage your case day-to-day — writing your case plan, scheduling visits, and connecting you to services. By law they're supposed to meet with you at least once a month in person.",
-    what_es: "Maneja tu caso día a día — escribe tu plan de caso, programa visitas y te conecta con servicios. Por ley debe reunirse contigo en persona al menos una vez al mes.",
-    tip: "Keep their number saved. If something feels wrong or isn't happening, they're your first call.",
-    tip_es: "Guarda su número. Si algo se siente mal o no está pasando, es tu primera llamada.",
+    what: "Your caseworker handles your case day to day. They write your case plan, set up visits, and connect you to help. They are supposed to see you in person at least once a month.",
+    what_es: "Tu trabajador/a de casos maneja tu caso día a día. Escribe tu plan de caso, organiza visitas y te conecta con ayuda. Debe verte en persona al menos una vez al mes.",
+    tip: "Keep their number saved. If something feels wrong or isn't getting done, call them. If you are in danger right now, call 911 first.",
+    tip_es: "Guarda su número. Si algo se siente mal o no se está haciendo, llámale. Si estás en peligro ahora mismo, llama primero al 911.",
     teen_tips: {
       "13-15": {
-        en: "Your caseworker's number should always be in your phone. If they don't visit monthly, that's a problem you can raise.",
-        es: "El número de tu trabajador/a de casos debe estar siempre en tu teléfono. Si no te visita cada mes, eso es algo que puedes reportar.",
+        en: "Starting at age 14, you get to help write your case plan. You can also pick up to two people you trust to be on your planning team. Ask your caseworker how.",
+        es: "Desde los 14 años, puedes ayudar a escribir tu plan de caso. También puedes elegir hasta dos personas de confianza para estar en tu equipo de planificación. Pregúntale a tu trabajador/a de casos cómo.",
       },
       "16-17": {
-        en: "Ask your caseworker in writing about your transition plan. You're entitled to one at 16 — make sure it's being built.",
-        es: "Pídele a tu trabajador/a de casos por escrito sobre tu plan de transición. Tienes derecho a uno a los 16 — asegúrate de que lo estén desarrollando.",
+        en: "You should already be helping write your case plan — that starts at 14. Ask your caseworker, in writing, to see the part about getting ready for adult life. Before you turn 18, you should also get a plan just for your move to adulthood.",
+        es: "Ya deberías estar ayudando a escribir tu plan de caso — eso empieza a los 14. Pídele a tu trabajador/a de casos, por escrito, ver la parte sobre prepararte para la vida adulta. Antes de cumplir 18, también deberías recibir un plan solo para tu paso a la vida adulta.",
       },
       "18-21": {
-        en: "Even if you've signed out, your caseworker can still connect you to extended services. Keep the line open.",
-        es: "Aunque hayas salido del cuidado, tu trabajador/a de casos aún puede conectarte con servicios extendidos. Mantén el contacto.",
+        en: "Even if you left care at 18, you can ask DCS about coming back before you turn 21. Keep a caseworker's number where you can find it.",
+        es: "Aunque hayas salido del cuidado a los 18, puedes preguntarle a DCS sobre regresar antes de cumplir 21. Guarda el número de un/a trabajador/a de casos donde lo puedas encontrar.",
       },
     },
   },
@@ -79,57 +111,57 @@ export const WHO_IN_YOUR_CASE = [
     id: "judge",
     title: "The Judge",
     title_es: "El/La juez",
-    aka: "Also called: dependency court judge",
-    aka_es: "También llamado: juez del tribunal de dependencia",
+    aka: "Also called: juvenile court judge",
+    aka_es: "También se le dice: juez del tribunal de menores",
     emoji: "⚖️",
     color: "#1B3A5C",
-    role: "Makes the big legal decisions about your case — including where you live.",
-    role_es: "Toma las grandes decisiones legales sobre tu caso — incluyendo dónde vives.",
-    what: "A Superior Court judge oversees your dependency case. They approve your case plan, decide placement, and make the final call at every hearing. You have the right to speak at hearings — your voice counts.",
-    what_es: "Un juez del Tribunal Superior supervisa tu caso de dependencia. Aprueba tu plan de caso, decide la colocación y da el veredicto final en cada audiencia. Tienes el derecho de hablar — tu voz cuenta.",
-    tip: "You can tell the judge how you feel, what you want, and what's not working — through your attorney or by asking to address the court directly.",
-    tip_es: "Puedes decirle al juez cómo te sientes, qué quieres y qué no está funcionando — a través de tu abogado o pidiéndole al tribunal que te dé la palabra.",
+    role: "Makes the big decisions about your case — like where you live.",
+    role_es: "Toma las grandes decisiones sobre tu caso — como dónde vives.",
+    what: "The judge is in charge of your court case. The judge listens to everyone, looks at your case plan, and decides at each hearing. You have a voice here — the judge wants to know what you think.",
+    what_es: "El juez está a cargo de tu caso en el tribunal. Escucha a todos, revisa tu plan de caso y decide en cada audiencia. Tienes voz aquí — el juez quiere saber lo que piensas.",
+    tip: "You can ask your lawyer to help you talk to the judge — in court, or sometimes in a smaller room with the lawyers there.",
+    tip_es: "Puedes pedirle a tu abogado/a que te ayude a hablar con el juez — en la sala del tribunal, o a veces en un cuarto más pequeño con los abogados presentes.",
     teen_tips: {
       "13-15": {
-        en: "Judges want to hear from you — it's not weird to speak up. Your attorney can ask for you, or you can ask to speak directly.",
-        es: "Los jueces quieren escucharte — no es raro hablar. Tu abogado/a puede pedirlo por ti, o tú puedes pedir hablar directamente.",
+        en: "It's not weird to speak up. Ask your lawyer to help you talk to the judge — in court, or sometimes in a smaller room with the lawyers there. You can also write the judge a letter and give it to your lawyer.",
+        es: "No es raro hablar. Pídele a tu abogado/a que te ayude a hablar con el juez — en la sala del tribunal, o a veces en un cuarto más pequeño con los abogados presentes. También puedes escribirle una carta al juez y dársela a tu abogado/a.",
       },
       "16-17": {
-        en: "At this age the judge weighs your input heavily. Come to hearings ready with specific requests — school, placement, contact with siblings.",
-        es: "A esta edad, el juez considera mucho tu opinión. Llega a las audiencias con peticiones específicas — escuela, colocación, contacto con hermanos.",
+        en: "Judges pay close attention to what older youth say. Come to hearings with clear asks — about school, where you live, or seeing your brothers and sisters.",
+        es: "Los jueces ponen mucha atención a lo que dicen los jóvenes mayores. Llega a las audiencias con peticiones claras — sobre la escuela, dónde vives o ver a tus hermanos y hermanas.",
       },
       "18-21": {
-        en: "If you're in extended care, the judge still oversees your case. You can request hearings to address services that aren't working.",
-        es: "Si estás en cuidado extendido, el juez aún supervisa tu caso. Puedes pedir audiencias para tratar servicios que no están funcionando.",
+        en: "In extended foster care, your plan still gets checked about every six months. If something isn't working, say so at your review or tell your caseworker.",
+        es: "En el cuidado de crianza extendido, tu plan se sigue revisando más o menos cada seis meses. Si algo no funciona, dilo en tu revisión o díselo a tu trabajador/a de casos.",
       },
     },
   },
   {
     id: "attorney",
-    title: "Your Attorney",
+    title: "Your Lawyer",
     title_es: "Tu abogado/a",
-    aka: "Also called: your lawyer",
-    aka_es: "También llamado: tu abogado",
+    aka: "Also called: your attorney",
+    aka_es: "También se le dice: tu licenciado/a",
     emoji: "📋",
     color: "#D97706",
-    role: "Represents only you — not DCS (the state), not your parents, not the foster family.",
-    role_es: "Te representa solo a ti — no a DCS (el estado), no a tus padres, no a la familia adoptiva.",
-    what: "Arizona law gives every youth in foster care the right to an attorney. They go to court with you, explain what's happening, and argue for what you want. Everything you tell them stays private.",
-    what_es: "La ley de Arizona le da a todo joven en cuidado adoptivo el derecho a un abogado. Va al tribunal contigo, explica lo que está pasando y argumenta lo que tú quieres. Todo lo que le cuentes queda en privado.",
-    tip: "Be honest with your attorney — they can only fight for you if they know what's really going on. If you don't have one, ask your caseworker immediately.",
-    tip_es: "Sé honesto con tu abogado — solo puede luchar por ti si sabe lo que realmente está pasando. Si no tienes uno, pídelo a tu trabajador/a de casos de inmediato.",
+    role: "A lawyer the court picks for you. They do not work for DCS, your parents, or your foster family.",
+    role_es: "Un/a abogado/a que el tribunal elige para ti. No trabaja para DCS, ni para tus padres, ni para tu familia de crianza.",
+    what: "Arizona law says every child in a foster care court case gets a lawyer. Your lawyer goes to court, explains what is going on, and tells the judge what you want. Some youth also have a guardian ad litem (GAL). A GAL tells the judge what they think is best for you — which may not be the same as what you want. You may have a lawyer, a GAL, or both.",
+    what_es: "La ley de Arizona dice que cada niño, niña o joven en un caso de cuidado de crianza recibe un/a abogado/a. Tu abogado/a va al tribunal, te explica lo que está pasando y le dice al juez lo que tú quieres. Algunos jóvenes también tienen un tutor ad litem (GAL). Un GAL le dice al juez lo que cree que es mejor para ti — que puede no ser lo mismo que tú quieres. Puedes tener un/a abogado/a, un GAL o los dos.",
+    tip: "Ask: \"Are you my lawyer or my GAL? Do you tell the judge what I want, or what you think is best?\" Also ask them what they keep private. If you don't know who your lawyer is, ask your caseworker.",
+    tip_es: "Pregunta: «¿Eres mi abogado/a o mi GAL? ¿Le dices al juez lo que yo quiero, o lo que tú crees que es mejor?» También pregúntale qué mantiene en privado. Si no sabes quién es tu abogado/a, pregúntale a tu trabajador/a de casos.",
     teen_tips: {
       "13-15": {
-        en: "Your attorney works for you, not your parents and not DCS. If you don't know who they are, your caseworker has to tell you.",
-        es: "Tu abogado/a trabaja para ti, no para tus padres ni para DCS. Si no sabes quién es, tu trabajador/a de casos tiene que decírtelo.",
+        en: "Ask: \"Are you my lawyer or my GAL? Do you tell the judge what I want, or what you think is best?\" Ask what they keep private, too. If you don't know who your lawyer is, your caseworker can tell you.",
+        es: "Pregunta: «¿Eres mi abogado/a o mi GAL? ¿Le dices al juez lo que yo quiero, o lo que tú crees que es mejor?» También pregunta qué mantiene en privado. Si no sabes quién es tu abogado/a, tu trabajador/a de casos te lo puede decir.",
       },
       "16-17": {
-        en: "Ask your attorney to walk you through every court document before you sign or agree to anything. That's their job.",
-        es: "Pídele a tu abogado/a que te explique cada documento del tribunal antes de firmar o aceptar algo. Ese es su trabajo.",
+        en: "Ask: \"Are you my lawyer or my GAL? Do you tell the judge what I want, or what you think is best?\" And ask your lawyer to explain any court paper before you sign or agree to it.",
+        es: "Pregunta: «¿Eres mi abogado/a o mi GAL? ¿Le dices al juez lo que yo quiero, o lo que tú crees que es mejor?» Y pídele a tu abogado/a que te explique cualquier papel del tribunal antes de firmar o aceptar algo.",
       },
       "18-21": {
-        en: "Your attorney may change if you enter extended care. Get the new attorney's contact info at the transition hearing.",
-        es: "Tu abogado/a puede cambiar si entras al cuidado extendido. Obtén la información de contacto del nuevo abogado en la audiencia de transición.",
+        en: "Before you turn 18, ask your lawyer: \"Will you still be my lawyer after I'm 18? If not, who do I call with legal questions?\"",
+        es: "Antes de cumplir 18, pregúntale a tu abogado/a: «¿Vas a seguir siendo mi abogado/a después de que cumpla 18? Si no, ¿a quién llamo con preguntas legales?»",
       },
     },
   },
@@ -141,82 +173,82 @@ export const WHO_IN_YOUR_CASE = [
     aka_es: "Defensor Especial Nombrado por el Tribunal",
     emoji: "🤝",
     color: "#2A7F8E",
-    role: "Court Appointed Special Advocate — a trained community volunteer who gets to know you personally and speaks up for you in court.",
-    role_es: "Defensor Especial Nombrado por el Tribunal — un voluntario de la comunidad capacitado que te conoce personalmente y habla por ti en el tribunal.",
-    what: "Unlike your caseworker, a CASA has one job: figure out what's best for you and tell the judge. They visit you regularly, read your full case file, and write a report for the court. Not every case has a CASA — but if you don't have one, you can ask your caseworker or attorney to request one.",
-    what_es: "A diferencia de tu trabajador/a de casos, un CASA tiene un solo trabajo: determinar qué es mejor para ti y decírselo al juez. Te visita regularmente, lee tu expediente completo y escribe un informe para el tribunal. No todos los casos tienen un CASA — pero si no tienes uno, puedes pedirle a tu trabajador/a social o abogado que solicite uno.",
-    tip: "CASA volunteers are not DCS employees. They chose to be there for kids. They tend to have more time for you than a caseworker does.",
-    tip_es: "Los voluntarios de CASA no son empleados de DCS. Eligieron estar ahí para los jóvenes. Suelen tener más tiempo para ti que un trabajador de casos.",
+    role: "A trained volunteer from the community who gets to know you and tells the judge what they think is best for you.",
+    role_es: "Un/a voluntario/a de la comunidad, con capacitación, que te conoce y le dice al juez lo que cree que es mejor para ti.",
+    what: "A CASA volunteer has one job: get to know you and tell the judge what they think you need. They visit you, learn about your case, and write a report for the judge. Not every case has a CASA. If you don't have one, you can ask your caseworker or lawyer to ask for one.",
+    what_es: "Un/a voluntario/a CASA tiene un solo trabajo: conocerte y decirle al juez lo que cree que necesitas. Te visita, aprende sobre tu caso y escribe un informe para el juez. No todos los casos tienen un CASA. Si no tienes uno, puedes pedirle a tu trabajador/a de casos o a tu abogado/a que solicite uno.",
+    tip: "CASA volunteers do not work for DCS. They chose to be there for youth. A CASA shares what they learn with the judge, so ask them what they keep private.",
+    tip_es: "Los voluntarios CASA no trabajan para DCS. Eligieron estar ahí para los jóvenes. Un CASA comparte con el juez lo que aprende, así que pregúntale qué mantiene en privado.",
     teen_tips: {
       "13-15": {
-        en: "A CASA volunteer can be someone you see outside of court — a steady adult who's not your caseworker and not related to you.",
-        es: "Un voluntario/a CASA puede ser alguien que ves fuera del tribunal — un adulto constante que no es tu trabajador/a de casos ni pariente.",
+        en: "A CASA volunteer can be someone you see outside of court — a steady adult who is not your caseworker and not related to you.",
+        es: "Un/a voluntario/a CASA puede ser alguien que ves fuera del tribunal — un adulto constante que no es tu trabajador/a de casos ni tu pariente.",
       },
       "16-17": {
-        en: "If your CASA hasn't talked with you about your long-term plan, ask them to. That's what they're there for.",
-        es: "Si tu CASA no ha hablado contigo sobre tu plan a largo plazo, pídeselo. Para eso están.",
+        en: "If your CASA hasn't talked with you about your long-term plan, ask them to. They can bring what you say to the judge.",
+        es: "Si tu CASA no ha hablado contigo sobre tu plan a largo plazo, pídeselo. Puede llevarle al juez lo que tú dices.",
       },
       "18-21": {
-        en: "CASA typically ends when your case closes. If you had one and want to stay in touch, ask — many volunteers stay connected informally.",
-        es: "CASA generalmente termina cuando tu caso se cierra. Si tuviste uno/a y quieres mantenerte en contacto, pregunta — muchos voluntarios se mantienen en contacto informalmente.",
+        en: "A CASA usually ends when your court case closes. If you want to stay in touch, ask — some volunteers do.",
+        es: "Un CASA generalmente termina cuando se cierra tu caso en el tribunal. Si quieres seguir en contacto, pregunta — algunos voluntarios lo hacen.",
       },
     },
   },
   {
     id: "caregiver",
     title: "Foster Parent, Kinship Caregiver, or House Manager",
-    title_es: "Padre/madre adoptivo/a, cuidador/a pariente o encargado/a de hogar grupal",
+    title_es: "Padre o madre de crianza, cuidador/a pariente o encargado/a de hogar grupal",
     aka: "Also called: foster family, relative caregiver, group home staff",
-    aka_es: "También llamado: familia adoptiva, cuidador pariente, personal de hogar grupal",
+    aka_es: "También se le dice: familia de crianza, cuidador/a pariente, personal del hogar grupal",
     emoji: "🏠",
     color: "#059669",
-    role: "The adult(s) responsible for your day-to-day care — in a foster home, kinship home, or group home.",
-    role_es: "El/los adulto(s) responsable(s) de tu cuidado diario — en un hogar adoptivo, hogar pariente o hogar grupal.",
-    what: "Foster parents and kinship caregivers are licensed or approved by DCS to provide a home. If you live in a group home, a House Manager (also called a house parent or staff) fills that role — they're employed by the group home agency, not DCS. A kinship caregiver is a relative or someone you already knew. None of them are your caseworker, but they're responsible for your safety and daily needs.",
-    what_es: "Los padres adoptivos y cuidadores parientes están autorizados por DCS para proveer un hogar. Si vives en un hogar grupal, un encargado/a de hogar (también llamado personal o house parent) cumple ese rol — trabaja para la agencia del hogar grupal, no para DCS. Un cuidador pariente es un familiar o alguien que ya conocías. Ninguno de ellos es tu trabajador/a de casos, pero son responsables de tu seguridad y necesidades diarias.",
-    tip: "If you ever feel unsafe where you're living — whether a foster home or group home — tell your caseworker, attorney, or CASA right away. You have the right to be safe.",
-    tip_es: "Si alguna vez te sientes inseguro donde vives — ya sea en un hogar adoptivo o grupal — díselo a tu trabajador/a de casos, abogado o CASA de inmediato. Tienes el derecho a estar seguro.",
+    role: "The adult or adults who take care of you every day — in a foster home, a relative's home, or a group home.",
+    role_es: "El adulto o los adultos que te cuidan cada día — en un hogar de crianza, en casa de un pariente o en un hogar grupal.",
+    what: "Foster parents and kinship caregivers are approved by DCS to give you a home. A kinship caregiver is a relative or someone you already knew. If you live in a group home, a house manager or staff does this job. They work for the group home, not for DCS. None of them is your caseworker, but they are in charge of keeping you safe and meeting your daily needs.",
+    what_es: "Los padres de crianza y los cuidadores parientes están aprobados por DCS para darte un hogar. Un cuidador pariente es un familiar o alguien que ya conocías. Si vives en un hogar grupal, un/a encargado/a o el personal hace este trabajo. Trabajan para el hogar grupal, no para DCS. Ninguno de ellos es tu trabajador/a de casos, pero están a cargo de mantenerte a salvo y de tus necesidades diarias.",
+    tip: "If you are in danger right now, call 911. To report abuse any time, day or night, call 1-888-SOS-CHILD (1-888-767-2445). If you don't feel safe where you live, also tell your caseworker, lawyer, or CASA. You have the right to be safe.",
+    tip_es: "Si estás en peligro ahora mismo, llama al 911. Para reportar abuso a cualquier hora, de día o de noche, llama al 1-888-SOS-CHILD (1-888-767-2445). Si no te sientes a salvo donde vives, díselo también a tu trabajador/a de casos, abogado/a o CASA. Tienes derecho a estar a salvo.",
     teen_tips: {
       "13-15": {
-        en: "Your caregiver is responsible for your day-to-day needs. If something basic isn't happening — food, a bed, school transport — tell your caseworker.",
-        es: "Tu cuidador/a es responsable de tus necesidades diarias. Si algo básico no está pasando — comida, una cama, transporte a la escuela — dile a tu trabajador/a de casos.",
+        en: "Your caregiver takes care of your daily needs — food, a bed, getting to school. If something basic is missing, tell your caseworker. If you are not safe, call 911 or 1-888-767-2445.",
+        es: "Tu cuidador/a se encarga de tus necesidades diarias — comida, una cama, llegar a la escuela. Si falta algo básico, díselo a tu trabajador/a de casos. Si no estás a salvo, llama al 911 o al 1-888-767-2445.",
       },
       "16-17": {
-        en: "Caregivers can help you learn adult skills — cooking, banking, driving. Ask. It's a normal teenager thing to expect.",
-        es: "Los cuidadores pueden ayudarte a aprender habilidades de adulto — cocinar, banca, manejar. Pide. Es algo normal que un/a adolescente debe esperar.",
+        en: "Caregivers can help you learn adult skills — cooking, using a bank, driving. It's okay to ask. If you are not safe where you live, call 911 or 1-888-767-2445.",
+        es: "Los cuidadores pueden ayudarte a aprender habilidades de adulto — cocinar, usar un banco, manejar. Está bien pedirlo. Si no estás a salvo donde vives, llama al 911 o al 1-888-767-2445.",
       },
       "18-21": {
-        en: "If you're staying with a former caregiver in extended care, you're technically a 'young adult in care' — your relationship is different.",
-        es: "Si estás con un/a ex-cuidador/a en cuidado extendido, técnicamente eres un/a 'adulto joven en cuidado' — tu relación es diferente.",
+        en: "In extended foster care, you are an adult. Talk with your caregiver about house rules and what you each expect from the other.",
+        es: "En el cuidado de crianza extendido, eres adulto/a. Habla con tu cuidador/a sobre las reglas de la casa y lo que cada quien espera del otro.",
       },
     },
   },
   {
     id: "gal",
     title: "Guardian ad Litem (GAL)",
-    title_es: "Guardian ad Litem (GAL)",
-    aka: "Sometimes the same person as your attorney",
-    aka_es: "A veces es la misma persona que tu abogado",
+    title_es: "Tutor ad litem (GAL)",
+    aka: "Not every case has one",
+    aka_es: "No todos los casos tienen uno",
     emoji: "🛡️",
     color: "#7c3aed",
-    role: "Someone appointed by the court specifically to represent your best interests.",
-    role_es: "Alguien nombrado por el tribunal específicamente para representar tu mejor interés.",
-    what: "In some cases the court appoints a GAL who is separate from your attorney. They look at your whole situation — school, health, placement, relationships — and advise the judge. In Arizona, this role is sometimes filled by your attorney or your CASA.",
-    what_es: "En algunos casos el tribunal nombra un GAL separado de tu abogado. Revisa toda tu situación — escuela, salud, colocación, relaciones — y aconseja al juez. En Arizona, este rol a veces lo cumple tu abogado o tu CASA.",
-    tip: "Ask your attorney or caseworker if you have a GAL and who they are.",
-    tip_es: "Pregúntale a tu abogado o trabajador/a de casos si tienes un GAL y quién es.",
+    role: "A person the court picks to tell the judge what they think is best for you.",
+    role_es: "Una persona que el tribunal elige para decirle al juez lo que cree que es mejor para ti.",
+    what: "A GAL looks at your whole life — school, health, where you live, the people you care about. Then they tell the judge what they think is best for you. That is not always the same as what you want. A GAL is different from a lawyer who speaks for what you want. Some youth have a lawyer, some have a GAL, and some have both.",
+    what_es: "Un GAL mira toda tu vida — escuela, salud, dónde vives, las personas que te importan. Luego le dice al juez lo que cree que es mejor para ti. Eso no siempre es lo mismo que tú quieres. Un GAL es diferente de un/a abogado/a que habla por lo que tú quieres. Algunos jóvenes tienen abogado/a, algunos tienen un GAL y algunos tienen los dos.",
+    tip: "Ask: \"Are you my lawyer or my GAL? Do you tell the judge what I want, or what you think is best?\" A GAL may share what you say with the judge, so ask them what they keep private.",
+    tip_es: "Pregunta: «¿Eres mi abogado/a o mi GAL? ¿Le dices al juez lo que yo quiero, o lo que tú crees que es mejor?» Un GAL puede compartir con el juez lo que le dices, así que pregúntale qué mantiene en privado.",
     teen_tips: {
       "13-15": {
-        en: "A GAL is an attorney who represents your 'best interest' — sometimes different from what you want. Your own attorney is separate.",
-        es: "Un GAL es un abogado/a que representa tu 'mejor interés' — a veces diferente de lo que tú quieres. Tu propio/a abogado/a es separado.",
+        en: "A GAL tells the judge what they think is best for you. If you want something different, say so — to your GAL, to your lawyer if you have one, or to the judge. Ask your GAL what they keep private.",
+        es: "Un GAL le dice al juez lo que cree que es mejor para ti. Si tú quieres algo diferente, dilo — a tu GAL, a tu abogado/a si tienes, o al juez. Pregúntale a tu GAL qué mantiene en privado.",
       },
       "16-17": {
-        en: "Ask the GAL to explain what 'best interest' means for your specific case. They should be able to tell you clearly.",
-        es: "Pídele al GAL que te explique qué significa 'mejor interés' para tu caso específico. Debe poder decírtelo claramente.",
+        en: "Ask your GAL: \"What are you going to tell the judge is best for me, and why?\" If you don't agree, tell them — and tell your lawyer or the judge what you want.",
+        es: "Pregúntale a tu GAL: «¿Qué le vas a decir al juez que es mejor para mí, y por qué?» Si no estás de acuerdo, díselo — y dile a tu abogado/a o al juez lo que tú quieres.",
       },
       "18-21": {
-        en: "At 18+, you typically have your own attorney directly — the GAL role often ends. Confirm with your attorney.",
-        es: "A los 18+, usualmente tienes tu propio/a abogado/a directamente — el rol de GAL a menudo termina. Confirma con tu abogado/a.",
+        en: "Things change after 18. Ask your lawyer or caseworker if you still have a GAL, and who speaks for you now.",
+        es: "Las cosas cambian después de los 18. Pregúntale a tu abogado/a o a tu trabajador/a de casos si todavía tienes un GAL y quién habla por ti ahora.",
       },
     },
   },
@@ -228,24 +260,24 @@ export const WHO_IN_YOUR_CASE = [
     aka_es: "El/la jefe/a de tu trabajador/a de casos",
     emoji: "📞",
     color: "#1B3A5C",
-    role: "Your caseworker's boss at the Department of Child Safety (DCS). Who you can talk to if things aren't getting fixed.",
-    role_es: "El/la jefe/a de tu trabajador/a de casos en el Departamento de Seguridad Infantil (DCS). Con quien puedes hablar si las cosas no se están resolviendo.",
-    what: "If you've raised a concern with your caseworker and nothing is changing, ask to speak with their supervisor. Keep a written record of when you asked and what was said — dates matter.",
-    what_es: "Si has planteado una preocupación con tu trabajador/a de casos y nada está cambiando, pide hablar con su supervisor/a. Guarda un registro escrito de cuándo preguntaste y qué dijeron — las fechas importan.",
-    tip: "Asking to escalate is normal and OK. The system is designed for it. You won't get in trouble for asking.",
-    tip_es: "Pedir escalar es normal y está bien. El sistema está diseñado para ello. No te meterás en problemas por preguntar.",
+    role: "Your caseworker's boss at DCS. The person to talk to if things aren't getting fixed.",
+    role_es: "El/la jefe/a de tu trabajador/a de casos en DCS. La persona con quien hablar si las cosas no se arreglan.",
+    what: "If you told your caseworker about a problem and nothing is changing, ask to talk to their supervisor. Write down when you asked and what was said. Dates help.",
+    what_es: "Si le contaste un problema a tu trabajador/a de casos y nada cambia, pide hablar con su supervisor/a. Anota cuándo preguntaste y qué te dijeron. Las fechas ayudan.",
+    tip: "Asking for the supervisor is normal and okay. You will not get in trouble for asking.",
+    tip_es: "Pedir hablar con el/la supervisor/a es normal y está bien. No te meterás en problemas por pedirlo.",
     teen_tips: {
       "13-15": {
-        en: "A supervisor is your caseworker's boss. If something isn't being handled, this is who you call next.",
-        es: "Un supervisor/a es el jefe/a de tu trabajador/a de casos. Si algo no se está manejando, es a quien llamas después.",
+        en: "A supervisor is your caseworker's boss. If a problem isn't getting fixed, this is who you ask for next. You won't get in trouble for asking.",
+        es: "Un/a supervisor/a es el/la jefe/a de tu trabajador/a de casos. Si un problema no se arregla, es a quien pides después. No te meterás en problemas por pedirlo.",
       },
       "16-17": {
-        en: "Write things down before calling a supervisor. Dates, what you asked for, what happened. It helps everyone.",
-        es: "Escribe las cosas antes de llamar a un supervisor/a. Fechas, lo que pediste, lo que pasó. Ayuda a todos.",
+        en: "Write things down before you call a supervisor: dates, what you asked for, and what happened. It helps everyone.",
+        es: "Anota las cosas antes de llamar a un/a supervisor/a: fechas, lo que pediste y lo que pasó. Ayuda a todos.",
       },
       "18-21": {
-        en: "If you disagree with a supervisor's decision, the next step is the DCS Ombudsman. Your attorney can help you file.",
-        es: "Si no estás de acuerdo con la decisión de un supervisor/a, el siguiente paso es el Defensor/a del Pueblo de DCS. Tu abogado/a puede ayudarte a presentar el caso.",
+        en: "If you don't agree with what a supervisor decides, you can contact the DCS Ombudsman's office. Your lawyer or an adult you trust can help.",
+        es: "Si no estás de acuerdo con lo que decide un/a supervisor/a, puedes contactar a la oficina del Ombudsman (defensor) de DCS. Tu abogado/a o un adulto de confianza puede ayudarte.",
       },
     },
   },
@@ -257,14 +289,18 @@ export const WHO_IN_YOUR_CASE = [
 
 export type TeenColorTheme = "emerald" | "indigo" | "blue" | "rose" | "amber" | "cyan" | "slate";
 
+type TeenBand = "13-15" | "16-17" | "18-21";
+
 export interface CaseStageTeen {
   id: string;
   title:    { en: string; es: string };
   subtitle: { en: string; es: string };
   color:    TeenColorTheme;
+  /** True for stages that only happen in some cases (shown without a stage number). */
+  sometimes?: boolean;
   what:     { en: string; es: string };
-  teen:     Record<"13-15" | "16-17" | "18-21", { en: string; es: string }>;
-  insight:  Record<"13-15" | "16-17" | "18-21", { en: string; es: string }>;
+  teen:     Record<TeenBand, { en: string; es: string }>;
+  insight:  Record<TeenBand, { en: string; es: string }>;
   next:     { en: string; es: string };
 }
 
@@ -272,38 +308,38 @@ export const CASE_STAGES_TEEN: CaseStageTeen[] = [
   {
     id: "prelim",
     title:    { en: "First Safety Hearing", es: "Primera Audiencia de Seguridad" },
-    subtitle: { en: "Preliminary Protective Hearing", es: "Audiencia Protectora Preliminar" },
+    subtitle: { en: "Preliminary Protective Hearing", es: "Audiencia Preliminar de Protección" },
     color:    "emerald",
     what: {
-      en: "The judge checks if you're safe and decides what happens right away — usually within just a few days of coming into care.",
-      es: "El juez verifica si estás seguro/a y decide qué pasa de inmediato — generalmente a los pocos días de entrar al cuidado.",
+      en: "The judge checks if you're safe and decides where you stay for now. This happens fast — usually within a few days of coming into care.",
+      es: "El juez revisa si estás a salvo y decide dónde te quedas por ahora. Esto pasa rápido — generalmente a los pocos días de entrar al cuidado.",
     },
     teen: {
       "13-15": {
-        en: "This hearing moves fast. Your lawyer's main job is to make sure you end up in the safest, least restrictive place possible.",
-        es: "Esta audiencia se mueve rápido. El trabajo principal de tu abogado/a es asegurarse de que termines en el lugar más seguro y menos restrictivo posible.",
+        en: "This hearing moves fast. The goal is a safe place that feels as much like a home as it can — with family or people you know, when that is safe.",
+        es: "Esta audiencia va rápido. La meta es un lugar seguro que se sienta lo más parecido posible a un hogar — con familia o personas que conoces, cuando eso es seguro.",
       },
       "16-17": {
-        en: "This is often a fast-paced hearing. Your lawyer's primary job is to ensure you are in the safest, least restrictive placement possible.",
-        es: "A menudo es una audiencia rápida. El trabajo principal de tu abogado/a es asegurar que estés en la colocación más segura y menos restrictiva posible.",
+        en: "This hearing moves fast. The goal is a safe place that feels as much like a home as it can — with family or people you know, when that is safe. Your lawyer can tell the judge where you want to be.",
+        es: "Esta audiencia va rápido. La meta es un lugar seguro que se sienta lo más parecido posible a un hogar — con familia o personas que conoces, cuando eso es seguro. Tu abogado/a puede decirle al juez dónde quieres estar.",
       },
       "18-21": {
-        en: "If you're coming back into care as a young adult, this hearing sets your extended care placement. Know your options before it starts.",
-        es: "Si regresas al cuidado como adulto joven, esta audiencia establece tu colocación en cuidado extendido. Conoce tus opciones antes de que empiece.",
+        en: "This hearing happens when a child first comes into care. If you are 18 or older and signing up for extended foster care, you most likely won't have this hearing — you sign an agreement with DCS instead. Ask your caseworker how it works for you.",
+        es: "Esta audiencia pasa cuando un niño o joven entra al cuidado por primera vez. Si tienes 18 años o más y te estás inscribiendo en el cuidado de crianza extendido, lo más probable es que no tengas esta audiencia — en su lugar firmas un acuerdo con DCS. Pregúntale a tu trabajador/a de casos cómo funciona para ti.",
       },
     },
     insight: {
       "13-15": {
-        en: "Before it starts, tell your lawyer where you'd like to live. A relative, a friend's family, someone you already know — your preference matters.",
-        es: "Antes de que empiece, dile a tu abogado/a dónde te gustaría vivir. Un pariente, la familia de un amigo, alguien que ya conoces — tu preferencia importa.",
+        en: "Before it starts, tell your lawyer where you'd like to live. A relative, a friend's family, someone you already know — what you want matters.",
+        es: "Antes de que empiece, dile a tu abogado/a dónde te gustaría vivir. Un pariente, la familia de un amigo, alguien que ya conoces — lo que tú quieres importa.",
       },
       "16-17": {
-        en: "Before it starts, tell your lawyer exactly where you want to live. Even if it's with a relative or a friend's family, they need to advocate for your preference.",
-        es: "Antes de que empiece, dile a tu abogado/a exactamente dónde quieres vivir. Incluso si es con un pariente o la familia de un amigo, necesitan abogar por tu preferencia.",
+        en: "Before it starts, tell your lawyer where you want to live — a relative, a friend's family, someone you know. Your lawyer can tell the judge what you want.",
+        es: "Antes de que empiece, dile a tu abogado/a dónde quieres vivir — un pariente, la familia de un amigo, alguien que conoces. Tu abogado/a puede decirle al juez lo que quieres.",
       },
       "18-21": {
-        en: "Ask about Independent Living Services up front — they exist and you're eligible. Don't wait for someone to bring it up.",
-        es: "Pregunta por los Servicios de Vida Independiente desde el principio — existen y eres elegible. No esperes a que alguien lo mencione.",
+        en: "Ask early about help for young adults — like help with housing, money for living costs, and life-skills support. Ask your caseworker what you can get.",
+        es: "Pregunta pronto por la ayuda para adultos jóvenes — como ayuda con vivienda, dinero para gastos de vida y apoyo con habilidades para la vida. Pregúntale a tu trabajador/a de casos qué puedes recibir.",
       },
     },
     next: {
@@ -317,40 +353,82 @@ export const CASE_STAGES_TEEN: CaseStageTeen[] = [
     subtitle: { en: "Adjudication", es: "Adjudicación" },
     color:    "indigo",
     what: {
-      en: "The court decides if the concerns in your case are proven and whether the state (DCS) needs to stay involved.",
-      es: "El tribunal decide si las preocupaciones en tu caso están probadas y si el estado (DCS) necesita seguir involucrado.",
+      en: "The judge decides if the worries in your case are true and if DCS needs to stay involved.",
+      es: "El juez decide si las preocupaciones en tu caso son ciertas y si DCS necesita seguir involucrado.",
     },
     teen: {
       "13-15": {
-        en: "If the judge decides your case is 'dependent,' the court stays in charge of decisions about where you live and what help you get.",
-        es: "Si el juez decide que tu caso es 'dependiente,' el tribunal sigue a cargo de las decisiones sobre dónde vives y qué ayuda recibes.",
+        en: "If the judge finds the worries are true, the judge says you are \"dependent.\" That means the court helps decide where you live and what help you get. It is not a punishment, and it is not about anything you did.",
+        es: "Si el juez encuentra que las preocupaciones son ciertas, dice que eres «dependiente». Eso significa que el tribunal ayuda a decidir dónde vives y qué ayuda recibes. No es un castigo y no es por nada que tú hiciste.",
       },
       "16-17": {
-        en: "This is a critical legal milestone. If the judge 'adjudicates' you dependent, the court gains authority over where you live and what services you receive.",
-        es: "Este es un hito legal crítico. Si el juez te 'adjudica' dependiente, el tribunal gana autoridad sobre dónde vives y qué servicios recibes.",
+        en: "This is a big step. If the judge finds the worries are true, the judge says you are \"dependent.\" That means the court helps decide where you live and what help you get. It is not a punishment, and it is not about anything you did.",
+        es: "Este es un paso grande. Si el juez encuentra que las preocupaciones son ciertas, dice que eres «dependiente». Eso significa que el tribunal ayuda a decidir dónde vives y qué ayuda recibes. No es un castigo y no es por nada que tú hiciste.",
       },
       "18-21": {
-        en: "If you voluntarily entered extended care, there's no adjudication — but reviews of your plan still happen. This stage looks different for you.",
-        es: "Si entraste voluntariamente al cuidado extendido, no hay adjudicación — pero las revisiones de tu plan aún ocurren. Esta etapa se ve diferente para ti.",
+        en: "Extended foster care is your choice. It is an agreement between you and DCS, so this hearing is usually not part of it. Your plan still gets checked about every six months. Ask your lawyer or caseworker what applies to you.",
+        es: "El cuidado de crianza extendido es tu decisión. Es un acuerdo entre tú y DCS, así que esta audiencia generalmente no es parte de eso. Tu plan se sigue revisando más o menos cada seis meses. Pregúntale a tu abogado/a o a tu trabajador/a de casos qué aplica para ti.",
       },
     },
     insight: {
       "13-15": {
-        en: "Ask your lawyer: 'What does this mean for my school?' and 'Will I be able to see my siblings?' Those are legal questions they can answer.",
-        es: "Pregúntale a tu abogado/a: '¿Qué significa esto para mi escuela?' y '¿Podré ver a mis hermanos/as?' Son preguntas legales que pueden responder.",
+        en: "Ask your lawyer: \"What does this mean for my school?\" and \"Will I get to see my brothers and sisters?\"",
+        es: "Pregúntale a tu abogado/a: «¿Qué significa esto para mi escuela?» y «¿Podré ver a mis hermanos y hermanas?»",
       },
       "16-17": {
-        en: "Ask your lawyer: 'How does this decision affect my school stability and my right to work?' If you're 16+, your education plan should be a priority.",
-        es: "Pregúntale a tu abogado/a: '¿Cómo afecta esta decisión mi estabilidad escolar y mi derecho a trabajar?' Si tienes 16+, tu plan educativo debe ser prioridad.",
+        en: "Ask your lawyer: \"How does this change my school, my job, and seeing my brothers and sisters?\"",
+        es: "Pregúntale a tu abogado/a: «¿Cómo cambia esto mi escuela, mi trabajo y ver a mis hermanos y hermanas?»",
       },
       "18-21": {
-        en: "Ask about your Educational and Training Voucher (ETV) eligibility now. The deadline to apply each year is real.",
-        es: "Pregunta sobre tu elegibilidad para el Vale Educativo y de Capacitación (ETV) ahora. La fecha límite anual para aplicar es real.",
+        en: "Ask now about the Education and Training Voucher (ETV) — money for college or job training. Ask when to apply so you don't miss it.",
+        es: "Pregunta ahora por el Vale de Educación y Capacitación (ETV) — dinero para la universidad o capacitación para el trabajo. Pregunta cuándo solicitarlo para no perderlo.",
       },
     },
     next: {
-      en: "Your case plan and services get reviewed and updated.",
-      es: "Tu plan de caso y servicios se revisan y actualizan.",
+      en: "The judge decides on a plan for your case.",
+      es: "El juez decide un plan para tu caso.",
+    },
+  },
+  {
+    id: "disposition",
+    title:    { en: "The Plan Hearing", es: "La Audiencia del Plan" },
+    subtitle: { en: "Disposition", es: "Disposición" },
+    color:    "amber",
+    what: {
+      en: "After the facts hearing — sometimes the same day — the judge decides what happens next: where you will live for now, and what the case plan is. The case plan lists what your parents, DCS, and others need to do.",
+      es: "Después de la audiencia de hechos — a veces el mismo día — el juez decide qué sigue: dónde vivirás por ahora y cuál es el plan de caso. El plan de caso dice lo que tus padres, DCS y otras personas necesitan hacer.",
+    },
+    teen: {
+      "13-15": {
+        en: "This is where your case plan starts. Starting at age 14, you get to help write it. You can also pick up to two people you trust to be on your planning team.",
+        es: "Aquí empieza tu plan de caso. Desde los 14 años, puedes ayudar a escribirlo. También puedes elegir hasta dos personas de confianza para estar en tu equipo de planificación.",
+      },
+      "16-17": {
+        en: "You help write your case plan — that starts at age 14. Your plan should have a part about getting ready for adult life: school, work, money, and a place to live.",
+        es: "Tú ayudas a escribir tu plan de caso — eso empieza a los 14 años. Tu plan debe tener una parte sobre prepararte para la vida adulta: escuela, trabajo, dinero y un lugar donde vivir.",
+      },
+      "18-21": {
+        en: "In extended foster care, you make your plan with your caseworker. It should be about your goals — school, work, and a place to live.",
+        es: "En el cuidado de crianza extendido, haces tu plan con tu trabajador/a de casos. Debe tratarse de tus metas — escuela, trabajo y un lugar donde vivir.",
+      },
+    },
+    insight: {
+      "13-15": {
+        en: "Ask for a copy of your case plan. Ask your lawyer to explain it in plain words.",
+        es: "Pide una copia de tu plan de caso. Pídele a tu abogado/a que te lo explique en palabras sencillas.",
+      },
+      "16-17": {
+        en: "Ask: \"What is the goal of my case plan right now?\" Going home is usually the first goal. Ask what happens if that changes.",
+        es: "Pregunta: «¿Cuál es la meta de mi plan de caso ahora?» Regresar a casa suele ser la primera meta. Pregunta qué pasa si eso cambia.",
+      },
+      "18-21": {
+        en: "Ask to see your plan in writing. If something in it doesn't fit your life, say so.",
+        es: "Pide ver tu plan por escrito. Si algo en el plan no va con tu vida, dilo.",
+      },
+    },
+    next: {
+      en: "Check-in hearings start. The judge looks at your case at least every six months.",
+      es: "Empiezan las audiencias de seguimiento. El juez revisa tu caso al menos cada seis meses.",
     },
   },
   {
@@ -360,38 +438,38 @@ export const CASE_STAGES_TEEN: CaseStageTeen[] = [
     color:    "blue",
     what: {
       en: "The judge checks in on how your plan is going, how your family is doing, and what needs to change.",
-      es: "El juez revisa cómo va tu plan, cómo está tu familia, y qué necesita cambiar.",
+      es: "El juez revisa cómo va tu plan, cómo está tu familia y qué necesita cambiar.",
     },
     teen: {
       "13-15": {
-        en: "These hearings happen a few times a year. They're where the judge gets a current picture of your life — school, home, health.",
-        es: "Estas audiencias pasan varias veces al año. Es donde el juez obtiene una imagen actual de tu vida — escuela, hogar, salud.",
+        en: "These hearings happen at least every six months. They are how the judge learns what your life is like right now — school, home, health.",
+        es: "Estas audiencias pasan al menos cada seis meses. Así el juez se entera de cómo es tu vida ahora — escuela, hogar, salud.",
       },
       "16-17": {
-        en: "As a teen, these are your best opportunities to update the judge on your progress toward independence.",
-        es: "Como adolescente, estas son tus mejores oportunidades para actualizar al juez sobre tu progreso hacia la independencia.",
+        en: "These hearings happen at least every six months. They are a good time to tell the judge how you are getting ready for adult life, and what help you still need.",
+        es: "Estas audiencias pasan al menos cada seis meses. Son un buen momento para decirle al juez cómo te estás preparando para la vida adulta y qué ayuda te falta.",
       },
       "18-21": {
-        en: "Reviews in extended care focus on whether services are actually working. Bring specific examples — good and bad.",
-        es: "Las revisiones en cuidado extendido se centran en si los servicios realmente funcionan. Trae ejemplos específicos — buenos y malos.",
+        en: "In extended foster care, reviews look at whether the help you get is really working. Bring real examples — good and bad.",
+        es: "En el cuidado de crianza extendido, las revisiones ven si la ayuda que recibes de verdad funciona. Trae ejemplos reales — buenos y malos.",
       },
     },
     insight: {
       "13-15": {
-        en: "Bring 1 or 2 specific updates: something going well (a class, a friendship) and something that isn't (a missed appointment, a tough placement). Real stuff is useful.",
-        es: "Trae 1 o 2 actualizaciones específicas: algo que va bien (una clase, una amistad) y algo que no (una cita perdida, una colocación difícil). Lo real es útil.",
+        en: "Bring 1 or 2 real updates: something going well (a class, a friend) and something that isn't (a missed appointment, a hard time at home).",
+        es: "Trae 1 o 2 novedades reales: algo que va bien (una clase, una amistad) y algo que no (una cita perdida, un momento difícil en casa).",
       },
       "16-17": {
-        en: "Come with 1–2 specific updates: what's working (like a job or a school club) and what isn't (like needing more driver's ed). Documenting these makes them real for the court.",
-        es: "Llega con 1–2 actualizaciones específicas: qué funciona (como un trabajo o un club escolar) y qué no (como necesitar más clases de manejo). Documentar esto lo hace real para el tribunal.",
+        en: "Bring 1 or 2 real updates: what's working (like a job or a school club) and what isn't (like needing driver's ed). Writing them down helps you remember.",
+        es: "Trae 1 o 2 novedades reales: qué funciona (como un trabajo o un club de la escuela) y qué no (como necesitar clases de manejo). Anotarlas te ayuda a recordar.",
       },
       "18-21": {
-        en: "If a service provider isn't showing up or a skill you need isn't being taught, say so on the record. The judge can order changes.",
-        es: "Si un proveedor de servicios no aparece o una habilidad que necesitas no se está enseñando, dilo en el registro. El juez puede ordenar cambios.",
+        en: "If someone who is supposed to help you isn't showing up, or you're not learning a skill you need, say so at your review. Ask what can change.",
+        es: "Si alguien que debe ayudarte no se presenta, o no estás aprendiendo una habilidad que necesitas, dilo en tu revisión. Pregunta qué puede cambiar.",
       },
     },
     next: {
-      en: "More check-ins are scheduled, or you move toward a long-term plan.",
+      en: "More check-ins are set, or you move toward a long-term plan.",
       es: "Se programan más seguimientos, o avanzas hacia un plan a largo plazo.",
     },
   },
@@ -399,42 +477,85 @@ export const CASE_STAGES_TEEN: CaseStageTeen[] = [
     id: "permanency",
     title:    { en: "Long-Term Plan Hearing", es: "Audiencia del Plan a Largo Plazo" },
     subtitle: { en: "Permanency Hearing", es: "Audiencia de Permanencia" },
-    color:    "rose",
+    color:    "cyan",
     what: {
-      en: "The judge discusses the long-term plan for your future — like going home, guardianship, or transitioning to adulthood.",
-      es: "El juez discute el plan a largo plazo para tu futuro — como regresar a casa, tutela, o la transición a la adultez.",
+      en: "The judge talks about the long-term plan for you — like going home, living with a guardian, adoption, or getting ready to be an adult.",
+      es: "El juez habla del plan a largo plazo para ti — como regresar a casa, vivir con un tutor, la adopción o prepararte para ser adulto/a.",
     },
     teen: {
       "13-15": {
-        en: "This hearing asks the question: what's the permanent plan? Going home, a relative taking guardianship, adoption, or another long-term path.",
-        es: "Esta audiencia pregunta: ¿cuál es el plan permanente? Regresar a casa, un pariente tomando tutela, adopción, u otro camino a largo plazo.",
+        en: "This hearing asks: what is the lasting plan? Going home, a relative becoming your guardian, adoption, or another long-term path.",
+        es: "Esta audiencia pregunta: ¿cuál es el plan duradero? Regresar a casa, que un pariente sea tu tutor, la adopción u otro camino a largo plazo.",
       },
       "16-17": {
-        en: "For older youth, this hearing is essentially your 'launch plan.' It's where the court formalizes what happens when you turn 18.",
-        es: "Para jóvenes mayores, esta audiencia es esencialmente tu 'plan de lanzamiento.' Es donde el tribunal formaliza qué pasa cuando cumples 18.",
+        en: "For older youth, this hearing is also about life after 18: where you will live, school, work, and whether you want to stay in extended foster care.",
+        es: "Para jóvenes mayores, esta audiencia también trata de la vida después de los 18: dónde vivirás, escuela, trabajo y si quieres quedarte en el cuidado de crianza extendido.",
       },
       "18-21": {
-        en: "This is where extended care is set up, renewed, or closed. Know which of these is on the agenda before you walk in.",
-        es: "Aquí es donde el cuidado extendido se establece, se renueva, o se cierra. Sabe cuál de estos está en la agenda antes de entrar.",
+        en: "If you are close to 18 or older, make sure everyone knows your plan: staying in extended foster care, or moving out on your own with support.",
+        es: "Si estás cerca de los 18 o eres mayor, asegúrate de que todos sepan tu plan: quedarte en el cuidado de crianza extendido o vivir por tu cuenta con apoyo.",
       },
     },
     insight: {
       "13-15": {
-        en: "Tell your lawyer what kind of home you want long-term — even if it feels early. Having that on the record matters for years.",
-        es: "Dile a tu abogado/a qué tipo de hogar quieres a largo plazo — aunque se sienta temprano. Tenerlo en el registro importa por años.",
+        en: "Tell your lawyer what kind of home you want long-term — even if it feels early. It helps the judge to know.",
+        es: "Dile a tu abogado/a qué tipo de hogar quieres a largo plazo — aunque se sienta temprano. Le ayuda al juez saberlo.",
       },
       "16-17": {
-        en: "Arizona law requires a transition plan for all youth 16 and older. If your hearing doesn't mention 'Independent Living' or 'Extended Care' options, remind your attorney to bring it up.",
-        es: "La ley de Arizona requiere un plan de transición para todos los jóvenes de 16 años o más. Si tu audiencia no menciona 'Vida Independiente' o 'Cuidado Extendido,' recuérdale a tu abogado/a que lo mencione.",
+        en: "Youth 14 and older help write their case plan, and it should cover getting ready for adult life. If no one talks about life after 18 at your hearing, ask your lawyer to bring it up.",
+        es: "Los jóvenes de 14 años o más ayudan a escribir su plan de caso, y debe incluir prepararse para la vida adulta. Si nadie habla de la vida después de los 18 en tu audiencia, pídele a tu abogado/a que lo mencione.",
       },
       "18-21": {
-        en: "Once you sign into extended care, you can sign out anytime. You can also come back in (once) before 21. Know your options.",
-        es: "Una vez que firmas para entrar al cuidado extendido, puedes firmar para salir en cualquier momento. También puedes regresar (una vez) antes de los 21. Conoce tus opciones.",
+        en: "Extended foster care is your choice. You can leave, and you can ask to come back before you turn 21. Ask your caseworker how it works.",
+        es: "El cuidado de crianza extendido es tu decisión. Puedes salir, y puedes pedir regresar antes de cumplir 21. Pregúntale a tu trabajador/a de casos cómo funciona.",
       },
     },
     next: {
-      en: "Everyone takes final steps toward your long-term plan.",
-      es: "Todos toman los pasos finales hacia tu plan a largo plazo.",
+      en: "Everyone works on the long-term plan. There may be more hearings along the way.",
+      es: "Todos trabajan en el plan a largo plazo. Puede haber más audiencias en el camino.",
+    },
+  },
+  {
+    id: "severance",
+    title:    { en: "If a Parent's Rights End", es: "Si Terminan los Derechos de un Padre o Madre" },
+    subtitle: { en: "Termination of parental rights (\"severance\")", es: "Terminación de la patria potestad" },
+    color:    "slate",
+    sometimes: true,
+    what: {
+      en: "In some cases, the judge is asked to decide if a parent's legal rights should end. People may call this \"severance.\" If it happens, that parent no longer makes legal decisions for you, and you could be adopted. Many cases never get to this step.",
+      es: "En algunos casos, se le pide al juez que decida si los derechos legales de un padre o madre deben terminar. Si pasa, ese padre o madre ya no toma decisiones legales por ti, y podrías ser adoptado/a. Muchos casos nunca llegan a este paso.",
+    },
+    teen: {
+      "13-15": {
+        en: "This is the judge's decision. It is not your fault, and it is not because of anything you said or did. It's okay to feel sad, angry, relieved, or all of these at once.",
+        es: "Esta es una decisión del juez. No es tu culpa, y no es por nada que dijiste o hiciste. Está bien sentir tristeza, enojo, alivio o todo al mismo tiempo.",
+      },
+      "16-17": {
+        en: "This is the judge's decision. It is not your fault, and it is not because of anything you said or did. You can tell your lawyer how you feel about it. In Arizona, youth 12 and older usually have to agree before they can be adopted.",
+        es: "Esta es una decisión del juez. No es tu culpa, y no es por nada que dijiste o hiciste. Puedes decirle a tu abogado/a cómo te sientes. En Arizona, los jóvenes de 12 años o más generalmente tienen que estar de acuerdo antes de ser adoptados.",
+      },
+      "18-21": {
+        en: "If this happened in your case when you were younger, it was the judge's decision. It was not your fault. If you still have questions about it, you can ask your lawyer or caseworker.",
+        es: "Si esto pasó en tu caso cuando eras más joven, fue decisión del juez. No fue tu culpa. Si todavía tienes preguntas, puedes hacérselas a tu abogado/a o a tu trabajador/a de casos.",
+      },
+    },
+    insight: {
+      "13-15": {
+        en: "Ask your lawyer: \"Is this happening in my case? What does it mean for seeing my brothers, sisters, and other family?\" You can also talk with your caseworker, CASA, or a counselor.",
+        es: "Pregúntale a tu abogado/a: «¿Esto está pasando en mi caso? ¿Qué significa para ver a mis hermanos, hermanas y otros familiares?» También puedes hablar con tu trabajador/a de casos, CASA o un/a consejero/a.",
+      },
+      "16-17": {
+        en: "Ask your lawyer: \"Is this happening in my case? What does it mean for seeing my brothers, sisters, and other family?\" You can also talk with your caseworker, CASA, or a counselor.",
+        es: "Pregúntale a tu abogado/a: «¿Esto está pasando en mi caso? ¿Qué significa para ver a mis hermanos, hermanas y otros familiares?» También puedes hablar con tu trabajador/a de casos, CASA o un/a consejero/a.",
+      },
+      "18-21": {
+        en: "As an adult, you decide who is in your life. If you want help with this, talk with a counselor or an adult you trust.",
+        es: "Como adulto/a, tú decides quién está en tu vida. Si quieres ayuda con esto, habla con un/a consejero/a o un adulto de confianza.",
+      },
+    },
+    next: {
+      en: "The judge decides. Then your team works on a lasting home for you, like adoption or living with a guardian.",
+      es: "El juez decide. Luego tu equipo trabaja en un hogar duradero para ti, como la adopción o vivir con un tutor.",
     },
   },
 ];
@@ -455,8 +576,8 @@ export const CASE_FAQS_TEEN: CaseFAQTeen[] = [
       es: "¿Tengo que ir a la corte?",
     },
     a: {
-      en: "Usually yes — but your lawyer will tell you what to expect ahead of time. You won't be alone. Your lawyer goes with you, and being present is the best way to ensure your 'best interests' match your actual wishes.",
-      es: "Usualmente sí — pero tu abogado/a te dirá qué esperar con anticipación. No estarás solo/a. Tu abogado/a va contigo, y estar presente es la mejor manera de asegurar que tus 'mejores intereses' coincidan con tus deseos reales.",
+      en: "Most youth go, and it helps the judge hear what you want. Your lawyer will tell you what to expect ahead of time, and you won't be alone. If going feels too hard, tell your lawyer — there may be other ways to share what you think.",
+      es: "La mayoría de los jóvenes van, y eso ayuda a que el juez escuche lo que quieres. Tu abogado/a te dirá qué esperar antes, y no estarás solo/a. Si ir se siente muy difícil, díselo a tu abogado/a — puede haber otras formas de compartir lo que piensas.",
     },
   },
   {
@@ -465,8 +586,18 @@ export const CASE_FAQS_TEEN: CaseFAQTeen[] = [
       es: "¿Puedo hablar con el juez?",
     },
     a: {
-      en: "Yes. You can speak up at hearings through your lawyer, or ask to speak directly to the judge. Most judges want to hear from you — it helps them make better decisions about your life.",
-      es: "Sí. Puedes hablar en las audiencias a través de tu abogado/a, o pedir hablar directamente con el juez. La mayoría de los jueces quieren escucharte — les ayuda a tomar mejores decisiones sobre tu vida.",
+      en: "Yes. You can ask your lawyer to help you talk to the judge — in court, or sometimes in a smaller room with the lawyers there. Most judges want to hear from you.",
+      es: "Sí. Puedes pedirle a tu abogado/a que te ayude a hablar con el juez — en la sala del tribunal, o a veces en un cuarto más pequeño con los abogados presentes. La mayoría de los jueces quieren escucharte.",
+    },
+  },
+  {
+    q: {
+      en: "Is my lawyer the same as a guardian ad litem (GAL)?",
+      es: "¿Mi abogado/a es lo mismo que un tutor ad litem (GAL)?",
+    },
+    a: {
+      en: "Not always. A lawyer tells the judge what you want. A GAL tells the judge what they think is best for you. You may have one or both. Ask: \"Are you my lawyer or my GAL? Do you tell the judge what I want, or what you think is best?\" Ask them what they keep private, too.",
+      es: "No siempre. Un/a abogado/a le dice al juez lo que tú quieres. Un GAL le dice al juez lo que cree que es mejor para ti. Puedes tener uno o los dos. Pregunta: «¿Eres mi abogado/a o mi GAL? ¿Le dices al juez lo que yo quiero, o lo que tú crees que es mejor?» También pregúntale qué mantiene en privado.",
     },
   },
   {
@@ -475,8 +606,8 @@ export const CASE_FAQS_TEEN: CaseFAQTeen[] = [
       es: "¿Qué pasa si no entiendo lo que está pasando?",
     },
     a: {
-      en: "Stop and ask your lawyer to explain it — that's literally their job. You should understand every decision being made in your case. 'What does that mean?' is a fine question any time.",
-      es: "Detente y pídele a tu abogado/a que te explique — literalmente ese es su trabajo. Debes entender cada decisión que se toma en tu caso. '¿Qué significa eso?' es una pregunta buena en cualquier momento.",
+      en: "Stop and ask your lawyer to explain. That is their job. \"What does that mean?\" is a good question any time.",
+      es: "Detente y pídele a tu abogado/a que te explique. Ese es su trabajo. «¿Qué significa eso?» es una buena pregunta en cualquier momento.",
     },
   },
   {
@@ -485,8 +616,8 @@ export const CASE_FAQS_TEEN: CaseFAQTeen[] = [
       es: "¿Cuántas audiencias habrá?",
     },
     a: {
-      en: "Every case is different. Some end in a few months, others take years. Your lawyer can give you a realistic timeline for your specific case and what triggers the next hearing.",
-      es: "Cada caso es diferente. Algunos terminan en unos meses, otros toman años. Tu abogado/a puede darte un cronograma realista para tu caso específico y qué activa la siguiente audiencia.",
+      en: "Every case is different. Some end in a few months. Others take years. Ask your lawyer what is likely in your case and when the next hearing is.",
+      es: "Cada caso es diferente. Algunos terminan en unos meses. Otros toman años. Pregúntale a tu abogado/a qué es probable en tu caso y cuándo es la próxima audiencia.",
     },
   },
 ];

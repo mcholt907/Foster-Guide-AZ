@@ -4,18 +4,22 @@ import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   ShieldCheck, Scale, Calendar, Zap, Info, ArrowRight, Clock,
-  ChevronDown, ChevronUp,
+  ChevronDown, ChevronUp, ClipboardList, HeartHandshake,
 } from "lucide-react";
 import type { Lang } from "../../lib/i18n";
 import type { AgeBandKey } from "../../lib/prefs";
 import { tt } from "../../lib/i18n-teen";
+import { tc } from "../../lib/i18n-case";
+import { TribalNote } from "../TribalNote";
 import { CASE_STAGES_TEEN, CASE_FAQS_TEEN, type TeenColorTheme } from "../../data/court";
 
 const STAGE_ICONS: Record<string, typeof ShieldCheck> = {
   prelim: ShieldCheck,
   adjudication: Scale,
+  disposition: ClipboardList,
   review: Calendar,
   permanency: Zap,
+  severance: HeartHandshake,
 };
 
 type Theme = { primary: string; light: string; accent: string; shadow: string };
@@ -56,7 +60,7 @@ export function CaseTeen({ lang, band }: CaseTeenProps) {
           {tt("case.hero.title", lang)}
         </h1>
         <p className="text-slate-500 text-lg sm:text-xl font-medium max-w-2xl leading-[1.6] tracking-tight border-l-[3px] border-slate-200 pl-8">
-          {tt("case.hero.subtitle", lang)}
+          {tc("case.hero.subtitle", lang)}
         </p>
       </div>
 
@@ -95,9 +99,11 @@ export function CaseTeen({ lang, band }: CaseTeenProps) {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-[10px] font-black uppercase tracking-widest opacity-50 mb-0.5">
-                    {lang === "es" ? "Etapa" : "Stage"} {stageNum}
+                    {stage.sometimes
+                      ? tc("case.stage.sometimes", lang)
+                      : `${tc("case.stage", lang)} ${stageNum}`}
                   </span>
-                  <span className={`text-[15.5px] font-black tracking-tight leading-none ${isActive ? "text-slate-900" : ""}`}>
+                  <span className={`text-[15.5px] font-black tracking-tight leading-tight ${isActive ? "text-slate-900" : ""}`}>
                     {stage.title[lang]}
                   </span>
                 </div>
@@ -212,6 +218,8 @@ export function CaseTeen({ lang, band }: CaseTeenProps) {
           </AnimatePresence>
         </div>
       </div>
+
+      <TribalNote lang={lang} variant="teen" className="mt-12" />
 
       {/* FAQs */}
       <section className="mt-24 sm:mt-40 max-w-3xl mx-auto py-20 border-t border-slate-100">

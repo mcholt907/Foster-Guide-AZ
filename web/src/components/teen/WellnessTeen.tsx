@@ -6,6 +6,8 @@ import { Phone, MessageSquare, Zap, ArrowRight, LifeBuoy, Sparkles } from "lucid
 import type { Lang } from "../../lib/i18n";
 import { tt, type TeenStringKey } from "../../lib/i18n-teen";
 import { th } from "../../lib/i18n-help";
+import type { AgeBandKey } from "../../lib/prefs";
+import { FeelingCheckIn } from "../FeelingCheckIn";
 import { CRISIS_CONTACTS, crisisActions, type CrisisAction, type CrisisContact } from "../../data/constants";
 
 const GROUNDING = [
@@ -38,9 +40,11 @@ function actionLabel(a: CrisisAction, lang: Lang): string {
 
 interface WellnessTeenProps {
   lang: Lang;
+  /** Teen age band; picks check-in wording. Defaults to the 13-15 voice. */
+  band?: Exclude<AgeBandKey, "10-12">;
 }
 
-export function WellnessTeen({ lang }: WellnessTeenProps) {
+export function WellnessTeen({ lang, band = "13-15" }: WellnessTeenProps) {
   const [active, setActive] = useState(false);
   const [step, setStep] = useState(0);
   const reduce = useReducedMotion();
@@ -111,7 +115,7 @@ export function WellnessTeen({ lang }: WellnessTeenProps) {
       </AnimatePresence>
 
       {/* Hero */}
-      <div className="mb-14 md:mb-24">
+      <div className="mb-10 md:mb-14">
         <p className="text-[10px] font-black uppercase tracking-[0.4em] text-pink-600 mb-4">{tt("wellness.hero.tag", lang)}</p>
         <h1 className="text-4xl sm:text-6xl font-black text-[#1e293b] mb-6 tracking-[-0.05em] leading-[0.9]">
           {tt("wellness.hero.title", lang)}
@@ -120,6 +124,9 @@ export function WellnessTeen({ lang }: WellnessTeenProps) {
           {tt("wellness.hero.subtitle", lang)}
         </p>
       </div>
+
+      {/* How are you feeling? — nothing is stored (React state only) */}
+      <FeelingCheckIn lang={lang} band={band} className="mb-14 md:mb-24" />
 
       {/* Immersive grounding hero card */}
       <div className="mb-24 group">

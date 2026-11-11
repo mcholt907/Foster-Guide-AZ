@@ -11,9 +11,9 @@ import { usePrefs } from "../lib/prefs";
 
 const NAV_ITEMS_BASE = [
   { id: "home",      icon: Home,           href: "",           en: "Home",        es: "Inicio",          labelEn: "Home",      labelEs: "Inicio" },
-  { id: "team",      icon: Users,          href: "/team",      en: "My Team",     es: "Mi Equipo",       labelEn: "My Team",   labelEs: "Mi Equipo" },
-  { id: "case",      icon: FolderOpen,     href: "/case",      en: "My Case",     es: "Mi Caso",         labelEn: "My Case",   labelEs: "Mi Caso" },
-  { id: "rights",    icon: Shield,         href: "/rights",    en: "My Rights",   es: "Mis Derechos",    labelEn: "Rights",    labelEs: "Derechos" },
+  { id: "team",      icon: Users,          href: "/team",      en: "Your Team",   es: "Tu Equipo",       labelEn: "Your Team", labelEs: "Tu Equipo" },
+  { id: "case",      icon: FolderOpen,     href: "/case",      en: "Your Case",   es: "Tu Caso",         labelEn: "Your Case", labelEs: "Tu Caso" },
+  { id: "rights",    icon: Shield,         href: "/rights",    en: "Your Rights", es: "Tus Derechos",    labelEn: "Rights",    labelEs: "Derechos" },
   { id: "resources", icon: MapPin,         href: "/resources", en: "Resources",   es: "Recursos",        labelEn: "Resources", labelEs: "Recursos" },
   { id: "wellness",  icon: HeartHandshake, href: "/wellness",  en: "Wellness",    es: "Bienestar",       labelEn: "Wellness",  labelEs: "Bienestar" },
   { id: "ask",       icon: HelpCircle,     href: "/ask",       en: "Find Answers",es: "Buscar",          labelEn: "Answers",   labelEs: "Buscar" },
@@ -147,8 +147,8 @@ export function SideNav({ lang }: { lang: Lang }) {
       <div className="px-3 pb-5">
         <div className="text-[10px] text-white/35 leading-relaxed tracking-wide mb-3">
           {lang === "es"
-            ? "Sin registro · Nada guardado"
-            : "No sign-up · Nothing stored"}
+            ? "Sin registro · Nada sale de tu dispositivo"
+            : "No sign-up · Nothing leaves your device"}
         </div>
         {!confirmOpen ? (
           <button
@@ -160,7 +160,7 @@ export function SideNav({ lang }: { lang: Lang }) {
           </button>
         ) : (
           <div className="text-[10px] text-white/50 tracking-wide flex items-center gap-2">
-            <span>{lang === "es" ? "¿Resetear?" : "Reset?"}</span>
+            <span>{lang === "es" ? "¿Borrar todo?" : "Clear all?"}</span>
             <button
               type="button"
               onClick={() => { reset(); router.push('/'); }}

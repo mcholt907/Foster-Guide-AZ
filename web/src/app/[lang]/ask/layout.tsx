@@ -9,7 +9,7 @@ export async function generateMetadata({
   if (lang === "es") {
     return {
       title: "Encuentra Respuestas Sobre Tu Caso y Tus Derechos",
-      description: "Explora temas o busca cualquier pregunta sobre tus derechos, el tribunal, la vivienda y más — respuestas reales en palabras simples, sin registro.",
+      description: "Explora temas o busca cualquier pregunta sobre tus derechos, la corte, la vivienda y más — respuestas reales en palabras simples, sin registro.",
       alternates: {
         canonical: "https://www.fosterhubaz.com/es/ask",
         languages: { en: "https://www.fosterhubaz.com/en/ask", es: "https://www.fosterhubaz.com/es/ask" },

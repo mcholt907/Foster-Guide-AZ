@@ -7,7 +7,8 @@ import { useParams, useRouter } from "next/navigation";
 import { Lock, CheckCircle2, ArrowRight } from "lucide-react";
 import type { Lang } from "../../../lib/i18n";
 import { t } from "../../../lib/i18n";
-import { usePrefs } from "../../../lib/prefs";
+import { usePrefs, tribalPatch } from "../../../lib/prefs";
+import { tc } from "../../../lib/i18n-case";
 import { COUNTIES } from "../../../data/constants";
 
 const AGE_OPTIONS = [
@@ -16,6 +17,16 @@ const AGE_OPTIONS = [
   { id: "16-17", labelEn: "16–17", labelEs: "16–17", descEn: "Planning ahead",                            descEs: "Planificando el futuro" },
   { id: "18-21", labelEn: "18–21", labelEs: "18–21", descEn: "Staying in care past 18 + what's next",    descEs: "Permanecer en cuidado después de los 18" },
 ] as const;
+
+// "Not sure" is its own answer so the Case and Team pages can show the right
+// tribal (ICWA) note. See TribalNote.tsx.
+const TRIBAL_OPTIONS = [
+  { val: "yes",    labelKey: "onboarding_tribal_yes",      descKey: "setup.tribal.yes.desc" },
+  { val: "no",     labelKey: "onboarding_tribal_no",       descKey: "setup.tribal.no.desc" },
+  { val: "unsure", labelKey: "onboarding_tribal_not_sure", descKey: "setup.tribal.unsure.desc" },
+] as const;
+
+type TribalAnswer = (typeof TRIBAL_OPTIONS)[number]["val"];
 
 // Dot 0 = language (always done), dots 1-3 = age/county/tribal
 function ProgressDots({ step }: { step: number }) {
@@ -47,7 +58,7 @@ export default function SetupPage() {
   const [step, setStep] = useState(0);
   const [ageBand, setAgeBand] = useState<string | null>(null);
   const [county, setCounty] = useState<string | null>(null);
-  const [tribal, setTribal] = useState<boolean | null>(null);
+  const [tribal, setTribal] = useState<TribalAnswer | null>(null);
 
   const isReady =
     step === 0 ? !!ageBand
@@ -58,7 +69,9 @@ export default function SetupPage() {
     if (!isReady) return;
     if (step === 0) {
       if (ageBand === "10-12") {
-        patch({ ageBand: "10-12", county: null, tribal: false, onboardingDone: true });
+        // 10-12 skip the county and tribal questions. Clearing tribalUnsure
+        // marks the tribal answer as "not asked" (see getTribalStatus).
+        patch({ ageBand: "10-12", county: null, tribal: false, tribalUnsure: undefined, onboardingDone: true });
         router.push(`/${lang}`);
       } else {
         setStep(1);
@@ -69,7 +82,7 @@ export default function SetupPage() {
       patch({
         ageBand: ageBand as "10-12" | "13-15" | "16-17" | "18-21" | null,
         county,
-        tribal: tribal ?? false,
+        ...tribalPatch(tribal ?? "unsure"),
         onboardingDone: true,
       });
       router.push(`/${lang}`);
@@ -126,7 +139,7 @@ export default function SetupPage() {
 
           <div className="bg-[#e0f2fe] rounded-full px-5 py-2.5 flex items-center justify-center gap-2 text-[13px] font-bold text-[#0c4a6e] shadow-sm border border-[#bae6fd]">
             <Lock size={14} className="text-[#0284c7]" />
-            {lang === "es" ? "Sin registro • Nada se guarda" : "No sign-up • Nothing is saved"}
+            {lang === "es" ? "Sin registro • Se queda en tu dispositivo" : "No sign-up • Stays on your device"}
           </div>
         </div>
 
@@ -208,36 +221,37 @@ export default function SetupPage() {
 
           {/* ── Step 2: Tribal ── */}
           {step === 2 && (
-            <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-[clamp(1rem,3vh,2rem)]">
-              {[
-                { val: true,  labelEn: "Yes",       labelEs: "Sí",      descEn: "I have tribal connections",    descEs: "Tengo conexiones tribales" },
-                { val: false, labelEn: "No / Not sure", labelEs: "No / No sé", descEn: "I don't have any tribal connections", descEs: "No tengo conexiones tribales" },
-              ].map((opt) => {
-                const isSelected = tribal === opt.val;
-                return (
-                  <button
-                    key={String(opt.val)}
-                    onClick={() => setTribal(opt.val)}
-                    className={`relative flex flex-col justify-center items-center text-center transition-all duration-300 ease-out border-[3px] rounded-[1.5rem] p-3 sm:p-4 min-h-[clamp(86px,11vh,110px)] ${
-                      isSelected
-                        ? "bg-gradient-to-br from-[#E6F8EA] to-[#D5F2DB] border-[#136d41] shadow-md scale-[1.02]"
-                        : "bg-slate-50 border-transparent shadow-sm hover:bg-slate-100 hover:scale-[1.01]"
-                    }`}
-                  >
-                    {isSelected && (
-                      <div className="absolute top-3 right-3 bg-white rounded-full p-0.5 shadow-sm">
-                        <CheckCircle2 size={16} className="fill-[#136d41] text-white" />
-                      </div>
-                    )}
-                    <span className={`font-extrabold text-xl tracking-tight mb-1 ${isSelected ? "text-[#115e59]" : "text-[#35322d]"}`}>
-                      {lang === "es" ? opt.labelEs : opt.labelEn}
-                    </span>
-                    <span className={`text-xs font-medium leading-tight px-1 ${isSelected ? "text-[#136d41]" : "text-slate-500"}`}>
-                      {lang === "es" ? opt.descEs : opt.descEn}
-                    </span>
-                  </button>
-                );
-              })}
+            <div className="mb-[clamp(1rem,3vh,2rem)]">
+              <p className="text-xs text-slate-500 mb-3">{t("onboarding_tribal_hint", lang)}</p>
+              <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                {TRIBAL_OPTIONS.map((opt) => {
+                  const isSelected = tribal === opt.val;
+                  return (
+                    <button
+                      key={opt.val}
+                      onClick={() => setTribal(opt.val)}
+                      aria-pressed={isSelected}
+                      className={`relative flex flex-col justify-center items-center text-center transition-all duration-300 ease-out border-[3px] rounded-[1.5rem] p-2 sm:p-4 min-h-[clamp(86px,11vh,110px)] ${
+                        isSelected
+                          ? "bg-gradient-to-br from-[#E6F8EA] to-[#D5F2DB] border-[#136d41] shadow-md scale-[1.02]"
+                          : "bg-slate-50 border-transparent shadow-sm hover:bg-slate-100 hover:scale-[1.01]"
+                      }`}
+                    >
+                      {isSelected && (
+                        <div className="absolute top-2 right-2 bg-white rounded-full p-0.5 shadow-sm">
+                          <CheckCircle2 size={16} className="fill-[#136d41] text-white" />
+                        </div>
+                      )}
+                      <span className={`font-extrabold text-lg sm:text-xl tracking-tight leading-tight mb-1 ${isSelected ? "text-[#115e59]" : "text-[#35322d]"}`}>
+                        {t(opt.labelKey, lang)}
+                      </span>
+                      <span className={`text-xs font-medium leading-tight px-1 ${isSelected ? "text-[#136d41]" : "text-slate-500"}`}>
+                        {tc(opt.descKey, lang)}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           )}
 

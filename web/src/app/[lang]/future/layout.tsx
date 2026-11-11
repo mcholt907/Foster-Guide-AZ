@@ -8,7 +8,7 @@ export async function generateMetadata({
   const { lang } = await params;
   if (lang === "es") {
     return {
-      title: "¿Qué pasa cuando cumples 18 en el cuidado adoptivo?",
+      title: "¿Qué pasa cuando cumples 18 en el cuidado de crianza?",
       description: "No tienes que resolverlo solo/a. Aprende cómo quedarte en el cuidado después de los 18, conseguir dinero para estudios, encontrar vivienda y obtener tus documentos.",
       alternates: { canonical: "https://www.fosterhubaz.com/es/future", languages: { "en": "https://www.fosterhubaz.com/en/future", "es": "https://www.fosterhubaz.com/es/future" } },
     };

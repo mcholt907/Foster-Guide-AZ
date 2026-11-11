@@ -17,9 +17,9 @@ export async function generateMetadata({
   // Sub-pages set their own correct alternates in their own layout.tsx files.
   if (lang === "es") {
     return {
-      title: "FosterHub AZ — Ayuda para Jóvenes en Cuidado Adoptivo",
+      title: "FosterHub AZ — Ayuda para Jóvenes en Cuidado de Crianza",
       description:
-        "¿Confundido sobre el cuidado adoptivo? Aprende qué está pasando en tu caso, conoce tus derechos y planifica tu futuro. Gratis, nada se guarda.",
+        "¿Tienes dudas sobre el cuidado de crianza? Aprende qué está pasando en tu caso, conoce tus derechos y planifica tu futuro. Gratis, y nada sale de tu dispositivo.",
       alternates: {
         canonical: "https://www.fosterhubaz.com/es",
         languages: { "en": "https://www.fosterhubaz.com/en", "es": "https://www.fosterhubaz.com/es" },
@@ -30,7 +30,7 @@ export async function generateMetadata({
   return {
     title: "FosterHub AZ — Help for Arizona Foster Youth",
     description:
-      "Confused about foster care? Learn what's happening in your case, find out your rights, and get help with what comes next. Free, nothing is saved.",
+      "Confused about foster care? Learn what's happening in your case, find out your rights, and get help with what comes next. Free, and nothing leaves your device.",
     alternates: {
       canonical: "https://www.fosterhubaz.com/en",
       languages: { "en": "https://www.fosterhubaz.com/en", "es": "https://www.fosterhubaz.com/es" },

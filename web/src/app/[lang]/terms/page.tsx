@@ -51,7 +51,7 @@ export default async function TermsPage({
       <LegalSection heading={isEs ? "Para qué es" : "What it's for"}>
         <p>
           {isEs
-            ? "FosterHub AZ es una guía para jóvenes de 10 a 21 años en el sistema de cuidado adoptivo de Arizona. Está hecho para ayudarte a:"
+            ? "FosterHub AZ es una guía para jóvenes de 10 a 21 años en cuidado de crianza en Arizona. Está hecho para ayudarte a:"
             : "FosterHub AZ is a guide for Arizona foster youth ages 10 to 21. It's here to help you:"}
         </p>
         <ul className="list-disc pl-5 space-y-1">

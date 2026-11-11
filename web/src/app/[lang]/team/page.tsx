@@ -9,90 +9,94 @@ import type { Lang } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
 import type { AgeBandKey } from "../../../lib/prefs";
 import { TeamTeen } from "../../../components/teen/TeamTeen";
+import { CrisisQuickLinks } from "../../../components/CrisisQuickLinks";
+import { TribalNote } from "../../../components/TribalNote";
+import { tc } from "../../../lib/i18n-case";
 
 const TEAM_MEMBERS = [
   {
-    title: "Social Worker",
-    titleEs: "Trabajador Social",
-    what: "Your main helper. They visit you and make sure you're safe and have what you need.",
-    whatEs: "Tu ayudante principal. Te visitan y se aseguran de que estés seguro y tengas lo que necesitas.",
+    title: "Caseworker",
+    titleEs: "Trabajador/a de casos",
+    what: "Your main helper at DCS. They visit you and make sure you're safe and have what you need.",
+    whatEs: "Tu ayudante principal en DCS. Te visita y se asegura de que estés a salvo y tengas lo que necesitas.",
     bgColor: "bg-blue-100",
     avatar: "/avatars/caseworker.png",
   },
   {
     title: "Judge",
     titleEs: "Juez",
-    what: "The person who listens to everyone and makes the final decisions about where you'll live.",
-    whatEs: "La persona que escucha a todos y toma las decisiones finales sobre dónde vivirás.",
+    what: "The person who listens to everyone and makes the big decisions, like where you will live.",
+    whatEs: "La persona que escucha a todos y toma las decisiones grandes, como dónde vivirás.",
     bgColor: "bg-green-100",
     avatar: "/avatars/judge.png",
   },
   {
     title: "Foster Parent or Caregiver",
-    titleEs: "Padre Adoptivo o Cuidador",
-    what: "The person or family taking care of you at your new home.",
-    whatEs: "La persona o familia que te cuida en tu nuevo hogar.",
+    titleEs: "Padre o madre de crianza, o cuidador/a",
+    what: "The person or family taking care of you where you live now.",
+    whatEs: "La persona o familia que te cuida donde vives ahora.",
     bgColor: "bg-yellow-200",
     avatar: "/avatars/caregiver.png",
   },
   {
     title: "Lawyer",
-    titleEs: "Abogado",
-    what: "Your special advocate. They speak up for you and tell the judge what you want.",
-    whatEs: "Tu defensor especial. Hablan por ti y le dicen al juez lo que quieres.",
+    titleEs: "Abogado/a",
+    what: "Your lawyer tells the judge what you want. You can ask them: \"Are you my lawyer or my GAL? Do you tell the judge what I want, or what you think is best?\" Ask them what they keep private, too.",
+    whatEs: "Tu abogado/a le dice al juez lo que tú quieres. Puedes preguntarle: «¿Eres mi abogado/a o mi GAL? ¿Le dices al juez lo que yo quiero, o lo que tú crees que es mejor?» También pregúntale qué mantiene en privado.",
     bgColor: "bg-orange-100",
     avatar: "/avatars/attorney.png",
   },
   {
     title: "CASA Volunteer",
-    titleEs: "Voluntario CASA",
-    what: "A community volunteer who gets to know you personally and speaks up for you in court. Not every case has a CASA — but if you don't have one, you can ask your caseworker or lawyer to request one for you.",
-    whatEs: "Un voluntario comunitario que te conoce personalmente y habla por ti en la corte. No todos los casos tienen un CASA — pero si no tienes uno, puedes pedirle a tu trabajador social o abogado que solicite uno para ti.",
+    titleEs: "Voluntario/a CASA",
+    what: "A helper from the community who gets to know you and tells the judge what they think you need. Not every case has a CASA. If you don't have one, you can ask your caseworker or lawyer to ask for one.",
+    whatEs: "Un/a ayudante de la comunidad que te conoce y le dice al juez lo que cree que necesitas. No todos los casos tienen un CASA. Si no tienes uno, puedes pedirle a tu trabajador/a de casos o a tu abogado/a que solicite uno.",
     bgColor: "bg-purple-100",
     avatar: "/avatars/casa.png",
   },
   {
-    title: "Guardian ad Litem",
-    titleEs: "Tutor ad Litem",
-    what: "Appointed by the court specifically to represent your best interests.",
-    whatEs: "Nombrado por la corte específicamente para representar tus mejores intereses.",
+    title: "Guardian ad Litem (GAL)",
+    titleEs: "Tutor ad litem (GAL)",
+    what: "A person who tells the judge what they think is best for you. That may not be the same as what you want. You might have a lawyer, a GAL, or both.",
+    whatEs: "Una persona que le dice al juez lo que cree que es mejor para ti. Puede no ser lo mismo que tú quieres. Puedes tener un/a abogado/a, un GAL o los dos.",
     bgColor: "bg-pink-100",
     avatar: "/avatars/gal.png",
   },
   {
     title: "DCS Supervisor",
-    titleEs: "Supervisor de DCS",
-    what: "Your caseworker's boss. Who you can talk to if things aren't getting fixed.",
-    whatEs: "El jefe de tu trabajador social. Con quien puedes hablar si las cosas no se arreglan.",
+    titleEs: "Supervisor/a de DCS",
+    what: "Your caseworker's boss. You can ask to talk to them if things aren't getting fixed.",
+    whatEs: "El/la jefe/a de tu trabajador/a de casos. Puedes pedir hablar con esta persona si las cosas no se arreglan.",
     bgColor: "bg-teal-100",
     avatar: "/avatars/supervisor.png",
   },
 ];
 
-const FAQS = [
+const FAQS: { q: string; qEs: string; a: string; aEs: string; crisis?: boolean }[] = [
   {
     q: "Can I talk to the judge?",
     qEs: "¿Puedo hablar con el juez?",
-    a: "Yes, you can! You can talk to the judge in court or in their office. Your lawyer can help you with this.",
-    aEs: "¡Sí, puedes! Puedes hablar con el juez en la corte o en su oficina. Tu abogado puede ayudarte con esto.",
+    a: "Yes! You can ask your lawyer to help you talk to the judge — in court, or sometimes in a smaller room with the lawyers there.",
+    aEs: "¡Sí! Puedes pedirle a tu abogado/a que te ayude a hablar con el juez — en la sala del tribunal, o a veces en un cuarto más pequeño con los abogados presentes.",
   },
   {
     q: "Who can I talk to if I'm scared?",
     qEs: "¿Con quién puedo hablar si tengo miedo?",
-    a: "You can reach out to your Caseworker, CASA Volunteer, or Attorney immediately. They are there to keep you safe.",
-    aEs: "Puedes comunicarte inmediatamente con tu Trabajador Social, Voluntario CASA o Abogado. Están ahí para mantenerte seguro.",
+    a: `${tc("safety.now", "en")} ${tc("safety.then.kid", "en")}`,
+    aEs: `${tc("safety.now", "es")} ${tc("safety.then.kid", "es")}`,
+    crisis: true,
   },
   {
     q: "What if I don't like my foster home?",
-    qEs: "¿Qué pasa si no me gusta mi hogar adoptivo?",
-    a: "Tell your Caseworker or Lawyer. They will listen to your concerns and can advocate for a better situation if needed.",
-    aEs: "Dile a tu Trabajador Social o Abogado. Escucharán tus preocupaciones y pueden abogar por una mejor situación si es necesario.",
+    qEs: "¿Qué pasa si no me gusta mi hogar de crianza?",
+    a: "Tell your caseworker or lawyer. They will listen, and they can ask for things to change. If you are not safe, call 911.",
+    aEs: "Díselo a tu trabajador/a de casos o a tu abogado/a. Te escucharán y pueden pedir que las cosas cambien. Si no estás a salvo, llama al 911.",
   },
   {
-    q: "How often will I see my social worker?",
-    qEs: "¿Con qué frecuencia veré a mi trabajador social?",
-    a: "By law, your DCS Case Manager is required to visit you at least once a month in person.",
-    aEs: "Por ley, tu Administrador de Casos de DCS está obligado a visitarte en persona al menos una vez al mes.",
+    q: "How often will I see my caseworker?",
+    qEs: "¿Cada cuánto veré a mi trabajador/a de casos?",
+    a: "Your caseworker is supposed to visit you in person at least once a month.",
+    aEs: "Tu trabajador/a de casos debe visitarte en persona al menos una vez al mes.",
   },
 ];
 
@@ -127,7 +131,7 @@ function Team1012({ lang }: { lang: Lang }) {
           <ChevronLeft size={20} className="text-slate-600" />
         </Link>
         <h1 className="text-lg font-bold text-[#629DA7] tracking-tight flex-1">
-          {lang === "es" ? "Mi Equipo" : "My Team"}
+          {lang === "es" ? "Tu Equipo" : "Your Team"}
         </h1>
       </div>
 
@@ -135,24 +139,24 @@ function Team1012({ lang }: { lang: Lang }) {
       <div className="text-center pt-6 pb-10 flex flex-col items-center">
         <Image
           src="/avatars/group_avatar.png"
-          alt={lang === "es" ? "Mi equipo" : "My Team"}
+          alt=""
           width={512}
           height={512}
           priority
           className="w-56 h-auto mb-6 object-cover rounded-[2.5rem] shadow-sm border border-slate-200"
         />
         <h2 className="text-3xl font-bold text-[#629DA7] mb-3">
-          {lang === "es" ? "Mi Equipo" : "My Team"}
+          {lang === "es" ? "Tu Equipo" : "Your Team"}
         </h2>
         <p className="text-slate-600">
           {lang === "es"
-            ? "Estas son las personas que están aquí para apoyarte."
-            : "These are the helpful people here to support you on your journey."}
+            ? "Estas son las personas que están aquí para ayudarte."
+            : "These are the people who are here to help you."}
         </p>
       </div>
 
       {/* Team grid */}
-      <div className="grid grid-cols-1 gap-6 mb-16">
+      <div className="grid grid-cols-1 gap-6 mb-8">
         {TEAM_MEMBERS.map((member, idx) => (
           <div
             key={idx}
@@ -179,9 +183,11 @@ function Team1012({ lang }: { lang: Lang }) {
         ))}
       </div>
 
+      <TribalNote lang={lang} variant="kid" className="mb-12" />
+
       {/* FAQ */}
       <h2 className="text-2xl text-center font-semibold text-[#629DA7] mb-5">
-        {lang === "es" ? "Preguntas frecuentes" : "Frequently Asked Questions"}
+        {lang === "es" ? "Preguntas que podrías tener" : "Questions you might have"}
       </h2>
       <div className="space-y-3 mb-8">
         {FAQS.map((faq, idx) => {
@@ -200,6 +206,11 @@ function Team1012({ lang }: { lang: Lang }) {
               {isOpen && (
                 <div className="px-5 pb-4 text-sm bg-white pt-3 border-x border-b border-[#DDEBFA] rounded-b-xl shadow-sm">
                   {a}
+                  {faq.crisis && (
+                    <div className="mt-3 pb-1">
+                      <CrisisQuickLinks lang={lang} variant="compact" />
+                    </div>
+                  )}
                 </div>
               )}
             </div>
