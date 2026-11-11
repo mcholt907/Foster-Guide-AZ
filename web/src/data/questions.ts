@@ -33,8 +33,8 @@ export interface TopicConfig {
 }
 
 export const TOPIC_CONFIG: TopicConfig[] = [
-  { category: "rights",    label: { en: "My Rights",           es: "Mis Derechos"          }, bands: ["10-12","13-15","16-17","18-21"] },
-  { category: "case",      label: { en: "My Case",             es: "Mi Caso"               }, bands: ["10-12","13-15","16-17"] },
+  { category: "rights",    label: { en: "Your Rights",         es: "Tus Derechos"          }, bands: ["10-12","13-15","16-17","18-21"] },
+  { category: "case",      label: { en: "Your Case",           es: "Tu Caso"               }, bands: ["10-12","13-15","16-17"] },
   { category: "court",     label: { en: "Court & Hearings",    es: "Tribunal"              }, bands: ["13-15","16-17","18-21"] },
   { category: "safety",    label: { en: "Staying Safe",        es: "Mantenerse Seguro/a"   }, bands: ["10-12","13-15","16-17","18-21"] },
   { category: "corner",    label: { en: "Who's in My Corner",  es: "¿Quién Me Apoya?"      }, bands: ["10-12","13-15"] },
@@ -514,10 +514,10 @@ export const QUESTIONS: QAEntry[] = [
     },
     answer: {
       en: "ICWA stands for the Indian Child Welfare Act. It's a federal law that gives extra protections to Native American children in foster care cases. If you're an enrolled member — or are eligible to enroll — in a federally recognized tribe, ICWA may apply to your case. It means your tribe has the right to be notified and involved, and there are stricter rules about where you can be placed. Talk to your attorney if you think ICWA might apply to you.",
-      es: "ICWA son las siglas de la Ley de Bienestar del Niño Indio. Es una ley federal que otorga protecciones adicionales a los niños nativos americanos en casos de cuidado de crianza. Si eres miembro inscrito — o eres elegible para inscribirte — en una tribu reconocida federalmente, ICWA puede aplicarse a tu caso.",
+      es: "ICWA son las siglas de la Ley de Bienestar del Niño Indio. Es una ley federal que otorga protecciones adicionales a los niños nativos americanos en casos de cuidado de crianza. Si eres miembro inscrito — o eres elegible para inscribirte — en una tribu reconocida federalmente, ICWA puede aplicarse a tu caso. Quiere decir que tu tribu tiene derecho a que le avisen y a participar, y que hay reglas más estrictas sobre dónde puedes vivir. Habla con tu abogado/a si crees que ICWA puede aplicarse a ti.",
     },
     keywords: {
-      en: ["icwa", "tribe", "tribal", "native", "native american", "indian", "indigenous", "navajo", "reservation", "my tribe"],
+      en: ["icwa", "tribe", "tribal", "native", "native american", "im native", "indian", "american indian", "indigenous", "navajo", "dine", "apache", "hopi", "tohono oodham", "reservation", "rez", "my tribe", "enrolled", "icwa law", "ikwa"],
       es: ["icwa", "tribu", "tribal", "nativo", "nativo americano", "indigena", "navajo", "reservacion", "mi tribu"],
     },
     category: "court",
@@ -906,8 +906,8 @@ export const QUESTIONS: QAEntry[] = [
       es: "¿Qué es el Bono de Educación y Capacitación (ETV)?",
     },
     answer: {
-      en: "The ETV is money — up to $5,000 per year — that you can use for college, vocational school, or job training. You apply through Arizona's Children Association (AzCA). You're eligible if you were in foster care at age 16 or older, or if you aged out of care. There's an annual deadline to apply — for the 2025–2026 cycle, it's July 31, 2026. Don't miss it. Call AzCA at 480-651-3348 for help applying.",
-      es: "El ETV es dinero — hasta $5,000 por año — que puedes usar para la universidad, escuela vocacional o capacitación laboral. Solicitas a través de Arizona's Children Association (AzCA). Eres elegible si estabas en cuidado de crianza a los 16 años o más, o si saliste del sistema. Hay una fecha límite anual para solicitar — para el ciclo 2025-2026, es el 31 de julio de 2026. No te lo pierdas.",
+      en: "The Education and Training Voucher (ETV) is money for school after high school — college, trade school, or job training. It can be up to about $5,000 a year, based on what you need. It is not a loan, so you don't pay it back. You may qualify if you were in foster care at age 16 or older. There are age limits, so ask early. You apply again each year. The money can run out and the due dates change every year, so apply as early as you can. Your caseworker can help you. You can also open the Arizona ETV listing in Find Resources.",
+      es: "El Bono de Educación y Capacitación (ETV) es dinero para estudiar después de la preparatoria — universidad, escuela técnica o capacitación para un trabajo. Puede ser hasta unos $5,000 al año, según lo que necesites. No es un préstamo, así que no lo tienes que devolver. Puedes calificar si estuviste en cuidado de crianza a los 16 años o después. Hay límites de edad, así que pregunta pronto. Tienes que solicitarlo de nuevo cada año. El dinero se puede acabar y las fechas cambian cada año, así que solicítalo lo antes posible. Tu trabajador/a de casos te puede ayudar. También puedes abrir el ETV de Arizona en Encuentra Recursos.",
     },
     keywords: {
       en: ["etv", "education and training voucher", "voucher", "money for school", "money for college", "pay for college", "college money", "grant", "scholarship", "tuition"],
@@ -925,8 +925,8 @@ export const QUESTIONS: QAEntry[] = [
       es: "¿Cuál es la fecha límite del ETV?",
     },
     answer: {
-      en: "For the 2025–2026 cycle, the ETV application deadline is July 31, 2026. Applications open each year and the money runs out — so apply as early as possible, not at the last minute. Contact Arizona's Children Association (AzCA) at 480-651-3348 to start your application or ask questions. If you miss the deadline, you may have to wait until the next cycle.",
-      es: "Para el ciclo 2025-2026, la fecha límite de solicitud del ETV es el 31 de julio de 2026. Las solicitudes abren cada año y el dinero se acaba — así que solicita lo antes posible. Contacta a Arizona's Children Association (AzCA) al 480-651-3348 para comenzar tu solicitud.",
+      en: "The due date for the Education and Training Voucher (ETV) changes every year, so we don't list a date here. The best plan is to apply early — as soon as you know you want to go to school or training. You have to apply again each year, and the money can run out. To find out this year's date, ask your caseworker, or open the Arizona ETV listing in Find Resources. If you think you missed it, call anyway. Ask what you can still do and when you can apply next.",
+      es: "La fecha límite del Bono de Educación y Capacitación (ETV) cambia cada año, por eso aquí no ponemos una fecha. El mejor plan es solicitarlo temprano — en cuanto sepas que quieres estudiar o capacitarte. Tienes que solicitarlo de nuevo cada año, y el dinero se puede acabar. Para saber la fecha de este año, pregúntale a tu trabajador/a de casos, o abre el ETV de Arizona en Encuentra Recursos. Si crees que ya se te pasó la fecha, llama de todos modos. Pregunta qué puedes hacer todavía y cuándo puedes solicitarlo otra vez.",
     },
     keywords: {
       en: ["etv", "deadline", "due date", "when to apply", "apply", "application", "too late", "how to apply for etv"],
@@ -1005,8 +1005,8 @@ export const QUESTIONS: QAEntry[] = [
       es: "¿Puedo ir a la universidad gratis en Arizona?",
     },
     answer: {
-      en: "Yes — Arizona has a Foster Care Tuition Waiver that covers tuition and fees at any Arizona public university or community college. To use it, you need to have been in foster care in Arizona at some point after age 13. You also have to apply for federal financial aid (FAFSA) first. Ask your school's financial aid office about the waiver, or call 2-1-1 Arizona to get connected with help applying.",
-      es: "Sí — Arizona tiene una exención de matrícula para jóvenes del sistema de cuidado de crianza que cubre matrícula y tarifas en cualquier universidad pública o colegio comunitario de Arizona. Para usarla, debes haber estado en cuidado de crianza en Arizona en algún momento después de los 13 años.",
+      en: "Maybe — Arizona has a tuition waiver for young people who were in foster care. A waiver means the school does not charge you tuition. It works at Arizona public universities and community colleges. You may qualify if you were in foster care in Arizona at age 14 or older. There is an age limit, and there are a few other rules, so ask early. You also need to fill out the FAFSA (the free form for school money) each year. Ask your school's financial aid office about the foster care tuition waiver. Your caseworker can help too.",
+      es: "Tal vez — Arizona tiene una exención de matrícula para jóvenes que estuvieron en cuidado de crianza. Una exención quiere decir que la escuela no te cobra la matrícula. Sirve en las universidades públicas y colegios comunitarios de Arizona. Puedes calificar si estuviste en cuidado de crianza en Arizona a los 14 años o después. Hay un límite de edad y otras reglas, así que pregunta pronto. También tienes que llenar la FAFSA (el formulario gratis para pedir dinero para estudiar) cada año. Pregunta en la oficina de ayuda financiera de tu escuela por la exención de matrícula para jóvenes de cuidado de crianza. Tu trabajador/a de casos también te puede ayudar.",
     },
     keywords: {
       en: ["tuition waiver", "free college", "college", "university", "community college", "tuition", "pay for school", "free school", "scholarship", "degree"],
@@ -1043,8 +1043,8 @@ export const QUESTIONS: QAEntry[] = [
       es: "¿Cómo puede el ETV ayudarme a pagar la escuela?",
     },
     answer: {
-      en: "The Education and Training Voucher (ETV) gives you up to $5,000 per year that you can use on top of other financial aid — tuition, books, housing, transportation, even a laptop. It's not a loan, so you don't have to pay it back. You apply through Arizona's Children Association (AzCA) each year. The 2025–2026 deadline is July 31, 2026. Call AzCA at 480-651-3348 to get help with your application.",
-      es: "El Bono de Educación y Capacitación (ETV) te da hasta $5,000 por año que puedes usar además de otra ayuda financiera — matrícula, libros, vivienda, transporte, incluso una computadora. No es un préstamo, así que no tienes que devolverlo. Solicitas a través de AzCA cada año. La fecha límite 2025-2026 es el 31 de julio de 2026.",
+      en: "The Education and Training Voucher (ETV) can give you up to about $5,000 a year for school costs. You can use it along with other money for school, like grants and the Arizona tuition waiver. It can help with things like tuition, books, housing, rides, and school supplies. It is not a loan, so you don't pay it back. You apply again each year. Due dates change every year and the money can run out, so apply early. For help, ask your caseworker, or open the Arizona ETV listing in Find Resources.",
+      es: "El Bono de Educación y Capacitación (ETV) te puede dar hasta unos $5,000 al año para gastos de la escuela. Lo puedes usar junto con otro dinero para estudiar, como becas y la exención de matrícula de Arizona. Puede ayudarte con cosas como matrícula, libros, vivienda, transporte y útiles. No es un préstamo, así que no lo tienes que devolver. Lo solicitas de nuevo cada año. Las fechas cambian cada año y el dinero se puede acabar, así que solicítalo temprano. Para recibir ayuda, pregúntale a tu trabajador/a de casos, o abre el ETV de Arizona en Encuentra Recursos.",
     },
     keywords: {
       en: ["etv", "pay for school", "money for books", "books", "tuition", "rent while in school", "college costs", "school supplies", "laptop"],
@@ -1072,6 +1072,138 @@ export const QUESTIONS: QAEntry[] = [
     category: "school",
     ageBands: ["18-21"],
     relatedIds: ["q-az-tuition-waiver","q-asu-foster-youth"],
+  },
+
+  // ── MORE TOPICS (running away, LGBTQ+, parenting, severance, two courts, complaints) ──
+
+  {
+    id: "q-ran-away",
+    question: {
+      en: "What happens if I run away or leave my placement?",
+      es: "¿Qué pasa si me escapo o me voy de donde vivo?",
+    },
+    answer: {
+      en: "Wanting to leave does not make you a bad person. It usually means something is wrong, and that matters. If you leave, the adults on your case have to report you as missing, and people will look for you, because they need to know you are safe. It can be very unsafe to be out on your own. If you already left, your safety comes first. If you are in danger, call 911. You can call your caseworker or your lawyer and tell them where you are and why you left. You can call or text 988 any time just to talk. You can also call the DCS (Department of Child Safety) hotline at 1-888-767-2445, day or night. If you are thinking about leaving, tell your lawyer or caseworker what is wrong first. You can ask to move to a different home.",
+      es: "Querer irte no te hace una mala persona. Casi siempre quiere decir que algo anda mal, y eso importa. Si te vas, los adultos de tu caso tienen que reportar que no saben dónde estás, y habrá personas buscándote, porque necesitan saber que estás a salvo. Estar solo/a en la calle puede ser muy peligroso. Si ya te fuiste, tu seguridad es lo primero. Si estás en peligro, llama al 911. Puedes llamar a tu trabajador/a de casos o a tu abogado/a y decirles dónde estás y por qué te fuiste. Puedes llamar o enviar un mensaje al 988 a cualquier hora solo para hablar. También puedes llamar a la línea de DCS (Departamento de Seguridad Infantil) al 1-888-767-2445, de día o de noche. Si estás pensando en irte, primero dile a tu abogado/a o a tu trabajador/a de casos qué anda mal. Puedes pedir que te cambien a otro hogar.",
+    },
+    answer1012: {
+      en: "Wanting to run away does not mean you are bad. It means something feels wrong, and that is important. Being out alone is not safe. Before you go anywhere, tell a grown-up you trust what is wrong — your caseworker, your lawyer, or a teacher. You can ask to live somewhere else. If you already left, call 911 if you are in danger. You can also call 1-888-767-2445 any time, day or night, and someone will help you get to a safe place. You can call or text 988 if you just want to talk.",
+      es: "Querer escaparte no quiere decir que seas malo/a. Quiere decir que algo se siente mal, y eso es importante. Estar solo/a en la calle no es seguro. Antes de irte a algún lado, dile a un adulto de confianza qué está mal — tu trabajador/a de casos, tu abogado/a o un maestro/a. Puedes pedir vivir en otro lugar. Si ya te fuiste, llama al 911 si estás en peligro. También puedes llamar al 1-888-767-2445 a cualquier hora, de día o de noche, y alguien te ayudará a llegar a un lugar seguro. Puedes llamar o enviar un mensaje al 988 si solo quieres hablar.",
+    },
+    keywords: {
+      en: ["run away", "runaway", "ran away", "running away", "run", "leave", "leaving", "left", "escape", "sneak out", "awol", "on the run", "i want to leave", "i want to go home", "walk out", "missing", "will i get in trouble", "go back", "runing away", "runaway"],
+      es: ["escapar", "escaparme", "me escape", "huir", "hui", "irme", "me fui", "me quiero ir", "quiero irme a mi casa", "fugarme", "fuga", "salirme", "desaparecido", "me voy a meter en problemas", "regresar", "escapé"],
+    },
+    category: "safety",
+    ageBands: ["10-12","13-15","16-17"],
+    relatedIds: ["q-dont-like-foster-home","q-feel-unsafe-placement","q-crisis-numbers"],
+  },
+
+  {
+    id: "q-lgbtq-respect",
+    question: {
+      en: "I'm LGBTQ+. Will I be safe and respected in foster care?",
+      es: "Soy LGBTQ+. ¿Voy a estar seguro/a y me van a respetar en el cuidado de crianza?",
+    },
+    answer: {
+      en: "You deserve to be safe and treated with respect, just as you are. Nothing is wrong with you. No one should hurt you, bully you, call you names, or punish you because of who you are or who you like. If that is happening, tell your lawyer or your caseworker. If your caseworker does not help, ask for their supervisor, or call the DCS Ombudsman at 1-877-527-0765. You choose who you tell about yourself and when. What you tell your lawyer is private, so your lawyer can be a safe person to start with. If you ever feel very down or alone, you can call or text 988 any time.",
+      es: "Mereces estar seguro/a y que te traten con respeto, tal como eres. No hay nada malo en ti. Nadie debe lastimarte, molestarte, insultarte ni castigarte por ser quien eres o por quien te gusta. Si eso está pasando, dile a tu abogado/a o a tu trabajador/a de casos. Si tu trabajador/a de casos no te ayuda, pide hablar con su supervisor/a, o llama al Ombudsman (defensor del pueblo) de DCS al 1-877-527-0765. Tú decides a quién le cuentas sobre ti y cuándo. Lo que le dices a tu abogado/a es privado, así que tu abogado/a puede ser una persona segura para empezar. Si alguna vez te sientes muy triste o solo/a, puedes llamar o enviar un mensaje al 988 a cualquier hora.",
+    },
+    answer1012: {
+      en: "You should be safe and treated kindly, just the way you are. Nothing is wrong with you. No one should be mean to you or hurt you because of who you are. If someone is, tell a grown-up you trust — your lawyer, your caseworker, or a teacher. You will not be in trouble for telling.",
+      es: "Debes estar seguro/a y que te traten con cariño, tal como eres. No hay nada malo en ti. Nadie debe ser malo contigo ni lastimarte por ser quien eres. Si alguien lo hace, dile a un adulto de confianza — tu abogado/a, tu trabajador/a de casos o un maestro/a. No te vas a meter en problemas por decirlo.",
+    },
+    keywords: {
+      en: ["lgbtq", "lgbt", "gay", "lesbian", "bi", "bisexual", "trans", "transgender", "queer", "nonbinary", "non binary", "pronouns", "my name", "coming out", "come out", "gender", "i like boys", "i like girls", "they make fun of me", "homophobic", "respect", "lgtbq", "lgbtq+"],
+      es: ["lgbtq", "lgbt", "gay", "lesbiana", "bisexual", "trans", "transgenero", "queer", "no binario", "pronombres", "mi nombre", "salir del closet", "genero", "me gustan los chicos", "me gustan las chicas", "se burlan de mi", "respeto"],
+    },
+    category: "rights",
+    ageBands: ["10-12","13-15","16-17","18-21"],
+    relatedIds: ["q-what-are-my-rights","q-rights-ignored","q-feel-unsafe-placement"],
+  },
+
+  {
+    id: "q-pregnant-or-parenting",
+    question: {
+      en: "I'm pregnant or I have a baby. What help can I get?",
+      es: "Estoy embarazada o tengo un bebé. ¿Qué ayuda puedo recibir?",
+    },
+    answer: {
+      en: "You are not in trouble, and you do not have to handle this alone. You can get health care for you and your baby. Tell your caseworker and your lawyer as soon as you feel ready, so they can help you see a doctor and plan. You have choices, and the adults on your case should explain them without pushing you. Being in foster care does not mean your baby is in foster care too. Ask your lawyer how this works for you, and ask your caseworker about a home where you and your baby can stay together, parenting classes, and help with things like diapers and child care. This is true if you are going to be a dad, too. Your lawyer can explain your rights as a parent.",
+      es: "No estás en problemas, y no tienes que pasar por esto solo/a. Puedes recibir atención médica para ti y para tu bebé. Dile a tu trabajador/a de casos y a tu abogado/a en cuanto te sientas listo/a, para que te ayuden a ver a un doctor y a hacer un plan. Tienes opciones, y los adultos de tu caso deben explicártelas sin presionarte. Que tú estés en cuidado de crianza no quiere decir que tu bebé también lo esté. Pregúntale a tu abogado/a cómo funciona esto en tu caso, y pregúntale a tu trabajador/a de casos por un hogar donde tú y tu bebé puedan estar juntos, clases para padres y ayuda con cosas como pañales y cuidado de niños. Esto también aplica si vas a ser papá. Tu abogado/a puede explicarte tus derechos como mamá o papá.",
+    },
+    keywords: {
+      en: ["pregnant", "pregnancy", "baby", "my baby", "having a baby", "im pregnant", "teen mom", "teen dad", "teen parent", "parenting", "i have a kid", "my child", "my son", "my daughter", "will they take my baby", "prenatal", "diapers", "daycare", "child care", "pregnet", "pregnate", "prego"],
+      es: ["embarazada", "embarazo", "bebe", "mi bebe", "voy a tener un bebe", "estoy embarazada", "mama adolescente", "papa adolescente", "tengo un hijo", "tengo una hija", "mi hijo", "mi hija", "me van a quitar a mi bebe", "prenatal", "pañales", "guarderia", "cuidado de niños", "enbarazada"],
+    },
+    category: "rights",
+    ageBands: ["13-15","16-17","18-21"],
+    relatedIds: ["q-what-does-attorney-do","q-caseworker-role","q-what-is-ahcccs-yati"],
+  },
+
+  {
+    id: "q-what-is-severance",
+    question: {
+      en: "What does it mean if my parents' rights are ended (severance)?",
+      es: "¿Qué significa que terminen los derechos de mis padres (severance)?",
+    },
+    answer: {
+      en: "Sometimes a judge decides that a child cannot safely go back home, even after the parents were given time and help. The judge can then end the parents' legal rights. Adults may call this \"termination of parental rights,\" \"TPR,\" or \"severance.\" It means your parents no longer make legal decisions for you, and you could be adopted or have a guardian. It is a big decision, and it does not happen fast. It is never your fault. It does not mean your parents do not love you, and it is okay to still love and miss them. You may have big feelings about it — sad, mad, relieved, or all of these. Tell your lawyer what you want. Ask if you can still see or talk to your parents, brothers, sisters, and other family. Ask your caseworker about someone to talk to about your feelings.",
+      es: "A veces un juez decide que un niño o joven no puede volver a su casa de forma segura, aun después de darles tiempo y ayuda a los padres. Entonces el juez puede terminar los derechos legales de los padres. Los adultos le dicen \"terminación de la patria potestad,\" \"TPR\" o \"severance.\" Quiere decir que tus padres ya no toman decisiones legales por ti, y que podrías ser adoptado/a o tener un tutor. Es una decisión muy grande, y no pasa rápido. Nunca es tu culpa. No quiere decir que tus padres no te quieran, y está bien seguir queriéndolos y extrañándolos. Puedes sentir muchas cosas — tristeza, enojo, alivio, o todo junto. Dile a tu abogado/a lo que tú quieres. Pregunta si todavía puedes ver o hablar con tus padres, hermanos, hermanas y otros familiares. Pregúntale a tu trabajador/a de casos por alguien con quien hablar de lo que sientes.",
+    },
+    answer1012: {
+      en: "Sometimes a judge decides that a kid cannot go back home, because it would not be safe. Then the judge says the parents are no longer in charge of that kid. Grown-ups call this \"severance.\" This is never your fault. It does not mean your mom or dad do not love you. It is okay to still love them and miss them. It is okay to feel sad, mad, or mixed up. Tell your lawyer or your caseworker how you feel and what you want. You can ask them, \"Can I still see my family?\"",
+      es: "A veces un juez decide que un niño no puede volver a su casa, porque no sería seguro. Entonces el juez dice que los padres ya no están a cargo de ese niño. Los adultos le dicen \"severance.\" Esto nunca es tu culpa. No quiere decir que tu mamá o tu papá no te quieran. Está bien seguir queriéndolos y extrañarlos. Está bien sentirte triste, enojado/a o confundido/a. Dile a tu abogado/a o a tu trabajador/a de casos cómo te sientes y qué quieres. Puedes preguntarles: \"¿Todavía puedo ver a mi familia?\"",
+    },
+    keywords: {
+      en: ["severance", "sever", "severed", "tpr", "termination", "terminate", "parental rights", "rights taken away", "lose their rights", "never go home", "cant go home", "adopted", "adoption", "will i be adopted", "guardian", "guardianship", "forever", "not my parents anymore", "severence", "terminaton"],
+      es: ["severance", "terminacion", "terminar derechos", "patria potestad", "derechos de mis padres", "les quitaron sus derechos", "perder sus derechos", "nunca volver a casa", "no puedo volver a casa", "adoptado", "adoptada", "adopcion", "me van a adoptar", "tutor", "tutela", "para siempre", "ya no son mis padres"],
+    },
+    category: "case",
+    ageBands: ["10-12","13-15","16-17"],
+    relatedIds: ["q-what-is-reunification","q-what-is-permanency-hearing","q-contact-parents"],
+  },
+
+  {
+    id: "q-juvenile-court-and-foster-care",
+    question: {
+      en: "I'm in foster care and I also got in trouble with the law. What now?",
+      es: "Estoy en cuidado de crianza y también tengo un problema con la ley. ¿Qué pasa ahora?",
+    },
+    answer: {
+      en: "Some young people have two court cases at the same time. One is the foster care case, which is about keeping you safe. The other is a juvenile court case, which is about something you are accused of doing. You have the right to a lawyer in each case. Sometimes it is the same lawyer, and often it is two different lawyers. Tell each lawyer about the other case, so they can work together and nothing surprises you. You may also have a probation officer as well as your caseworker. Before you answer questions from police or a probation officer about what happened, ask to talk to your lawyer first. Having two cases does not make you a bad person. Many young people in foster care go through this, and you still have all of your rights.",
+      es: "Algunos jóvenes tienen dos casos en el tribunal al mismo tiempo. Uno es el caso de cuidado de crianza, que se trata de mantenerte seguro/a. El otro es un caso en el tribunal de menores, que se trata de algo que dicen que hiciste. Tienes derecho a un/a abogado/a en cada caso. A veces es la misma persona, y muchas veces son dos abogados diferentes. Cuéntale a cada abogado/a sobre el otro caso, para que trabajen juntos y nada te tome por sorpresa. También puedes tener un/a oficial de libertad condicional además de tu trabajador/a de casos. Antes de contestar preguntas de la policía o de un/a oficial de libertad condicional sobre lo que pasó, pide hablar primero con tu abogado/a. Tener dos casos no te hace una mala persona. Muchos jóvenes en cuidado de crianza pasan por esto, y sigues teniendo todos tus derechos.",
+    },
+    keywords: {
+      en: ["juvenile", "juvie", "juvenile court", "delinquency", "probation", "probation officer", "po", "arrested", "got arrested", "police", "cops", "charges", "in trouble with the law", "detention", "locked up", "two cases", "two lawyers", "public defender", "crime", "ticket", "juvinile", "probashun"],
+      es: ["tribunal de menores", "corte juvenil", "juvenil", "delincuencia", "libertad condicional", "probatoria", "oficial de probatoria", "arrestado", "arrestada", "me arrestaron", "policia", "cargos", "problemas con la ley", "detencion", "encerrado", "dos casos", "dos abogados", "defensor publico", "delito", "multa"],
+    },
+    category: "court",
+    ageBands: ["13-15","16-17"],
+    relatedIds: ["q-right-to-lawyer","q-what-does-attorney-do","q-what-is-dependency-hearing"],
+  },
+
+  {
+    id: "q-make-a-complaint",
+    question: {
+      en: "How do I make a complaint?",
+      es: "¿Cómo presento una queja?",
+    },
+    answer: {
+      en: "You are allowed to complain when something is not right. You will not be in trouble for it. Here are the steps:\n\n1. Tell your caseworker what is wrong and what you want to change.\n2. If that does not fix it, ask to talk to your caseworker's supervisor.\n3. Still not fixed? Call the DCS (Department of Child Safety) Ombudsman at 1-877-527-0765. Their job is to listen to complaints about DCS.\n4. Tell your lawyer at any step. Your lawyer can bring the problem to the judge.\n\nIt helps to write down what happened and when. If you are not safe, do not wait — call 911, or the DCS hotline at 1-888-767-2445.",
+      es: "Tienes permiso de quejarte cuando algo no está bien. No te vas a meter en problemas por eso. Estos son los pasos:\n\n1. Dile a tu trabajador/a de casos qué está mal y qué quieres que cambie.\n2. Si eso no lo arregla, pide hablar con el/la supervisor/a de tu trabajador/a de casos.\n3. ¿Todavía no se arregla? Llama al Ombudsman (defensor del pueblo) de DCS (Departamento de Seguridad Infantil) al 1-877-527-0765. Su trabajo es escuchar quejas sobre DCS.\n4. Dile a tu abogado/a en cualquier paso. Tu abogado/a puede llevar el problema ante el juez.\n\nAyuda escribir qué pasó y cuándo. Si no estás seguro/a, no esperes — llama al 911, o a la línea de DCS al 1-888-767-2445.",
+    },
+    answer1012: {
+      en: "If something is not right, you can say so. You will not be in trouble. First, tell your caseworker. If that does not help, tell your lawyer or another grown-up you trust, like a teacher. They can help you tell the right people, even the judge. If you are not safe, call 911 or 1-888-767-2445 right away.",
+      es: "Si algo no está bien, lo puedes decir. No te vas a meter en problemas. Primero, dile a tu trabajador/a de casos. Si eso no ayuda, dile a tu abogado/a o a otro adulto de confianza, como un maestro/a. Ellos te pueden ayudar a decírselo a las personas correctas, hasta al juez. Si no estás seguro/a, llama al 911 o al 1-888-767-2445 de inmediato.",
+    },
+    keywords: {
+      en: ["complaint", "complain", "make a complaint", "file a complaint", "grievance", "report", "report my caseworker", "report my foster parent", "report group home", "report staff", "who do i tell", "tell on", "not fair", "unfair", "nobody listens", "complant", "complaint form"],
+      es: ["queja", "quejarme", "presentar una queja", "poner una queja", "reportar", "reportar a mi trabajador", "reportar a mi padre de crianza", "reportar al hogar grupal", "reportar al personal", "a quien le digo", "no es justo", "injusto", "nadie me escucha"],
+    },
+    category: "rights",
+    ageBands: ["10-12","13-15","16-17","18-21"],
+    relatedIds: ["q-rights-ignored","q-what-is-ombudsman","q-what-does-attorney-do"],
   },
 
 ]; // end QUESTIONS

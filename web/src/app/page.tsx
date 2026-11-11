@@ -49,7 +49,7 @@ export default function RootPage() {
 
           <div className="bg-[#e0f2fe] rounded-full px-5 py-2.5 flex items-center justify-center gap-2 text-[13px] font-bold text-[#0c4a6e] shadow-sm border border-[#bae6fd]">
             <Lock size={14} className="text-[#0284c7]" />
-            {selected === "es" ? "Sin registro • Nada se guarda" : "No sign-up • Nothing is saved"}
+            {selected === "es" ? "Sin registro • Nada sale de tu dispositivo" : "No sign-up • Nothing leaves your device"}
           </div>
         </div>
 

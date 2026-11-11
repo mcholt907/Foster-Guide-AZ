@@ -20,7 +20,7 @@ export function LegalFooter({ lang }: { lang: Lang }) {
         </Link>
       </nav>
       <p className="mt-3 text-[11px] text-slate-400">
-        {isEs ? "Sin registro · Nada se guarda" : "No sign-up · Nothing stored"}
+        {isEs ? "Sin registro · Nada sale de tu dispositivo" : "No sign-up · Nothing leaves your device"}
       </p>
     </footer>
   );
