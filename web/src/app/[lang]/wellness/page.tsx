@@ -8,6 +8,7 @@ import { ChevronLeft, HeartPulse } from "lucide-react";
 import type { Lang } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
 import { CrisisQuickLinks } from "../../../components/CrisisQuickLinks";
+import { FeelingCheckIn } from "../../../components/FeelingCheckIn";
 import { WellnessTeen } from "../../../components/teen/WellnessTeen";
 
 const GROUNDING_STEPS = [
@@ -55,7 +56,7 @@ export default function WellnessPage() {
   const band = prefs.ageBand ?? "13-15";
   if (band === "10-12") return <Wellness1012 lang={lang} />;
 
-  return <WellnessTeen lang={lang} />;
+  return <WellnessTeen lang={lang} band={band} />;
 }
 
 function Wellness1012({ lang }: { lang: Lang }) {
@@ -110,6 +111,9 @@ function Wellness1012({ lang }: { lang: Lang }) {
             </p>
           </div>
         </div>
+
+        {/* How are you feeling? — nothing is stored (React state only) */}
+        <FeelingCheckIn lang={lang} band="10-12" />
 
         {/* 5-4-3-2-1 Grounding */}
         <div className="bg-white rounded-[24px] p-6 shadow-[0_4px_24px_rgba(0,0,0,0.04)]">

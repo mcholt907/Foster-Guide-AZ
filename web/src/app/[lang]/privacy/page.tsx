@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { LegalPage, LegalSection } from "../../../components/LegalPage";
 import type { Lang } from "../../../lib/i18n";
 
-const LAST_UPDATED = "2026-04-22";
+const LAST_UPDATED = "2026-11-10";
 
 export async function generateMetadata({
   params,
@@ -58,38 +58,75 @@ export default async function PrivacyPage({
         </ul>
       </LegalSection>
 
-      <LegalSection heading={isEs ? "Lo que se queda en TU dispositivo" : "What stays on YOUR device"}>
+      <LegalSection heading={isEs ? "Lo que se guarda en TU dispositivo" : "What is saved on YOUR device"}>
         <p>
           {isEs
-            ? "Para personalizar lo que ves, guardamos cuatro cosas pequeñas en tu navegador (no en un servidor):"
-            : "To personalize what you see, we save four small things in your browser (not on a server):"}
+            ? "Para mostrarte lo que te sirve, este sitio guarda cuatro cosas pequeñas en este teléfono o computadora:"
+            : "To show you what fits you, this site saves four small things on this phone or computer:"}
         </p>
         <ul className="list-disc pl-5 space-y-1">
-          <li>{isEs ? "Tu grupo de edad (10–12, 13–15, 16–17, 18–21)" : "Your age group (10–12, 13–15, 16–17, 18–21)"}</li>
+          <li>{isEs ? "Tu grupo de edad (10–12, 13–15, 16–17 o 18–21)" : "Your age group (10–12, 13–15, 16–17, or 18–21)"}</li>
           <li>{isEs ? "Tu condado en Arizona" : "Your Arizona county"}</li>
-          <li>{isEs ? 'Si marcaste "Sí" en la pregunta sobre naciones tribales' : 'Whether you checked "yes" on the tribal nations question'}</li>
-          <li>{isEs ? "Si ya completaste la introducción" : "Whether you've completed the intro"}</li>
+          <li>{isEs ? "Tu respuesta a la pregunta sobre naciones tribales" : "Your answer to the tribal nation question"}</li>
+          <li>{isEs ? "Si ya terminaste las preguntas del inicio" : "Whether you finished the starting questions"}</li>
         </ul>
         <p>
           {isEs
-            ? "Esto vive solo en tu navegador. Si cierras la pestaña, sigue ahí. Si limpias los datos del navegador o usas modo privado, se va."
-            : "This lives in your browser only. If you close the tab, it stays. If you clear your browser data or use private mode, it goes away."}
+            ? "Tu idioma (inglés o español) no se guarda. Solo aparece en la dirección de la página, como /en o /es."
+            : "Your language (English or Spanish) is not saved. It only shows in the page address, like /en or /es."}
+        </p>
+        <p>
+          {isEs
+            ? "Nada de esto sale de tu dispositivo. No se envía a nosotros ni a nadie más. Se queda ahí hasta que tú lo borres."
+            : "None of this leaves your device. It is not sent to us or to anyone else. It stays there until you clear it."}
         </p>
       </LegalSection>
 
-      <LegalSection heading={isEs ? "Cómo borrar todo" : "How to clear everything"}>
+      <LegalSection heading={isEs ? "Cómo borrarlo" : "How to clear it"}>
+        <ul className="list-disc pl-5 space-y-1">
+          <li>
+            {isEs
+              ? 'Toca "Salir rápido". Eso borra lo que este sitio guardó y te lleva a Google.'
+              : 'Tap "Leave fast." That clears what this site saved and takes you to Google.'}
+          </li>
+          <li>
+            {isEs
+              ? 'O toca "Empezar de nuevo" en el menú. Eso borra lo guardado y te quedas en el sitio.'
+              : 'Or tap "Start over" in the menu. That clears what was saved and you stay on the site.'}
+          </li>
+        </ul>
+      </LegalSection>
+
+      <LegalSection heading={isEs ? "Cómo borrar tu historial" : "How to clear your browser history"}>
         <p>
           {isEs
-            ? 'Toca "Empezar de nuevo" en la parte inferior del menú lateral. Eso borra todo lo que está guardado en este sitio.'
-            : 'Tap "Start over" at the bottom of the side menu. That clears everything this site has saved.'}
+            ? '"Salir rápido" no borra tu historial. Alguien que use tu teléfono podría ver que visitaste este sitio. Para borrarlo:'
+            : '"Leave fast" does not clear your history. Someone who uses your phone could still see that you visited this site. To clear it:'}
         </p>
+        <ol className="list-decimal pl-5 space-y-1">
+          <li>
+            {isEs
+              ? "iPhone (Safari): abre Ajustes, toca Apps y luego Safari (o solo Safari), y toca Borrar historial y datos de sitios web."
+              : "iPhone (Safari): open Settings, tap Apps and then Safari (or just Safari), and tap Clear History and Website Data."}
+          </li>
+          <li>
+            {isEs
+              ? "Android (Chrome): abre Chrome, toca los tres puntos, toca Historial y luego Borrar datos de navegación."
+              : "Android (Chrome): open Chrome, tap the three dots, tap History, and then tap Clear browsing data."}
+          </li>
+          <li>
+            {isEs
+              ? "La próxima vez, puedes usar una pestaña privada o de incógnito. Así no se guarda historial."
+              : "Next time, you can use a private or incognito tab. Then no history is saved."}
+          </li>
+        </ol>
       </LegalSection>
 
       <LegalSection heading={isEs ? "Cookies" : "Cookies"}>
         <p>
           {isEs
-            ? "No usamos cookies de seguimiento. El sitio guarda tus preferencias en un espacio del navegador llamado localStorage, no en cookies."
-            : "We don't use tracking cookies. The site stores your preferences in a browser area called localStorage, not cookies."}
+            ? "No usamos cookies de seguimiento. El sitio guarda tus preferencias en un espacio de tu navegador (se llama localStorage), no en cookies."
+            : "We don't use tracking cookies. The site stores your preferences in a part of your browser (called localStorage), not in cookies."}
         </p>
       </LegalSection>
 

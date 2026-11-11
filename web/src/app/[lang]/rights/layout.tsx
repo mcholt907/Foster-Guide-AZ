@@ -9,13 +9,13 @@ export async function generateMetadata({
   const { lang } = await params;
   if (lang === "es") {
     return {
-      title: "¿Cuáles son mis derechos en el cuidado adoptivo?",
+      title: "¿Cuáles son tus derechos en el cuidado de crianza?",
       description: "La ley de Arizona te da derechos reales — como hablar con tu abogado, ver a tus hermanos y tener voz en tu caso. Descúbrelos en palabras sencillas.",
       alternates: { canonical: "https://www.fosterhubaz.com/es/rights", languages: { "en": "https://www.fosterhubaz.com/en/rights", "es": "https://www.fosterhubaz.com/es/rights" } },
     };
   }
   return {
-    title: "What Are My Rights in Foster Care?",
+    title: "What Are Your Rights in Foster Care?",
     description: "Arizona law gives you real rights — like the right to talk to your lawyer, see your siblings, and have a say in your case. Find out what they are, in plain words.",
     alternates: { canonical: "https://www.fosterhubaz.com/en/rights", languages: { "en": "https://www.fosterhubaz.com/en/rights", "es": "https://www.fosterhubaz.com/es/rights" } },
   };

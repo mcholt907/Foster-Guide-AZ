@@ -9,7 +9,7 @@ export async function generateMetadata({
   if (lang === "es") {
     return {
       title: "Encuentra Ayuda Cerca de Ti — Arizona",
-      description: "Organizaciones reales en Arizona que ayudan a jóvenes en cuidado adoptivo con vivienda, escuela, ayuda legal, trabajo y más. Filtradas para tu edad y condado.",
+      description: "Organizaciones reales en Arizona que ayudan a jóvenes en cuidado de crianza con vivienda, escuela, ayuda legal, trabajo y más. Filtradas para tu edad y condado.",
       alternates: { canonical: "https://www.fosterhubaz.com/es/resources", languages: { "en": "https://www.fosterhubaz.com/en/resources", "es": "https://www.fosterhubaz.com/es/resources" } },
     };
   }

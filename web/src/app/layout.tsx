@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     template: "%s — FosterHub AZ",
   },
   description:
-    "Confused about foster care? Get answers about your rights, what happens in court, and what comes next — made for Arizona youth ages 10 to 21. Free, nothing is saved.",
+    "Confused about foster care? Get answers about your rights, what happens in court, and what comes next — made for Arizona youth ages 10 to 21. Free, and nothing leaves your device.",
   keywords: [
     "foster care Arizona", "foster youth rights", "Arizona DCS", "dependency court",
     "foster care rights", "foster youth resources", "Arizona foster care law",
