@@ -61,8 +61,8 @@ const FAQS: { q: { en: string; es: string }; a: { en: string; es: string }; cris
   {
     q: { en: "Is my lawyer the same as a guardian ad litem (GAL)?",
          es: "¿Mi abogado/a es lo mismo que un tutor ad litem (GAL)?" },
-    a: { en: "Not always. A lawyer tells the judge what you want. A GAL tells the judge what they think is best for you. You may have one or both. Ask: \"Are you my lawyer or my GAL? Do you tell the judge what I want, or what you think is best?\" Ask them what they keep private, too.",
-         es: "No siempre. Un/a abogado/a le dice al juez lo que tú quieres. Un GAL le dice al juez lo que cree que es mejor para ti. Puedes tener uno o los dos. Pregunta: «¿Eres mi abogado/a o mi GAL? ¿Le dices al juez lo que yo quiero, o lo que tú crees que es mejor?» También pregúntale qué mantiene en privado." },
+    a: { en: "No. They have different jobs. Your lawyer tells the judge what you want. A GAL tells the judge what they think is best for you. Everyone gets a lawyer, and some youth get a GAL too. Ask: \"Are you my lawyer or my GAL? Do you tell the judge what I want, or what you think is best?\" Ask them what they keep private, too.",
+         es: "No. Tienen trabajos diferentes. Tu abogado/a le dice al juez lo que tú quieres. Un GAL le dice al juez lo que cree que es mejor para ti. Todos reciben un/a abogado/a, y algunos jóvenes también reciben un GAL. Pregunta: «¿Eres mi abogado/a o mi GAL? ¿Le dices al juez lo que yo quiero, o lo que tú crees que es mejor?» También pregúntale qué mantiene en privado." },
   },
   {
     q: { en: "What if the place I live isn't working out?",

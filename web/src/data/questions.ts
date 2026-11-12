@@ -455,8 +455,8 @@ export const QUESTIONS: QAEntry[] = [
       es: "¿Qué es una audiencia de permanencia?",
     },
     answer: {
-      en: "A permanency hearing — sometimes called a permanency planning hearing — is a court meeting where the judge decides on the long-term plan for where you'll live and who will care for you. The options are usually reunification (going back home), adoption, legal guardianship, or long-term foster care. If you're 12 or older, the judge is supposed to ask what you want. You should absolutely speak up about your wishes.",
-      es: "Una audiencia de permanencia es una reunión en el tribunal donde el juez decide el plan a largo plazo para dónde vivirás y quién te cuidará. Las opciones suelen ser reunificación (regresar a casa), adopción, tutela legal o cuidado de crianza a largo plazo. Si tienes 12 años o más, el juez debe preguntarte qué quieres.",
+      en: "A permanency hearing — sometimes called a permanency planning hearing — is a court meeting where the judge decides on the long-term plan for where you'll live and who will care for you. The options are usually reunification (going back home), adoption, legal guardianship, or long-term foster care. You have the right to go to your hearing and speak to the judge, at any age — so say what you want. If the plan is adoption and you are 12 or older, the adoption cannot happen unless you agree to it in court.",
+      es: "Una audiencia de permanencia es una reunión en el tribunal donde el juez decide el plan a largo plazo para dónde vivirás y quién te cuidará. Las opciones suelen ser reunificación (regresar a casa), adopción, tutela legal o cuidado de crianza a largo plazo. Tienes derecho a ir a tu audiencia y hablar con el juez, a cualquier edad — así que di lo que quieres. Si el plan es la adopción y tienes 12 años o más, la adopción no puede pasar a menos que tú digas que sí en la corte.",
     },
     keywords: {
       en: ["permanency", "permanent", "hearing", "adoption", "adopted", "guardianship", "where will i live forever", "long term", "permanancy"],
@@ -670,7 +670,7 @@ export const QUESTIONS: QAEntry[] = [
       es: "¿Qué es Fostering Advocates Arizona?",
     },
     answer: {
-      en: "Fostering Advocates Arizona is a nonprofit run by and for people who have been in foster care. They can help you know your rights, navigate the system, and connect with others who understand what you're going through. They also do policy work to make the system better for everyone. You can reach them at (602) 266-0707 or find them at fosteringadvocatesarizona.org.",
+      en: "Fostering Advocates Arizona is a nonprofit run by and for people who have been in foster care. They can help you know your rights, navigate the system, and connect with others who understand what you're going through. They also do policy work to make the system better for everyone. You can find them at fosteringadvocatesarizona.org.",
       es: "Fostering Advocates Arizona es una organización sin fines de lucro dirigida por y para personas que han estado en el cuidado de crianza. Pueden ayudarte a conocer tus derechos, navegar el sistema y conectarte con otros que entienden lo que estás pasando.",
     },
     keywords: {
@@ -1005,8 +1005,8 @@ export const QUESTIONS: QAEntry[] = [
       es: "¿Puedo ir a la universidad gratis en Arizona?",
     },
     answer: {
-      en: "Maybe — Arizona has a tuition waiver for young people who were in foster care. A waiver means the school does not charge you tuition. It works at Arizona public universities and community colleges. You may qualify if you were in foster care in Arizona at age 14 or older. There is an age limit, and there are a few other rules, so ask early. You also need to fill out the FAFSA (the free form for school money) each year. Ask your school's financial aid office about the foster care tuition waiver. Your caseworker can help too.",
-      es: "Tal vez — Arizona tiene una exención de matrícula para jóvenes que estuvieron en cuidado de crianza. Una exención quiere decir que la escuela no te cobra la matrícula. Sirve en las universidades públicas y colegios comunitarios de Arizona. Puedes calificar si estuviste en cuidado de crianza en Arizona a los 14 años o después. Hay un límite de edad y otras reglas, así que pregunta pronto. También tienes que llenar la FAFSA (el formulario gratis para pedir dinero para estudiar) cada año. Pregunta en la oficina de ayuda financiera de tu escuela por la exención de matrícula para jóvenes de cuidado de crianza. Tu trabajador/a de casos también te puede ayudar.",
+      en: "Maybe — Arizona has a tuition waiver for young people who were in foster care. A waiver means the school does not charge you tuition. It works at Arizona public universities and community colleges. You may qualify if you were in foster care in Arizona at age 14 or older. You must be under 23, and there are a few other rules, so ask early. You also need to fill out the FAFSA (the free form for school money) each year. Ask your school's financial aid office about the foster care tuition waiver. Your caseworker can help too.",
+      es: "Tal vez — Arizona tiene una exención de matrícula para jóvenes que estuvieron en cuidado de crianza. Una exención quiere decir que la escuela no te cobra la matrícula. Sirve en las universidades públicas y colegios comunitarios de Arizona. Puedes calificar si estuviste en cuidado de crianza en Arizona a los 14 años o después. Debes tener menos de 23 años, y hay otras reglas, así que pregunta pronto. También tienes que llenar la FAFSA (el formulario gratis para pedir dinero para estudiar) cada año. Pregunta en la oficina de ayuda financiera de tu escuela por la exención de matrícula para jóvenes de cuidado de crianza. Tu trabajador/a de casos también te puede ayudar.",
     },
     keywords: {
       en: ["tuition waiver", "free college", "college", "university", "community college", "tuition", "pay for school", "free school", "scholarship", "degree"],

@@ -301,8 +301,8 @@ export const FUTURE_BANDS: Record<TeenBand, FutureBandContent> = {
         icon: "tuition",
         title: { en: "Arizona tuition waiver", es: "Exención de matrícula de Arizona" },
         body: {
-          en: "A waiver means the school does not charge you tuition. Arizona has one for young people who were in foster care at 14 or older. It works at Arizona public universities and community colleges. There is an age limit and a few rules, like filling out the FAFSA (the free form for school money) each year.",
-          es: "Una exención quiere decir que la escuela no te cobra la matrícula. Arizona tiene una para jóvenes que estuvieron en cuidado de crianza a los 14 años o después. Sirve en las universidades públicas y colegios comunitarios de Arizona. Hay un límite de edad y algunas reglas, como llenar la FAFSA (el formulario gratis para pedir dinero para estudiar) cada año.",
+          en: "A waiver means the school does not charge you tuition. Arizona has one for young people who were in foster care at 14 or older. It works at Arizona public universities and community colleges. You must be under 23. You also fill out the FAFSA (the free form for school money) each year, and after your first year you do 30 hours of volunteer work a year.",
+          es: "Una exención quiere decir que la escuela no te cobra la matrícula. Arizona tiene una para jóvenes que estuvieron en cuidado de crianza a los 14 años o después. Sirve en las universidades públicas y colegios comunitarios de Arizona. Debes tener menos de 23 años. También llenas la FAFSA (el formulario gratis para pedir dinero para estudiar) cada año, y después de tu primer año haces 30 horas de trabajo voluntario al año.",
         },
         tryThis: {
           en: "Ask your school's financial aid office: \"How do I get the foster care tuition waiver?\"",
