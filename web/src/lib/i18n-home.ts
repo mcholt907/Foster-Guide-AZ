@@ -5,9 +5,16 @@ import type { AgeBandKey } from "./prefs";
 type HomeLang = "en" | "es";
 
 const HOME_STRINGS = {
+  "home.hello":            { en: "Hi. We're glad you're here.", es: "Hola. Qué bueno que estás aquí." },
   "home.title":            { en: "You're in the right place.", es: "Estás en el lugar correcto." },
-  "home.subtitle":         { en: "Ask a question, or pick a place to start.",
-                             es: "Haz una pregunta o elige por dónde empezar." },
+  "home.reassure":         { en: "Whatever is going on, it is not your fault — and you don't have to figure it out alone.",
+                             es: "Pase lo que pase, no es tu culpa — y no tienes que resolverlo a solas." },
+  "home.closing.title":    { en: "This is a lot. Go at your own pace.",
+                             es: "Esto es mucho. Ve a tu propio ritmo." },
+  "home.closing.body":     { en: "You don't have to read everything today. Come back any time — this page will be here.",
+                             es: "No tienes que leer todo hoy. Vuelve cuando quieras — esta página va a estar aquí." },
+  "home.subtitle":         { en: "Ask anything, or pick a place to start.",
+                             es: "Pregunta lo que quieras, o elige por dónde empezar." },
   "home.search.label":     { en: "Search for an answer", es: "Busca una respuesta" },
   "home.search.placeholder": { en: "Type your question…", es: "Escribe tu pregunta…" },
   "home.search.button":    { en: "Search", es: "Buscar" },

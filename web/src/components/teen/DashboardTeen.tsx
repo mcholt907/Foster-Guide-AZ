@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
-  Shield, ChevronRight, Compass, Search,
+  Shield, ChevronRight, Search, HeartHandshake,
   Users, FolderOpen, HeartPulse, HelpCircle, MapPin, Sparkles,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -71,16 +72,30 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
 
   return (
     <div className="max-w-[1240px] mx-auto px-4 pt-6 pb-12 sm:px-12 sm:py-16">
-      {/* Start here: a question box and questions other youth ask */}
-      <section className="mb-10 sm:mb-14 max-w-3xl">
-        <h1 className="text-3xl sm:text-5xl font-black text-[#1a2f44] tracking-tight leading-[1.05]">
-          {tho("home.title", lang)}
-        </h1>
-        <p className="mt-3 text-lg sm:text-xl font-medium text-slate-600">{tho("home.subtitle", lang)}</p>
+      {/* Start here: a warm welcome, a question box, and questions other youth ask */}
+      <section className="relative mb-10 sm:mb-14 overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] border border-[#F5D9A8]/50 bg-[linear-gradient(135deg,#FEF3DC_0%,#FBF6EE_45%,#E3F1F3_100%)] px-5 py-7 sm:px-10 sm:py-10 shadow-[0_16px_48px_rgba(180,83,9,0.06)]">
+        {/* Soft shapes, decoration only */}
+        <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full bg-[#F7C873]/30 blur-2xl" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 right-1/3 h-56 w-56 rounded-full bg-[#8FCBD3]/25 blur-2xl" />
 
+        <div className="relative flex items-start gap-6">
+          <div className="min-w-0 flex-1 max-w-3xl">
+            <p className="text-base sm:text-lg font-bold text-[#B45309]">{tho("home.hello", lang)}</p>
+            <h1 className="mt-1 text-3xl sm:text-5xl font-black text-[#1a2f44] tracking-tight leading-[1.05]">
+              {tho("home.title", lang)}
+            </h1>
+            <p className="mt-4 text-lg sm:text-xl font-semibold leading-snug text-[#1a2f44]">{tho("home.reassure", lang)}</p>
+            <p className="mt-2 text-base sm:text-lg font-medium text-slate-600">{tho("home.subtitle", lang)}</p>
+          </div>
+          <div aria-hidden="true" className="hidden md:block shrink-0 rotate-3 rounded-[2rem] bg-white p-2 shadow-[0_16px_40px_rgba(26,47,68,0.12)]">
+            <Image src="/onboarding/welcome_icon.png" alt="" width={144} height={144} className="h-32 w-32 rounded-[1.5rem] object-cover" />
+          </div>
+        </div>
+
+        <div className="relative max-w-3xl">
         <form
           role="search"
-          className="mt-6 flex items-stretch gap-2"
+          className="mt-6 flex flex-col gap-2 sm:flex-row sm:items-stretch"
           onSubmit={(e) => {
             e.preventDefault();
             router.push(askHref(query));
@@ -108,13 +123,13 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
 
         {starters.length > 0 && (
           <div className="mt-5">
-            <h2 className="text-sm font-bold text-slate-600">{tho("home.starters.label", lang)}</h2>
+            <h2 className="text-sm font-bold text-slate-700">{tho("home.starters.label", lang)}</h2>
             <ul className="mt-2 flex flex-wrap gap-2">
               {starters.map((s) => (
                 <li key={s.query}>
                   <Link
                     href={askHref(s.query)}
-                    className="inline-flex min-h-11 items-center rounded-full border border-[#2A7F8E]/30 bg-[#E3F1F3] px-4 py-2 text-[15px] font-semibold text-[#1a2f44] transition hover:bg-[#d3e8eb] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2A7F8E]"
+                    className="inline-flex min-h-11 items-center rounded-full border border-[#2A7F8E]/25 bg-white px-4 py-2 text-[15px] font-semibold text-[#1a2f44] shadow-sm transition hover:bg-[#E3F1F3] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2A7F8E]"
                   >
                     {s.label[lang]}
                   </Link>
@@ -124,10 +139,11 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
           </div>
         )}
 
-        <p className="mt-5 flex items-start gap-2 text-sm font-medium text-slate-600">
+        <p className="mt-5 flex items-start gap-2 text-sm font-medium text-slate-700">
           <Shield size={16} strokeWidth={2.5} aria-hidden="true" className="mt-0.5 shrink-0 text-emerald-700" />
           {tt("dashboard.privacy.body", lang)}
         </p>
+        </div>
       </section>
 
       {/* Every section, as a short tappable tile */}
@@ -161,8 +177,8 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
 
       {/* Tip */}
       <section className="mt-8 sm:mt-10 flex flex-col gap-4 rounded-3xl bg-[#1a2f44] p-6 text-white sm:flex-row sm:items-center sm:gap-6 sm:p-8">
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white">
-          <Compass size={22} strokeWidth={2.5} aria-hidden="true" className="text-[#1a2f44]" />
+        <div aria-hidden="true" className="h-14 w-14 shrink-0 overflow-hidden rounded-2xl bg-white p-1">
+          <Image src="/compass_avatar.png" alt="" width={56} height={56} className="h-full w-full rounded-xl object-cover" />
         </div>
         <div className="min-w-0 flex-1">
           <h2 className="text-sm font-bold uppercase tracking-widest text-emerald-300">{tt("dashboard.tip.heading", lang)}</h2>
@@ -174,6 +190,17 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
         >
           {tt("dashboard.tile.team.cta", lang)} <ChevronRight size={16} strokeWidth={2.5} aria-hidden="true" />
         </Link>
+      </section>
+
+      {/* A gentle note to end on */}
+      <section className="mt-6 flex items-start gap-4 rounded-3xl border border-[#F5D9A8]/60 bg-[#FEF6E7] p-6 sm:p-8">
+        <span aria-hidden="true" className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white text-[#B45309]">
+          <HeartHandshake size={24} strokeWidth={2.25} />
+        </span>
+        <div className="min-w-0">
+          <h2 className="text-lg font-black tracking-tight text-[#1a2f44]">{tho("home.closing.title", lang)}</h2>
+          <p className="mt-1 text-base font-medium leading-relaxed text-slate-700">{tho("home.closing.body", lang)}</p>
+        </div>
       </section>
     </div>
   );
