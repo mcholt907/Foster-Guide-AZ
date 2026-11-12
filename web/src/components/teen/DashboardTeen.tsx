@@ -1,16 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import {
-  Shield, ChevronRight, Compass, Phone,
-  Users, FolderOpen, HeartPulse, HelpCircle,
+  Shield, ChevronRight, Compass, Search,
+  Users, FolderOpen, HeartPulse, HelpCircle, MapPin, Sparkles,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { Lang } from "../../lib/i18n";
-import { tt, ttBand, type TeenStringKey } from "../../lib/i18n-teen";
+import { tt, ttBand } from "../../lib/i18n-teen";
+import { tho, STARTER_QUESTIONS } from "../../lib/i18n-home";
 import type { AgeBandKey } from "../../lib/prefs";
-import { CrisisQuickLinks } from "../CrisisQuickLinks";
 
 interface DashboardTeenProps {
   lang: Lang;
@@ -18,147 +19,162 @@ interface DashboardTeenProps {
 }
 
 interface Tile {
-  id: "team" | "case" | "wellness" | "answers";
+  id: string;
   href: string;
   Icon: LucideIcon;
-  titleKey: TeenStringKey;
-  descKey: TeenStringKey;
-  ctaKey: TeenStringKey;
-  bgColor: string;
-  iconColor: string;
-  textColor: string;
-  accentColor: string;
-  hoverBlobColor: string;
+  title: (lang: Lang) => string;
+  desc: (lang: Lang) => string;
+  /** Soft background + icon colour for the chip. Titles stay navy. */
+  chip: string;
+  /** Bands that see this tile. Omit for all teen bands. */
+  bands?: AgeBandKey[];
 }
 
 const TILES: Tile[] = [
   {
-    id: "team", href: "/team", Icon: Users,
-    titleKey: "dashboard.tile.team.title", descKey: "dashboard.tile.team.desc", ctaKey: "dashboard.tile.team.cta",
-    bgColor: "bg-[#fff4cc]", iconColor: "text-amber-700", textColor: "text-[#78350f]", accentColor: "text-amber-700", hoverBlobColor: "bg-amber-50",
+    id: "case", href: "/case", Icon: FolderOpen, chip: "bg-sky-100 text-sky-800",
+    title: (l) => tt("dashboard.tile.case.title", l), desc: (l) => tt("dashboard.tile.case.desc", l),
   },
   {
-    id: "case", href: "/case", Icon: FolderOpen,
-    titleKey: "dashboard.tile.case.title", descKey: "dashboard.tile.case.desc", ctaKey: "dashboard.tile.case.cta",
-    bgColor: "bg-[#e0f2fe]", iconColor: "text-sky-700", textColor: "text-[#0369a1]", accentColor: "text-sky-700", hoverBlobColor: "bg-sky-50",
+    id: "team", href: "/team", Icon: Users, chip: "bg-amber-100 text-amber-800",
+    title: (l) => tt("dashboard.tile.team.title", l), desc: (l) => tt("dashboard.tile.team.desc", l),
   },
   {
-    id: "wellness", href: "/wellness", Icon: HeartPulse,
-    titleKey: "dashboard.tile.wellness.title", descKey: "dashboard.tile.wellness.desc", ctaKey: "dashboard.tile.wellness.cta",
-    bgColor: "bg-[#fce7f3]", iconColor: "text-pink-700", textColor: "text-[#be185d]", accentColor: "text-pink-700", hoverBlobColor: "bg-pink-50",
+    id: "rights", href: "/rights", Icon: Shield, chip: "bg-emerald-100 text-emerald-800",
+    title: (l) => tt("nav.rights", l), desc: (l) => tho("home.tile.rights.desc", l),
   },
   {
-    id: "answers", href: "/ask", Icon: HelpCircle,
-    titleKey: "dashboard.tile.answers.title", descKey: "dashboard.tile.answers.desc", ctaKey: "dashboard.tile.answers.cta",
-    bgColor: "bg-[#dcfce7]", iconColor: "text-emerald-700", textColor: "text-[#15803d]", accentColor: "text-emerald-700", hoverBlobColor: "bg-emerald-50",
+    id: "answers", href: "/ask", Icon: HelpCircle, chip: "bg-[#E3F1F3] text-[#1F6B78]",
+    title: (l) => tt("dashboard.tile.answers.title", l), desc: (l) => tt("dashboard.tile.answers.desc", l),
+  },
+  {
+    id: "wellness", href: "/wellness", Icon: HeartPulse, chip: "bg-violet-100 text-violet-800",
+    title: (l) => tt("dashboard.tile.wellness.title", l), desc: (l) => tt("dashboard.tile.wellness.desc", l),
+  },
+  {
+    id: "resources", href: "/resources", Icon: MapPin, chip: "bg-indigo-100 text-indigo-800",
+    title: (l) => tt("nav.resources", l), desc: (l) => tho("home.tile.resources.desc", l),
+  },
+  {
+    id: "future", href: "/future", Icon: Sparkles, chip: "bg-orange-100 text-orange-800",
+    title: (l) => tt("nav.future", l), desc: (l) => tho("home.tile.future.desc", l),
+    bands: ["16-17", "18-21"],
   },
 ];
 
 export function DashboardTeen({ lang, band }: DashboardTeenProps) {
-  const today = new Date().toLocaleDateString(lang === "es" ? "es-US" : "en-US", {
-    weekday: "long", month: "long", day: "numeric",
-  });
-  const reduce = useReducedMotion();
+  const router = useRouter();
+  const [query, setQuery] = useState("");
+  const askHref = (q: string) => `/${lang}/ask${q.trim() ? `?q=${encodeURIComponent(q.trim())}` : ""}`;
+  const starters = band === "10-12" ? [] : STARTER_QUESTIONS[band];
+  const tiles = TILES.filter((t) => !t.bands || t.bands.includes(band));
 
   return (
-    <>
-      {/* Background blob */}
-      <div aria-hidden="true" className="absolute top-0 right-0 w-[600px] h-[600px] bg-sky-50/40 rounded-full blur-[140px] -z-10 translate-x-1/4 -translate-y-1/4 shadow-inner" />
+    <div className="max-w-[1240px] mx-auto px-4 pt-6 pb-12 sm:px-12 sm:py-16">
+      {/* Start here: a question box and questions other youth ask */}
+      <section className="mb-10 sm:mb-14 max-w-3xl">
+        <h1 className="text-3xl sm:text-5xl font-black text-[#1a2f44] tracking-tight leading-[1.05]">
+          {tho("home.title", lang)}
+        </h1>
+        <p className="mt-3 text-lg sm:text-xl font-medium text-slate-600">{tho("home.subtitle", lang)}</p>
 
-      <div className="max-w-[1240px] mx-auto px-4 pt-6 pb-12 sm:px-12 sm:py-20">
-        {/* Hero */}
-        <div className="mb-8 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-8">
-          <div>
-            <h1 className="text-slate-600 text-base sm:text-lg font-bold tracking-tight">
-              {tt("dashboard.greeting.subtitle", lang, { date: today })}
-            </h1>
+        <form
+          role="search"
+          className="mt-6 flex items-stretch gap-2"
+          onSubmit={(e) => {
+            e.preventDefault();
+            router.push(askHref(query));
+          }}
+        >
+          <div className="relative flex-1 min-w-0">
+            <Search size={20} strokeWidth={2.5} aria-hidden="true" className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1F6B78]" />
+            <input
+              id="home-search"
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              aria-label={tho("home.search.label", lang)}
+              placeholder={tho("home.search.placeholder", lang)}
+              className="w-full min-h-14 rounded-2xl border border-slate-200 bg-white pl-12 pr-4 text-base font-medium text-slate-800 shadow-sm placeholder:text-slate-500 focus:outline-none focus:ring-4 focus:ring-[#2A7F8E]/25 focus:border-[#2A7F8E]"
+            />
           </div>
-          <div className="bg-emerald-50/50 border border-emerald-100 px-4 py-3 sm:px-6 sm:py-4 rounded-xl sm:rounded-2xl flex items-center gap-4">
-            <div className="w-10 h-10 bg-emerald-600 text-white rounded-xl flex items-center justify-center shrink-0">
-              <Shield size={18} strokeWidth={3} aria-hidden="true" />
-            </div>
-            <div>
-              <p className="text-xs font-black uppercase tracking-widest text-emerald-700">{tt("dashboard.privacy.label", lang)}</p>
-              <p className="text-sm font-bold text-emerald-800 leading-tight">{tt("dashboard.privacy.body", lang)}</p>
-            </div>
-          </div>
-        </div>
+          <button
+            type="submit"
+            className="min-h-14 shrink-0 rounded-2xl bg-[#1a2f44] px-5 sm:px-7 text-base font-bold text-white transition hover:bg-[#24405c] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2A7F8E]"
+          >
+            {tho("home.search.button", lang)}
+          </button>
+        </form>
 
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-          {/* Tiles */}
-          <div className="lg:col-span-8 flex flex-col gap-6 lg:gap-10">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xs font-black uppercase tracking-[0.4em] text-slate-600">
-                {tt("dashboard.kicker", lang)}
-              </h2>
-            </div>
-            <div className="grid sm:grid-cols-2 gap-4 lg:gap-8">
-              {TILES.map((tile, idx) => (
-                <motion.div
-                  key={tile.id}
-                  initial={{ y: 20 }}
-                  animate={{ y: 0 }}
-                  transition={{ delay: reduce ? 0 : idx * 0.08, duration: reduce ? 0 : 0.4 }}
-                >
+        {starters.length > 0 && (
+          <div className="mt-5">
+            <h2 className="text-sm font-bold text-slate-600">{tho("home.starters.label", lang)}</h2>
+            <ul className="mt-2 flex flex-wrap gap-2">
+              {starters.map((s) => (
+                <li key={s.query}>
                   <Link
-                    href={`/${lang}${tile.href}`}
-                    className="block bg-white p-6 md:p-10 rounded-3xl md:rounded-[2.5rem] shadow-[0_24px_64px_rgba(0,0,0,0.02)] border border-white flex flex-col items-start gap-5 md:gap-8 group hover:shadow-[0_32px_80px_rgba(0,0,0,0.1)] hover:-translate-y-2 transition-all text-left overflow-hidden relative"
+                    href={askHref(s.query)}
+                    className="inline-flex min-h-11 items-center rounded-full border border-[#2A7F8E]/30 bg-[#E3F1F3] px-4 py-2 text-[15px] font-semibold text-[#1a2f44] transition hover:bg-[#d3e8eb] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2A7F8E]"
                   >
-                    <div aria-hidden="true" className={`absolute top-0 right-0 w-32 h-32 ${tile.hoverBlobColor} rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity`} />
-                    <div className={`w-14 h-14 md:w-16 md:h-16 ${tile.bgColor} rounded-[1.25rem] md:rounded-[1.5rem] flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform`}>
-                      <tile.Icon size={24} strokeWidth={2.25} className={`md:hidden ${tile.iconColor}`} aria-hidden="true" />
-                      <tile.Icon size={28} strokeWidth={2.25} className={`hidden md:block ${tile.iconColor}`} aria-hidden="true" />
-                    </div>
-                    <div className="flex flex-col gap-2 relative z-10 w-full">
-                      <h3 className={`text-xl md:text-2xl font-black ${tile.textColor} tracking-tight leading-none`}>{tt(tile.titleKey, lang)}</h3>
-                      <p className="text-slate-600 text-sm font-bold leading-relaxed">{tt(tile.descKey, lang)}</p>
-                    </div>
-                    <div className={`w-full pt-4 md:pt-6 border-t border-slate-50 flex items-center justify-between ${tile.accentColor} font-black text-xs uppercase tracking-widest opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-visible:opacity-100 transition-all`}>
-                      {tt(tile.ctaKey, lang)} <ChevronRight size={14} strokeWidth={3} aria-hidden="true" />
-                    </div>
+                    {s.label[lang]}
                   </Link>
-                </motion.div>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
+        )}
 
-          {/* Side column */}
-          <div className="lg:col-span-4 sticky top-10 flex flex-col gap-6 md:gap-8">
-            {/* Strategic Tip */}
-            <div className="bg-[#1a2f44] text-white p-8 md:p-10 rounded-3xl md:rounded-[2.5rem] shadow-[0_24px_80px_rgba(0,0,0,0.15)] relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-400/5 blur-3xl rounded-full" />
-              <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
-                <div className="w-10 h-10 bg-white shadow-[0_12px_24px_rgba(255,255,255,0.1)] rounded-xl md:rounded-2xl flex items-center justify-center shrink-0">
-                  <Compass size={20} className="text-[#1a2f44]" strokeWidth={3} aria-hidden="true" />
-                </div>
-                <h2 className="font-black text-[17px] md:text-lg tracking-tight">{tt("dashboard.tip.heading", lang)}</h2>
-              </div>
-              <p className="text-slate-100 text-[15px] md:text-base font-bold leading-relaxed mb-6">
-                {ttBand("dashboard.tip", band, lang)}
-              </p>
+        <p className="mt-5 flex items-start gap-2 text-sm font-medium text-slate-600">
+          <Shield size={16} strokeWidth={2.5} aria-hidden="true" className="mt-0.5 shrink-0 text-emerald-700" />
+          {tt("dashboard.privacy.body", lang)}
+        </p>
+      </section>
+
+      {/* Every section, as a short tappable tile */}
+      <section aria-labelledby="home-tiles">
+        <h2 id="home-tiles" className="mb-4 text-sm font-bold text-slate-600">{tho("home.tiles.label", lang)}</h2>
+        <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 sm:gap-4">
+          {tiles.map((tile) => (
+            <li key={tile.id} className="min-w-0">
               <Link
-                href={`/${lang}/ask`}
-                className="flex items-center gap-3 min-h-11 text-xs font-black uppercase tracking-widest text-emerald-300 hover:text-emerald-200 transition-colors"
+                href={`/${lang}${tile.href}`}
+                className="group flex h-full items-start gap-4 rounded-3xl border border-slate-200/70 bg-white p-5 shadow-[0_8px_24px_rgba(26,47,68,0.04)] transition hover:-translate-y-0.5 hover:border-[#2A7F8E]/40 hover:shadow-[0_16px_40px_rgba(26,47,68,0.10)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2A7F8E]"
               >
-                {tt("dashboard.tip.cta", lang)} <ChevronRight size={14} strokeWidth={3} aria-hidden="true" />
+                <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${tile.chip}`}>
+                  <tile.Icon size={22} strokeWidth={2.25} aria-hidden="true" />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-lg font-black tracking-tight text-[#1a2f44]">{tile.title(lang)}</span>
+                  <span className="mt-1 block text-sm font-medium leading-relaxed text-slate-600">{tile.desc(lang)}</span>
+                </span>
+                <ChevronRight
+                  size={20}
+                  strokeWidth={2.5}
+                  aria-hidden="true"
+                  className="mt-3 shrink-0 text-slate-400 transition group-hover:translate-x-0.5 group-hover:text-[#1F6B78]"
+                />
               </Link>
-            </div>
+            </li>
+          ))}
+        </ul>
+      </section>
 
-            {/* Crisis */}
-            <div className="bg-[#FEF6E7] rounded-3xl md:rounded-[2.5rem] p-6 md:p-8 border border-[#F5D9A8]/60 shadow-sm flex flex-col items-center text-center group">
-              <div className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-[1.5rem] md:rounded-[2rem] shadow-sm flex items-center justify-center mb-5 md:mb-6 rotate-3 group-hover:rotate-0 transition-all">
-                <Phone className="text-[#B45309] w-8 h-8 md:w-10 md:h-10" aria-hidden="true" />
-              </div>
-              <h2 className="font-black text-[#1B3A5C] mb-3 tracking-tight text-lg md:text-xl">{tt("dashboard.crisis.title", lang)}</h2>
-              <p className="text-[#1B3A5C] text-sm font-bold leading-relaxed mb-5">{tt("dashboard.crisis.body", lang)}</p>
-              {/* 911, 988 and the DCS hotline as tap-to-call, from data/constants.ts */}
-              <div className="w-full">
-                <CrisisQuickLinks lang={lang} variant="compact" />
-              </div>
-            </div>
-          </div>
+      {/* Tip */}
+      <section className="mt-8 sm:mt-10 flex flex-col gap-4 rounded-3xl bg-[#1a2f44] p-6 text-white sm:flex-row sm:items-center sm:gap-6 sm:p-8">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white">
+          <Compass size={22} strokeWidth={2.5} aria-hidden="true" className="text-[#1a2f44]" />
         </div>
-      </div>
-    </>
+        <div className="min-w-0 flex-1">
+          <h2 className="text-sm font-bold uppercase tracking-widest text-emerald-300">{tt("dashboard.tip.heading", lang)}</h2>
+          <p className="mt-1 text-base font-semibold leading-relaxed text-slate-100">{ttBand("dashboard.tip", band, lang)}</p>
+        </div>
+        <Link
+          href={`/${lang}/team`}
+          className="inline-flex min-h-11 shrink-0 items-center gap-2 self-start rounded-full bg-white/10 px-5 py-2 text-sm font-bold text-white transition hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300 sm:self-center"
+        >
+          {tt("dashboard.tile.team.cta", lang)} <ChevronRight size={16} strokeWidth={2.5} aria-hidden="true" />
+        </Link>
+      </section>
+    </div>
   );
 }
