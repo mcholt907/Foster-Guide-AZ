@@ -54,7 +54,7 @@ export const CRISIS_PINS = [
     smsDisplay: "988",
     crisis: true,
     compact: true,
-    lastVerified: "2026-11-09",
+    lastVerified: "2026-11-12",
   },
   {
     id: "teen-lifeline",
@@ -90,7 +90,7 @@ export const CRISIS_PINS = [
     smsBody_es: "HOLA",
     crisis: true,
     compact: false,
-    lastVerified: "2026-11-09",
+    lastVerified: "2026-11-12",
   },
   {
     id: "dcs",

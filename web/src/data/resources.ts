@@ -16,7 +16,7 @@ export const RESOURCES = [
     url: "https://988lifeline.org/",
     description: "Call or text 988 any time, day or night, when you feel like you can't go on or just need to talk. It is free and private. For Spanish, call 988 and press 2.",
     description_es: "Llama o envía un mensaje al 988 a cualquier hora si sientes que ya no puedes más o solo necesitas hablar. Es gratis y privado. Para español, llama al 988 y oprime 2, o envía la palabra AYUDA al 988.",
-    lastVerified: "2026-11-11",
+    lastVerified: "2026-11-12",
   },
   {
     id: "az-crisis-line",
@@ -55,7 +55,7 @@ export const RESOURCES = [
     url: "https://www.thetrevorproject.org/get-help/",
     description: "Crisis help for LGBTQ+ young people, open day and night. It is free and private. Call 1-866-488-7386, text START to 678-678, or chat on the website.",
     description_es: "Ayuda en momentos de crisis para jóvenes LGBTQ+, abierta de día y de noche. Es gratis y privada. Llama al 1-866-488-7386, envía START al 678-678 o chatea en el sitio web.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "safe-place",
@@ -68,7 +68,7 @@ export const RESOURCES = [
     url: "https://www.nationalsafeplace.org/txt-4-help",
     description: "Need a safe place right now? Text the word SAFE and where you are (address, city, state) to 44357. You get back the closest Safe Place or youth shelter. It is free and works day and night. If you are in danger, call 911.",
     description_es: "¿Necesitas un lugar seguro ahora mismo? Envía la palabra SAFE y el lugar donde estás (dirección, ciudad, estado) al 44357. Te responden con el Safe Place o albergue para jóvenes más cercano. Es gratis y funciona de día y de noche. Si estás en peligro, llama al 911.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "211",
@@ -81,7 +81,7 @@ export const RESOURCES = [
     url: "https://211arizona.org/",
     description: "Not sure who to call? Dial 2-1-1 (or 877-211-8661 from any phone). A real person helps you find food, shelter, help with bills, and more near you. It is free. English and Spanish.",
     description_es: "¿No sabes a quién llamar? Marca 2-1-1 (o 877-211-8661 desde cualquier teléfono). Una persona real te ayuda a encontrar comida, albergue, ayuda con cuentas y más cerca de ti. Es gratis. En inglés y español.",
-    lastVerified: "2026-11-11",
+    lastVerified: "2026-11-12",
   },
   {
     id: "azfbn",
@@ -94,7 +94,7 @@ export const RESOURCES = [
     url: "https://azfoodbanks.org/",
     description: "Find a food bank or food pantry near you anywhere in Arizona. Search the map on the website or call 602-528-3434.",
     description_es: "Encuentra un banco de comida o una despensa cerca de ti en cualquier parte de Arizona. Busca en el mapa del sitio web o llama al 602-528-3434.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "always",
@@ -185,7 +185,7 @@ export const RESOURCES = [
     url: "https://www.fosteringadvocatesarizona.org",
     description: "A website by and for young people who have been in foster care. Read your rights in plain words, learn ways to speak up, and see how to join the Young Adult Leadership Board.",
     description_es: "Un sitio web hecho por y para jóvenes que han estado en cuidado de crianza. Lee tus derechos en palabras sencillas, aprende formas de hacerte escuchar y mira cómo unirte a la Junta de Liderazgo de Jóvenes Adultos.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "mercy-care-chp",
@@ -224,7 +224,7 @@ export const RESOURCES = [
     url: "https://www.azdhs.gov/prevention/azwic/",
     description: "Healthy food and feeding help if you are pregnant, breastfeeding, or have a baby or child under 5. Call 1-800-252-5942 to find a clinic near you and make an appointment.",
     description_es: "Comida saludable y apoyo para alimentar a tu bebé si estás embarazada, das pecho o tienes un bebé o un niño menor de 5 años. Llama al 1-800-252-5942 para encontrar una clínica cerca de ti y hacer una cita.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "strong-families",
@@ -237,7 +237,7 @@ export const RESOURCES = [
     url: "https://strongfamiliesaz.com/about/strong-families-az-helpline/",
     description: "Pregnant or raising a little one? Call or text 602-345-0471 to find free home visiting programs near you, like Nurse-Family Partnership, where a nurse or parent coach comes to you.",
     description_es: "¿Estás embarazada o criando a un pequeño? Llama o envía un mensaje al 602-345-0471 para encontrar programas gratis de visitas a casa cerca de ti, como Nurse-Family Partnership, donde una enfermera o guía para padres va a donde tú estás.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "our-family-reunion-house",
@@ -315,7 +315,7 @@ export const RESOURCES = [
     url: "https://www.newcultureaz.org/",
     description: "Housing in Phoenix, Mesa, and Tucson for young adults in Extended Foster Care (staying with DCS after 18). Ask your DCS caseworker to refer you, or see the website.",
     description_es: "Vivienda en Phoenix, Mesa y Tucson para jóvenes adultos en Cuidado de Crianza Extendido (seguir con el DCS después de los 18). Pídele a tu trabajador de caso del DCS que te refiera, o visita el sitio web.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "azca",
@@ -406,7 +406,7 @@ export const RESOURCES = [
     url: "https://fosteryouth.asu.edu/services-support/bridging-success",
     description: "A program at Arizona State University (ASU) for students who were in foster care. Get help applying, paying for school, and a head start before classes begin. See the website to contact the team.",
     description_es: "Un programa de la Universidad Estatal de Arizona (ASU) para estudiantes que estuvieron en cuidado de crianza. Recibe ayuda para solicitar, pagar tus estudios y empezar con ventaja antes de las clases. Visita el sitio web para contactar al equipo.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "ua-fostering-success",
@@ -419,7 +419,7 @@ export const RESOURCES = [
     url: "https://fosteringsuccess.arizona.edu/",
     description: "A program at the University of Arizona in Tucson for students who were in foster care. Get help paying for college and finding support on campus. Email fosteringsuccess@email.arizona.edu.",
     description_es: "Un programa de la Universidad de Arizona en Tucson para estudiantes que estuvieron en cuidado de crianza. Recibe ayuda para pagar la universidad y encontrar apoyo en el campus. Escribe a fosteringsuccess@email.arizona.edu.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "affcf",
@@ -432,7 +432,7 @@ export const RESOURCES = [
     url: "https://www.affcf.org/",
     description: "Pays for extras that help kids in foster care, like activities and school needs. Ask your caregiver or caseworker to apply for you, or call 602-252-9445 (Monday to Friday, 8 a.m. to 4 p.m.).",
     description_es: "Paga extras que ayudan a niños y jóvenes en cuidado de crianza, como actividades y cosas para la escuela. Pídele a tu cuidador o a tu trabajador de caso que haga la solicitud por ti, o llama al 602-252-9445 (lunes a viernes, de 8 a.m. a 4 p.m.).",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "arizonaatwork",
@@ -458,7 +458,7 @@ export const RESOURCES = [
     url: "https://www.azdhs.gov/licensing/vital-records/index.php",
     description: "Get a copy of your Arizona birth certificate. You need it for an ID, a job, and school. Order online or by mail, or go to your county health department for same-day service. There is a fee, so ask your caseworker for help. Questions? Call 602-364-1300.",
     description_es: "Consigue una copia de tu acta de nacimiento de Arizona. La necesitas para una identificación, un trabajo y la escuela. Pídela en línea o por correo, o ve al departamento de salud de tu condado para recibirla el mismo día. Tiene un costo, así que pide ayuda a tu trabajador de caso. ¿Preguntas? Llama al 602-364-1300.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "mvd",
