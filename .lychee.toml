@@ -1,11 +1,22 @@
-# Lychee link checker configuration for FosterHub AZ
-# https://lychee.cli.rs/configuration
+# Lychee link checker settings for FosterHub AZ, for LOCAL runs:
+#
+#   grep -rhoP '(?:url|website):\s*"\Khttps?://[^"]+' web/src/data/*.ts | sort -u > /tmp/urls.txt
+#   lychee --config .lychee.toml /tmp/urls.txt
+#
+# CI (.github/workflows/link-check.yml) passes the same settings on the
+# command line. Only the live site's data (web/src/data) is checked; the
+# retired server/ data is not.
+# https://lychee.cli.rs/guides/config/
 
-# Accept common redirects and success codes
-accept = [200, 301, 302, 403]
+# Only a real "OK" counts. Do NOT add 403 here: a 403 can hide a dead page.
+# A few Arizona state sites (dcs.az.gov, des.az.gov, azdot.gov,
+# arizonaatwork.com) answer bots with 403; the CI workflow checks those hosts
+# in a separate pass that accepts 403 for them only. For a local run, add
+# `--accept 200,403` yourself when checking just those URLs.
+accept = ["200"]
 
 # Timeout for each request (government sites can be slow)
-timeout = 15
+timeout = 20
 
 # Max concurrent requests (be polite to external servers)
 max_concurrency = 5
@@ -13,26 +24,19 @@ max_concurrency = 5
 # Retry failed requests
 max_retries = 3
 
-# Don't follow tel: and sms: links
 exclude = [
   "^tel:",
   "^sms:",
   "^mailto:",
-  # Rate-limited or bot-blocking government sites
+  # Rate-limits automated requests
   "^https://www\\.ssa\\.gov",
   # Local development URLs
   "^http://localhost",
   "^https://localhost",
 ]
 
-# Only check these file patterns
-include = [
-  "web/src/data/*.ts",
-  "server/src/data/*.ts",
-]
-
 # Cache results to avoid re-checking unchanged links
 cache = true
 
-# User agent to use (some sites block default bot UA)
+# User agent to use (some sites block the default bot UA)
 user_agent = "Mozilla/5.0 (compatible; FosterHubAZ-LinkChecker/1.0)"

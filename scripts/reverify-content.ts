@@ -39,6 +39,11 @@
 
 import * as fs from "fs";
 import * as path from "path";
+
+// Works under `npx tsx` (CommonJS, where __dirname exists) and under plain
+// `node scripts/x.ts` on Node 22+ (ES module, where it does not).
+const SCRIPT_DIR: string =
+  typeof __dirname !== "undefined" ? __dirname : path.dirname(path.resolve(process.argv[1] ?? "scripts/x.ts"));
 import * as https from "https";
 import * as http from "http";
 
@@ -156,7 +161,7 @@ interface FileUpdate {
 
 // ── Data files (live site only — the retired server/ data is not scanned) ────
 
-const ROOT = path.resolve(__dirname, "..");
+const ROOT = path.resolve(SCRIPT_DIR, "..");
 
 const DATA_FILES: DataFile[] = [
   {

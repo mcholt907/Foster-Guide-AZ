@@ -10,6 +10,11 @@
 import * as fs from "fs";
 import * as path from "path";
 
+// Works under `npx tsx` (CommonJS, where __dirname exists) and under plain
+// `node scripts/x.ts` on Node 22+ (ES module, where it does not).
+const SCRIPT_DIR: string =
+  typeof __dirname !== "undefined" ? __dirname : path.dirname(path.resolve(process.argv[1] ?? "scripts/x.ts"));
+
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 function daysSince(dateStr: string): number {
@@ -72,7 +77,6 @@ function main(): void {
   const files = [
     { path: "../web/src/data/constants.ts", name: "Crisis Contacts", field: "name", sla: SLA.crisis },
     { path: "../web/src/data/resources.ts", name: "Web Resources", field: "name", sla: SLA.resources },
-    { path: "../server/src/data/resources.ts", name: "Server Resources", field: "name", sla: SLA.resources },
     { path: "../web/src/data/docs.ts", name: "Identity Documents", field: "label", sla: SLA.documents },
   ];
 
@@ -89,7 +93,7 @@ function main(): void {
   }[] = [];
 
   for (const f of files) {
-    const fullPath = path.resolve(__dirname, f.path);
+    const fullPath = path.resolve(SCRIPT_DIR, f.path);
     if (!fs.existsSync(fullPath)) continue;
     const content = fs.readFileSync(fullPath, "utf-8");
     const entries = extractLastVerifiedEntries(content, f.field);
@@ -177,7 +181,7 @@ function main(): void {
 
   const allUrls = new Set<string>();
   for (const f of files) {
-    const fullPath = path.resolve(__dirname, f.path);
+    const fullPath = path.resolve(SCRIPT_DIR, f.path);
     if (!fs.existsSync(fullPath)) continue;
     const content = fs.readFileSync(fullPath, "utf-8");
     for (const url of extractUrls(content)) {
@@ -198,7 +202,7 @@ function main(): void {
 
   // ── Annual Deadlines ──────────────────────────────────────────────────
 
-  const watchlistPath = path.resolve(__dirname, "watchlist.json");
+  const watchlistPath = path.resolve(SCRIPT_DIR, "watchlist.json");
   if (fs.existsSync(watchlistPath)) {
     const watchlist = JSON.parse(fs.readFileSync(watchlistPath, "utf-8"));
 
@@ -246,7 +250,7 @@ function main(): void {
 
   // ── Write output ──────────────────────────────────────────────────────
 
-  const outDir = path.resolve(__dirname, "../docs");
+  const outDir = path.resolve(SCRIPT_DIR, "../docs");
   if (!fs.existsSync(outDir)) {
     fs.mkdirSync(outDir, { recursive: true });
   }
