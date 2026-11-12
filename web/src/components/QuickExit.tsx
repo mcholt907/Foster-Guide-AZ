@@ -69,7 +69,7 @@ export function QuickExitButton({
       onClick={quickExit}
       aria-label={th("exit.aria", lang)}
       title={th("exit.aria", lang)}
-      className={`inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-full bg-white px-3.5 text-[13px] font-extrabold text-[#1B3A5C] shadow-[0_6px_20px_rgba(27,58,92,0.22)] ring-2 ring-inset ring-[#1B3A5C] transition-colors hover:bg-[#EEF3F8] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[#D97706] ${className}`}
+      className={`inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-full bg-white px-3 sm:px-3.5 text-[13px] font-extrabold text-[#1B3A5C] shadow-[0_6px_20px_rgba(27,58,92,0.22)] ring-2 ring-inset ring-[#1B3A5C] transition-colors hover:bg-[#EEF3F8] focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[#D97706] ${className}`}
     >
       <LogOut size={16} strokeWidth={2.5} aria-hidden="true" className="shrink-0" />
       <span className="whitespace-nowrap">{th("exit.button", lang)}</span>

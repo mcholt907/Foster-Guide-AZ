@@ -60,3 +60,39 @@ html {
   outline: 2px solid var(--color-teal);
   outline-offset: 2px;
 }
+
+/* ─── No layout flash for 10–12 users ───────────────────────────────────────── */
+/* The server always sends the teen (13–15) layout so crawlers and first-time
+   visitors get real HTML. A returning 10–12 user would see that dark teen
+   layout for a moment before React swaps in the kids' layout. The inline
+   script in RootDocument sets <html data-band="10-12"> before first paint, and
+   BandShell sets data-band-ready once the saved prefs are loaded. Until then
+   the mismatched layout is hidden (visibility, so nothing jumps).
+   No saved prefs or no JavaScript → no data-band → nothing is hidden.
+   Safety net: if the app script never loads, show the page after 5 seconds. */
+html[data-band="10-12"]:not([data-band-ready]) [data-band-shell] {
+  visibility: hidden;
+  animation: fgaz-band-reveal 0s linear 5s forwards;
+}
+
+@keyframes fgaz-band-reveal {
+  to { visibility: visible; }
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────────── */
+/* Neutralize CSS transitions/animations for people who ask for less motion.
+   (framer-motion is handled by <MotionConfig reducedMotion="user"> in
+   BandShell.) Scroll is only ever forced to `auto` here — never to `smooth` —
+   so this cannot bring back the route-transition scroll animations described
+   above. animation-delay is left alone so the reveal safety net still waits. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+}

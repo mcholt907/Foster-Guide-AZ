@@ -8,6 +8,7 @@ import { Home, Shield, FolderOpen, MapPin, HeartHandshake, HelpCircle, Users } f
 import { motion, useReducedMotion } from "framer-motion";
 import type { Lang } from "../lib/i18n";
 import { usePrefs } from "../lib/prefs";
+import { ts } from "../lib/i18n-shell";
 
 const NAV_ITEMS_BASE = [
   { id: "home",      icon: Home,           href: "",           en: "Home",        es: "Inicio",          labelEn: "Home",      labelEs: "Inicio" },
@@ -32,8 +33,11 @@ export function BottomNav({ lang }: { lang: Lang }) {
   });
 
   return (
-    <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/50 backdrop-blur-2xl backdrop-saturate-[180%] border-t border-white/50 shadow-[0_-4px_24px_-4px_rgba(0,0,0,0.05)]">
-      <div className="mx-auto flex max-w-[400px] w-full items-center justify-between px-4 pt-2 pb-[calc(env(safe-area-inset-bottom)+0.75rem)]">
+    <nav
+      aria-label={ts("nav.bottom", lang)}
+      className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/80 backdrop-blur-2xl backdrop-saturate-[180%] border-t border-white/50 shadow-[0_-4px_24px_-4px_rgba(0,0,0,0.05)]"
+    >
+      <div className="mx-auto flex max-w-[440px] w-full items-stretch justify-between gap-0.5 overflow-x-auto px-1.5 pt-1.5 pb-[calc(env(safe-area-inset-bottom)+0.5rem)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {visibleItems.map(({ id, icon: Icon, href, labelEn, labelEs }) => {
           const fullHref = `/${lang}${href}`;
           const isActive =
@@ -46,8 +50,8 @@ export function BottomNav({ lang }: { lang: Lang }) {
               key={id}
               href={fullHref}
               aria-current={isActive ? "page" : undefined}
-              className={`relative flex flex-col items-center justify-center rounded-[14px] px-2.5 py-1.5 transition-colors ${
-                isActive ? "text-white" : "text-stone-500 hover:text-stone-700"
+              className={`relative flex min-h-[52px] min-w-[48px] flex-auto shrink-0 flex-col items-center justify-center rounded-[14px] px-1 py-1.5 transition-colors ${
+                isActive ? "text-white" : "text-stone-600 hover:text-stone-800"
               }`}
             >
               {isActive &&
@@ -61,8 +65,8 @@ export function BottomNav({ lang }: { lang: Lang }) {
                   />
                 ))}
               <div className="relative z-10 flex flex-col items-center gap-1">
-                <Icon className={`h-5 w-5 shrink-0 ${isActive ? "stroke-[2.5]" : "stroke-[1.75]"}`} />
-                <span className="text-[9px] font-semibold leading-none tracking-wide whitespace-nowrap">
+                <Icon aria-hidden="true" className={`h-5 w-5 shrink-0 ${isActive ? "stroke-[2.5]" : "stroke-[2]"}`} />
+                <span className="whitespace-nowrap text-[12px] font-semibold leading-none tracking-tight">
                   {lang === "es" ? labelEs : labelEn}
                 </span>
               </div>
@@ -110,7 +114,7 @@ export function SideNav({ lang }: { lang: Lang }) {
       <div className="mx-3 h-px bg-white/10 mb-2" />
 
       {/* Nav items */}
-      <nav className="flex-1 px-2 flex flex-col gap-0.5">
+      <nav aria-label={ts("nav.side", lang)} className="flex-1 px-2 flex flex-col gap-0.5">
         {visibleItems.map(({ id, icon: Icon, href, en, es }) => {
           const fullHref = `/${lang}${href}`;
           const isActive =
@@ -123,7 +127,7 @@ export function SideNav({ lang }: { lang: Lang }) {
               key={id}
               href={fullHref}
               aria-current={isActive ? "page" : undefined}
-              className={`inline-flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-all ${
+              className={`inline-flex min-h-[44px] items-center gap-2.5 px-3 py-2 rounded-xl text-sm font-medium transition-all ${
                 isActive
                   ? "bg-white/15 text-white shadow-sm"
                   : "text-white/60 hover:bg-white/8 hover:text-white/90"
@@ -145,36 +149,38 @@ export function SideNav({ lang }: { lang: Lang }) {
       {/* Footer */}
       <div className="mx-3 h-px bg-white/10 mb-3" />
       <div className="px-3 pb-5">
-        <div className="text-[10px] text-white/35 leading-relaxed tracking-wide mb-3">
+        <div className="text-[11px] text-white/70 leading-relaxed tracking-wide mb-1">
           {lang === "es"
             ? "Sin registro · Nada sale de tu dispositivo"
             : "No sign-up · Nothing leaves your device"}
         </div>
+        {/* Start over wipes the saved age + county, so it always asks first. */}
         {!confirmOpen ? (
           <button
             type="button"
             onClick={() => setConfirmOpen(true)}
-            className="text-[10px] text-white/35 hover:text-white/60 transition-colors tracking-wide"
+            className="-ml-1 inline-flex min-h-[44px] items-center rounded-lg px-1 text-[13px] font-semibold text-white/85 underline underline-offset-2 hover:text-white transition-colors"
           >
-            ↩ {lang === "es" ? "Empezar de nuevo" : "Start over"}
+            {ts("reset.button", lang)}
           </button>
         ) : (
-          <div className="text-[10px] text-white/50 tracking-wide flex items-center gap-2">
-            <span>{lang === "es" ? "¿Borrar todo?" : "Clear all?"}</span>
+          <div className="flex flex-col gap-1.5" role="group" aria-label={ts("reset.button", lang)}>
+            <p role="status" className="text-[12px] font-semibold leading-snug text-white">
+              {ts("reset.confirm", lang)}
+            </p>
             <button
               type="button"
-              onClick={() => { reset(); router.push('/'); }}
-              className="text-white/70 hover:text-white font-bold transition-colors"
+              onClick={() => { reset(); router.push("/"); }}
+              className="min-h-[44px] rounded-xl bg-white px-2 text-[13px] font-bold leading-tight text-[#1B3A5C] hover:bg-white/90 transition-colors"
             >
-              {lang === "es" ? "Sí" : "Yes"}
+              {ts("reset.yes", lang)}
             </button>
-            <span>·</span>
             <button
               type="button"
               onClick={() => setConfirmOpen(false)}
-              className="text-white/35 hover:text-white/60 transition-colors"
+              className="min-h-[44px] rounded-xl bg-white/15 px-2 text-[13px] font-bold text-white hover:bg-white/25 transition-colors"
             >
-              {lang === "es" ? "No" : "No"}
+              {ts("reset.no", lang)}
             </button>
           </div>
         )}

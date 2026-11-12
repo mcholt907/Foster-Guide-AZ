@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Lock, ArrowRight, CheckCircle2 } from "lucide-react";
-import { HelpNow } from "../components/HelpNow";
+import { HelpNow } from "../../components/HelpNow";
 
 export default function RootPage() {
   const [selected, setSelected] = useState<"en" | "es" | null>(null);
@@ -17,7 +17,7 @@ export default function RootPage() {
   return (
     <div className="min-h-svh bg-[#FDF9F3] text-[#35322d] font-['Outfit',_sans-serif] flex justify-center items-center">
       <HelpNow lang={selected ?? "en"} placement="top" />
-      <div className="w-full max-w-[480px] min-h-svh max-h-svh overflow-y-auto shadow-2xl bg-[#FDF9F3] relative flex flex-col overflow-x-hidden">
+      <main className="w-full max-w-[480px] min-h-svh max-h-svh overflow-y-auto shadow-2xl bg-[#FDF9F3] relative flex flex-col overflow-x-hidden">
 
         {/* Top area — icon + headline */}
         <div className="px-6 pt-16 pb-[clamp(0.5rem,1.5vh,1.5rem)] flex flex-col items-center relative z-10 w-full text-center flex-1 justify-center">
@@ -33,13 +33,13 @@ export default function RootPage() {
             />
           </div>
 
-          <div className="text-[#136d41] font-extrabold text-[11px] mb-[clamp(0.5rem,1.5vh,1rem)] uppercase tracking-[0.2em] bg-[#136d41]/10 px-4 py-1.5 rounded-full">
+          <div className="text-[#136d41] font-extrabold text-xs mb-[clamp(0.5rem,1.5vh,1rem)] uppercase tracking-[0.2em] bg-[#136d41]/10 px-4 py-1.5 rounded-full">
             FosterHub AZ
           </div>
 
-          <h2 className="text-[clamp(1.75rem,5vh,2.75rem)] font-extrabold text-[#115e59] mb-[clamp(0.5rem,1.5vh,1rem)] leading-[1.1]">
+          <h1 className="text-[clamp(1.75rem,5vh,2.75rem)] font-extrabold text-[#115e59] mb-[clamp(0.5rem,1.5vh,1rem)] leading-[1.1]">
             {selected === "es" ? "Este lugar es\npara ti." : "This place is\nfor you."}
-          </h2>
+          </h1>
 
           <p className="text-slate-600 font-medium text-[clamp(0.9rem,1.8vh,1.125rem)] leading-relaxed max-w-sm mb-[clamp(0.75rem,2vh,1.5rem)] px-2">
             {selected === "es"
@@ -57,9 +57,9 @@ export default function RootPage() {
         <div className="bg-white rounded-t-[2.5rem] px-8 pt-[clamp(1rem,2.5vh,2rem)] pb-[clamp(1rem,3vh,2.5rem)] shadow-[0_-15px_40px_-15px_rgba(0,0,0,0.05)] relative z-20 flex flex-col shrink-0">
 
           <div className="flex items-center justify-between mb-[clamp(0.75rem,2vh,1.5rem)]">
-            <h3 className="text-2xl font-extrabold text-[#35322d]">
+            <h2 className="text-2xl font-extrabold text-[#35322d]">
               {selected === "es" ? "Elige tu idioma" : "Select language"}
-            </h3>
+            </h2>
             <div className="flex gap-1.5">
               <div className="w-8 h-2 rounded-full bg-[#136d41]" />
               <div className="w-2 h-2 rounded-full bg-slate-200" />
@@ -80,7 +80,7 @@ export default function RootPage() {
                   <CheckCircle2 size={22} className="fill-[#f59e0b] text-white" />
                 </div>
               )}
-              <span className={`font-extrabold text-2xl tracking-tight ${selected === "en" ? "text-[#78350f]" : "text-slate-500"}`}>
+              <span className={`font-extrabold text-2xl tracking-tight ${selected === "en" ? "text-[#78350f]" : "text-slate-600"}`}>
                 English
               </span>
               {selected === "en" && (
@@ -101,7 +101,7 @@ export default function RootPage() {
                   <CheckCircle2 size={22} className="fill-[#0284c7] text-white" />
                 </div>
               )}
-              <span className={`font-extrabold text-2xl tracking-tight ${selected === "es" ? "text-[#0c4a6e]" : "text-slate-500"}`}>
+              <span className={`font-extrabold text-2xl tracking-tight ${selected === "es" ? "text-[#0c4a6e]" : "text-slate-600"}`}>
                 Español
               </span>
               {selected === "es" && (
@@ -122,7 +122,7 @@ export default function RootPage() {
           </div>
 
         </div>
-      </div>
+      </main>
     </div>
   );
 }
