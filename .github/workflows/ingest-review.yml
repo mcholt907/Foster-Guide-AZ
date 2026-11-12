@@ -1,4 +1,18 @@
 name: Ingest Review Report
+
+# SAFETY: scripts/ingest-review.ts --apply edits the live site's data
+# (web/src/data/*.ts — links AND phone numbers), so this workflow must never
+# push to the default branch (it auto-deploys to production). All changes go
+# to the `ingest-review` branch and a pull request that a person reviews and
+# merges. No auto-merge, no [skip ci].
+#
+# Repo requirements (same as auto-reverify.yml):
+#   - Settings → Actions → General → "Allow GitHub Actions to create and
+#     approve pull requests" must be enabled, or the PR step fails.
+#   - PRs opened with the default GITHUB_TOKEN do not trigger other workflows.
+#     Add a fine-grained PAT as the secret AUTO_REVERIFY_TOKEN to have the PR
+#     checks start by themselves; without it, close and reopen the PR.
+
 on:
   schedule:
     - cron: "0 8 * * 2" # Every Tuesday at 8:00 UTC
@@ -6,18 +20,29 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
   issues: write
+
+concurrency:
+  group: ingest-review
+  cancel-in-progress: false
+
+env:
+  PR_BRANCH: ingest-review
+  BASE_BRANCH: ${{ github.event.repository.default_branch }}
 
 jobs:
   ingest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.AUTO_REVERIFY_TOKEN || github.token }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Install tsx
         run: npm install -g tsx
@@ -26,13 +51,14 @@ jobs:
 
       - name: Check for reviewed report
         id: check
+        shell: bash
         run: |
           if [ -f docs/revalidation-report-reviewed.md ]; then
-            echo "found=true" >> $GITHUB_OUTPUT
-            echo "✅ Reviewed report found"
+            echo "found=true" >> "$GITHUB_OUTPUT"
+            echo "Reviewed report found"
           else
-            echo "found=false" >> $GITHUB_OUTPUT
-            echo "📭 No reviewed report found — nothing to ingest"
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "No reviewed report found — nothing to ingest"
           fi
 
       # ── Step 2: Run ingestion ───────────────────────────────────────────
@@ -40,51 +66,111 @@ jobs:
       - name: Ingest reviewed report
         if: steps.check.outputs.found == 'true'
         id: ingest
-        run: npx tsx scripts/ingest-review.ts --apply 2>&1 | tee /tmp/ingestion-output.txt
+        shell: bash
+        run: |
+          set -o pipefail
+          npx tsx scripts/ingest-review.ts --apply 2>&1 | tee /tmp/ingestion-output.txt
         continue-on-error: true
 
-      # ── Step 3: Commit changes ──────────────────────────────────────────
+      # ── Step 3: Open (or update) a pull request — never push to master ──
 
-      - name: Commit changes
+      - name: Open or update pull request
         if: steps.check.outputs.found == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.AUTO_REVERIFY_TOKEN || github.token }}
         run: |
+          set -euo pipefail
+          TODAY=$(date -u +%F)
+
+          # Only the files the script is allowed to change. Never `git add -A`.
+          DATA_FILES=(web/src/data/resources.ts web/src/data/constants.ts web/src/data/docs.ts)
+          git add -- "${DATA_FILES[@]}"
+
+          if git diff --staged --quiet; then
+            echo "No data file changes — no pull request needed."
+            git status --short
+            exit 0
+          fi
+
+          # Data changed: ship the log, the archived review and a fresh report in the same PR.
+          npx tsx scripts/generate-freshness-report.ts || echo "::warning::freshness report generation failed"
+          for f in docs/ingestion-log.md docs/freshness-report.md docs/revalidation-report-reviewed.md docs/archive; do
+            git add -A -- "$f" 2>/dev/null || true
+          done
+
+          VALIDATION="passed"
+          if ! npx tsx scripts/validate-content.ts > /tmp/validate-output.txt 2>&1; then
+            VALIDATION="FAILED — see the workflow run log before merging"
+            cat /tmp/validate-output.txt
+          fi
+
+          echo "Files in this pull request:"
+          git diff --staged --name-only
+
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add -A
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "chore: ingest reviewed revalidation corrections [skip ci]
+          git checkout -B "$PR_BRANCH"
+          git commit -m "chore: ingest reviewed revalidation corrections ($TODAY)" \
+            -m "Applied corrections from docs/revalidation-report-reviewed.md with scripts/ingest-review.ts. Needs human review before merge. See docs/ingestion-log.md."
+          git push --force origin "$PR_BRANCH"
 
-          Applied corrections from docs/revalidation-report-reviewed.md.
-          See docs/ingestion-log.md for details."
-            git push
-            echo "✅ Changes committed and pushed"
+          {
+            echo "Corrections from \`docs/revalidation-report-reviewed.md\`, applied by \`scripts/ingest-review.ts\`. **A person must review this before merging — merging deploys to production.**"
+            echo
+            echo "- This can change links **and phone numbers**. Check every changed phone number against the organization's own website before merging."
+            echo "- Content validation run by this workflow: **$VALIDATION**."
+            echo "- If the PR checks did not start, close and reopen this PR to trigger them."
+            echo
+            echo "Workflow run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo
+            echo "---"
+            echo
+            if [[ -f docs/ingestion-log.md ]]; then
+              head -c 55000 docs/ingestion-log.md
+            else
+              echo "(No ingestion log was generated — see the workflow run log.)"
+            fi
+          } > /tmp/pr-body.md
+
+          TITLE="chore: ingest reviewed corrections — review needed ($TODAY)"
+          PR_NUMBER=$(gh pr list --head "$PR_BRANCH" --base "$BASE_BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [[ -n "$PR_NUMBER" ]]; then
+            gh pr edit "$PR_NUMBER" --title "$TITLE" --body-file /tmp/pr-body.md
+            echo "Updated pull request #$PR_NUMBER"
+          else
+            gh pr create --base "$BASE_BRANCH" --head "$PR_BRANCH" --title "$TITLE" --body-file /tmp/pr-body.md
           fi
 
-      # ── Step 4: Regenerate reports ──────────────────────────────────────
+      # ── Step 4: One issue (updated in place) if ingestion had failures ──
 
-      - name: Regenerate reports
-        if: steps.check.outputs.found == 'true'
-        run: |
-          npx tsx scripts/generate-freshness-report.ts
-          git add docs/freshness-report.md
-          if git diff --staged --quiet; then
-            echo "No report changes"
-          else
-            git commit -m "docs: update freshness report after review ingestion [skip ci]"
-            git push
-          fi
-
-      # ── Step 5: Create issue if ingestion had failures ──────────────────
-
-      - name: Create issue on failure
+      - name: Report ingestion failures
         if: steps.check.outputs.found == 'true' && steps.ingest.outcome == 'failure'
-        uses: peter-evans/create-issue-from-file@v5
-        with:
-          title: "📥 Review ingestion had failures — check ingestion log"
-          content-filepath: /tmp/ingestion-output.txt
-          labels: |
-            content-freshness
-            ingestion-error
-            auto-detected
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          {
+            echo "Some corrections in \`docs/revalidation-report-reviewed.md\` could not be applied. Nothing was pushed to the default branch."
+            echo
+            echo "Workflow run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo
+            echo '```'
+            tail -c 50000 /tmp/ingestion-output.txt
+            echo '```'
+          } > /tmp/issue-body.md
+          NUMBER=$(gh issue list --repo "$GITHUB_REPOSITORY" --label ingestion-error --state open \
+            --json number --jq 'sort_by(.number) | .[0].number // empty')
+          if [[ -n "$NUMBER" ]]; then
+            gh issue edit "$NUMBER" --repo "$GITHUB_REPOSITORY" --body-file /tmp/issue-body.md
+            echo "Updated issue #$NUMBER"
+          else
+            for label in content-freshness ingestion-error auto-detected; do
+              gh label create "$label" --repo "$GITHUB_REPOSITORY" 2>/dev/null || true
+            done
+            gh issue create --repo "$GITHUB_REPOSITORY" \
+              --title "Review ingestion had failures — check ingestion log" \
+              --body-file /tmp/issue-body.md \
+              --label content-freshness --label ingestion-error --label auto-detected
+          fi

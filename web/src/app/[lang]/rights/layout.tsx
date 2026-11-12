@@ -1,5 +1,24 @@
 import type { Metadata } from "next";
 import { RIGHTS } from "../../../data/rights";
+import { baseMetadata } from "../../../lib/siteMetadata";
+
+const SITE = "https://www.fosterhubaz.com";
+const PATH = "/rights";
+
+// The count comes from the data, so the description never goes stale when a
+// right is added to data/rights.ts.
+const COUNT = RIGHTS.length;
+
+const COPY = {
+  en: {
+    title: "What Are Your Rights in Foster Care?",
+    description: `Arizona law gives you real rights in foster care. Read all ${COUNT} in plain words — like being safe, seeing your siblings, your privacy, and having a say in your case.`,
+  },
+  es: {
+    title: "¿Cuáles son tus derechos en el cuidado de crianza?",
+    description: `La ley de Arizona te da derechos reales en el cuidado de crianza. Lee los ${COUNT} en palabras sencillas — como estar a salvo, ver a tus hermanos y tener voz en tu caso.`,
+  },
+} as const;
 
 export async function generateMetadata({
   params,
@@ -7,19 +26,32 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const { lang } = await params;
-  if (lang === "es") {
-    return {
-      title: "¿Cuáles son tus derechos en el cuidado de crianza?",
-      description: "La ley de Arizona te da derechos reales — como hablar con tu abogado, ver a tus hermanos y tener voz en tu caso. Descúbrelos en palabras sencillas.",
-      alternates: { canonical: "https://www.fosterhubaz.com/es/rights", languages: { "en": "https://www.fosterhubaz.com/en/rights", "es": "https://www.fosterhubaz.com/es/rights" } },
-    };
-  }
+  const l = lang === "es" ? "es" : "en";
+  const { title, description } = COPY[l];
+  const url = `${SITE}/${l}${PATH}`;
   return {
-    title: "What Are Your Rights in Foster Care?",
-    description: "Arizona law gives you real rights — like the right to talk to your lawyer, see your siblings, and have a say in your case. Find out what they are, in plain words.",
-    alternates: { canonical: "https://www.fosterhubaz.com/en/rights", languages: { "en": "https://www.fosterhubaz.com/en/rights", "es": "https://www.fosterhubaz.com/es/rights" } },
+    title,
+    description,
+    alternates: {
+      canonical: url,
+      languages: { en: `${SITE}/en${PATH}`, es: `${SITE}/es${PATH}`, "x-default": `${SITE}/en${PATH}` },
+    },
+    // Set in full: a child `openGraph` replaces the parent's, image included.
+    openGraph: {
+      ...baseMetadata.openGraph,
+      title,
+      description,
+      url,
+      locale: l === "es" ? "es_MX" : "en_US",
+      alternateLocale: l === "es" ? "en_US" : "es_MX",
+    },
+    twitter: { ...baseMetadata.twitter, title, description },
   };
 }
+
+// The page shows the 13-15 wording when no age has been picked (search engines,
+// first visits), so the FAQ data uses the same tier and matches what is on screen.
+const FAQ_TIER = "13-15" as const;
 
 export default async function Layout({
   children,
@@ -31,31 +63,30 @@ export default async function Layout({
   const { lang } = await params;
   const isEs = lang === "es";
 
-  // FAQPage schema using the 16-17 tier as the default plain-language voice
-  const faqItems = RIGHTS.map((right) => ({
-    "@type": "Question",
-    name: isEs
-      ? `${right.title_es} — ${right.citation}`
-      : `${right.title} (${right.citation})`,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: isEs
-        ? right.tiers["16-17"].plain_es
-        : right.tiers["16-17"].plain,
-    },
-  }));
-
+  // One FAQ entry per right in data/rights.ts — all of them, built from the data.
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqItems,
+    inLanguage: isEs ? "es" : "en",
+    mainEntity: RIGHTS.map((right) => {
+      const tier = right.tiers[FAQ_TIER];
+      return {
+        "@type": "Question",
+        name: isEs ? `${right.title_es} (${right.citation})` : `${right.title} (${right.citation})`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: isEs ? `${tier.plain_es} ${tier.example_es}` : `${tier.plain} ${tier.example}`,
+        },
+      };
+    }),
   };
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        // Escape "<" so data text can never close the script tag.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
       {children}
     </>

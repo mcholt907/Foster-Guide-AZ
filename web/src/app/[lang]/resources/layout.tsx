@@ -1,4 +1,23 @@
 import type { Metadata } from "next";
+import { baseMetadata } from "../../../lib/siteMetadata";
+
+// Metadata only: this route's page is a client component, so its title,
+// description, canonical and hreflang links live here.
+const SITE = "https://www.fosterhubaz.com";
+const PATH = "/resources";
+
+const COPY = {
+  en: {
+    title: "Find Help Near You — Arizona Foster Youth Resources",
+    description:
+      "Real organizations in Arizona that help foster youth with housing, school, legal help, jobs, and more. Filtered for your age and county — free to use.",
+  },
+  es: {
+    title: "Ayuda cerca de ti para jóvenes en cuidado de crianza — Arizona",
+    description:
+      "Organizaciones reales en Arizona que ayudan a jóvenes en cuidado de crianza con vivienda, escuela, ayuda legal, trabajo y más. Filtradas para tu edad y condado.",
+  },
+} as const;
 
 export async function generateMetadata({
   params,
@@ -6,17 +25,26 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const { lang } = await params;
-  if (lang === "es") {
-    return {
-      title: "Encuentra Ayuda Cerca de Ti — Arizona",
-      description: "Organizaciones reales en Arizona que ayudan a jóvenes en cuidado de crianza con vivienda, escuela, ayuda legal, trabajo y más. Filtradas para tu edad y condado.",
-      alternates: { canonical: "https://www.fosterhubaz.com/es/resources", languages: { "en": "https://www.fosterhubaz.com/en/resources", "es": "https://www.fosterhubaz.com/es/resources" } },
-    };
-  }
+  const l = lang === "es" ? "es" : "en";
+  const { title, description } = COPY[l];
+  const url = `${SITE}/${l}${PATH}`;
   return {
-    title: "Find Help Near You — Arizona Foster Youth Resources",
-    description: "Real organizations in Arizona that help foster youth with housing, school, legal help, jobs, and more. Filtered for your age and county — free to use.",
-    alternates: { canonical: "https://www.fosterhubaz.com/en/resources", languages: { "en": "https://www.fosterhubaz.com/en/resources", "es": "https://www.fosterhubaz.com/es/resources" } },
+    title,
+    description,
+    alternates: {
+      canonical: url,
+      languages: { en: `${SITE}/en${PATH}`, es: `${SITE}/es${PATH}`, "x-default": `${SITE}/en${PATH}` },
+    },
+    // Set in full: a child `openGraph` replaces the parent's, image included.
+    openGraph: {
+      ...baseMetadata.openGraph,
+      title,
+      description,
+      url,
+      locale: l === "es" ? "es_MX" : "en_US",
+      alternateLocale: l === "es" ? "en_US" : "es_MX",
+    },
+    twitter: { ...baseMetadata.twitter, title, description },
   };
 }
 

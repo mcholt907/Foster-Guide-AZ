@@ -28,11 +28,16 @@
 import * as fs from "fs";
 import * as path from "path";
 
+// Works under `npx tsx` (CommonJS, where __dirname exists) and under plain
+// `node scripts/x.ts` on Node 22+ (ES module, where it does not).
+const SCRIPT_DIR: string =
+  typeof __dirname !== "undefined" ? __dirname : path.dirname(path.resolve(process.argv[1] ?? "scripts/x.ts"));
+
 // ── Config ───────────────────────────────────────────────────────────────────
 
 const TODAY = new Date().toISOString().split("T")[0]!;
 const APPLY = process.argv.includes("--apply");
-const ROOT = path.resolve(__dirname, "..");
+const ROOT = path.resolve(SCRIPT_DIR, "..");
 const REVIEWED_PATH = path.join(ROOT, "docs", "revalidation-report-reviewed.md");
 const LOG_PATH = path.join(ROOT, "docs", "ingestion-log.md");
 
@@ -62,7 +67,6 @@ interface ApplyResult {
 
 function buildEntryMap(): void {
   const files = [
-    { path: "server/src/data/resources.ts", nameField: "name" },
     { path: "web/src/data/resources.ts", nameField: "name" },
     { path: "web/src/data/constants.ts", nameField: "name" },
     { path: "web/src/data/docs.ts", nameField: "label" },
@@ -92,8 +96,9 @@ function findFile(entryName: string): string {
     if (name.includes(entryName) || entryName.includes(name)) return file;
   }
 
-  // Default to server resources
-  return "server/src/data/resources.ts";
+  // Default to the live site's resource directory. If the entry is not in
+  // it, the update fails with "not found" and nothing is changed.
+  return "web/src/data/resources.ts";
 }
 
 // ── Parser: Format A (flat corrections table) ────────────────────────────────
@@ -358,7 +363,6 @@ function applyUpdate(
 
   // Map field names based on file
   let actualField = field;
-  if (filePath.includes("server/") && field === "url") actualField = "website";
   if (filePath.includes("web/src/data/resources") && field === "website") actualField = "url";
   if (filePath.includes("web/src/data/constants") && field === "website") actualField = "url";
 

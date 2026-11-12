@@ -1,11 +1,21 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { BandShell } from "../../components/BandShell";
-import { LangSync } from "../../components/LangSync";
+import { RootDocument } from "../../components/RootDocument";
+import { baseMetadata, baseViewport } from "../../lib/siteMetadata";
+
+// This is a ROOT layout (there is no app/layout.tsx): it renders <html> so the
+// server-sent HTML carries lang="es" for /es/* pages. The `/` language picker
+// has its own root layout in app/(picker)/layout.tsx.
 
 export function generateStaticParams() {
   return [{ lang: "en" }, { lang: "es" }];
 }
+
+// Only /en and /es exist; anything else is a 404 without rendering.
+export const dynamicParams = false;
+
+export const viewport: Viewport = baseViewport;
 
 export async function generateMetadata({
   params,
@@ -17,6 +27,7 @@ export async function generateMetadata({
   // Sub-pages set their own correct alternates in their own layout.tsx files.
   if (lang === "es") {
     return {
+      ...baseMetadata,
       title: "FosterHub AZ — Ayuda para Jóvenes en Cuidado de Crianza",
       description:
         "¿Tienes dudas sobre el cuidado de crianza? Aprende qué está pasando en tu caso, conoce tus derechos y planifica tu futuro. Gratis, y nada sale de tu dispositivo.",
@@ -28,6 +39,7 @@ export async function generateMetadata({
     };
   }
   return {
+    ...baseMetadata,
     title: "FosterHub AZ — Help for Arizona Foster Youth",
     description:
       "Confused about foster care? Learn what's happening in your case, find out your rights, and get help with what comes next. Free, and nothing leaves your device.",
@@ -49,15 +61,16 @@ export default async function LangLayout({
   if (lang !== "en" && lang !== "es") notFound();
 
   return (
-    <div className="min-h-screen">
-      <LangSync lang={lang as "en" | "es"} />
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-lg focus:bg-[#1B3A5C] focus:px-4 focus:py-2 focus:text-white focus:shadow-lg"
-      >
-        {lang === "es" ? "Saltar al contenido" : "Skip to content"}
-      </a>
-      <BandShell lang={lang as "en" | "es"}>{children}</BandShell>
-    </div>
+    <RootDocument lang={lang} bandScript>
+      <div className="min-h-screen">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-lg focus:bg-[#1B3A5C] focus:px-4 focus:py-2 focus:text-white focus:shadow-lg"
+        >
+          {lang === "es" ? "Saltar al contenido" : "Skip to content"}
+        </a>
+        <BandShell lang={lang}>{children}</BandShell>
+      </div>
+    </RootDocument>
   );
 }

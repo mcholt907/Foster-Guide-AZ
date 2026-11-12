@@ -153,7 +153,7 @@ export function FeelingCheckIn({ lang, band, className }: FeelingCheckInProps) {
       {teen && (
         <>
           <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-emerald-400 to-[#2A7F8E]" />
-          <p className="mb-3 text-[10px] font-black uppercase tracking-[0.4em] text-emerald-700">
+          <p className="mb-3 text-xs font-black uppercase tracking-[0.4em] text-emerald-700">
             {tw("checkin.kicker", lang)}
           </p>
         </>

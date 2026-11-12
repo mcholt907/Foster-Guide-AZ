@@ -116,12 +116,12 @@ function Case1012({ lang }: { lang: Lang }) {
       <div className="-mx-4 px-4 py-4 flex items-center gap-3 sticky top-0 bg-[#FFF9F3]/90 backdrop-blur-md z-30">
         <Link
           href={`/${lang}`}
-          className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 transition-colors shrink-0"
+          className="w-11 h-11 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 transition-colors shrink-0"
           aria-label={lang === "es" ? "Volver" : "Back to home"}
         >
-          <ChevronLeft size={20} className="text-slate-600" />
+          <ChevronLeft size={20} className="text-slate-600" aria-hidden="true" />
         </Link>
-        <h1 className="text-lg font-bold text-[#629DA7] tracking-tight flex-1">
+        <h1 className="text-lg font-bold text-[#1F6470] tracking-tight flex-1">
           {lang === "es" ? "Tu Caso Explicado" : "Your Case Explained"}
         </h1>
       </div>
@@ -130,11 +130,11 @@ function Case1012({ lang }: { lang: Lang }) {
       <div className="text-center mb-10 pt-4">
         <div className="flex justify-center mb-6">
           <div className="w-24 h-24 bg-white rounded-[2rem] shadow-sm border border-black/5 flex items-center justify-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#DDEBFA]/50 to-transparent pointer-events-none" />
+            <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-tr from-[#DDEBFA]/50 to-transparent pointer-events-none" />
             <Image src="/my_case/case_header_icon.png" alt="" width={256} height={256} className="w-24 h-24 object-cover scale-[1.15] mix-blend-multiply" />
           </div>
         </div>
-        <h2 className="text-4xl font-bold text-[#629DA7] mb-3">
+        <h2 className="text-4xl font-bold text-[#1F6470] mb-3">
           {lang === "es" ? "Tu Caso Explicado" : "Your Case Explained"}
         </h2>
         <p className="text-slate-600">
@@ -154,28 +154,32 @@ function Case1012({ lang }: { lang: Lang }) {
           const next = lang === "es" ? stage.nextEs : stage.next;
           return (
             <div key={stage.id} className={`rounded-3xl overflow-hidden shadow-sm border border-black/5 ${stage.bgColor}`}>
+              <h3>
               <button
+                type="button"
+                aria-expanded={isOpen}
                 onClick={() => setOpenStage(isOpen ? null : stage.id)}
                 className="w-full flex items-center gap-4 px-5 py-4 text-left hover:brightness-[0.97] transition-all"
               >
-                <div className="flex-1 flex items-center gap-4">
+                <span className="flex-1 flex items-center gap-4">
                   <Image src={stage.imgIcon} alt="" width={192} height={192} className="w-14 h-14 object-contain drop-shadow-sm scale-[1.1]" />
                   <span className="text-xl font-bold text-gray-800">{title}</span>
-                </div>
-                {isOpen ? <ChevronUp size={20} className="shrink-0 text-gray-500" /> : <ChevronDown size={20} className="shrink-0 text-gray-500" />}
+                </span>
+                {isOpen ? <ChevronUp size={20} className="shrink-0 text-gray-600" aria-hidden="true" /> : <ChevronDown size={20} className="shrink-0 text-gray-600" aria-hidden="true" />}
               </button>
+              </h3>
               {isOpen && (
                 <div className="border-t border-black/5 px-5 pb-5 pt-5 grid gap-4">
                   <div className="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100">
-                    <div className="text-lg font-extrabold text-slate-800 mb-2">👀 {lang === "es" ? "Qué pasa" : "What happens"}</div>
+                    <h4 className="text-lg font-extrabold text-slate-800 mb-2"><span aria-hidden="true">👀</span> {lang === "es" ? "Qué pasa" : "What happens"}</h4>
                     <p className="text-[17px] text-slate-600 leading-relaxed font-medium">{what}</p>
                   </div>
                   <div className="bg-[#fffdf5] border-2 border-[#fbbf24] rounded-[2rem] p-6">
-                    <div className="text-lg font-extrabold text-[#b45309] mb-2">✋ {lang === "es" ? "Tu turno" : "Your turn"}</div>
+                    <h4 className="text-lg font-extrabold text-[#b45309] mb-2"><span aria-hidden="true">✋</span> {lang === "es" ? "Tu turno" : "Your turn"}</h4>
                     <p className="text-[17px] text-[#78350f] leading-relaxed font-medium">{forYou}</p>
                   </div>
                   <div className={`${stage.accentColor}/50 border-2 border-white rounded-[2rem] p-6`}>
-                    <div className="text-lg font-extrabold text-slate-800 mb-2">➡️ {lang === "es" ? "Qué sigue" : "What's next"}</div>
+                    <h4 className="text-lg font-extrabold text-slate-800 mb-2"><span aria-hidden="true">➡️</span> {lang === "es" ? "Qué sigue" : "What's next"}</h4>
                     <p className="text-[17px] text-slate-700 leading-relaxed font-medium">{next}</p>
                   </div>
                 </div>
@@ -198,13 +202,17 @@ function Case1012({ lang }: { lang: Lang }) {
           const a = lang === "es" ? faq.aEs : faq.a;
           return (
             <div key={idx} className="bg-[#DDEBFA]/50 border-2 border-[#DDEBFA] rounded-[2rem] overflow-hidden text-[#1E3A5F]">
+              <h3>
               <button
+                type="button"
+                aria-expanded={isOpen}
                 onClick={() => setOpenFAQ(isOpen ? null : idx)}
-                className="w-full flex items-center justify-between px-6 py-5 text-left font-extrabold text-lg transition-colors hover:bg-[#DDEBFA]"
+                className="w-full flex items-center justify-between gap-3 px-6 py-5 text-left font-extrabold text-lg transition-colors hover:bg-[#DDEBFA]"
               >
                 <span>{q}</span>
-                {isOpen ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
+                {isOpen ? <ChevronUp size={24} className="shrink-0" aria-hidden="true" /> : <ChevronDown size={24} className="shrink-0" aria-hidden="true" />}
               </button>
+              </h3>
               {isOpen && (
                 <div className="px-6 pb-6 pt-2 text-[17px] font-medium leading-relaxed bg-white border-x-2 border-b-2 border-[#DDEBFA] rounded-b-[2rem] shadow-sm">
                   {a}
@@ -216,7 +224,7 @@ function Case1012({ lang }: { lang: Lang }) {
       </div>
 
       {/* Safe notice */}
-      <div className="rounded-3xl bg-slate-50 border-2 border-slate-100 px-6 py-5 text-[15px] font-medium text-slate-500 text-center leading-relaxed">
+      <div className="rounded-3xl bg-slate-50 border-2 border-slate-100 px-6 py-5 text-[15px] font-medium text-slate-600 text-center leading-relaxed">
         {lang === "es"
           ? "Esta es información general, no consejo legal. Habla con tu abogado/a sobre tu caso — está ahí para ayudarte."
           : "This is general information, not legal advice. Talk to your lawyer about your case — they're there to help you."}

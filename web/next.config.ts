@@ -1,17 +1,4 @@
 import type { NextConfig } from "next";
-import withPWAInit from "@ducanh2912/next-pwa";
-
-const withPWA = withPWAInit({
-  dest: "public",
-  cacheOnFrontEndNav: true,
-  aggressiveFrontEndNavCaching: true,
-  reloadOnOnline: true,
-  disable: process.env.NODE_ENV === "development",
-  workboxOptions: {
-    disableDevLogs: true,
-  },
-});
-
 const isDev = process.env.NODE_ENV === "development";
 
 // Content Security Policy — no third-party scripts, no analytics. 'unsafe-inline'
@@ -49,13 +36,25 @@ const nextConfig: NextConfig = {
   trailingSlash: false,
   // Empty turbopack config silences the "webpack config present" warning in Next.js 16
   turbopack: {},
+  // The app has two root layouts, so unmatched URLs need a global 404 page.
+  experimental: { globalNotFound: true },
   async headers() {
     return [
       { source: "/(.*)", headers: securityHeaders },
       { source: "/en/:path*", headers: [{ key: "Content-Language", value: "en" }] },
       { source: "/es/:path*", headers: [{ key: "Content-Language", value: "es" }] },
+      // Service worker: always re-check so offline fixes roll out quickly, and
+      // allow it to control the whole site.
+      {
+        source: "/sw.js",
+        headers: [
+          { key: "Cache-Control", value: "no-cache, no-store, must-revalidate" },
+          { key: "Service-Worker-Allowed", value: "/" },
+          { key: "Content-Type", value: "application/javascript; charset=utf-8" },
+        ],
+      },
     ];
   },
 };
 
-export default withPWA(nextConfig);
+export default nextConfig;

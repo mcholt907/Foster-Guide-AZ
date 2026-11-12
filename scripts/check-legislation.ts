@@ -13,6 +13,11 @@
 import * as fs from "fs";
 import * as path from "path";
 
+// Works under `npx tsx` (CommonJS, where __dirname exists) and under plain
+// `node scripts/x.ts` on Node 22+ (ES module, where it does not).
+const SCRIPT_DIR: string =
+  typeof __dirname !== "undefined" ? __dirname : path.dirname(path.resolve(process.argv[1] ?? "scripts/x.ts"));
+
 // ── Types ────────────────────────────────────────────────────────────────────
 
 interface Statute {
@@ -48,7 +53,7 @@ interface CheckResult {
 // ── Main ─────────────────────────────────────────────────────────────────────
 
 function main(): void {
-  const watchlistPath = path.resolve(__dirname, "watchlist.json");
+  const watchlistPath = path.resolve(SCRIPT_DIR, "watchlist.json");
 
   if (!fs.existsSync(watchlistPath)) {
     console.error("❌ watchlist.json not found at", watchlistPath);

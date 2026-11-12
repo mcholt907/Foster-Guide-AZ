@@ -13,7 +13,7 @@ import type { Lang } from "../../lib/i18n";
 import type { AgeBandKey } from "../../lib/prefs";
 import { tt } from "../../lib/i18n-teen";
 import { TOPIC_CONFIG, type QAEntry, type QACategory } from "../../data/questions";
-import { searchQuestions, isCrisisQuery } from "../../lib/questionSearch";
+import { useQuestionSearch, isCrisisQuery } from "../../lib/questionSearch";
 import { CrisisQuickLinks } from "../CrisisQuickLinks";
 
 const CATEGORY_ICONS: Record<QACategory, LucideIcon> = {
@@ -40,10 +40,11 @@ export function AskTeen({ lang, band }: AskTeenProps) {
   const [openId, setOpenId] = useState<string | null>(null);
 
   // Shared search: matches whole worried sentences, typos, and both languages.
-  const results = useMemo(
-    () => searchQuestions(query, { band, category: activeCat }),
-    [query, activeCat, band]
-  );
+  // Fuse.js loads on first focus/keystroke; until then `results` is the full
+  // list (already in the server HTML) and `pending` is true for a typed search.
+  const { results, pending, preload } = useQuestionSearch(query, { band, category: activeCat });
+  const searchLabel = lang === "es" ? "Buscar respuestas" : "Search answers";
+  const clearLabel = lang === "es" ? "Borrar búsqueda" : "Clear search";
   const showCrisis = useMemo(() => isCrisisQuery(query), [query]);
 
   const visibleTopics = useMemo(
@@ -58,7 +59,7 @@ export function AskTeen({ lang, band }: AskTeenProps) {
 
       {/* Hero + search */}
       <div className="mb-10 sm:mb-20">
-        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-600 mb-4 sm:mb-6">
+        <p className="text-xs font-black uppercase tracking-[0.3em] text-emerald-700 mb-4 sm:mb-6">
           {tt("ask.hero.tag", lang)}
         </p>
         <h1 className="text-4xl sm:text-6xl font-black text-[#1e293b] mb-6 sm:mb-10 tracking-[-0.05em] leading-[0.9]">
@@ -68,25 +69,34 @@ export function AskTeen({ lang, band }: AskTeenProps) {
         <div className="relative group max-w-3xl">
           <div className="absolute inset-x-0 bottom-[-20px] h-10 bg-black/5 blur-2xl rounded-full scale-95 opacity-50 group-hover:opacity-70 transition-opacity" />
           <div className="relative flex items-center">
-            <Search size={22} className="absolute left-5 sm:left-7 text-emerald-500" strokeWidth={3} />
+            <Search size={22} aria-hidden="true" className="absolute left-5 sm:left-7 text-emerald-700" strokeWidth={3} />
             <input
-              type="text"
+              type="search"
+              inputMode="search"
+              enterKeyHint="search"
+              autoComplete="off"
+              aria-label={searchLabel}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              onFocus={preload}
+              onPointerDown={preload}
               placeholder={tt("ask.search.placeholder", lang)}
-              className="w-full bg-white rounded-[1.5rem] sm:rounded-[2rem] py-4 sm:py-8 pl-14 sm:pl-18 pr-14 sm:pr-16 text-base sm:text-xl font-bold text-slate-800 shadow-[0_12px_32px_rgba(0,0,0,0.06)] border border-white focus:outline-none focus:ring-4 focus:ring-emerald-400/10 transition-all placeholder:text-slate-400 placeholder:font-medium text-ellipsis"
+              className="w-full bg-white rounded-[1.5rem] sm:rounded-[2rem] py-4 sm:py-8 pl-14 sm:pl-18 pr-14 sm:pr-16 text-base sm:text-xl font-bold text-slate-800 shadow-[0_12px_32px_rgba(0,0,0,0.06)] border border-white focus:outline-none focus:ring-4 focus:ring-emerald-400/10 transition-all placeholder:text-slate-600 placeholder:font-medium text-ellipsis [&::-webkit-search-cancel-button]:appearance-none"
             />
             {query && (
               <button
                 type="button"
                 onClick={() => setQuery("")}
-                aria-label="Clear"
-                className="absolute right-4 sm:right-5 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:text-slate-700 transition-colors"
+                aria-label={clearLabel}
+                className="absolute right-3 sm:right-4 w-11 h-11 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:text-slate-800 transition-colors"
               >
-                <X size={16} />
+                <X size={16} aria-hidden="true" />
               </button>
             )}
           </div>
+          <p role="status" className="sr-only">
+            {pending ? (lang === "es" ? "Buscando…" : "Searching…") : ""}
+          </p>
         </div>
       </div>
 
@@ -110,14 +120,14 @@ export function AskTeen({ lang, band }: AskTeenProps) {
       {/* Quick Topics */}
       <div className="mb-10 sm:mb-20 overflow-visible">
         <div className="flex items-center justify-between mb-6 px-1">
-          <h3 className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.3em] sm:tracking-[0.4em] text-slate-400">
+          <h3 className="text-xs font-black uppercase tracking-[0.3em] text-slate-600">
             {tt("ask.topics.kicker", lang)}
           </h3>
           <button
             type="button"
             onClick={() => setActiveCat("all")}
-            className={`text-[10px] sm:text-xs font-black uppercase tracking-widest transition-colors ${
-              activeCat === "all" ? "text-emerald-500" : "text-slate-500 hover:text-slate-700"
+            className={`text-xs font-black uppercase tracking-widest transition-colors ${
+              activeCat === "all" ? "text-emerald-700" : "text-slate-600 hover:text-slate-800"
             }`}
           >
             {tt("ask.topics.clear", lang)}
@@ -204,7 +214,7 @@ export function AskTeen({ lang, band }: AskTeenProps) {
                         className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-all ${
                           isOpen
                             ? "bg-emerald-500 text-white"
-                            : "bg-slate-50 text-slate-300 group-hover:bg-white shadow-sm"
+                            : "bg-slate-50 text-slate-500 group-hover:bg-white shadow-sm"
                         }`}
                       >
                         <Icon size={18} />
@@ -214,7 +224,7 @@ export function AskTeen({ lang, band }: AskTeenProps) {
                       </span>
                     </div>
                     <div
-                      className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-slate-50 text-slate-400 transition-transform ${
+                      className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-slate-50 text-slate-600 transition-transform ${
                         isOpen ? "rotate-180 bg-slate-900 text-white" : ""
                       }`}
                     >
@@ -238,12 +248,12 @@ export function AskTeen({ lang, band }: AskTeenProps) {
 
                           <div className="flex flex-wrap items-center gap-3">
                             {q.citations?.map((c, i) => (
-                              <div key={i} className="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 border border-slate-100 text-[10px] font-black text-slate-400 tracking-wider">
+                              <div key={i} className="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 border border-slate-100 text-xs font-black text-slate-600 tracking-wider">
                                 <Scale size={12} /> {c}
                               </div>
                             ))}
                             {topicLabel && (
-                              <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 text-[10px] font-black text-emerald-600 tracking-wider uppercase">
+                              <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 text-xs font-black text-emerald-800 tracking-wider uppercase">
                                 {topicLabel}
                               </div>
                             )}
@@ -275,18 +285,18 @@ export function AskTeen({ lang, band }: AskTeenProps) {
 
             <div className="space-y-4">
               <div className="p-5 rounded-2xl bg-white/5 border border-white/5 group-hover:border-white/10 transition-colors">
-                <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400 block mb-2">
+                <span className="text-xs font-black uppercase tracking-widest text-emerald-300 block mb-2">
                   {tt("ask.advisor.tip1.label", lang)}
                 </span>
-                <p className="text-xs font-bold leading-relaxed text-slate-100 opacity-90">
+                <p className="text-sm font-bold leading-relaxed text-slate-100">
                   {tt("ask.advisor.tip1.body", lang)}
                 </p>
               </div>
               <div className="p-5 rounded-2xl bg-white/5 border border-white/5 group-hover:border-white/10 transition-colors">
-                <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400 block mb-2">
+                <span className="text-xs font-black uppercase tracking-widest text-emerald-300 block mb-2">
                   {tt("ask.advisor.tip2.label", lang)}
                 </span>
-                <p className="text-xs font-bold leading-relaxed text-slate-100 opacity-90">
+                <p className="text-sm font-bold leading-relaxed text-slate-100">
                   {tt("ask.advisor.tip2.body", lang)}
                 </p>
               </div>
@@ -294,14 +304,14 @@ export function AskTeen({ lang, band }: AskTeenProps) {
           </div>
 
           <div className="bg-white/40 backdrop-blur-md rounded-[2.5rem] p-8 sm:p-10 border border-white shadow-sm flex flex-col items-center text-center">
-            <Info size={30} className="text-slate-400 mb-6" />
+            <Info size={30} aria-hidden="true" className="text-slate-500 mb-6" />
             <h5 className="font-black text-[#1e293b] mb-4 tracking-tight">{tt("ask.callout.heading", lang)}</h5>
-            <p className="text-slate-400 text-sm font-medium leading-relaxed mb-8">
+            <p className="text-slate-600 text-sm font-medium leading-relaxed mb-8">
               {tt("ask.callout.body", lang)}
             </p>
             <Link
               href={`/${lang}/team`}
-              className="w-full py-4 rounded-xl bg-slate-900 text-white font-black text-xs uppercase tracking-widest hover:bg-emerald-500 transition-all hover:scale-105 text-center"
+              className="w-full py-4 rounded-xl bg-slate-900 text-white font-black text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all hover:scale-105 text-center"
             >
               {tt("ask.callout.cta", lang)}
             </Link>
@@ -312,11 +322,11 @@ export function AskTeen({ lang, band }: AskTeenProps) {
       {/* Footer quote */}
       <div className="mt-32 sm:mt-40 text-center py-16 sm:py-20 border-t border-slate-100">
         <div className="max-w-xl mx-auto">
-          <span className="text-3xl italic font-black text-slate-200 block mb-6 sm:mb-8">&ldquo;</span>
+          <span aria-hidden="true" className="text-3xl italic font-black text-slate-200 block mb-6 sm:mb-8">&ldquo;</span>
           <p className="text-xl sm:text-2xl font-black text-[#1e293b] tracking-tight leading-tight mb-6 sm:mb-8">
             {tt("ask.footer.quote", lang)}
           </p>
-          <span className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-300">
+          <span className="text-xs font-black uppercase tracking-[0.3em] text-slate-600">
             {tt("ask.footer.tag", lang)}
           </span>
         </div>

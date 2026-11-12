@@ -59,7 +59,7 @@ export function PrimaryButton({
 }) {
   const cls =
     variant === "amber"
-      ? "bg-[#D97706] hover:bg-[#c96a00] text-white"
+      ? "bg-[#B45309] hover:bg-[#92400E] text-white"
       : variant === "teal"
         ? "bg-[#2A7F8E] hover:bg-[#236d7a] text-white"
         : "bg-[#1B3A5C] hover:bg-[#152e49] text-white";
@@ -67,10 +67,10 @@ export function PrimaryButton({
     <button
       type="button"
       onClick={onClick}
-      className={`w-full rounded-2xl px-4 py-3.5 text-sm font-bold shadow-[0_4px_16px_rgb(0,0,0,0.1)] active:scale-[0.99] transition-all ${cls}`}
+      className={`w-full min-h-11 rounded-2xl px-4 py-3.5 text-sm font-bold shadow-[0_4px_16px_rgb(0,0,0,0.1)] active:scale-[0.99] transition-all ${cls}`}
     >
       <span className="flex items-center justify-center gap-2">
-        {Icon ? <Icon className="h-4 w-4" /> : null}
+        {Icon ? <Icon className="h-4 w-4" aria-hidden="true" /> : null}
         {children}
       </span>
     </button>
@@ -104,11 +104,11 @@ export function SectionTitle({
     <div className="flex items-start justify-between gap-3">
       <div className="flex items-start gap-3">
         <div className={`mt-0.5 rounded-2xl p-2 shadow-sm ring-1 ring-black/5 ${iconClassName ?? "bg-white/60"}`}>
-          <Icon className="h-5 w-5" />
+          <Icon className="h-5 w-5" aria-hidden="true" />
         </div>
         <div>
           <div className="text-lg font-semibold leading-tight text-[#1B3A5C]">{title}</div>
-          {subtitle ? <div className="mt-0.5 text-sm text-slate-500">{subtitle}</div> : null}
+          {subtitle ? <div className="mt-0.5 text-sm text-slate-600">{subtitle}</div> : null}
         </div>
       </div>
       {right}
@@ -141,24 +141,25 @@ export function ScreenHero({
 }) {
   return (
     <div className={`relative overflow-hidden rounded-[32px] bg-gradient-to-br ${gradient} p-6 shadow-lg shadow-black/10`}>
-      <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
-      <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-black/10 blur-2xl" />
+      <div aria-hidden="true" className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
+      <div aria-hidden="true" className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-black/10 blur-2xl" />
       
       <div className="relative z-10 flex items-start justify-between mb-4">
         <div className="rounded-2xl bg-white/20 p-2.5 backdrop-blur-md shadow-sm">
-          <Icon className="h-6 w-6 text-white" />
+          <Icon className="h-6 w-6 text-white" aria-hidden="true" />
         </div>
         {onStartOver ? (
           <button
+            type="button"
             onClick={onStartOver}
-            className="rounded-xl bg-white/20 px-3.5 py-1.5 text-[13px] font-bold tracking-wide text-white/95 hover:bg-white/30 backdrop-blur-md transition-all shadow-sm"
+            className="inline-flex min-h-11 items-center rounded-xl bg-black/20 px-3.5 py-1.5 text-sm font-bold tracking-wide text-white hover:bg-black/30 backdrop-blur-md transition-all shadow-sm"
           >
             {lang === "es" ? "Empezar de nuevo" : "Start over"}
           </button>
         ) : right}
       </div>
       <h1 className="relative z-10 text-[26px] font-extrabold tracking-tighter text-white leading-tight">{title}</h1>
-      <div className="relative z-10 mt-2 text-[15px] font-medium text-white/90 leading-relaxed tracking-wide max-w-sm">{subtitle}</div>
+      <div className="relative z-10 mt-2 text-[15px] font-medium text-white leading-relaxed tracking-wide max-w-sm">{subtitle}</div>
     </div>
   );
 }
@@ -166,7 +167,7 @@ export function ScreenHero({
 // ─── SafeNotice ───────────────────────────────────────────────────────────────
 export function SafeNotice({ lang }: { lang?: Lang | null }) {
   return (
-    <div className="rounded-2xl bg-white/60 p-3 text-xs text-slate-500 ring-1 ring-slate-200/80">
+    <div className="rounded-2xl bg-white/60 p-3 text-sm text-slate-600 ring-1 ring-slate-200/80">
       <div className="font-semibold text-slate-700">
         {lang === "es" ? "Para que sepas" : "Just so you know"}
       </div>
@@ -185,38 +186,5 @@ export function StatCite({ children }: { children: React.ReactNode }) {
     <span className="inline-flex items-center rounded-full border border-[#D97706]/25 bg-[#D97706]/10 px-2.5 py-1 text-xs text-[#9a5200]">
       {children}
     </span>
-  );
-}
-
-// ─── Modal ────────────────────────────────────────────────────────────────────
-export function Modal({
-  open,
-  onClose,
-  title,
-  children,
-}: {
-  open: boolean;
-  onClose: () => void;
-  title: string;
-  children: React.ReactNode;
-}) {
-  if (!open) return null;
-  return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center">
-      <div className="absolute inset-0 bg-black/50" onClick={onClose} aria-hidden="true" />
-      <div className="relative z-10 w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl">
-        <div className="flex items-center justify-between border-b border-slate-100 bg-[#1B3A5C] px-4 py-3">
-          <div className="text-sm font-semibold text-white">{title}</div>
-          <button
-            onClick={onClose}
-            className="rounded-xl p-2 text-white/70 hover:bg-white/10"
-            aria-label="Close"
-          >
-            ✕
-          </button>
-        </div>
-        <div className="max-h-[70vh] overflow-y-auto p-4">{children}</div>
-      </div>
-    </div>
   );
 }

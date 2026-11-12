@@ -17,6 +17,11 @@
 import * as fs from "fs";
 import * as path from "path";
 
+// Works under `npx tsx` (CommonJS, where __dirname exists) and under plain
+// `node scripts/x.ts` on Node 22+ (ES module, where it does not).
+const SCRIPT_DIR: string =
+  typeof __dirname !== "undefined" ? __dirname : path.dirname(path.resolve(process.argv[1] ?? "scripts/x.ts"));
+
 // ── Types ────────────────────────────────────────────────────────────────────
 
 interface StaleItem {
@@ -82,7 +87,7 @@ function scanFile(
   tier: StaleItem["tier"]
 ): StaleItem[] {
   const stale: StaleItem[] = [];
-  const fullPath = path.resolve(__dirname, filePath);
+  const fullPath = path.resolve(SCRIPT_DIR, filePath);
 
   if (!fs.existsSync(fullPath)) return stale;
 
@@ -129,17 +134,6 @@ function main(): void {
     ...scanFile(
       "../web/src/data/resources.ts",
       "web/src/data/resources.ts",
-      "name",
-      SLA.resources,
-      "high"
-    )
-  );
-
-  // Server resources — 30-day SLA
-  staleItems.push(
-    ...scanFile(
-      "../server/src/data/resources.ts",
-      "server/src/data/resources.ts",
       "name",
       SLA.resources,
       "high"

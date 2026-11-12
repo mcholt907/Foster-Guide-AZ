@@ -85,8 +85,8 @@ export function TeamTeen({ lang, band }: TeamTeenProps) {
 
   useEffect(() => {
     const active = scrollRef.current?.querySelector('[data-active="true"]');
-    if (active) (active as HTMLElement).scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-  }, [openId]);
+    if (active) (active as HTMLElement).scrollIntoView({ behavior: reduce ? "auto" : "smooth", inline: "center", block: "nearest" });
+  }, [openId, reduce]);
 
   const active = WHO_IN_YOUR_CASE.find((m) => m.id === openId) ?? WHO_IN_YOUR_CASE[0];
   const themeKey = HEX_TO_THEME[active.color] ?? "slate";
@@ -104,7 +104,7 @@ export function TeamTeen({ lang, band }: TeamTeenProps) {
     <div className="max-w-[1240px] mx-auto px-6 sm:px-12 py-10 sm:py-20">
       {/* Hero */}
       <div className="mb-14 md:mb-20">
-        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-600 mb-4">{tt("team.hero.tag", lang)}</p>
+        <p className="text-xs font-black uppercase tracking-[0.4em] text-emerald-700 mb-4">{tt("team.hero.tag", lang)}</p>
         <h1 className="text-4xl sm:text-6xl font-black text-[#1e293b] mb-6 tracking-[-0.05em] leading-[0.9]">
           {tt("team.hero.title", lang)}
         </h1>
@@ -118,6 +118,8 @@ export function TeamTeen({ lang, band }: TeamTeenProps) {
         <div className="lg:col-span-4 -mx-6 px-6 md:mx-0 md:px-0">
           <div
             ref={scrollRef}
+            role="group"
+            aria-label={tt("team.hero.tag", lang)}
             className="flex lg:flex-col gap-3.5 overflow-x-auto lg:overflow-x-visible pb-6 md:pb-0 snap-x lg:max-h-[700px] lg:pr-2"
           >
             {WHO_IN_YOUR_CASE.map((m, idx) => {
@@ -131,9 +133,10 @@ export function TeamTeen({ lang, band }: TeamTeenProps) {
                   key={m.id}
                   type="button"
                   data-active={isActive}
+                  aria-pressed={isActive}
                   onClick={() => setOpenId(m.id)}
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  initial={{ x: -8 }}
+                  animate={{ x: 0 }}
                   transition={{ delay: reduce ? 0 : idx * 0.05, duration: reduce ? 0 : 0.3 }}
                   className={`snap-center flex-shrink-0 flex items-center gap-4 p-5 rounded-[1.5rem] transition-all duration-300 text-left relative group ${
                     isActive
@@ -150,7 +153,7 @@ export function TeamTeen({ lang, band }: TeamTeenProps) {
                         : { backgroundColor: "rgba(241, 245, 249, 0.8)" }
                     }
                   >
-                    <MIcon size={20} strokeWidth={isActive ? 2.5 : 2} />
+                    <MIcon size={20} strokeWidth={isActive ? 2.5 : 2} aria-hidden="true" />
                   </div>
                   <span className="text-[15.5px] font-black tracking-tight leading-none"
                         style={{ color: isActive ? mTheme.primary : "#334155" }}>
@@ -158,7 +161,7 @@ export function TeamTeen({ lang, band }: TeamTeenProps) {
                   </span>
                   {isActive && (
                     <motion.div layoutId="team-arrow" className="ml-auto hidden lg:block">
-                      <ArrowRight size={18} style={{ color: mTheme.accent }} />
+                      <ArrowRight size={18} style={{ color: mTheme.accent }} aria-hidden="true" />
                     </motion.div>
                   )}
                 </motion.button>
@@ -169,7 +172,7 @@ export function TeamTeen({ lang, band }: TeamTeenProps) {
 
         {/* Detail card */}
         <div className="lg:col-span-8">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={openId}
               initial={{ opacity: 0, x: 20, scale: 0.98 }}
@@ -180,6 +183,7 @@ export function TeamTeen({ lang, band }: TeamTeenProps) {
               style={{ boxShadow: `0 32px 80px ${theme.shadow.replace("0.15", "0.1")}` }}
             >
               <div
+                aria-hidden="true"
                 className="absolute left-0 top-0 bottom-0 w-[6px] sm:w-[8px] rounded-r-full"
                 style={{ background: `linear-gradient(to bottom, ${theme.accent}, ${theme.primary})` }}
               />
@@ -191,14 +195,14 @@ export function TeamTeen({ lang, band }: TeamTeenProps) {
               <div className="flex items-start justify-between mb-12 relative z-10 w-full">
                 <div className="max-w-md">
                   <h2 className="text-2xl sm:text-3xl font-black text-[#1e293b] mb-3 tracking-tighter leading-tight">{title}</h2>
-                  <p className="text-slate-400 text-[11px] font-bold uppercase tracking-widest">{aka}</p>
+                  <p className="text-slate-600 text-xs font-bold uppercase tracking-widest">{aka}</p>
                 </div>
                 <div
                   className="shrink-0 w-16 h-16 sm:w-24 sm:h-24 bg-white/70 backdrop-blur-xl rounded-[2rem] flex items-center justify-center border border-white relative"
                   style={{ color: theme.primary }}
                 >
                   <div className="absolute inset-0 rounded-[2rem] blur-xl -z-10" style={{ backgroundColor: theme.light }} />
-                  <Icon size={40} strokeWidth={1.5} />
+                  <Icon size={40} strokeWidth={1.5} aria-hidden="true" />
                 </div>
               </div>
 
@@ -220,17 +224,17 @@ export function TeamTeen({ lang, band }: TeamTeenProps) {
 
                 {(teenTip || tip) && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: reduce ? 0 : 0.2 }}
+                    initial={{ y: 10 }}
+                    animate={{ y: 0 }}
+                    transition={{ delay: reduce ? 0 : 0.2, duration: reduce ? 0 : undefined }}
                     className="p-6 sm:p-8 rounded-[2.5rem] bg-sky-50/40 border border-sky-200/30 relative overflow-hidden"
                   >
                     <div className="flex gap-5 items-start">
-                      <div className="mt-1 shrink-0 bg-sky-100 text-sky-600 p-2 rounded-xl ring-4 ring-white">
-                        <Info size={22} />
+                      <div className="mt-1 shrink-0 bg-sky-100 text-sky-700 p-2 rounded-xl ring-4 ring-white">
+                        <Info size={22} aria-hidden="true" />
                       </div>
                       <div>
-                        <span className="uppercase tracking-[0.25em] text-[10px] text-sky-600 font-black mb-1.5 block">
+                        <span className="uppercase tracking-[0.25em] text-xs text-sky-800 font-black mb-1.5 block">
                           {tt("team.label.insight", lang)}
                         </span>
                         <p className="text-[#0c4a6e] text-[15px] sm:text-[16px] font-black leading-[1.6]">
@@ -282,9 +286,9 @@ export function TeamTeen({ lang, band }: TeamTeenProps) {
                     {faq.q[lang]}
                   </span>
                   <div className={`shrink-0 w-10 h-10 rounded-2xl flex items-center justify-center transition-all ${
-                    isOpen ? "bg-[#115e59] text-white" : "bg-slate-100 text-slate-400"
+                    isOpen ? "bg-[#115e59] text-white" : "bg-slate-100 text-slate-600"
                   }`}>
-                    {isOpen ? <ChevronUp size={20} strokeWidth={3} /> : <ChevronDown size={20} strokeWidth={3} />}
+                    {isOpen ? <ChevronUp size={20} strokeWidth={3} aria-hidden="true" /> : <ChevronDown size={20} strokeWidth={3} aria-hidden="true" />}
                   </div>
                 </button>
                 <AnimatePresence initial={false}>
@@ -296,7 +300,7 @@ export function TeamTeen({ lang, band }: TeamTeenProps) {
                       className="overflow-hidden"
                     >
                       <div className="px-8 pb-10">
-                        <div className="pt-6 border-t border-slate-50 text-sm sm:text-base font-medium leading-[1.7] text-slate-500 tracking-tight">
+                        <div className="pt-6 border-t border-slate-50 text-sm sm:text-base font-medium leading-[1.7] text-slate-600 tracking-tight">
                           {faq.a[lang]}
                           {faq.crisis && (
                             <div className="mt-5">

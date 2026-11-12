@@ -1,0 +1,55 @@
+import type { Metadata } from "next";
+import { baseMetadata } from "../../../lib/siteMetadata";
+
+// Metadata only: this route's page is a client component, so its title,
+// description, canonical and hreflang links live here.
+const SITE = "https://www.fosterhubaz.com";
+const PATH = "/setup";
+
+const COPY = {
+  en: {
+    title: "Get Started",
+    description:
+      "Pick your age and county so FosterHub AZ can show what fits you. No sign-up, and nothing leaves your device.",
+  },
+  es: {
+    title: "Empezar",
+    description:
+      "Elige tu edad y tu condado para que FosterHub AZ te muestre lo que te sirve. Sin registrarte, y nada sale de tu dispositivo.",
+  },
+} as const;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  const l = lang === "es" ? "es" : "en";
+  const { title, description } = COPY[l];
+  const url = `${SITE}/${l}${PATH}`;
+  return {
+    title,
+    description,
+    // Onboarding screen, not content: keep it out of search results.
+    robots: { index: false, follow: true },
+    alternates: {
+      canonical: url,
+      languages: { en: `${SITE}/en${PATH}`, es: `${SITE}/es${PATH}`, "x-default": `${SITE}/en${PATH}` },
+    },
+    // Set in full: a child `openGraph` replaces the parent's, image included.
+    openGraph: {
+      ...baseMetadata.openGraph,
+      title,
+      description,
+      url,
+      locale: l === "es" ? "es_MX" : "en_US",
+      alternateLocale: l === "es" ? "en_US" : "es_MX",
+    },
+    twitter: { ...baseMetadata.twitter, title, description },
+  };
+}
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return <>{children}</>;
+}

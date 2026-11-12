@@ -1,4 +1,23 @@
 import type { Metadata } from "next";
+import { baseMetadata } from "../../../lib/siteMetadata";
+
+// Metadata only: this route's page is a client component, so its title,
+// description, canonical and hreflang links live here.
+const SITE = "https://www.fosterhubaz.com";
+const PATH = "/future";
+
+const COPY = {
+  en: {
+    title: "What Happens When You Turn 18 in Foster Care",
+    description:
+      "You don't have to figure it out alone. Find out how to stay in care past 18, get money for school, find housing, and get the documents you'll need.",
+  },
+  es: {
+    title: "¿Qué pasa cuando cumples 18 en el cuidado de crianza?",
+    description:
+      "No tienes que resolverlo solo/a. Aprende cómo quedarte en el cuidado después de los 18, conseguir dinero para estudios, encontrar vivienda y obtener tus documentos.",
+  },
+} as const;
 
 export async function generateMetadata({
   params,
@@ -6,17 +25,26 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
   const { lang } = await params;
-  if (lang === "es") {
-    return {
-      title: "¿Qué pasa cuando cumples 18 en el cuidado de crianza?",
-      description: "No tienes que resolverlo solo/a. Aprende cómo quedarte en el cuidado después de los 18, conseguir dinero para estudios, encontrar vivienda y obtener tus documentos.",
-      alternates: { canonical: "https://www.fosterhubaz.com/es/future", languages: { "en": "https://www.fosterhubaz.com/en/future", "es": "https://www.fosterhubaz.com/es/future" } },
-    };
-  }
+  const l = lang === "es" ? "es" : "en";
+  const { title, description } = COPY[l];
+  const url = `${SITE}/${l}${PATH}`;
   return {
-    title: "What Happens When You Turn 18 in Foster Care",
-    description: "You don't have to figure it out alone. Find out how to stay in care past 18, get money for school, find housing, and get the documents you'll need.",
-    alternates: { canonical: "https://www.fosterhubaz.com/en/future", languages: { "en": "https://www.fosterhubaz.com/en/future", "es": "https://www.fosterhubaz.com/es/future" } },
+    title,
+    description,
+    alternates: {
+      canonical: url,
+      languages: { en: `${SITE}/en${PATH}`, es: `${SITE}/es${PATH}`, "x-default": `${SITE}/en${PATH}` },
+    },
+    // Set in full: a child `openGraph` replaces the parent's, image included.
+    openGraph: {
+      ...baseMetadata.openGraph,
+      title,
+      description,
+      url,
+      locale: l === "es" ? "es_MX" : "en_US",
+      alternateLocale: l === "es" ? "en_US" : "es_MX",
+    },
+    twitter: { ...baseMetadata.twitter, title, description },
   };
 }
 

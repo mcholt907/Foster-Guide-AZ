@@ -71,25 +71,28 @@ function Rights1012({ lang }: { lang: Lang }) {
               className="rounded-3xl bg-white/95 shadow-[0_8px_30px_rgb(0,0,0,0.06)] overflow-hidden"
             >
               {/* Header */}
+              <h2>
               <button
+                type="button"
                 onClick={() => setOpenRight(isOpen ? null : right.id)}
                 aria-expanded={isOpen}
                 className="w-full flex items-center justify-between gap-3 px-4 py-4 text-left"
               >
-                <div className="flex items-center gap-3 min-w-0">
+                <span className="flex items-center gap-3 min-w-0">
                   <span className="shrink-0 flex h-10 w-10 items-center justify-center rounded-2xl bg-[#2A7F8E]/10 text-[#2A7F8E]">
                     <Icon className="h-5 w-5" strokeWidth={2.25} aria-hidden="true" />
                   </span>
-                  <div className="text-base font-semibold text-[#1B3A5C] leading-snug">
+                  <span className="text-base font-semibold text-[#1B3A5C] leading-snug">
                     {lang === "es" ? right.title_es : right.title}
-                  </div>
-                </div>
+                  </span>
+                </span>
                 {isOpen ? (
-                  <ChevronUp className="h-5 w-5 text-[#2A7F8E] stroke-[2] shrink-0" />
+                  <ChevronUp className="h-5 w-5 text-[#2A7F8E] stroke-[2] shrink-0" aria-hidden="true" />
                 ) : (
-                  <ChevronDown className="h-5 w-5 text-[#2A7F8E] stroke-[2] shrink-0" />
+                  <ChevronDown className="h-5 w-5 text-[#2A7F8E] stroke-[2] shrink-0" aria-hidden="true" />
                 )}
               </button>
+              </h2>
 
               {/* Expanded content */}
               {isOpen && (
@@ -99,12 +102,14 @@ function Rights1012({ lang }: { lang: Lang }) {
                     {(["what", "how", "ignored"] as RightsTab[]).map((tabKey) => (
                       <button
                         key={tabKey}
+                        type="button"
+                        aria-pressed={tab === tabKey}
                         onClick={() => setTab(right.id, tabKey)}
                         className={
-                          "flex-1 py-2.5 text-xs font-semibold transition-colors " +
+                          "flex-1 min-h-11 px-1 py-2.5 text-sm font-semibold transition-colors " +
                           (tab === tabKey
-                            ? "text-[#2A7F8E] border-b-2 border-[#2A7F8E]"
-                            : "text-slate-400 hover:text-slate-600")
+                            ? "text-[#1F6470] border-b-2 border-[#2A7F8E]"
+                            : "text-slate-600 hover:text-slate-800")
                         }
                       >
                         {tabKey === "what"
@@ -124,10 +129,10 @@ function Rights1012({ lang }: { lang: Lang }) {
                           {lang === "es" ? tier.plain_es : tier.plain}
                         </p>
                         <div className="mt-3 rounded-2xl bg-[#2A7F8E]/8 p-3">
-                          <div className="text-xs font-semibold text-[#2A7F8E] mb-1">
+                          <div className="text-xs font-semibold text-[#1F6470] mb-1">
                             {tr("example", lang)}
                           </div>
-                          <p className="text-sm sm:text-xs text-slate-600 leading-relaxed">
+                          <p className="text-sm text-slate-600 leading-relaxed">
                             {lang === "es" ? tier.example_es : tier.example}
                           </p>
                         </div>
@@ -153,9 +158,9 @@ function Rights1012({ lang }: { lang: Lang }) {
 
       {/* Who to tell — simplified for 10-12 */}
       <div className="mt-4 rounded-3xl bg-white/95 p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
-        <div className="text-base font-semibold text-[#1B3A5C] mb-3">
+        <h2 className="text-base font-semibold text-[#1B3A5C] mb-3">
           {tr("wrong.title", lang)}
-        </div>
+        </h2>
         <div className="grid gap-3">
           {WRONG_STEPS.map((step) => (
             <div key={step.who} className="flex items-start gap-3">

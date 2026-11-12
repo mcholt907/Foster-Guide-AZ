@@ -45,8 +45,11 @@ cd web
 
 npm run dev       # start dev server (http://localhost:3000/en)
 npm run build     # type-check + production build
+npm run start     # serve the production build locally
 npm run lint      # ESLint
-npm run preview   # serve the production build locally
+npm run typecheck # tsc --noEmit
+npm test          # unit tests (vitest): data, phone numbers, translations, search
+npm run test:e2e  # browser tests (Playwright): builds, serves on :3410, then tests
 ```
 
 ### Structure
@@ -55,10 +58,12 @@ npm run preview   # serve the production build locally
 web/
   src/
     app/
-      layout.tsx              — root layout (metadata, favicon, PWA)
-      page.tsx                — language-select screen (first screen users see)
+      (picker)/
+        layout.tsx            — root layout for `/` only (there is no app/layout.tsx)
+        page.tsx              — language-select screen (first screen users see)
       [lang]/
-        layout.tsx            — lang layout: metadata + skip-link, wraps children in <BandShell>
+        layout.tsx            — root layout for /en and /es (sets <html lang>):
+                                metadata + skip-link, wraps children in <BandShell>
         page.tsx              — Home: 10-12 tile dashboard OR teen DashboardTeen (chrome is in BandShell)
         setup/page.tsx        — onboarding (age band, county, tribal)
         rights/page.tsx       — Your Rights (A.R.S. §8-529) + FAQPage JSON-LD; teens see RightsTeen
@@ -89,6 +94,17 @@ web/
                                 usePathname() via lib/teenNav.ts. Touch swipe
                                 on the main content area navigates prev/next
                                 section via useSwipeNav.
+      HelpNow.tsx             — always-there "Need help now?" button + sheet of
+                                tap-to-call / tap-to-text crisis lines; mounted
+                                by BandShell on every /[lang]/ page
+      CrisisQuickLinks.tsx    — the call/text buttons themselves (compact or
+                                full); numbers come from CRISIS_PINS only
+      QuickExit.tsx           — "Leave fast" button (clears prefs, leaves the site)
+      FeelingCheckIn.tsx      — "How are you feeling right now?" check-in on
+                                the Wellness pages (nothing is saved)
+      TribalNote.tsx          — tribal (ICWA) note on Case / Team pages
+      RootDocument.tsx        — <html>/<body> shared by both root layouts
+      ServiceWorkerRegister.tsx — registers the offline service worker (public/sw.js)
       ui.tsx                  — shared primitives: Card, Modal, PrimaryButton,
                                 Chip, SectionTitle, Divider, ScreenHero,
                                 SafeNotice, StatCite
@@ -101,6 +117,13 @@ web/
       i18n.ts                 — base UI strings (EN + ES); plain-language, youth voice
       i18n-teen.ts            — teen-voice strings; tt(key, lang, vars?) and
                                 ttBand(keyBase, band, lang) helpers
+      i18n-help.ts, i18n-rights.ts, i18n-case.ts, i18n-wellness.ts, i18n-shell.ts
+                              — strings for one area each (safety UI, Rights,
+                                Case/Team, wellness check-in, site shell), each
+                                with its own lookup: th, tr, tc, tw/twBand, …
+      questionSearch.ts       — Find Answers search: searchQuestions() (async),
+                                isCrisisQuery(), useQuestionSearch() hook
+      siteMetadata.ts         — metadata shared by the two root layouts
       prefs.ts                — usePrefs() hook (localStorage, cross-component sync);
                                 AgeBandKey = "10-12" | "13-15" | "16-17" | "18-21"
       useOnboardingGate.ts    — thin wrapper over usePrefs(); returns prefs.
@@ -119,39 +142,54 @@ web/
       teenNav.ts              — activeFromPathname(pathname, lang) maps URL
                                 segments to TeenNavId. Single source of truth
                                 shared by TeenShell and useSwipeNav.
-      chat.ts                 — typed API client for the RAG backend (dead code — no longer used)
     data/
       constants.ts            — COUNTIES, AGE_BANDS, CRISIS_PINS (+ lastVerified)
       rights.ts               — RIGHTS chunks (A.R.S. §8-529), ESCALATION_STEPS
       court.ts                — COURT_STAGES, CASE_STAGES_TEEN, CASE_FAQS_TEEN,
                                 WHO_IN_YOUR_CASE (includes per-band teen_tips and
                                 caregiver card w/ House Manager / group home staff)
-      resources.ts            — RESOURCES directory (39 entries, + lastVerified)
+      resources.ts            — RESOURCES directory (36 entries, + lastVerified)
       docs.ts                 — IMPORTANT_DOCS (documents youth need, + lastVerified)
+      future.ts               — band-specific Future Plan content (FUTURE_BANDS, FUTURE_1012)
       questions.ts            — Q&A entries (QUESTIONS, TOPIC_CONFIG, RESOURCE_LINK_CATEGORIES); Fuse.js search source for Find Answers page
-    public/
-      favicon.svg             — browser tab icon
-      icons/icon-192.svg      — PWA home screen icon (192px)
-      icons/icon-512.svg      — PWA splash icon (512px)
-      avatars/                — team-member illustrations used on My Team
-      manifest.webmanifest    — PWA manifest
+  tests/
+    unit/                     — vitest: data integrity, known-bad phone numbers,
+                                translations, search, small helpers
+    e2e/                      — Playwright: pages per age band, crisis call links
+  vitest.config.mts
+  playwright.config.ts
+  public/
+    favicon.svg               — browser tab icon
+    icons/                    — home screen icons (SVG + PNG, 192 / 512 / maskable)
+    avatars/                  — team-member illustrations used on My Team
+    manifest.webmanifest      — PWA manifest
+    sw.js, offline.html       — hand-written offline service worker (no next-pwa)
 scripts/
-  validate-content.ts         — URL, phone, date, and citation format checks
+  validate-content.ts         — URL, phone, date, and citation format checks;
+                                also phone numbers inside questions.ts text and
+                                the known-bad-number list
   check-staleness.ts          — risk-tiered SLA staleness detection
-  reverify-content.ts         — auto-reverify URLs + phone numbers; auto-corrects redirects
+  reverify-content.ts         — re-checks stale URLs + phone numbers; never
+                                changes a phone number
   generate-freshness-report.ts — markdown freshness report generator
   check-legislation.ts        — monitors AZ statutes on the watchlist
   watchlist.json              — legislative watchlist (§8-529, §8-514.06, §8-521, etc.)
-  ingest-review.ts            — content ingestion review helper
+  ingest-review.ts            — applies a reviewed correction report to web/src/data
 .github/workflows/
-  link-check.yml              — Lychee link checker (on PR + weekly)
+  web-build.yml               — type-check, lint, unit tests, build (PR + master);
+                                Playwright browser tests (PR)
+  link-check.yml              — Lychee link checker (on PR + weekly); updates
+                                one open `broken-links` issue
   content-validation.yml      — runs validate-content.ts (on PR)
   staleness-check.yml         — runs check-staleness.ts (weekly)
-  auto-reverify.yml           — runs reverify-content.ts (monthly)
-  legislative-watch.yml       — runs check-legislation.ts (weekly)
-  freshness-report.yml        — generates freshness report (monthly)
-  ingest-review.yml           — content ingestion review (on PR)
-.lychee.toml                  — link checker configuration
+  auto-reverify.yml           — runs reverify-content.ts (weekly, Mondays);
+                                opens a pull request, never pushes to master
+  legislative-watch.yml       — runs check-legislation.ts (quarterly)
+  freshness-report.yml        — generates docs/freshness-report.md (monthly)
+  ingest-review.yml           — runs ingest-review.ts (weekly, Tuesdays, only if
+                                docs/revalidation-report-reviewed.md exists);
+                                opens a pull request, never pushes to master
+.lychee.toml                  — link checker settings for local runs
 docs/
   freshness-report.md         — current content freshness status
   reverification-report.md    — last auto-reverification run results
@@ -167,7 +205,8 @@ docs/
 - Language from URL segment: `/en/*` or `/es/*`
 - User prefs (ageBand, county, tribal, onboardingDone) in `localStorage` key `fgaz_prefs_v2`
 - No router state — all navigation via Next.js `Link` and `router.push`
-- **No backend dependency** — the Find Answers page (`/ask`) uses client-side Fuse.js search over `data/questions.ts`; `NEXT_PUBLIC_API_URL` and `lib/chat.ts` are unused and can be removed
+- **No backend dependency** — the Find Answers page (`/ask`) uses client-side Fuse.js search over `data/questions.ts` (via `lib/questionSearch.ts`); there is no API client and `NEXT_PUBLIC_API_URL` is not used
+- **Offline** — a hand-written service worker (`public/sw.js`, registered by `ServiceWorkerRegister`); the `next-pwa` plugin was removed
 - Canonical URLs use `www.fosterhubaz.com`; root `/` redirects server-side to `/en`
 - Per-page `hreflang` alternate links on all `[lang]` layouts
 - `sitemap.ts` generates static sitemap (no onboarding-gated paths)
@@ -177,7 +216,7 @@ docs/
 Four bands: `10-12`, `13-15`, `16-17`, `18-21`. Content complexity and layout adapt per band.
 
 - **10-12**: kid-friendly tile dashboard via `BottomNav`/`SideNav`; Resources nav item and page are hidden (redirect to home); Future Plan card hidden on Home
-- **13-15 / 16-17 / 18-21** ("teen" bands): routed through `TeenShell` with the `teen/*` page bodies; per-band copy is selected via `ttBand("key.base", band, lang)` which resolves to `key.base.13-15`, `key.base.16-17`, or `key.base.18-21` in `i18n-teen.ts`
+- **13-15 / 16-17 / 18-21** ("teen" bands): routed through `TeenShell` with the `teen/*` page bodies; per-band copy is selected via `ttBand("key.base", band, lang)` which resolves to `key.base.1315`, `key.base.1617`, or `key.base.1821` (the band with the dash removed) in `i18n-teen.ts`
 - Future Plan card hidden for 10-12 and 13-15 on Home screen
 
 ### Key Patterns
@@ -197,16 +236,31 @@ All entries in `web/src/data/resources.ts`, `constants.ts`, and `docs.ts` carry 
 
 CI enforces freshness via GitHub Actions:
 
-- **PRs**: `content-validation.yml` (format/citation checks) + `link-check.yml` (Lychee)
-- **Weekly**: `staleness-check.yml`, `legislative-watch.yml`
-- **Monthly**: `auto-reverify.yml`, `freshness-report.yml`
+- **PRs**: `content-validation.yml` (format/citation/phone checks) + `link-check.yml` (Lychee) + `web-build.yml` (unit and browser tests)
+- **Weekly**: `staleness-check.yml`, `auto-reverify.yml` (opens a PR), `link-check.yml`
+- **Monthly**: `freshness-report.yml`
+- **Quarterly**: `legislative-watch.yml`
+
+Phone numbers inside `questions.ts` have no `lastVerified` date; `validate-content.ts` and the unit tests check their format and block numbers known to be wrong.
 
 To run content checks locally:
 
 ```bash
-npx ts-node scripts/validate-content.ts
-npx ts-node scripts/check-staleness.ts
+npx tsx scripts/validate-content.ts
+npx tsx scripts/check-staleness.ts
 ```
+
+### Tests
+
+```bash
+cd web
+npm test            # unit tests, about a second
+npm run test:e2e    # browser tests against a production build (about a minute)
+```
+
+- First time on a machine: `npx playwright install chromium`. To use a Chromium that is already installed, set `PLAYWRIGHT_CHROMIUM_EXECUTABLE=/path/to/chrome`.
+- To test a server that is already running, set `E2E_BASE_URL=http://localhost:3000`.
+- A wrong phone number must never ship: add any number found to be wrong to `KNOWN_BAD_PHONES` in both `web/tests/unit/helpers.ts` and `scripts/validate-content.ts`.
 
 ### Language & Tone
 

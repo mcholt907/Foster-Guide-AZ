@@ -36,7 +36,7 @@ function Future1012({ lang }: { lang: Lang }) {
         icon={Sprout}
         title={c.title[lang]}
         subtitle={c.subtitle[lang]}
-        gradient="from-[#D97706] to-[#b45309]"
+        gradient="from-[#B45309] to-[#92400E]"
         lang={lang}
       />
 

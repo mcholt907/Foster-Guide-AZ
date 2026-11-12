@@ -35,22 +35,22 @@ const TILES: Tile[] = [
   {
     id: "team", href: "/team", Icon: Users,
     titleKey: "dashboard.tile.team.title", descKey: "dashboard.tile.team.desc", ctaKey: "dashboard.tile.team.cta",
-    bgColor: "bg-[#fff4cc]", iconColor: "text-amber-700", textColor: "text-[#78350f]", accentColor: "text-amber-600", hoverBlobColor: "bg-amber-50",
+    bgColor: "bg-[#fff4cc]", iconColor: "text-amber-700", textColor: "text-[#78350f]", accentColor: "text-amber-700", hoverBlobColor: "bg-amber-50",
   },
   {
     id: "case", href: "/case", Icon: FolderOpen,
     titleKey: "dashboard.tile.case.title", descKey: "dashboard.tile.case.desc", ctaKey: "dashboard.tile.case.cta",
-    bgColor: "bg-[#e0f2fe]", iconColor: "text-sky-700", textColor: "text-[#0369a1]", accentColor: "text-sky-600", hoverBlobColor: "bg-sky-50",
+    bgColor: "bg-[#e0f2fe]", iconColor: "text-sky-700", textColor: "text-[#0369a1]", accentColor: "text-sky-700", hoverBlobColor: "bg-sky-50",
   },
   {
     id: "wellness", href: "/wellness", Icon: HeartPulse,
     titleKey: "dashboard.tile.wellness.title", descKey: "dashboard.tile.wellness.desc", ctaKey: "dashboard.tile.wellness.cta",
-    bgColor: "bg-[#fce7f3]", iconColor: "text-pink-700", textColor: "text-[#be185d]", accentColor: "text-pink-600", hoverBlobColor: "bg-pink-50",
+    bgColor: "bg-[#fce7f3]", iconColor: "text-pink-700", textColor: "text-[#be185d]", accentColor: "text-pink-700", hoverBlobColor: "bg-pink-50",
   },
   {
     id: "answers", href: "/ask", Icon: HelpCircle,
     titleKey: "dashboard.tile.answers.title", descKey: "dashboard.tile.answers.desc", ctaKey: "dashboard.tile.answers.cta",
-    bgColor: "bg-[#dcfce7]", iconColor: "text-emerald-700", textColor: "text-[#15803d]", accentColor: "text-emerald-600", hoverBlobColor: "bg-emerald-50",
+    bgColor: "bg-[#dcfce7]", iconColor: "text-emerald-700", textColor: "text-[#15803d]", accentColor: "text-emerald-700", hoverBlobColor: "bg-emerald-50",
   },
 ];
 
@@ -63,23 +63,23 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
   return (
     <>
       {/* Background blob */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-sky-50/40 rounded-full blur-[140px] -z-10 translate-x-1/4 -translate-y-1/4 shadow-inner" />
+      <div aria-hidden="true" className="absolute top-0 right-0 w-[600px] h-[600px] bg-sky-50/40 rounded-full blur-[140px] -z-10 translate-x-1/4 -translate-y-1/4 shadow-inner" />
 
       <div className="max-w-[1240px] mx-auto px-4 pt-6 pb-12 sm:px-12 sm:py-20">
         {/* Hero */}
         <div className="mb-8 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-8">
           <div>
-            <p className="text-slate-400 text-base sm:text-lg font-bold tracking-tight">
+            <h1 className="text-slate-600 text-base sm:text-lg font-bold tracking-tight">
               {tt("dashboard.greeting.subtitle", lang, { date: today })}
-            </p>
+            </h1>
           </div>
           <div className="bg-emerald-50/50 border border-emerald-100 px-4 py-3 sm:px-6 sm:py-4 rounded-xl sm:rounded-2xl flex items-center gap-4">
-            <div className="w-10 h-10 bg-emerald-500 text-white rounded-xl flex items-center justify-center shrink-0">
-              <Shield size={18} strokeWidth={3} />
+            <div className="w-10 h-10 bg-emerald-600 text-white rounded-xl flex items-center justify-center shrink-0">
+              <Shield size={18} strokeWidth={3} aria-hidden="true" />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-emerald-600">{tt("dashboard.privacy.label", lang)}</p>
-              <p className="text-[12px] sm:text-[13px] font-bold text-emerald-800 leading-tight">{tt("dashboard.privacy.body", lang)}</p>
+              <p className="text-xs font-black uppercase tracking-widest text-emerald-700">{tt("dashboard.privacy.label", lang)}</p>
+              <p className="text-sm font-bold text-emerald-800 leading-tight">{tt("dashboard.privacy.body", lang)}</p>
             </div>
           </div>
         </div>
@@ -88,33 +88,33 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
           {/* Tiles */}
           <div className="lg:col-span-8 flex flex-col gap-6 lg:gap-10">
             <div className="flex items-center justify-between">
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-300">
+              <h2 className="text-xs font-black uppercase tracking-[0.4em] text-slate-600">
                 {tt("dashboard.kicker", lang)}
-              </h3>
+              </h2>
             </div>
             <div className="grid sm:grid-cols-2 gap-4 lg:gap-8">
               {TILES.map((tile, idx) => (
                 <motion.div
                   key={tile.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ y: 20 }}
+                  animate={{ y: 0 }}
                   transition={{ delay: reduce ? 0 : idx * 0.08, duration: reduce ? 0 : 0.4 }}
                 >
                   <Link
                     href={`/${lang}${tile.href}`}
                     className="block bg-white p-6 md:p-10 rounded-3xl md:rounded-[2.5rem] shadow-[0_24px_64px_rgba(0,0,0,0.02)] border border-white flex flex-col items-start gap-5 md:gap-8 group hover:shadow-[0_32px_80px_rgba(0,0,0,0.1)] hover:-translate-y-2 transition-all text-left overflow-hidden relative"
                   >
-                    <div className={`absolute top-0 right-0 w-32 h-32 ${tile.hoverBlobColor} rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity`} />
+                    <div aria-hidden="true" className={`absolute top-0 right-0 w-32 h-32 ${tile.hoverBlobColor} rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity`} />
                     <div className={`w-14 h-14 md:w-16 md:h-16 ${tile.bgColor} rounded-[1.25rem] md:rounded-[1.5rem] flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform`}>
-                      <tile.Icon size={24} strokeWidth={2.25} className={`md:hidden ${tile.iconColor}`} />
-                      <tile.Icon size={28} strokeWidth={2.25} className={`hidden md:block ${tile.iconColor}`} />
+                      <tile.Icon size={24} strokeWidth={2.25} className={`md:hidden ${tile.iconColor}`} aria-hidden="true" />
+                      <tile.Icon size={28} strokeWidth={2.25} className={`hidden md:block ${tile.iconColor}`} aria-hidden="true" />
                     </div>
                     <div className="flex flex-col gap-2 relative z-10 w-full">
-                      <h4 className={`text-xl md:text-2xl font-black ${tile.textColor} tracking-tight leading-none`}>{tt(tile.titleKey, lang)}</h4>
-                      <p className="text-slate-400 text-sm font-bold leading-relaxed">{tt(tile.descKey, lang)}</p>
+                      <h3 className={`text-xl md:text-2xl font-black ${tile.textColor} tracking-tight leading-none`}>{tt(tile.titleKey, lang)}</h3>
+                      <p className="text-slate-600 text-sm font-bold leading-relaxed">{tt(tile.descKey, lang)}</p>
                     </div>
-                    <div className={`w-full pt-4 md:pt-6 border-t border-slate-50 flex items-center justify-between ${tile.accentColor} font-black text-[10px] uppercase tracking-widest opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-all`}>
-                      {tt(tile.ctaKey, lang)} <ChevronRight size={14} strokeWidth={3} />
+                    <div className={`w-full pt-4 md:pt-6 border-t border-slate-50 flex items-center justify-between ${tile.accentColor} font-black text-xs uppercase tracking-widest opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-visible:opacity-100 transition-all`}>
+                      {tt(tile.ctaKey, lang)} <ChevronRight size={14} strokeWidth={3} aria-hidden="true" />
                     </div>
                   </Link>
                 </motion.div>
@@ -129,28 +129,28 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
               <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-400/5 blur-3xl rounded-full" />
               <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
                 <div className="w-10 h-10 bg-white shadow-[0_12px_24px_rgba(255,255,255,0.1)] rounded-xl md:rounded-2xl flex items-center justify-center shrink-0">
-                  <Compass size={20} className="text-[#1a2f44]" strokeWidth={3} />
+                  <Compass size={20} className="text-[#1a2f44]" strokeWidth={3} aria-hidden="true" />
                 </div>
-                <h4 className="font-black text-[17px] md:text-lg tracking-tight">{tt("dashboard.tip.heading", lang)}</h4>
+                <h2 className="font-black text-[17px] md:text-lg tracking-tight">{tt("dashboard.tip.heading", lang)}</h2>
               </div>
               <p className="text-slate-100 text-[15px] md:text-base font-bold leading-relaxed mb-6">
                 {ttBand("dashboard.tip", band, lang)}
               </p>
               <Link
                 href={`/${lang}/ask`}
-                className="flex items-center gap-3 text-[11px] md:text-xs font-black uppercase tracking-widest text-emerald-400 hover:text-emerald-300 transition-colors"
+                className="flex items-center gap-3 min-h-11 text-xs font-black uppercase tracking-widest text-emerald-300 hover:text-emerald-200 transition-colors"
               >
-                {tt("dashboard.tip.cta", lang)} <ChevronRight size={14} strokeWidth={3} />
+                {tt("dashboard.tip.cta", lang)} <ChevronRight size={14} strokeWidth={3} aria-hidden="true" />
               </Link>
             </div>
 
             {/* Crisis */}
             <div className="bg-[#FEF6E7] rounded-3xl md:rounded-[2.5rem] p-6 md:p-8 border border-[#F5D9A8]/60 shadow-sm flex flex-col items-center text-center group">
               <div className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-[1.5rem] md:rounded-[2rem] shadow-sm flex items-center justify-center mb-5 md:mb-6 rotate-3 group-hover:rotate-0 transition-all">
-                <Phone className="text-[#B45309] w-8 h-8 md:w-10 md:h-10" />
+                <Phone className="text-[#B45309] w-8 h-8 md:w-10 md:h-10" aria-hidden="true" />
               </div>
-              <h5 className="font-black text-[#1B3A5C] mb-3 tracking-tight text-lg md:text-xl">{tt("dashboard.crisis.title", lang)}</h5>
-              <p className="text-[#1B3A5C]/75 text-[13px] md:text-sm font-bold leading-relaxed mb-5">{tt("dashboard.crisis.body", lang)}</p>
+              <h2 className="font-black text-[#1B3A5C] mb-3 tracking-tight text-lg md:text-xl">{tt("dashboard.crisis.title", lang)}</h2>
+              <p className="text-[#1B3A5C] text-sm font-bold leading-relaxed mb-5">{tt("dashboard.crisis.body", lang)}</p>
               {/* 911, 988 and the DCS hotline as tap-to-call, from data/constants.ts */}
               <div className="w-full">
                 <CrisisQuickLinks lang={lang} variant="compact" />

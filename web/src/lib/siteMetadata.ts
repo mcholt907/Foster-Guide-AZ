@@ -1,16 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Outfit, Inter } from "next/font/google";
-import "./globals.css";
 
-const outfit = Outfit({ subsets: ["latin"], display: "swap", variable: "--font-outfit" });
-const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
+// Shared by both root layouts: `app/(picker)/layout.tsx` (the `/` language
+// picker) and `app/[lang]/layout.tsx` (every /en and /es page). There are two
+// root layouts so the server can send <html lang="es"> for Spanish pages.
 
-export const metadata: Metadata = {
+export const baseMetadata: Metadata = {
   metadataBase: new URL("https://www.fosterhubaz.com"),
-  title: {
-    default: "FosterHub AZ — Help for Arizona Foster Youth",
-    template: "%s — FosterHub AZ",
-  },
   description:
     "Confused about foster care? Get answers about your rights, what happens in court, and what comes next — made for Arizona youth ages 10 to 21. Free, and nothing leaves your device.",
   keywords: [
@@ -37,15 +32,7 @@ export const metadata: Metadata = {
   manifest: "/manifest.webmanifest",
   icons: {
     icon: "/favicon.svg",
-    apple: "/icons/icon-192.svg",
-  },
-  alternates: {
-    canonical: "https://www.fosterhubaz.com",
-    languages: {
-      "en": "https://www.fosterhubaz.com/en",
-      "es": "https://www.fosterhubaz.com/es",
-      "x-default": "https://www.fosterhubaz.com",
-    },
+    apple: "/icons/apple-touch-icon.png",
   },
   appleWebApp: {
     capable: true,
@@ -54,28 +41,9 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = {
+// No `maximumScale` — pinch-zoom must stay available (WCAG 1.4.4).
+export const baseViewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
   themeColor: "#2A7F8E",
 };
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html
-      lang="en"
-      data-scroll-behavior="smooth"
-      className={`h-full ${outfit.variable} ${inter.variable} ${outfit.className}`}
-    >
-      <head>
-        <link rel="apple-touch-icon" href="/icons/icon-192.svg" />
-      </head>
-      <body className="min-h-full bg-[#FFF9F3] antialiased">{children}</body>
-    </html>
-  );
-}

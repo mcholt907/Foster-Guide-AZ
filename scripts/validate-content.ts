@@ -5,12 +5,20 @@
  * Enforces schema rules, phone formats, URL patterns, age-band rules,
  * and lastVerified date integrity across all data files.
  *
- * Run: npx tsx scripts/validate-content.ts
+ * Checks the live site's data only (web/src/data). The retired server/ data
+ * is not scanned.
+ *
+ * Run: npx tsx scripts/validate-content.ts   (or, on Node 22+: node scripts/validate-content.ts)
  * Exit code 1 on blocking errors, 0 on pass (warnings are printed but don't block).
  */
 
 import * as fs from "fs";
 import * as path from "path";
+
+// Works under `npx tsx` (CommonJS, where __dirname exists) and under plain
+// `node scripts/x.ts` on Node 22+ (ES module, where it does not).
+const SCRIPT_DIR: string =
+  typeof __dirname !== "undefined" ? __dirname : path.dirname(path.resolve(process.argv[1] ?? "scripts/x.ts"));
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -60,7 +68,7 @@ function isFutureDate(dateStr: string): boolean {
 
 function validateWebResources(results: ValidationResult[]): void {
   const filePath = path.resolve(
-    __dirname,
+    SCRIPT_DIR,
     "../web/src/data/resources.ts"
   );
   if (!fs.existsSync(filePath)) {
@@ -144,7 +152,7 @@ function validateWebResources(results: ValidationResult[]): void {
 
 function validateConstants(results: ValidationResult[]): void {
   const filePath = path.resolve(
-    __dirname,
+    SCRIPT_DIR,
     "../web/src/data/constants.ts"
   );
   if (!fs.existsSync(filePath)) return;
@@ -209,7 +217,7 @@ function validateConstants(results: ValidationResult[]): void {
 }
 
 function validateDocs(results: ValidationResult[]): void {
-  const filePath = path.resolve(__dirname, "../web/src/data/docs.ts");
+  const filePath = path.resolve(SCRIPT_DIR, "../web/src/data/docs.ts");
   if (!fs.existsSync(filePath)) return;
   const content = fs.readFileSync(filePath, "utf-8");
 
@@ -242,7 +250,7 @@ function validateDocs(results: ValidationResult[]): void {
 }
 
 function validateRights(results: ValidationResult[]): void {
-  const filePath = path.resolve(__dirname, "../web/src/data/rights.ts");
+  const filePath = path.resolve(SCRIPT_DIR, "../web/src/data/rights.ts");
   if (!fs.existsSync(filePath)) return;
   const content = fs.readFileSync(filePath, "utf-8");
 
@@ -261,75 +269,129 @@ function validateRights(results: ValidationResult[]): void {
   }
 }
 
-function validateServerResources(results: ValidationResult[]): void {
-  const filePath = path.resolve(
-    __dirname,
-    "../server/src/data/resources.ts"
-  );
+// ── Phone numbers in free text (questions.ts and every other data file) ─────
+
+/**
+ * Numbers that were once on the site and are WRONG. They must never come back.
+ * Keep in sync with KNOWN_BAD_PHONES in web/tests/unit/helpers.ts.
+ */
+const KNOWN_BAD_PHONES: { digits: [string, string, string]; why: string }[] = [
+  { digits: ["877", "527", "7250"], why: "wrong DCS ombudsman number" },
+  { digits: ["800", "852", "8336"], why: "California teen line, not Arizona" },
+  { digits: ["480", "651", "3348"], why: "never verified" },
+];
+
+function listFiles(dir: string, out: string[] = []): string[] {
+  for (const name of fs.readdirSync(dir)) {
+    const full = path.join(dir, name);
+    if (fs.statSync(full).isDirectory()) listFiles(full, out);
+    else if (/\.(ts|tsx|js|jsx|mjs|json|html|webmanifest)$/.test(name)) out.push(full);
+  }
+  return out;
+}
+
+/** The known-bad numbers must not appear anywhere in the live site's source. */
+function validateKnownBadNumbers(results: ValidationResult[]): void {
+  const root = path.resolve(SCRIPT_DIR, "..");
+  const dirs = ["web/src", "web/public"].map((d) => path.join(root, d)).filter((d) => fs.existsSync(d));
+  for (const file of dirs.flatMap((d) => listFiles(d))) {
+    const rel = path.relative(root, file).split(path.sep).join("/");
+    const lines = fs.readFileSync(file, "utf-8").split("\n");
+    for (const bad of KNOWN_BAD_PHONES) {
+      const re = new RegExp(bad.digits.join("\\D{0,3}"));
+      lines.forEach((line, i) => {
+        if (re.test(line)) {
+          results.push({
+            file: rel,
+            entryId: `line ${i + 1}`,
+            rule: "known-bad-phone",
+            severity: "error",
+            message: `Line ${i + 1} has ${bad.digits.join("-")} (${bad.why}). This number must not be on the site.`,
+          });
+        }
+      });
+    }
+  }
+}
+
+// Anything that looks like a 10-digit phone number inside a sentence.
+const PHONE_IN_TEXT_RE = /(?<![\w-])(?:\+?1[-. ]?)?\(?\d{3}\)?[-. ]?\d{3}[-. ]?\d{4}(?![\w-]*\d)/g;
+// The only ways we print one: (602) 364-1300, 602-364-1300, 1-800-248-8336.
+const PHONE_IN_TEXT_OK_RE = /^(?:\(\d{3}\) \d{3}-\d{4}|\d{3}-\d{3}-\d{4}|1-\d{3}-\d{3}-\d{4})$/;
+
+/**
+ * questions.ts holds phone numbers inside answer text, so it has no `phone:`
+ * field or lastVerified date to check. Make sure every number in it is
+ * printed in a standard format, and that the DCS hotline is always complete.
+ * The same free-text check runs on the other data files.
+ */
+function validatePhonesInText(results: ValidationResult[]): void {
+  const dataDir = path.resolve(SCRIPT_DIR, "../web/src/data");
+  if (!fs.existsSync(path.join(dataDir, "questions.ts"))) {
+    results.push({
+      file: "web/src/data/questions.ts",
+      entryId: "-",
+      rule: "file-exists",
+      severity: "error",
+      message: "File not found",
+    });
+  }
+  for (const name of fs.readdirSync(dataDir).filter((f) => f.endsWith(".ts")).sort()) {
+    const file = `web/src/data/${name}`;
+    const lines = fs.readFileSync(path.join(dataDir, name), "utf-8").split("\n");
+    lines.forEach((line, i) => {
+      // Skip machine fields: dial strings (tel/sms), links, dates.
+      if (/^\s*(tel|telAlt|sms|url|website|lastVerified):/.test(line)) return;
+      const text = line.replace(/https?:\/\/[^\s"'`)]+/g, "");
+      for (const m of text.matchAll(PHONE_IN_TEXT_RE)) {
+        if (!PHONE_IN_TEXT_OK_RE.test(m[0])) {
+          results.push({
+            file,
+            entryId: `line ${i + 1}`,
+            rule: "phone-format",
+            severity: "error",
+            message: `Line ${i + 1}: phone number "${m[0]}" is not in a standard format, e.g. (602) 364-1300, 602-364-1300 or 1-800-248-8336`,
+          });
+        }
+      }
+      // DCS child abuse hotline must always be the full, correct number.
+      for (const m of text.matchAll(/888\D{0,3}767\D{0,3}(\d{0,4})/g)) {
+        if (m[1] !== "2445") {
+          results.push({
+            file,
+            entryId: `line ${i + 1}`,
+            rule: "dcs-hotline",
+            severity: "error",
+            message: `Line ${i + 1}: DCS hotline must be 1-888-767-2445, found "${m[0]}"`,
+          });
+        }
+      }
+    });
+  }
+}
+
+/** Crisis contacts: dial strings are digits only and 911 / 988 / DCS are present. */
+function validateCrisisDialNumbers(results: ValidationResult[]): void {
+  const file = "web/src/data/constants.ts";
+  const filePath = path.resolve(SCRIPT_DIR, "..", file);
   if (!fs.existsSync(filePath)) return;
   const content = fs.readFileSync(filePath, "utf-8");
-
-  // Check all URLs
-  const urlMatches = content.matchAll(/website:\s*"([^"]+)"/g);
-  for (const m of urlMatches) {
-    if (!URL_RE.test(m[1])) {
-      results.push({
-        file: "server/src/data/resources.ts",
-        entryId: m[1],
-        rule: "url-https",
-        severity: "error",
-        message: `Server resource URL does not start with https://: ${m[1]}`,
-      });
+  const section = content.match(/CRISIS_PINS\s*=\s*\[([\s\S]*?)\]\s*as\s*const/)?.[1];
+  if (!section) {
+    results.push({ file, entryId: "-", rule: "crisis-pins-present", severity: "error", message: "CRISIS_PINS block not found" });
+    return;
+  }
+  const dial = new Set<string>();
+  for (const m of section.matchAll(/^\s*(tel|telAlt|sms):\s*"([^"]*)"/gm)) {
+    if (m[1] !== "sms") dial.add(m[2]);
+    if (!/^\d{3,11}$/.test(m[2])) {
+      results.push({ file, entryId: m[2], rule: "dial-digits", severity: "error", message: `${m[1]} must be digits only: "${m[2]}"` });
     }
   }
-
-  // Check phone numbers
-  const phoneMatches = content.matchAll(/phone:\s*"([^"]+)"/g);
-  for (const m of phoneMatches) {
-    if (!isValidPhone(m[1])) {
-      results.push({
-        file: "server/src/data/resources.ts",
-        entryId: m[1],
-        rule: "phone-format",
-        severity: "error",
-        message: `Invalid phone format in server resources: ${m[1]}`,
-      });
+  for (const [number, label] of [["911", "911"], ["988", "988"], ["18887672445", "DCS hotline 1-888-767-2445"]]) {
+    if (!dial.has(number)) {
+      results.push({ file, entryId: number, rule: "crisis-required", severity: "error", message: `CRISIS_PINS is missing ${label}` });
     }
-  }
-
-  // Check lastVerified dates
-  const dateMatches = content.matchAll(/lastVerified:\s*"([^"]+)"/g);
-  let dateCount = 0;
-  for (const m of dateMatches) {
-    dateCount++;
-    if (!isValidDate(m[1])) {
-      results.push({
-        file: "server/src/data/resources.ts",
-        entryId: m[1],
-        rule: "date-format",
-        severity: "error",
-        message: `Invalid lastVerified date in server resources: ${m[1]}`,
-      });
-    } else if (isFutureDate(m[1])) {
-      results.push({
-        file: "server/src/data/resources.ts",
-        entryId: m[1],
-        rule: "date-not-future",
-        severity: "error",
-        message: `Server resource lastVerified in the future: ${m[1]}`,
-      });
-    }
-  }
-
-  const entryCount = (content.match(/id:\s*"r-/g) || []).length;
-  if (dateCount < entryCount) {
-    results.push({
-      file: "server/src/data/resources.ts",
-      entryId: "-",
-      rule: "lastVerified-present",
-      severity: "warning",
-      message: `${dateCount} of ${entryCount} server resource entries have lastVerified dates`,
-    });
   }
 }
 
@@ -344,7 +406,9 @@ function main(): void {
   validateConstants(results);
   validateDocs(results);
   validateRights(results);
-  validateServerResources(results);
+  validatePhonesInText(results);
+  validateKnownBadNumbers(results);
+  validateCrisisDialNumbers(results);
 
   const errors = results.filter((r) => r.severity === "error");
   const warnings = results.filter((r) => r.severity === "warning");

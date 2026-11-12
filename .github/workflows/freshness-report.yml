@@ -1,4 +1,12 @@
 name: Freshness Report
+
+# This workflow commits straight to the default branch, which auto-deploys.
+# That is acceptable ONLY because the one file it writes is
+# docs/freshness-report.md, which is not part of the website. The commit step
+# stages that exact path and refuses to commit anything else. If this workflow
+# ever needs to change web/, make it open a pull request instead
+# (see auto-reverify.yml).
+
 on:
   schedule:
     - cron: "0 9 1 * *" # 1st of every month at 9:00 UTC
@@ -16,7 +24,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Install tsx
         run: npm install -g tsx
@@ -24,10 +32,21 @@ jobs:
       - name: Generate freshness report
         run: npx tsx scripts/generate-freshness-report.ts
 
-      - name: Commit report
+      - name: Commit report (docs/freshness-report.md only)
+        shell: bash
         run: |
+          set -euo pipefail
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add docs/freshness-report.md
-          git diff --staged --quiet || git commit -m "docs: update monthly content freshness report [skip ci]"
+          git add -- docs/freshness-report.md
+          if git diff --staged --quiet; then
+            echo "Report unchanged"
+            exit 0
+          fi
+          if [[ "$(git diff --staged --name-only)" != "docs/freshness-report.md" ]]; then
+            echo "::error::Refusing to commit: staged files are not just docs/freshness-report.md"
+            git diff --staged --name-only
+            exit 1
+          fi
+          git commit -m "docs: update monthly content freshness report [skip ci]"
           git push
