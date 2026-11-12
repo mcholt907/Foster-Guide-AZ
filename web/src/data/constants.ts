@@ -73,7 +73,7 @@ export const CRISIS_PINS = [
     smsDisplay: "602-248-8336",
     crisis: true,
     compact: false,
-    lastVerified: "2026-11-09",
+    lastVerified: "2026-11-12",
   },
   {
     id: "crisis-text",

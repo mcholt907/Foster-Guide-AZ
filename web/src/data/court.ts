@@ -146,8 +146,8 @@ export const WHO_IN_YOUR_CASE = [
     color: "#D97706",
     role: "A lawyer the court picks for you. They do not work for DCS, your parents, or your foster family.",
     role_es: "Un/a abogado/a que el tribunal elige para ti. No trabaja para DCS, ni para tus padres, ni para tu familia de crianza.",
-    what: "Arizona law says every child in a foster care court case gets a lawyer. Your lawyer goes to court, explains what is going on, and tells the judge what you want. Some youth also have a guardian ad litem (GAL). A GAL tells the judge what they think is best for you — which may not be the same as what you want. You may have a lawyer, a GAL, or both.",
-    what_es: "La ley de Arizona dice que cada niño, niña o joven en un caso de cuidado de crianza recibe un/a abogado/a. Tu abogado/a va al tribunal, te explica lo que está pasando y le dice al juez lo que tú quieres. Algunos jóvenes también tienen un tutor ad litem (GAL). Un GAL le dice al juez lo que cree que es mejor para ti — que puede no ser lo mismo que tú quieres. Puedes tener un/a abogado/a, un GAL o los dos.",
+    what: "Arizona law says every child in a foster care court case gets a lawyer. Your lawyer goes to court, explains what is going on, and tells the judge what you want. Some youth also have a guardian ad litem (GAL). A GAL tells the judge what they think is best for you — which may not be the same as what you want. A GAL is not your lawyer — you still have your own lawyer.",
+    what_es: "La ley de Arizona dice que cada niño, niña o joven en un caso de cuidado de crianza recibe un/a abogado/a. Tu abogado/a va al tribunal, te explica lo que está pasando y le dice al juez lo que tú quieres. Algunos jóvenes también tienen un tutor ad litem (GAL). Un GAL le dice al juez lo que cree que es mejor para ti — que puede no ser lo mismo que tú quieres. Un GAL no es tu abogado/a — sigues teniendo tu propio/a abogado/a.",
     tip: "Ask: \"Are you my lawyer or my GAL? Do you tell the judge what I want, or what you think is best?\" Also ask them what they keep private. If you don't know who your lawyer is, ask your caseworker.",
     tip_es: "Pregunta: «¿Eres mi abogado/a o mi GAL? ¿Le dices al juez lo que yo quiero, o lo que tú crees que es mejor?» También pregúntale qué mantiene en privado. Si no sabes quién es tu abogado/a, pregúntale a tu trabajador/a de casos.",
     teen_tips: {
@@ -233,8 +233,8 @@ export const WHO_IN_YOUR_CASE = [
     color: "#7c3aed",
     role: "A person the court picks to tell the judge what they think is best for you.",
     role_es: "Una persona que el tribunal elige para decirle al juez lo que cree que es mejor para ti.",
-    what: "A GAL looks at your whole life — school, health, where you live, the people you care about. Then they tell the judge what they think is best for you. That is not always the same as what you want. A GAL is different from a lawyer who speaks for what you want. Some youth have a lawyer, some have a GAL, and some have both.",
-    what_es: "Un GAL mira toda tu vida — escuela, salud, dónde vives, las personas que te importan. Luego le dice al juez lo que cree que es mejor para ti. Eso no siempre es lo mismo que tú quieres. Un GAL es diferente de un/a abogado/a que habla por lo que tú quieres. Algunos jóvenes tienen abogado/a, algunos tienen un GAL y algunos tienen los dos.",
+    what: "A GAL looks at your whole life — school, health, where you live, the people you care about. Then they tell the judge what they think is best for you. That is not always the same as what you want. A GAL is different from a lawyer who speaks for what you want. You always have a lawyer. Only some youth have a GAL too.",
+    what_es: "Un GAL mira toda tu vida — escuela, salud, dónde vives, las personas que te importan. Luego le dice al juez lo que cree que es mejor para ti. Eso no siempre es lo mismo que tú quieres. Un GAL es diferente de un/a abogado/a que habla por lo que tú quieres. Siempre tienes un/a abogado/a. Solo algunos jóvenes tienen también un GAL.",
     tip: "Ask: \"Are you my lawyer or my GAL? Do you tell the judge what I want, or what you think is best?\" A GAL may share what you say with the judge, so ask them what they keep private.",
     tip_es: "Pregunta: «¿Eres mi abogado/a o mi GAL? ¿Le dices al juez lo que yo quiero, o lo que tú crees que es mejor?» Un GAL puede compartir con el juez lo que le dices, así que pregúntale qué mantiene en privado.",
     teen_tips: {
@@ -596,8 +596,8 @@ export const CASE_FAQS_TEEN: CaseFAQTeen[] = [
       es: "¿Mi abogado/a es lo mismo que un tutor ad litem (GAL)?",
     },
     a: {
-      en: "Not always. A lawyer tells the judge what you want. A GAL tells the judge what they think is best for you. You may have one or both. Ask: \"Are you my lawyer or my GAL? Do you tell the judge what I want, or what you think is best?\" Ask them what they keep private, too.",
-      es: "No siempre. Un/a abogado/a le dice al juez lo que tú quieres. Un GAL le dice al juez lo que cree que es mejor para ti. Puedes tener uno o los dos. Pregunta: «¿Eres mi abogado/a o mi GAL? ¿Le dices al juez lo que yo quiero, o lo que tú crees que es mejor?» También pregúntale qué mantiene en privado.",
+      en: "No. They have different jobs. Your lawyer tells the judge what you want. A GAL tells the judge what they think is best for you. Everyone gets a lawyer, and some youth get a GAL too. Ask: \"Are you my lawyer or my GAL? Do you tell the judge what I want, or what you think is best?\" Ask them what they keep private, too.",
+      es: "No. Tienen trabajos diferentes. Tu abogado/a le dice al juez lo que tú quieres. Un GAL le dice al juez lo que cree que es mejor para ti. Todos reciben un/a abogado/a, y algunos jóvenes también reciben un GAL. Pregunta: «¿Eres mi abogado/a o mi GAL? ¿Le dices al juez lo que yo quiero, o lo que tú crees que es mejor?» También pregúntale qué mantiene en privado.",
     },
   },
   {

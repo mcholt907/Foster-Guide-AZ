@@ -19,16 +19,14 @@ export type Right = {
   tiers: Record<AgeBandKey, RightTier>;
 };
 
-// Citation note: paragraph numbers inside A.R.S. §8-529 are NOT cited here
-// because the statute text could not be read at the time of writing. Only add
-// a paragraph number (for example "(A)(3)") after checking it against the
-// current statute at azleg.gov/ars/8/00529.htm.
+// Citations: paragraph numbers were checked against the statute text at
+// azleg.gov/ars/8/00529.htm on 2026-11-12. Re-check them if the statute is amended.
 export const RIGHTS: Right[] = [
   {
     id: "safety",
     title: "Being Safe Where You Live",
     title_es: "Estar a salvo donde vives",
-    citation: "A.R.S. §8-529",
+    citation: "A.R.S. §8-529(A)(1), (2), (7)",
     tiers: {
       "10-12": {
         plain: "You have the right to be safe. No one is allowed to hit you, hurt you, or touch you in a way that feels wrong. Your home should be safe and clean, and people there should treat you with respect.",
@@ -76,7 +74,7 @@ export const RIGHTS: Right[] = [
     id: "participate",
     title: "Having a Say in Your Case",
     title_es: "Tener voz en tu caso",
-    citation: "A.R.S. §8-529",
+    citation: "A.R.S. §8-529(A)(17)–(19)",
     tiers: {
       "10-12": {
         plain: "The adults in your case are supposed to listen to what you need and what matters to you. Your voice counts.",
@@ -85,16 +83,16 @@ export const RIGHTS: Right[] = [
         example_es: "Puedes decirle a tu trabajador/a de casos lo que te ayuda a sentirte seguro/a — en casa, en la escuela, donde sea.",
         howToAsk: "Before your next meeting, make a list of the things that matter most to you. You can hand it to your caseworker or ask a trusted adult to help you share it.",
         howToAsk_es: "Antes de tu próxima reunión, haz una lista de las cosas que más te importan. Puedes dársela a tu trabajador/a de casos o pedirle a un adulto de confianza que te ayude a compartirla.",
-        ifIgnored: "Tell the person who speaks for you in court that you don't feel listened to. Some kids have a lawyer, who tells the judge what you want. Some have a guardian ad litem (GAL), who tells the judge what they think is best for you. You can ask: “Are you my lawyer or my GAL?”",
-        ifIgnored_es: "Dile a la persona que habla por ti en la corte que sientes que no te escuchan. Algunos niños tienen un abogado, que le dice al juez lo que tú quieres. Otros tienen un tutor ad litem (GAL), que le dice al juez lo que cree que es mejor para ti. Puedes preguntar: “¿Eres mi abogado/a o mi GAL?”",
+        ifIgnored: "Tell your lawyer that you don't feel listened to. Every kid in foster care in Arizona gets a lawyer, who tells the judge what you want. Some kids also have a guardian ad litem (GAL), who tells the judge what they think is best for you. You can ask: “Are you my lawyer or my GAL?”",
+        ifIgnored_es: "Dile a tu abogado/a que sientes que no te escuchan. En Arizona, cada niño en cuidado de crianza tiene un abogado, que le dice al juez lo que tú quieres. Algunos niños también tienen un tutor ad litem (GAL), que le dice al juez lo que cree que es mejor para ti. Puedes preguntar: “¿Eres mi abogado/a o mi GAL?”",
       },
       "13-15": {
         plain: "You can be part of making your case plan and share what you want — things like school, visits, and where you live.",
         plain_es: "Puedes participar en la creación de tu plan de caso y compartir lo que quieres — cosas como la escuela, las visitas y dónde vives.",
         example: "Before a hearing, write down 3 things you want the judge to know.",
         example_es: "Antes de una audiencia, escribe 3 cosas que quieres que el juez sepa.",
-        howToAsk: "Give your list to the person who speaks for you in court before the hearing. Ask them: “Are you my lawyer or my GAL?” A lawyer argues for what you want. A guardian ad litem (GAL) tells the judge what they think is best for you — you can still ask them to tell the judge what you want.",
-        howToAsk_es: "Dale tu lista a la persona que habla por ti en la corte antes de la audiencia. Pregúntale: “¿Eres mi abogado/a o mi GAL?” Un abogado defiende lo que tú quieres. Un tutor ad litem (GAL) le dice al juez lo que cree que es mejor para ti — aun así puedes pedirle que le diga al juez lo que tú quieres.",
+        howToAsk: "Give your list to your lawyer before the hearing. Arizona law gives you a lawyer in your case, and their job is to argue for what you want. Some youth also have a guardian ad litem (GAL), who tells the judge what they think is best for you. If you aren't sure who is who, ask: “Are you my lawyer or my GAL?”",
+        howToAsk_es: "Dale tu lista a tu abogado/a antes de la audiencia. La ley de Arizona te da un abogado en tu caso, y su trabajo es defender lo que tú quieres. Algunos jóvenes también tienen un tutor ad litem (GAL), que le dice al juez lo que cree que es mejor para ti. Si no sabes quién es quién, pregunta: “¿Eres mi abogado/a o mi GAL?”",
         ifIgnored: "Tell them directly that you don't feel heard. You can also ask to go to your hearing and talk to the judge yourself. If things don't get better, you can ask the judge for a different lawyer. The judge decides.",
         ifIgnored_es: "Dile directamente que sientes que no te escucha. También puedes pedir ir a tu audiencia y hablar con el juez tú mismo/a. Si las cosas no mejoran, puedes pedirle al juez otro abogado. El juez decide.",
       },
@@ -103,8 +101,8 @@ export const RIGHTS: Right[] = [
         plain_es: "Tienes derecho a participar en la planificación de tu futuro — como dónde vas a vivir a largo plazo y qué pasa después de cumplir 18.",
         example: "Before a hearing, write down your questions and what you want. The Your Case page has ideas for what to ask.",
         example_es: "Antes de una audiencia, escribe tus preguntas y lo que quieres. La página Tu Caso tiene ideas de qué preguntar.",
-        howToAsk: "Ask: “Can I speak at my next hearing, or give the judge a letter?” Also ask: “Are you my lawyer or my GAL?” A lawyer argues for what you want. A guardian ad litem (GAL) tells the judge what they think is best for you.",
-        howToAsk_es: "Pregunta: “¿Puedo hablar en mi próxima audiencia o darle una carta al juez?” También pregunta: “¿Eres mi abogado/a o mi GAL?” Un abogado defiende lo que tú quieres. Un tutor ad litem (GAL) le dice al juez lo que cree que es mejor para ti.",
+        howToAsk: "Ask: “Can I speak at my next hearing, or give the judge a letter?” You have the right to go to your hearing and speak to the judge. Your lawyer argues for what you want. If you also have a guardian ad litem (GAL), they tell the judge what they think is best for you — so ask: “Are you my lawyer or my GAL?”",
+        howToAsk_es: "Pregunta: “¿Puedo hablar en mi próxima audiencia o darle una carta al juez?” Tienes derecho a ir a tu audiencia y hablar con el juez. Tu abogado/a defiende lo que tú quieres. Si también tienes un tutor ad litem (GAL), esa persona le dice al juez lo que cree que es mejor para ti — así que pregunta: “¿Eres mi abogado/a o mi GAL?”",
         ifIgnored: "Ask your lawyer to tell the judge that you disagree with the plan. If you keep getting left out of planning, you can also call the DCS Ombudsman — the office that looks into complaints about DCS.",
         ifIgnored_es: "Pídele a tu abogado/a que le diga al juez que no estás de acuerdo con el plan. Si te siguen dejando fuera de la planificación, también puedes llamar al Ombudsman (defensor del pueblo) de DCS — la oficina que revisa las quejas sobre DCS.",
       },
@@ -124,7 +122,7 @@ export const RIGHTS: Right[] = [
     id: "family",
     title: "Visits With Your Parents & Family",
     title_es: "Visitas con tus padres y tu familia",
-    citation: "A.R.S. §8-529",
+    citation: "A.R.S. §8-529(A)(3), (4), (15)",
     tiers: {
       "10-12": {
         plain: "You can usually visit, call, or write to your mom, dad, and other family when it is safe. A judge and your caseworker make a visit plan. If you can't see someone, you can ask an adult to tell you why in a way you understand.",
@@ -143,8 +141,8 @@ export const RIGHTS: Right[] = [
         example_es: "Pregúntale a tu trabajador/a de casos: “¿Qué dice mi plan de visitas? ¿Cada cuánto, dónde y quién va a estar?”",
         howToAsk: "Say what you want: more visits, phone or video calls, or visits with other family like grandparents. If a visit doesn't feel safe, you can say that too. Either way, your voice counts.",
         howToAsk_es: "Di lo que quieres: más visitas, llamadas o videollamadas, o visitas con otros familiares como tus abuelos. Si una visita no se siente segura, también puedes decirlo. De cualquier forma, tu voz cuenta.",
-        ifIgnored: "Tell your lawyer. They can bring it up with the judge. Visits with your family are not supposed to be taken away as a punishment for how you act.",
-        ifIgnored_es: "Díselo a tu abogado/a. Puede mencionarlo ante el juez. Las visitas con tu familia no se deben quitar como castigo por cómo te portas.",
+        ifIgnored: "Tell your lawyer. They can bring it up with the judge. If your visits are cut back, you have the right to have the reason explained to you.",
+        ifIgnored_es: "Díselo a tu abogado/a. Puede mencionarlo ante el juez. Si te reducen las visitas, tienes derecho a que te expliquen la razón.",
       },
       "16-17": {
         plain: "You have the right to your visit plan with your parents and family, and to have any limits explained to you. A judge can limit contact when it isn't safe. You can ask for more contact, less contact, or a different kind.",
@@ -172,7 +170,7 @@ export const RIGHTS: Right[] = [
     id: "siblings",
     title: "Seeing Your Brothers & Sisters",
     title_es: "Ver a tus hermanos y hermanas",
-    citation: "A.R.S. §8-529",
+    citation: "A.R.S. §8-529(A)(4), (28)",
     tiers: {
       "10-12": {
         plain: "You can usually visit and talk with your brothers and sisters. The adults in your case should help make that happen.",
@@ -220,7 +218,7 @@ export const RIGHTS: Right[] = [
     id: "school",
     title: "Staying in Your School",
     title_es: "Seguir en tu escuela",
-    citation: "A.R.S. §8-529 · ESSA",
+    citation: "A.R.S. §8-529(A)(9) · ESSA",
     tiers: {
       "10-12": {
         plain: "You have the right to go to school and learn. If you move to a new home, the adults should try to keep you at the same school when that is best for you. You can also get extra help at school.",
@@ -268,7 +266,7 @@ export const RIGHTS: Right[] = [
     id: "health",
     title: "Health Care & Your Medicines",
     title_es: "Atención médica y tus medicinas",
-    citation: "A.R.S. §8-529",
+    citation: "A.R.S. §8-529(A)(21)–(23)",
     tiers: {
       "10-12": {
         plain: "You can see a doctor, a dentist, and a counselor when you need to. You can ask what your medicine is for. You should not be given medicine you don't need.",
@@ -316,7 +314,7 @@ export const RIGHTS: Right[] = [
     id: "belongings",
     title: "Your Clothes, Belongings & Papers",
     title_es: "Tu ropa, tus cosas y tus papeles",
-    citation: "A.R.S. §8-529",
+    citation: "A.R.S. §8-529(A)(11)–(13), (B)(6), (7)",
     tiers: {
       "10-12": {
         plain: "You have the right to clothes that fit you and keep you warm or cool. You can have your own things, like toys, photos, and books, and a place to keep them. If you move, your things should come with you.",
@@ -364,7 +362,7 @@ export const RIGHTS: Right[] = [
     id: "activities",
     title: "Doing Normal Kid & Teen Things",
     title_es: "Hacer cosas normales de tu edad",
-    citation: "A.R.S. §8-529",
+    citation: "A.R.S. §8-529(A)(8), (26)",
     tiers: {
       "10-12": {
         plain: "You get to do normal kid things — play sports, join a club, go to a friend's house or a birthday party. Your foster parent can usually say yes, just like any parent would.",
@@ -412,7 +410,7 @@ export const RIGHTS: Right[] = [
     id: "identity",
     title: "Your Religion, Culture & Identity",
     title_es: "Tu religión, tu cultura y quién eres",
-    citation: "A.R.S. §8-529 · ICWA",
+    citation: "A.R.S. §8-529(A)(8), (27) · ICWA",
     tiers: {
       "10-12": {
         plain: "You have the right to be you. You can practice your religion, and keep your culture, your language, and your family's traditions. People should treat you with respect, no matter who you are.",
@@ -460,7 +458,7 @@ export const RIGHTS: Right[] = [
     id: "privacy",
     title: "Your Privacy & Private Talks",
     title_es: "Tu privacidad y hablar en privado",
-    citation: "A.R.S. §8-529",
+    citation: "A.R.S. §8-529(A)(2), (16), (20)",
     tiers: {
       "10-12": {
         plain: "You can ask to talk with your caseworker or your lawyer in private — without other people listening.",
@@ -508,7 +506,7 @@ export const RIGHTS: Right[] = [
     id: "speakup",
     title: "Speaking Up & Knowing Why",
     title_es: "Decir lo que pasa y saber por qué",
-    citation: "A.R.S. §8-529",
+    citation: "A.R.S. §8-529(A)(5), (24), (29), (D)",
     tiers: {
       "10-12": {
         plain: "You can tell an adult when something is wrong. You should not get in trouble for telling. You can also ask why you are in foster care, and why you are moving if you have to change homes.",

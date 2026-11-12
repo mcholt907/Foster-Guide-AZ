@@ -29,7 +29,7 @@ export const RESOURCES = [
     url: "https://www.azahcccs.gov/BehavioralHealth/crisis.html",
     description: "Call 1-844-534-4673 or text 4HOPE (44673) any time, day or night. A trained crisis helper answers. Anyone in Arizona can call, with or without insurance.",
     description_es: "Llama al 1-844-534-4673 o envía un mensaje al 4HOPE (44673) a cualquier hora, de día o de noche. Te contesta una persona preparada para ayudar en una crisis. Cualquier persona en Arizona puede llamar, con o sin seguro médico.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "teen-lifeline",
@@ -42,7 +42,7 @@ export const RESOURCES = [
     url: "https://teenlifeline.org/",
     description: "Talk with another teen who is trained to listen. It is free and private. Call or text 602-248-8336. Outside Maricopa County, call 1-800-248-8336. Teens answer from 3 to 9 p.m. every day. At other hours, an adult answers calls.",
     description_es: "Habla con otro adolescente preparado para escucharte. Es gratis y privado. Llama o envía un mensaje al 602-248-8336. Fuera del condado Maricopa, llama al 1-800-248-8336. Los adolescentes contestan de 3 a 9 p.m. todos los días. A otras horas, un adulto contesta las llamadas.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "trevor",
@@ -107,7 +107,7 @@ export const RESOURCES = [
     url: "https://alwaysaz.org",
     description: "Free lawyers for young people in Maricopa and Pima counties who are in or were in foster care, have no stable home, or were hurt or abused. Call 602-248-7055 and leave your name, number, and a few words about what is going on.",
     description_es: "Abogados gratis para jóvenes de los condados Maricopa y Pima que están o estuvieron en cuidado de crianza, no tienen un hogar estable o sufrieron abuso. Llama al 602-248-7055 y deja tu nombre, tu número y unas palabras sobre lo que está pasando.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "cls",
@@ -133,7 +133,7 @@ export const RESOURCES = [
     url: "https://www.sazlegalaid.org/",
     description: "Free legal help for people with low income in Apache, Cochise, Gila, Graham, Greenlee, Navajo, Pima, Pinal, and Santa Cruz counties. Call 1-800-248-6789 or apply on the website. Not sure you qualify? Apply anyway and they will check.",
     description_es: "Ayuda legal gratis para personas de bajos ingresos en los condados Apache, Cochise, Gila, Graham, Greenlee, Navajo, Pima, Pinal y Santa Cruz. Llama al 1-800-248-6789 o haz tu solicitud en el sitio web. ¿No sabes si calificas? Solicita de todos modos y ellos lo revisan.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "dna-legal",
@@ -159,7 +159,7 @@ export const RESOURCES = [
     url: "https://dcs.az.gov/resource/complaint-or-disagreement",
     description: "Have a problem with DCS (the Department of Child Safety) that your caseworker and their supervisor did not fix? Call 1-877-527-0765 or use the form on the website. You may need to leave a message. Say your name, a safe way to reach you, and what went wrong.",
     description_es: "¿Tienes un problema con el DCS (Departamento de Seguridad Infantil) que tu trabajador de caso y su supervisor no resolvieron? Llama al 1-877-527-0765 o usa el formulario del sitio web. Puede que tengas que dejar un mensaje. Di tu nombre, una forma segura de contactarte y qué salió mal.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "az-ombudsman",
@@ -172,7 +172,7 @@ export const RESOURCES = [
     url: "https://www.azoca.gov/contact/",
     description: "An office outside of DCS that looks into complaints about state agencies, including DCS. It is free. Try the DCS Ombudsman first. If that does not work, use the form on the website or call 602-277-7292.",
     description_es: "Una oficina fuera del DCS que revisa quejas sobre agencias del estado, incluido el DCS. Es gratis. Primero intenta con el Ombudsman del DCS. Si eso no funciona, usa el formulario del sitio web o llama al 602-277-7292.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "fosteringadvocates",
@@ -211,7 +211,7 @@ export const RESOURCES = [
     url: "https://www.azahcccs.gov/Members/GetCovered/Categories/YATI.html",
     description: "Free health insurance from age 18 to 26 if you were in foster care in Arizona (with DCS or a Tribe) on your 18th birthday. There is no income limit and no monthly cost. Apply at healthearizonaplus.gov or call 1-855-432-7587.",
     description_es: "Seguro médico gratis de los 18 a los 26 años si estabas en cuidado de crianza en Arizona (con el DCS o una Tribu) el día que cumpliste 18. No hay límite de ingresos ni pago mensual. Solicita en healthearizonaplus.gov o llama al 1-855-432-7587.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "wic",
@@ -250,7 +250,7 @@ export const RESOURCES = [
     url: "https://www.ourfamilyservices.org/homeless-youth/",
     description: "A safe place to stay in Tucson for ages 12 to 17, open day and night. It is free. Call 520-320-5122 and say: \"I need a safe place to stay.\"",
     description_es: "Un lugar seguro para quedarte en Tucson si tienes de 12 a 17 años, abierto de día y de noche. Es gratis. Llama al 520-320-5122 y di: \"Necesito un lugar seguro donde quedarme\".",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "our-family-young-adults",
@@ -263,7 +263,7 @@ export const RESOURCES = [
     url: "https://www.ourfamilyservices.org/homeless-youth/",
     description: "Housing help in Tucson for ages 18 to 24 who have no stable place to live. Call 520-323-1708, extension 103, or email housing@ourfamilyservices.org.",
     description_es: "Ayuda de vivienda en Tucson para jóvenes de 18 a 24 años que no tienen un lugar estable donde vivir. Llama al 520-323-1708, extensión 103, o escribe a housing@ourfamilyservices.org.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "northland",
@@ -276,7 +276,7 @@ export const RESOURCES = [
     url: "https://northlandfamily.org/youth-shelter/",
     description: "A safe shelter in Flagstaff for kids and teens up to age 17 who ran away, have no place to stay, or need a break from a crisis at home. Call 928-527-1800 any time, day or night.",
     description_es: "Un albergue seguro en Flagstaff para niños y adolescentes hasta los 17 años que se fueron de casa, no tienen dónde quedarse o necesitan un descanso de una crisis en casa. Llama al 928-527-1800 a cualquier hora, de día o de noche.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "nac-homebase",
@@ -289,7 +289,7 @@ export const RESOURCES = [
     url: "https://www.nativeconnections.org/housing/youth/homebase-youth-services/",
     description: "Emergency shelter and a drop-in center in Phoenix and Surprise for young adults (18 and older) with no place to stay. Meals, laundry, and computers. Call 602-263-5531 to start. You do not have to be Native American.",
     description_es: "Albergue de emergencia y centro de día en Phoenix y Surprise para jóvenes adultos (de 18 años o más) sin un lugar donde quedarse. Comidas, lavandería y computadoras. Llama al 602-263-5531 para empezar. No tienes que ser nativo americano.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "thrive",
@@ -302,7 +302,7 @@ export const RESOURCES = [
     url: "https://www.thriveaz.org/transitional-housing",
     description: "Housing in the Phoenix area for ages 18 to 24 who were in foster care. Your caseworker or another agency has to send the referral form for you. Space is limited, so ask about the wait list.",
     description_es: "Vivienda en el área de Phoenix para jóvenes de 18 a 24 años que estuvieron en cuidado de crianza. Tu trabajador de caso u otra agencia tiene que enviar el formulario de referencia por ti. El espacio es limitado, así que pregunta por la lista de espera.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "newculture",
@@ -328,7 +328,7 @@ export const RESOURCES = [
     url: "https://www.arizonaschildren.org/services/young-adult-services/",
     description: "Help getting ready for life after foster care: health insurance, money for school, and other supports. Serves Apache, Coconino, Gila, Graham, Greenlee, La Paz, Maricopa, Mohave, Navajo, Pinal, and Yavapai counties. Call 1-800-944-7611 and ask for Young Adult Services. Ask what you can get at your age.",
     description_es: "Ayuda para prepararte para la vida después del cuidado de crianza: seguro médico, dinero para estudiar y otros apoyos. Atiende los condados Apache, Coconino, Gila, Graham, Greenlee, La Paz, Maricopa, Mohave, Navajo, Pinal y Yavapai. Llama al 1-800-944-7611 y pregunta por Young Adult Services (servicios para jóvenes adultos). Pregunta qué puedes recibir a tu edad.",
-    lastVerified: "2026-11-11",
+    lastVerified: "2026-11-12",
   },
   {
     id: "onenten",
@@ -341,7 +341,7 @@ export const RESOURCES = [
     url: "https://onenten.org/",
     description: "A safe place for LGBTQ+ youth ages 11 to 24 to hang out, meet people, and get support. The youth center is at 1101 N. Central Ave., Suite 104, in Phoenix. Call 602-400-2601 or check the website for hours and groups.",
     description_es: "Un lugar seguro para jóvenes LGBTQ+ de 11 a 24 años para pasar el rato, conocer gente y recibir apoyo. El centro juvenil está en 1101 N. Central Ave., Suite 104, en Phoenix. Llama al 602-400-2601 o revisa el sitio web para ver horarios y grupos.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "phoenix-indian-center",
@@ -354,7 +354,7 @@ export const RESOURCES = [
     url: "https://phxindcenter.org/youth-programming/",
     description: "Programs for Native American youth and families in the Phoenix area: youth groups, job training, and getting ready for college. Call 602-264-6768 and ask about youth programs.",
     description_es: "Programas para jóvenes y familias nativas americanas en el área de Phoenix: grupos juveniles, capacitación para el trabajo y preparación para la universidad. Llama al 602-264-6768 y pregunta por los programas para jóvenes.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "tucson-indian-center",
@@ -367,7 +367,7 @@ export const RESOURCES = [
     url: "https://www.ticenter.org/",
     description: "Health care, counseling, and social services in Tucson for Native American and Alaska Native people from any tribe. Open Monday to Friday, 8 a.m. to 5 p.m. Call 520-884-7131.",
     description_es: "Atención médica, consejería y servicios sociales en Tucson para personas nativas americanas y nativas de Alaska de cualquier tribu. Abierto de lunes a viernes, de 8 a.m. a 5 p.m. Llama al 520-884-7131.",
-    lastVerified: "2026-11-10",
+    lastVerified: "2026-11-12",
   },
   {
     id: "az-etv",
