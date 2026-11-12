@@ -94,19 +94,19 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
   return (
     <div className="max-w-[1240px] mx-auto px-6 sm:px-12 py-10 sm:py-20">
       {/* Background blob */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-50/40 rounded-full blur-[140px] -z-10 translate-x-1/4 -translate-y-1/4" />
+      <div aria-hidden="true" className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-50/40 rounded-full blur-[140px] -z-10 translate-x-1/4 -translate-y-1/4" />
 
       {/* Hero */}
       <div className="mb-14 md:mb-20">
-        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-600 mb-4">{tt("rights.hero.tag", lang)}</p>
+        <p className="text-xs font-black uppercase tracking-[0.4em] text-emerald-700 mb-4">{tt("rights.hero.tag", lang)}</p>
         <h1 className="text-4xl sm:text-6xl font-black text-[#1e293b] mb-6 tracking-[-0.05em] leading-[0.9]">
           {tt("rights.hero.title", lang)}
         </h1>
         <p className="text-slate-500 text-lg sm:text-xl font-medium max-w-2xl leading-[1.6] tracking-tight border-l-[3px] border-emerald-100 pl-8 mb-8">
           {tt("rights.hero.subtitle", lang)}
         </p>
-        <span className="inline-flex items-center gap-2 rounded-full bg-[#1a2f44] text-white font-black text-[11px] uppercase tracking-[0.2em] px-5 py-2.5">
-          <Scale size={14} strokeWidth={2.5} /> {tt("rights.citation", lang)}
+        <span className="inline-flex items-center gap-2 rounded-full bg-[#1a2f44] text-white font-black text-xs uppercase tracking-[0.2em] px-5 py-2.5">
+          <Scale size={14} strokeWidth={2.5} aria-hidden="true" /> {tt("rights.citation", lang)}
         </span>
       </div>
 
@@ -115,7 +115,7 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
         {/* Rights list */}
         <div className="lg:col-span-4 -mx-6 px-6 md:mx-0 md:px-0 min-w-0">
           <p className="text-[13px] font-semibold text-slate-500 mb-3">
-            {tr("list.hint", lang)} <span className="text-slate-400">({RIGHTS.length})</span>
+            {tr("list.hint", lang)} <span className="text-slate-600">({RIGHTS.length})</span>
           </p>
           <div
             ref={scrollRef}
@@ -136,8 +136,8 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
                   data-active={isActive}
                   aria-pressed={isActive}
                   onClick={() => setOpenId(r.id)}
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  initial={{ x: -8 }}
+                  animate={{ x: 0 }}
                   transition={{ delay: reduce ? 0 : Math.min(idx, 6) * 0.05, duration: reduce ? 0 : 0.3 }}
                   className={`snap-center flex-shrink-0 w-[240px] lg:w-auto flex items-start gap-4 p-5 rounded-[1.5rem] transition-all duration-300 text-left relative group ${
                     isActive
@@ -154,10 +154,10 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
                         : { backgroundColor: "rgba(241, 245, 249, 0.8)", color: "#64748b" }
                     }
                   >
-                    <RIcon size={18} strokeWidth={isActive ? 2.5 : 2.25} />
+                    <RIcon size={18} strokeWidth={isActive ? 2.5 : 2.25} aria-hidden="true" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1">{r.citation}</p>
+                    <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-600 mb-1">{r.citation}</p>
                     <p
                       className="text-[15px] font-black tracking-tight leading-tight"
                       style={{ color: isActive ? rTheme.primary : "#334155" }}
@@ -167,7 +167,7 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
                   </div>
                   {isActive && (
                     <motion.div layoutId="rights-arrow" className="ml-auto hidden lg:block mt-1">
-                      <ArrowRight size={18} style={{ color: rTheme.accent }} />
+                      <ArrowRight size={18} style={{ color: rTheme.accent }} aria-hidden="true" />
                     </motion.div>
                   )}
                 </motion.button>
@@ -178,7 +178,7 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
 
         {/* Detail card */}
         <div ref={detailRef} className="lg:col-span-8 min-w-0 lg:sticky lg:top-8 lg:self-start scroll-mt-24 lg:scroll-mt-8">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={openId}
               initial={{ opacity: 0, x: 20, scale: 0.98 }}
@@ -189,6 +189,7 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
               style={{ boxShadow: `0 32px 80px ${theme.shadow.replace("0.15", "0.1")}` }}
             >
               <div
+                aria-hidden="true"
                 className="absolute left-0 top-0 bottom-0 w-[6px] sm:w-[8px] rounded-r-full"
                 style={{ background: `linear-gradient(to bottom, ${theme.accent}, ${theme.primary})` }}
               />
@@ -200,10 +201,10 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
               {/* Header */}
               <div className="flex items-start justify-between mb-10 relative z-10 gap-4">
                 <div className="max-w-xl">
-                  <p className="text-[12px] font-bold text-slate-500 mb-2">
+                  <p className="text-[12px] font-bold text-slate-600 mb-2">
                     {tr("counter", lang, { n: activeIdx + 1, total: RIGHTS.length })}
                   </p>
-                  <p className="text-[10px] font-black uppercase tracking-[0.25em] text-slate-400 mb-3">{active.citation}</p>
+                  <p className="text-xs font-black uppercase tracking-[0.25em] text-slate-600 mb-3">{active.citation}</p>
                   <h2 className="text-2xl sm:text-4xl font-black text-[#1e293b] tracking-tighter leading-tight">
                     {title}
                   </h2>
@@ -213,13 +214,13 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
                   style={{ color: theme.primary }}
                 >
                   <div className="absolute inset-0 rounded-[1.75rem] blur-xl -z-10" style={{ backgroundColor: theme.light }} />
-                  <ActiveIcon size={32} strokeWidth={1.75} />
+                  <ActiveIcon size={32} strokeWidth={1.75} aria-hidden="true" />
                 </div>
               </div>
 
               {/* What it means — hero paragraph */}
               <div className="mb-10 relative z-10">
-                <span className="uppercase tracking-[0.25em] text-[10px] font-black mb-3 block" style={{ color: theme.primary }}>
+                <span className="uppercase tracking-[0.25em] text-xs font-black mb-3 block" style={{ color: theme.primary }}>
                   {tt("rights.label.what", lang)}
                 </span>
                 <p className="text-[#1e293b] text-base sm:text-xl font-bold leading-[1.6] tracking-tight">
@@ -234,8 +235,8 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
                   style={{ backgroundColor: theme.light, borderColor: `${theme.primary}15` }}
                 >
                   <div className="flex items-center gap-2 mb-3">
-                    <Sparkles size={14} style={{ color: theme.primary }} strokeWidth={2.5} />
-                    <span className="uppercase tracking-[0.25em] text-[10px] font-black" style={{ color: theme.primary }}>
+                    <Sparkles size={14} style={{ color: theme.primary }} strokeWidth={2.5} aria-hidden="true" />
+                    <span className="uppercase tracking-[0.25em] text-xs font-black" style={{ color: theme.primary }}>
                       {tt("rights.label.example", lang)}
                     </span>
                   </div>
@@ -246,8 +247,8 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
 
                 <div className="p-6 rounded-[1.75rem] bg-sky-50/60 border border-sky-100">
                   <div className="flex items-center gap-2 mb-3">
-                    <MessageSquare size={14} className="text-sky-600" strokeWidth={2.5} />
-                    <span className="uppercase tracking-[0.25em] text-[10px] font-black text-sky-700">
+                    <MessageSquare size={14} className="text-sky-700" strokeWidth={2.5} aria-hidden="true" />
+                    <span className="uppercase tracking-[0.25em] text-xs font-black text-sky-800">
                       {tt("rights.label.how", lang)}
                     </span>
                   </div>
@@ -259,11 +260,11 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
 
               {/* If it's ignored — action callout */}
               <div className="relative z-10 p-6 rounded-[1.75rem] bg-rose-50/70 border border-rose-100 flex gap-5 items-start">
-                <div className="shrink-0 bg-rose-100 text-rose-600 p-2.5 rounded-xl ring-4 ring-white">
-                  <AlertTriangle size={20} strokeWidth={2.5} />
+                <div className="shrink-0 bg-rose-100 text-rose-700 p-2.5 rounded-xl ring-4 ring-white">
+                  <AlertTriangle size={20} strokeWidth={2.5} aria-hidden="true" />
                 </div>
                 <div className="flex-1">
-                  <span className="uppercase tracking-[0.25em] text-[10px] font-black text-rose-700 mb-2 block">
+                  <span className="uppercase tracking-[0.25em] text-xs font-black text-rose-700 mb-2 block">
                     {tt("rights.label.ignored", lang)}
                   </span>
                   <p className="text-[#881337] text-[14.5px] font-bold leading-[1.7] whitespace-pre-line">
@@ -278,9 +279,9 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
                   <button
                     type="button"
                     onClick={() => go(prev.id)}
-                    className="inline-flex items-center gap-2 min-h-[44px] rounded-full px-4 py-2.5 text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors"
+                    className="inline-flex items-center gap-2 min-h-[44px] rounded-full px-4 py-2.5 text-sm font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors"
                   >
-                    <ArrowLeft size={16} strokeWidth={2.5} /> {tr("prev", lang)}
+                    <ArrowLeft size={16} strokeWidth={2.5} aria-hidden="true" /> {tr("prev", lang)}
                   </button>
                 ) : <span />}
                 {next ? (
@@ -289,7 +290,7 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
                     onClick={() => go(next.id)}
                     className="inline-flex items-center gap-2 min-h-[44px] rounded-full px-5 py-2.5 text-sm font-bold text-white bg-[#1a2f44] hover:bg-[#24405c] transition-colors"
                   >
-                    {tr("next", lang)} <ArrowRight size={16} strokeWidth={2.5} />
+                    {tr("next", lang)} <ArrowRight size={16} strokeWidth={2.5} aria-hidden="true" />
                   </button>
                 ) : <span />}
               </div>
@@ -318,22 +319,22 @@ export function RightsTeen({ lang, band }: RightsTeenProps) {
             return (
               <motion.li
                 key={s.step}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ y: 16 }}
+                whileInView={{ y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ delay: reduce ? 0 : idx * 0.08, duration: reduce ? 0 : 0.4 }}
                 className="relative bg-white rounded-[2rem] p-7 border border-slate-100 shadow-[0_12px_32px_rgba(0,0,0,0.03)] flex flex-col"
               >
                 <div className="flex items-center gap-4 mb-5">
                   <div className="w-11 h-11 rounded-[1rem] bg-[#1a2f44] text-white flex items-center justify-center shrink-0 relative">
-                    <Icon size={18} strokeWidth={2.5} />
-                    <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-emerald-400 text-[#1a2f44] text-[11px] font-black flex items-center justify-center ring-2 ring-white">
+                    <Icon size={18} strokeWidth={2.5} aria-hidden="true" />
+                    <span aria-hidden="true" className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-emerald-400 text-[#1a2f44] text-xs font-black flex items-center justify-center ring-2 ring-white">
                       {s.step}
                     </span>
                   </div>
                 </div>
-                <h4 className="font-black text-[#1e293b] text-[17px] mb-3 tracking-tight leading-tight">{who}</h4>
-                <p className="text-slate-500 text-sm font-medium leading-[1.7]">{what}</p>
+                <h3 className="font-black text-[#1e293b] text-[17px] mb-3 tracking-tight leading-tight">{who}</h3>
+                <p className="text-slate-600 text-sm font-medium leading-[1.7]">{what}</p>
               </motion.li>
             );
           })}

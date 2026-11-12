@@ -123,13 +123,13 @@ export default function SetupPage() {
             />
           </div>
 
-          <div className="text-[#136d41] font-extrabold text-[11px] mb-[clamp(0.5rem,1.5vh,1rem)] uppercase tracking-[0.2em] bg-[#136d41]/10 px-4 py-1.5 rounded-full">
+          <div className="text-[#136d41] font-extrabold text-xs mb-[clamp(0.5rem,1.5vh,1rem)] uppercase tracking-[0.2em] bg-[#136d41]/10 px-4 py-1.5 rounded-full">
             FosterHub AZ
           </div>
 
-          <h2 className="text-[clamp(1.75rem,5vh,2.75rem)] font-extrabold text-[#115e59] mb-[clamp(0.5rem,1.5vh,1rem)] leading-[1.1]">
+          <h1 className="text-[clamp(1.75rem,5vh,2.75rem)] font-extrabold text-[#115e59] mb-[clamp(0.5rem,1.5vh,1rem)] leading-[1.1]">
             {lang === "es" ? "Este lugar es\npara ti." : "This place is\nfor you."}
-          </h2>
+          </h1>
 
           <p className="text-slate-600 font-medium text-[clamp(0.9rem,1.8vh,1.125rem)] leading-relaxed max-w-sm mb-[clamp(0.75rem,2vh,1.5rem)] px-2">
             {lang === "es"
@@ -147,9 +147,9 @@ export default function SetupPage() {
         <div className="bg-white rounded-t-[2.5rem] px-6 sm:px-8 pt-[clamp(1rem,2.5vh,2rem)] pb-[clamp(1rem,3vh,2.5rem)] shadow-[0_-15px_40px_-15px_rgba(0,0,0,0.05)] flex flex-col shrink-0">
 
           <div className="flex items-center justify-between mb-[clamp(0.75rem,2vh,1.5rem)]">
-            <h3 className="text-[1.35rem] sm:text-2xl font-extrabold text-[#35322d]">
+            <h2 className="text-[1.35rem] sm:text-2xl font-extrabold text-[#35322d]">
               {stepQuestion}
-            </h3>
+            </h2>
             <ProgressDots step={step} />
           </div>
 
@@ -176,7 +176,7 @@ export default function SetupPage() {
                     <span className={`font-extrabold text-2xl tracking-tight mb-1 ${isSelected ? "text-[#115e59]" : "text-[#35322d]"}`}>
                       {lang === "es" ? opt.labelEs : opt.labelEn}
                     </span>
-                    <span className={`text-xs font-medium leading-tight px-1 ${isSelected ? "text-[#136d41]" : "text-slate-500"}`}>
+                    <span className={`text-xs font-medium leading-tight px-1 ${isSelected ? "text-[#136d41]" : "text-slate-600"}`}>
                       {lang === "es" ? opt.descEs : opt.descEn}
                     </span>
                   </button>
@@ -188,7 +188,7 @@ export default function SetupPage() {
           {/* ── Step 1: County ── */}
           {step === 1 && (
             <div className="mb-[clamp(1rem,3vh,2rem)]">
-              <p className="text-xs text-slate-500 mb-3">
+              <p className="text-xs text-slate-600 mb-3">
                 {lang === "es" ? "Esto nos ayuda a mostrarte recursos locales." : "This helps us show you local resources."}
               </p>
               <div className="grid grid-cols-2 gap-2 max-h-[clamp(180px,30vh,256px)] overflow-y-auto pr-1">
@@ -197,7 +197,7 @@ export default function SetupPage() {
                   className={`col-span-2 rounded-2xl px-3 py-2.5 text-center text-sm font-semibold ring-1 transition-all ${
                     county === "Unknown"
                       ? "bg-[#115e59] ring-[#115e59] text-white"
-                      : "bg-white ring-black/10 text-slate-500 hover:ring-black/20"
+                      : "bg-white ring-black/10 text-slate-600 hover:ring-black/20"
                   }`}
                 >
                   {lang === "es" ? "No lo sé / No aplica" : "I don't know / Not sure"}
@@ -222,7 +222,7 @@ export default function SetupPage() {
           {/* ── Step 2: Tribal ── */}
           {step === 2 && (
             <div className="mb-[clamp(1rem,3vh,2rem)]">
-              <p className="text-xs text-slate-500 mb-3">{t("onboarding_tribal_hint", lang)}</p>
+              <p className="text-xs text-slate-600 mb-3">{t("onboarding_tribal_hint", lang)}</p>
               <div className="grid grid-cols-3 gap-2 sm:gap-3">
                 {TRIBAL_OPTIONS.map((opt) => {
                   const isSelected = tribal === opt.val;
@@ -245,7 +245,7 @@ export default function SetupPage() {
                       <span className={`font-extrabold text-lg sm:text-xl tracking-tight leading-tight mb-1 ${isSelected ? "text-[#115e59]" : "text-[#35322d]"}`}>
                         {t(opt.labelKey, lang)}
                       </span>
-                      <span className={`text-xs font-medium leading-tight px-1 ${isSelected ? "text-[#136d41]" : "text-slate-500"}`}>
+                      <span className={`text-xs font-medium leading-tight px-1 ${isSelected ? "text-[#136d41]" : "text-slate-600"}`}>
                         {tc(opt.descKey, lang)}
                       </span>
                     </button>
@@ -260,7 +260,7 @@ export default function SetupPage() {
             <div className="flex items-stretch gap-3 mb-[clamp(0.75rem,2vh,1.5rem)]">
               <button
                 onClick={handleBack}
-                className="px-6 py-[clamp(0.75rem,2vh,1rem)] rounded-[1.5rem] font-bold text-[16px] text-slate-500 bg-slate-100 hover:bg-slate-200 transition-colors"
+                className="px-6 py-[clamp(0.75rem,2vh,1rem)] rounded-[1.5rem] font-bold text-[16px] text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors"
               >
                 {lang === "es" ? "Atrás" : "Back"}
               </button>
@@ -270,7 +270,7 @@ export default function SetupPage() {
                 className={`flex-1 py-[clamp(0.75rem,2vh,1rem)] rounded-[1.5rem] font-extrabold text-[16px] flex items-center justify-center gap-2 transition-all duration-300 ${
                   isReady
                     ? "bg-[#136d41] text-white hover:bg-[#0f5c35] shadow-md hover:shadow-lg"
-                    : "bg-slate-100 text-slate-400 cursor-not-allowed"
+                    : "bg-slate-100 text-slate-600 cursor-not-allowed"
                 }`}
               >
                 {nextLabel}
@@ -284,7 +284,7 @@ export default function SetupPage() {
             <div className="mb-[clamp(0.75rem,2vh,1.5rem)]">
               <button
                 onClick={() => setStep(0)}
-                className="w-full px-6 py-[clamp(0.75rem,2vh,1rem)] rounded-[1.5rem] font-bold text-[16px] text-slate-500 bg-slate-100 hover:bg-slate-200 transition-colors"
+                className="w-full px-6 py-[clamp(0.75rem,2vh,1rem)] rounded-[1.5rem] font-bold text-[16px] text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors"
               >
                 {lang === "es" ? "Atrás" : "Back"}
               </button>
@@ -294,11 +294,11 @@ export default function SetupPage() {
           {/* Language switcher */}
           <div className="text-center">
             {lang === "es" ? (
-              <Link href="/en/setup" className="text-[#64748b] text-[13px] font-medium hover:text-[#115e59] underline decoration-2 underline-offset-4 transition-colors">
+              <Link href="/en/setup" lang="en" className="inline-flex min-h-11 items-center px-3 text-[#475569] text-sm font-medium hover:text-[#115e59] underline decoration-2 underline-offset-4 transition-colors">
                 Switch to English
               </Link>
             ) : (
-              <Link href="/es/setup" className="text-[#64748b] text-[13px] font-medium hover:text-[#115e59] underline decoration-2 underline-offset-4 transition-colors">
+              <Link href="/es/setup" lang="es" className="inline-flex min-h-11 items-center px-3 text-[#475569] text-sm font-medium hover:text-[#115e59] underline decoration-2 underline-offset-4 transition-colors">
                 Cambiar a Español
               </Link>
             )}

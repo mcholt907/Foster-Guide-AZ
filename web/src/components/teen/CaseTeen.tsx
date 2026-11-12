@@ -30,7 +30,7 @@ const THEMES: Record<TeenColorTheme, Theme> = {
   blue:    { primary: "#1d4ed8", light: "rgba(239, 246, 255, 0.5)", accent: "#60a5fa", shadow: "rgba(29, 78, 216, 0.15)" },
   rose:    { primary: "#be123c", light: "rgba(255, 241, 242, 0.5)", accent: "#fb7185", shadow: "rgba(190, 18, 60, 0.15)" },
   amber:   { primary: "#b45309", light: "rgba(255, 251, 235, 0.5)", accent: "#fbbf24", shadow: "rgba(180, 83, 9, 0.15)" },
-  cyan:    { primary: "#0891b2", light: "rgba(236, 254, 255, 0.5)", accent: "#22d3ee", shadow: "rgba(8, 145, 178, 0.15)" },
+  cyan:    { primary: "#0e7490", light: "rgba(236, 254, 255, 0.5)", accent: "#22d3ee", shadow: "rgba(14, 116, 144, 0.15)" },
   slate:   { primary: "#334155", light: "rgba(248, 250, 252, 0.6)", accent: "#94a3b8", shadow: "rgba(51, 65, 85, 0.15)" },
 };
 
@@ -53,7 +53,7 @@ export function CaseTeen({ lang, band }: CaseTeenProps) {
     <div className="max-w-[1240px] mx-auto px-6 sm:px-12 py-10 sm:py-20">
       {/* Hero */}
       <div className="mb-14 md:mb-20">
-        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-600 mb-4">
+        <p className="text-xs font-black uppercase tracking-[0.4em] text-emerald-700 mb-4">
           {tt("case.hero.tag", lang)}
         </p>
         <h1 className="text-4xl sm:text-6xl font-black text-[#1e293b] mb-6 tracking-[-0.05em] leading-[0.9]">
@@ -66,7 +66,11 @@ export function CaseTeen({ lang, band }: CaseTeenProps) {
 
       <div className="flex flex-col lg:grid lg:grid-cols-12 gap-12">
         {/* Stage nav */}
-        <div className="lg:col-span-4 space-y-3 -mx-6 px-6 md:mx-0 md:px-0 flex lg:flex-col gap-3 overflow-x-auto lg:overflow-visible pb-6 md:pb-0 snap-x">
+        <div
+          role="group"
+          aria-label={tt("case.hero.tag", lang)}
+          className="lg:col-span-4 space-y-3 -mx-6 px-6 md:mx-0 md:px-0 flex lg:flex-col gap-3 overflow-x-auto lg:overflow-visible pb-6 md:pb-0 snap-x"
+        >
           {CASE_STAGES_TEEN.map((stage, idx) => {
             const isActive = openId === stage.id;
             const st = THEMES[stage.color];
@@ -76,14 +80,15 @@ export function CaseTeen({ lang, band }: CaseTeenProps) {
               <motion.button
                 key={stage.id}
                 type="button"
+                aria-pressed={isActive}
                 onClick={() => setOpenId(stage.id)}
-                initial={{ opacity: 0, x: -8 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ x: -8 }}
+                animate={{ x: 0 }}
                 transition={{ delay: reduce ? 0 : idx * 0.05, duration: reduce ? 0 : 0.3 }}
                 className={`snap-center flex-shrink-0 w-[260px] lg:w-full flex items-center gap-5 p-5 rounded-[1.5rem] transition-all duration-300 text-left border-2 group ${
                   isActive
                     ? "bg-white shadow-[0_12px_44px_rgba(0,0,0,0.04)] z-10"
-                    : "bg-transparent border-transparent text-slate-400 hover:bg-white/60"
+                    : "bg-transparent border-transparent text-slate-600 hover:bg-white/60"
                 }`}
                 style={isActive ? { borderColor: `${st.primary}15` } : {}}
               >
@@ -95,10 +100,10 @@ export function CaseTeen({ lang, band }: CaseTeenProps) {
                     boxShadow: isActive ? `0 8px 16px ${st.shadow}` : undefined,
                   }}
                 >
-                  <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
+                  <Icon size={20} strokeWidth={isActive ? 2.5 : 2} aria-hidden="true" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[10px] font-black uppercase tracking-widest opacity-50 mb-0.5">
+                  <span className="text-xs font-black uppercase tracking-widest mb-0.5">
                     {stage.sometimes
                       ? tc("case.stage.sometimes", lang)
                       : `${tc("case.stage", lang)} ${stageNum}`}
@@ -109,7 +114,7 @@ export function CaseTeen({ lang, band }: CaseTeenProps) {
                 </div>
                 {isActive && (
                   <motion.div layoutId="case-arrow" className="ml-auto hidden lg:block">
-                    <ArrowRight size={18} style={{ color: st.accent }} />
+                    <ArrowRight size={18} style={{ color: st.accent }} aria-hidden="true" />
                   </motion.div>
                 )}
               </motion.button>
@@ -119,7 +124,7 @@ export function CaseTeen({ lang, band }: CaseTeenProps) {
 
         {/* Stage detail card */}
         <div className="lg:col-span-8">
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={openId}
               initial={{ opacity: 0, scale: 0.98, x: 10 }}
@@ -130,10 +135,12 @@ export function CaseTeen({ lang, band }: CaseTeenProps) {
               style={{ boxShadow: `0 32px 80px ${theme.shadow.replace("0.15", "0.08")}` }}
             >
               <div
+                aria-hidden="true"
                 className="absolute left-0 top-0 bottom-0 w-[6px] rounded-r-full"
                 style={{ background: `linear-gradient(to bottom, ${theme.accent}, ${theme.primary})` }}
               />
               <div
+                aria-hidden="true"
                 className="absolute top-0 right-0 w-80 h-80 rounded-bl-full pointer-events-none opacity-20"
                 style={{ backgroundColor: theme.light }}
               />
@@ -142,7 +149,7 @@ export function CaseTeen({ lang, band }: CaseTeenProps) {
                 <h2 className="text-3xl sm:text-4xl font-black text-[#1e293b] mb-2 tracking-tighter">
                   {active.title[lang]}
                 </h2>
-                <p className="text-slate-400 text-[11px] font-bold uppercase tracking-[0.2em] mb-12">
+                <p className="text-slate-600 text-xs font-bold uppercase tracking-[0.2em] mb-12">
                   {active.subtitle[lang]}
                 </p>
 
@@ -153,12 +160,12 @@ export function CaseTeen({ lang, band }: CaseTeenProps) {
                       className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border border-slate-100 bg-white shadow-sm"
                       style={{ color: theme.primary }}
                     >
-                      <Info size={20} />
+                      <Info size={20} aria-hidden="true" />
                     </div>
                     <div>
-                      <h4 className="text-[12px] font-black uppercase tracking-widest text-slate-400 mb-2">
+                      <h3 className="text-[12px] font-black uppercase tracking-widest text-slate-600 mb-2">
                         {tt("case.label.what", lang)}
-                      </h4>
+                      </h3>
                       <p className="text-[#1e293b] text-base sm:text-lg font-medium leading-[1.8] tracking-tight max-w-2xl">
                         {active.what[lang]}
                       </p>
@@ -167,13 +174,13 @@ export function CaseTeen({ lang, band }: CaseTeenProps) {
 
                   {/* Teen perspective */}
                   <div className="flex gap-6 items-start">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border border-slate-100 bg-white shadow-sm text-amber-500">
-                      <Zap size={20} />
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border border-slate-100 bg-white shadow-sm text-amber-700">
+                      <Zap size={20} aria-hidden="true" />
                     </div>
                     <div>
-                      <h4 className="text-[12px] font-black uppercase tracking-widest text-[#b45309] opacity-70 mb-2">
+                      <h3 className="text-[12px] font-black uppercase tracking-widest text-[#b45309] mb-2">
                         {tt("case.label.teen", lang)}
-                      </h4>
+                      </h3>
                       <p className="text-[#334155] text-base sm:text-lg font-medium leading-[1.8] tracking-tight max-w-2xl">
                         {active.teen[teenBand][lang]}
                       </p>
@@ -190,10 +197,10 @@ export function CaseTeen({ lang, band }: CaseTeenProps) {
                         className="mt-1 w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-white"
                         style={{ color: theme.primary }}
                       >
-                        <ArrowRight size={18} strokeWidth={3} />
+                        <ArrowRight size={18} strokeWidth={3} aria-hidden="true" />
                       </div>
                       <div>
-                        <span className="text-[10px] font-black uppercase tracking-[0.25em] mb-2 block opacity-70" style={{ color: theme.primary }}>
+                        <span className="text-xs font-black uppercase tracking-[0.25em] mb-2 block" style={{ color: theme.primary }}>
                           {tt("case.label.insight", lang)}
                         </span>
                         <p className="text-base sm:text-lg font-black leading-tight tracking-tight" style={{ color: theme.primary }}>
@@ -204,13 +211,13 @@ export function CaseTeen({ lang, band }: CaseTeenProps) {
                   </div>
 
                   {/* Next */}
-                  <div className="pt-10 border-t border-slate-50 flex items-center gap-4 text-slate-400 font-bold text-xs uppercase tracking-widest">
-                    <Clock size={16} /> {tt("case.label.next", lang)}: {active.next[lang]}
+                  <div className="pt-10 border-t border-slate-50 flex items-center gap-4 text-slate-600 font-bold text-xs uppercase tracking-widest">
+                    <Clock size={16} aria-hidden="true" className="shrink-0" /> {tt("case.label.next", lang)}: {active.next[lang]}
                   </div>
                 </div>
 
                 {/* Decorative active-icon (screen-readers ignore) */}
-                <div className="absolute top-8 right-8 opacity-10 pointer-events-none hidden sm:block" aria-hidden>
+                <div className="absolute top-8 right-8 opacity-10 pointer-events-none hidden sm:block" aria-hidden="true">
                   <ActiveIcon size={120} style={{ color: theme.primary }} />
                 </div>
               </div>
@@ -248,13 +255,13 @@ export function CaseTeen({ lang, band }: CaseTeenProps) {
                   className="w-full flex items-center justify-between px-8 py-6 text-left"
                   aria-expanded={isOpen}
                 >
-                  <span className={`text-[17px] font-black pr-6 tracking-tight leading-tight ${isOpen ? "text-slate-900" : "text-slate-500"}`}>
+                  <span className={`text-[17px] font-black pr-6 tracking-tight leading-tight ${isOpen ? "text-slate-900" : "text-slate-700"}`}>
                     {faq.q[lang]}
                   </span>
                   <div className={`shrink-0 w-8 h-8 rounded-xl flex items-center justify-center ${
-                    isOpen ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-400"
+                    isOpen ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-600"
                   }`}>
-                    {isOpen ? <ChevronUp size={16} strokeWidth={3} /> : <ChevronDown size={16} strokeWidth={3} />}
+                    {isOpen ? <ChevronUp size={16} strokeWidth={3} aria-hidden="true" /> : <ChevronDown size={16} strokeWidth={3} aria-hidden="true" />}
                   </div>
                 </button>
                 <AnimatePresence initial={false}>
@@ -266,7 +273,7 @@ export function CaseTeen({ lang, band }: CaseTeenProps) {
                       className="overflow-hidden"
                     >
                       <div className="px-8 pb-8 pt-2">
-                        <p className="text-slate-500 text-base leading-relaxed tracking-tight font-medium">
+                        <p className="text-slate-600 text-base leading-relaxed tracking-tight font-medium">
                           {faq.a[lang]}
                         </p>
                       </div>

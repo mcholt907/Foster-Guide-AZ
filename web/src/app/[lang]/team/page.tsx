@@ -125,12 +125,12 @@ function Team1012({ lang }: { lang: Lang }) {
       <div className="-mx-4 px-4 py-4 flex items-center gap-3 sticky top-0 bg-[#FFF9F3]/90 backdrop-blur-md z-30">
         <Link
           href={`/${lang}`}
-          className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 transition-colors shrink-0"
+          className="w-11 h-11 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 transition-colors shrink-0"
           aria-label={lang === "es" ? "Volver" : "Back to home"}
         >
-          <ChevronLeft size={20} className="text-slate-600" />
+          <ChevronLeft size={20} className="text-slate-600" aria-hidden="true" />
         </Link>
-        <h1 className="text-lg font-bold text-[#629DA7] tracking-tight flex-1">
+        <h1 className="text-lg font-bold text-[#1F6470] tracking-tight flex-1">
           {lang === "es" ? "Tu Equipo" : "Your Team"}
         </h1>
       </div>
@@ -145,7 +145,7 @@ function Team1012({ lang }: { lang: Lang }) {
           priority
           className="w-56 h-auto mb-6 object-cover rounded-[2.5rem] shadow-sm border border-slate-200"
         />
-        <h2 className="text-3xl font-bold text-[#629DA7] mb-3">
+        <h2 className="text-3xl font-bold text-[#1F6470] mb-3">
           {lang === "es" ? "Tu Equipo" : "Your Team"}
         </h2>
         <p className="text-slate-600">
@@ -165,7 +165,7 @@ function Team1012({ lang }: { lang: Lang }) {
             <div className="shrink-0 w-24 h-24 sm:w-32 sm:h-32 bg-white rounded-full overflow-hidden shadow-inner flex items-center justify-center">
               <Image
                 src={member.avatar}
-                alt={lang === "es" ? member.titleEs : member.title}
+                alt=""
                 width={256}
                 height={256}
                 className="object-cover w-full h-full scale-[1.3] pt-4"
@@ -186,7 +186,7 @@ function Team1012({ lang }: { lang: Lang }) {
       <TribalNote lang={lang} variant="kid" className="mb-12" />
 
       {/* FAQ */}
-      <h2 className="text-2xl text-center font-semibold text-[#629DA7] mb-5">
+      <h2 className="text-2xl text-center font-semibold text-[#1F6470] mb-5">
         {lang === "es" ? "Preguntas que podrías tener" : "Questions you might have"}
       </h2>
       <div className="space-y-3 mb-8">
@@ -196,13 +196,17 @@ function Team1012({ lang }: { lang: Lang }) {
           const a = lang === "es" ? faq.aEs : faq.a;
           return (
             <div key={idx} className="bg-[#DDEBFA] rounded-xl overflow-hidden text-[#1E3A5F]">
+              <h3>
               <button
+                type="button"
+                aria-expanded={isOpen}
                 onClick={() => setOpenFAQ(isOpen ? null : idx)}
-                className="w-full flex items-center justify-between px-5 py-4 text-left font-medium hover:bg-[#c9e0f6] transition-colors"
+                className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left font-medium hover:bg-[#c9e0f6] transition-colors"
               >
                 <span>{q}</span>
-                {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                {isOpen ? <ChevronUp size={20} className="shrink-0" aria-hidden="true" /> : <ChevronDown size={20} className="shrink-0" aria-hidden="true" />}
               </button>
+              </h3>
               {isOpen && (
                 <div className="px-5 pb-4 text-sm bg-white pt-3 border-x border-b border-[#DDEBFA] rounded-b-xl shadow-sm">
                   {a}

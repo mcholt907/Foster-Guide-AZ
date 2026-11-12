@@ -29,15 +29,16 @@ function Dashboard1012({ lang }: { lang: Lang }) {
         </h1>
         <button
           type="button"
+          aria-expanded={chipOpen}
           onClick={() => setChipOpen((o) => !o)}
-          className={`flex items-center gap-1.5 mt-3 w-fit pl-3.5 pr-2.5 py-1.5 rounded-full text-xs font-semibold shadow-sm border transition-colors ${
+          className={`flex items-center gap-1.5 mt-3 w-fit min-h-11 pl-4 pr-3.5 py-1.5 rounded-full text-sm font-semibold shadow-sm border transition-colors ${
             chipOpen
               ? "bg-[#136d41] text-white border-[#136d41]"
-              : "bg-white/70 text-slate-500 border-slate-200 hover:bg-white hover:border-slate-300"
+              : "bg-white/70 text-slate-600 border-slate-200 hover:bg-white hover:border-slate-300"
           }`}
         >
           <span>{lang === "es" ? "10–12 años · Español" : "Ages 10–12 · English"}</span>
-          <RefreshCw size={12} className={`transition-transform ${chipOpen ? "rotate-180" : ""}`} />
+          <RefreshCw size={14} aria-hidden="true" className={`transition-transform ${chipOpen ? "rotate-180" : ""}`} />
         </button>
 
         {chipOpen && (
@@ -45,7 +46,7 @@ function Dashboard1012({ lang }: { lang: Lang }) {
             <p className="text-sm font-semibold text-[#35322d] mb-1">
               {lang === "es" ? "¿Cambiar configuración?" : "Change your settings?"}
             </p>
-            <p className="text-xs text-slate-500 mb-4 leading-relaxed">
+            <p className="text-sm text-slate-600 mb-4 leading-relaxed">
               {lang === "es"
                 ? "Esto borra tu grupo de edad e idioma. Empezarás de nuevo desde el principio."
                 : "This clears your age group and language. You'll start fresh from the beginning."}
@@ -53,14 +54,14 @@ function Dashboard1012({ lang }: { lang: Lang }) {
             <button
               type="button"
               onClick={() => { reset(); router.push('/'); }}
-              className="w-full rounded-full bg-[#136d41] px-4 py-3 text-sm font-bold text-white shadow-sm hover:bg-[#0f5c35] transition-colors mb-2"
+              className="w-full min-h-11 rounded-full bg-[#136d41] px-4 py-3 text-sm font-bold text-white shadow-sm hover:bg-[#0f5c35] transition-colors mb-2"
             >
               ↩ {lang === "es" ? "Sí, empezar de nuevo" : "Yes, start over"}
             </button>
             <button
               type="button"
               onClick={() => setChipOpen(false)}
-              className="w-full text-center text-xs font-semibold text-slate-400 hover:text-slate-600 py-1 transition-colors"
+              className="w-full min-h-11 text-center text-sm font-semibold text-slate-600 hover:text-slate-800 py-1 transition-colors"
             >
               {lang === "es" ? "Cancelar" : "Never mind"}
             </button>
@@ -82,7 +83,7 @@ function Dashboard1012({ lang }: { lang: Lang }) {
             <span className="font-bold text-[#78350f] text-lg leading-tight">
               {lang === "es" ? "Mi equipo" : "My team"}
             </span>
-            <span className="text-[#78350f]/70 text-sm font-medium leading-tight">
+            <span className="text-[#78350f] text-sm font-medium leading-tight">
               {t("home_tile_team_sub", lang)}
             </span>
           </div>
@@ -100,7 +101,7 @@ function Dashboard1012({ lang }: { lang: Lang }) {
             <span className="font-bold text-[#0c4a6e] text-lg leading-tight">
               {lang === "es" ? "Mi caso explicado" : "My case explained"}
             </span>
-            <span className="text-[#0c4a6e]/70 text-sm font-medium leading-tight">
+            <span className="text-[#0c4a6e] text-sm font-medium leading-tight">
               {t("home_tile_case_sub", lang)}
             </span>
           </div>
@@ -118,7 +119,7 @@ function Dashboard1012({ lang }: { lang: Lang }) {
             <span className="font-bold text-[#831843] text-lg leading-tight">
               {t("home_wellness_short", lang)}
             </span>
-            <span className="text-[#831843]/70 text-sm font-medium leading-tight">
+            <span className="text-[#831843] text-sm font-medium leading-tight">
               {t("home_tile_wellness_sub", lang)}
             </span>
           </div>
@@ -130,13 +131,13 @@ function Dashboard1012({ lang }: { lang: Lang }) {
           className="aspect-[4/3] bg-[#dcfce7] rounded-[2rem] p-5 flex flex-col justify-between items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
         >
           <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-[#bbf7d0] flex items-center justify-center drop-shadow-sm">
-            <HelpCircle size={44} className="text-[#136d41]" strokeWidth={2.25} />
+            <HelpCircle size={44} className="text-[#136d41]" strokeWidth={2.25} aria-hidden="true" />
           </div>
           <div className="flex flex-col gap-1">
             <span className="font-bold text-[#14532d] text-lg leading-tight">
               {t("home_find_answers", lang)}
             </span>
-            <span className="text-[#14532d]/70 text-sm font-medium leading-tight">
+            <span className="text-[#14532d] text-sm font-medium leading-tight">
               {t("home_tile_answers_sub", lang)}
             </span>
           </div>
@@ -146,7 +147,7 @@ function Dashboard1012({ lang }: { lang: Lang }) {
       {/* Divider */}
       <div className="flex items-center justify-center mb-6">
         <div className="h-px bg-slate-200 flex-1" />
-        <span className="px-3 text-[10px] font-bold tracking-widest text-[#a09c98] uppercase">
+        <span className="px-3 text-xs font-bold tracking-widest text-slate-600 uppercase">
           {t("home_support_safety", lang)}
         </span>
         <div className="h-px bg-slate-200 flex-1" />
@@ -156,13 +157,13 @@ function Dashboard1012({ lang }: { lang: Lang }) {
       <div className="bg-white rounded-[1.5rem] p-4 shadow-sm border border-black/5">
         <div className="flex items-center gap-3 mb-3">
           <div className="w-11 h-11 rounded-full bg-[#FDECD2] flex shrink-0 items-center justify-center text-[#9A5505]">
-            <Phone size={20} />
+            <Phone size={20} aria-hidden="true" />
           </div>
           <div className="flex-1">
-            <h4 className="font-bold text-[#35322d] leading-tight">
+            <h2 className="font-bold text-[#35322d] leading-tight">
               {lang === "es" ? "¿Necesitas ayuda ya?" : "Need help right now?"}
-            </h4>
-            <p className="text-xs text-slate-600 mt-0.5">
+            </h2>
+            <p className="text-sm text-slate-600 mt-0.5">
               {lang === "es"
                 ? "Toca para llamar. No estás en problemas por pedir ayuda."
                 : "Tap to call. You are not in trouble for asking for help."}
@@ -173,11 +174,11 @@ function Dashboard1012({ lang }: { lang: Lang }) {
       </div>
 
       {/* Language switcher */}
-      <div className="mt-6 text-center text-xs text-slate-400">
+      <div className="mt-4 text-center text-sm text-slate-600">
         {lang === "es" ? (
-          <Link href="/en" className="underline hover:text-slate-600">Switch to English</Link>
+          <Link href="/en" lang="en" className="inline-flex min-h-11 items-center px-3 underline hover:text-slate-900">Switch to English</Link>
         ) : (
-          <Link href="/es" className="underline hover:text-slate-600">Cambiar a Español</Link>
+          <Link href="/es" lang="es" className="inline-flex min-h-11 items-center px-3 underline hover:text-slate-900">Cambiar a Español</Link>
         )}
       </div>
     </div>

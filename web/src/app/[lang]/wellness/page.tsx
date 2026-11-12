@@ -86,13 +86,13 @@ function Wellness1012({ lang }: { lang: Lang }) {
       <div className="-mx-4 px-4 py-4 flex items-center gap-3 sticky top-0 bg-[#FFF9F3]/90 backdrop-blur-md z-30">
         <Link
           href={`/${lang}`}
-          className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 transition-colors shrink-0"
+          className="w-11 h-11 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 transition-colors shrink-0"
           aria-label={lang === "es" ? "Volver" : "Back to home"}
         >
-          <ChevronLeft size={20} className="text-slate-600" />
+          <ChevronLeft size={20} className="text-slate-600" aria-hidden="true" />
         </Link>
         <div className="w-8 h-8 flex items-center justify-center bg-[#E1EAF4] rounded-full shrink-0">
-          <HeartPulse size={16} className="text-[#1B3A5C]" />
+          <HeartPulse size={16} className="text-[#1B3A5C]" aria-hidden="true" />
         </div>
         <h1 className="text-lg font-bold text-[#1B3A5C] tracking-tight flex-1">
           {lang === "es" ? "Chequeo de Bienestar" : "Wellness Check-In"}
@@ -106,7 +106,7 @@ function Wellness1012({ lang }: { lang: Lang }) {
             <h2 className="text-2xl font-bold text-[#1B3A5C]">
               {lang === "es" ? "Chequeo de Bienestar" : "Wellness Check-In"}
             </h2>
-            <p className="text-[#2C5F8E] text-sm leading-relaxed px-4">
+            <p className="text-[#1B3A5C] text-sm leading-relaxed px-4">
               {lang === "es" ? "Herramientas para cuando todo se siente abrumador." : "Tools for when things feel overwhelming."}
             </p>
           </div>
@@ -119,13 +119,13 @@ function Wellness1012({ lang }: { lang: Lang }) {
         <div className="bg-white rounded-[24px] p-6 shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
           <div className="flex items-start gap-4 mb-4">
             <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center shadow-inner shrink-0 overflow-hidden border border-blue-100">
-              <Image src="/wellness/grounding.png" alt="Grounding" width={192} height={192} className="w-14 h-14 object-contain scale-[1.2]" />
+              <Image src="/wellness/grounding.png" alt="" width={192} height={192} className="w-14 h-14 object-contain scale-[1.2]" />
             </div>
             <div className="pt-2">
-              <div className="text-base font-bold text-[#1B3A5C]">
+              <h2 className="text-base font-bold text-[#1B3A5C]">
                 {lang === "es" ? "Ejercicio de Anclaje 5-4-3-2-1" : "5-4-3-2-1 Grounding Exercise"}
-              </div>
-              <div className="text-sm text-gray-500 mt-1 leading-snug">
+              </h2>
+              <div className="text-sm text-gray-600 mt-1 leading-snug">
                 {lang === "es" ? "Ayuda a calmar tu mente en menos de 2 minutos." : "Helps calm your mind in under 2 minutes."}
               </div>
             </div>
@@ -133,6 +133,7 @@ function Wellness1012({ lang }: { lang: Lang }) {
           <div className="mt-5">
             {!groundingActive ? (
               <button
+                type="button"
                 onClick={startGrounding}
                 className="w-full rounded-full bg-[#1B3A5C] px-4 py-4 text-[15px] font-semibold text-white shadow-md hover:bg-[#122b46] active:scale-[0.98] transition-all"
               >
@@ -140,14 +141,14 @@ function Wellness1012({ lang }: { lang: Lang }) {
               </button>
             ) : (
               <div className="rounded-[20px] bg-[#E1EAF4] p-6 text-center shadow-inner">
-                <div className="text-6xl mb-4 drop-shadow-sm">{currentStep.icon}</div>
-                <div className="text-4xl font-black text-[#1B3A5C] mb-2">{currentStep.n}</div>
-                <div className="text-base text-[#2C5F8E] font-medium mb-6">
+                <div className="text-6xl mb-4 drop-shadow-sm" aria-hidden="true">{currentStep.icon}</div>
+                <div className="text-4xl font-black text-[#1B3A5C] mb-2" aria-hidden="true">{currentStep.n}</div>
+                <div className="text-base text-[#1B3A5C] font-medium mb-6" aria-live="polite">
                   {lang === "es"
                     ? `Nombra ${currentStep.n} ${currentStep.senseEs}`
                     : `Name ${currentStep.n} ${currentStep.senseEn}`}
                 </div>
-                <div className="flex justify-center gap-2 mb-6">
+                <div className="flex justify-center gap-2 mb-6" aria-hidden="true">
                   {GROUNDING_STEPS.map((_, i) => (
                     <div
                       key={i}
@@ -158,6 +159,7 @@ function Wellness1012({ lang }: { lang: Lang }) {
                   ))}
                 </div>
                 <button
+                  type="button"
                   onClick={nextGroundingStep}
                   className="w-full rounded-full bg-[#1B3A5C] px-6 py-3.5 text-[15px] font-semibold text-white shadow-md hover:bg-[#122b46] transition-all active:scale-[0.98]"
                 >
@@ -176,13 +178,13 @@ function Wellness1012({ lang }: { lang: Lang }) {
             <div key={tool.id} className="rounded-[24px] bg-white p-5 shadow-[0_4px_24px_rgba(0,0,0,0.04)] border border-transparent hover:border-blue-50 transition-colors">
               <div className="flex items-start gap-4">
                 <div className="w-14 h-14 shrink-0 bg-gray-50 rounded-full flex items-center justify-center overflow-hidden border border-gray-100">
-                  <Image src={tool.img} alt={lang === "es" ? tool.titleEs : tool.titleEn} width={192} height={192} className="w-12 h-12 object-contain scale-[1.2]" />
+                  <Image src={tool.img} alt="" width={192} height={192} className="w-12 h-12 object-contain scale-[1.2]" />
                 </div>
                 <div className="pt-1">
-                  <div className="text-[15px] font-bold text-[#1B3A5C] mb-1">
+                  <h2 className="text-[15px] font-bold text-[#1B3A5C] mb-1">
                     {lang === "es" ? tool.titleEs : tool.titleEn}
-                  </div>
-                  <p className="text-sm text-gray-500 leading-relaxed pr-2">
+                  </h2>
+                  <p className="text-sm text-gray-600 leading-relaxed pr-2">
                     {lang === "es" ? tool.descEs : tool.descEn}
                   </p>
                 </div>
@@ -194,12 +196,12 @@ function Wellness1012({ lang }: { lang: Lang }) {
         {/* Crisis contacts */}
         <div className="mt-6 rounded-[28px] bg-blue-50/50 p-6 border border-blue-100">
           <div className="flex items-center gap-3 mb-5">
-            <div className="text-xl shrink-0 bg-white w-8 h-8 rounded-full flex items-center justify-center shadow-sm">💙</div>
-            <div className="text-[15px] font-bold text-[#1B3A5C]">
+            <div className="text-xl shrink-0 bg-white w-8 h-8 rounded-full flex items-center justify-center shadow-sm" aria-hidden="true">💙</div>
+            <h2 className="text-[15px] font-bold text-[#1B3A5C]">
               {lang === "es" ? "No estás solo — personas reales que se preocupan" : "You're not alone — real people who care"}
-            </div>
+            </h2>
           </div>
-          <p className="text-sm text-[#2C5F8E] font-medium leading-relaxed mb-4">
+          <p className="text-sm text-[#1B3A5C] font-medium leading-relaxed mb-4">
             {lang === "es"
               ? "Toca un botón para llamar o escribir. No estás en problemas por pedir ayuda."
               : "Tap a button to call or text. You are not in trouble for asking for help."}
@@ -211,7 +213,7 @@ function Wellness1012({ lang }: { lang: Lang }) {
         {/* Reminder */}
         <div className="rounded-[24px] bg-[#E6F8EA] p-5 shadow-sm">
           <div className="flex items-start gap-4 text-[#1A4226]">
-            <span className="text-2xl shrink-0 bg-white/50 w-10 h-10 rounded-full flex items-center justify-center">🌱</span>
+            <span aria-hidden="true" className="text-2xl shrink-0 bg-white/50 w-10 h-10 rounded-full flex items-center justify-center">🌱</span>
             <p className="text-[14px] font-medium leading-relaxed pt-1">
               {lang === "es"
                 ? "Lo que sientes tiene sentido dado lo que has vivido. Pedir ayuda es una fortaleza, no una debilidad."

@@ -307,10 +307,10 @@ export function TeenShell({ lang, children }: TeenShellProps) {
       {/* Main content area — also the skip-link target */}
       <main
         id="main-content"
-        tabIndex={-1}
+        tabIndex={0}
         ref={swipeRef}
         inert={drawerOpen}
-        className="flex-1 min-w-0 overflow-y-auto overflow-x-clip relative pt-20 md:pt-0 pb-40 md:pb-20 scroll-smooth focus:outline-none"
+        className="flex-1 min-w-0 overflow-y-auto overflow-x-clip relative pt-20 md:pt-0 pb-40 md:pb-20 scroll-smooth outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#2A7F8E]"
       >
         {children}
       </main>
@@ -337,7 +337,7 @@ export function TeenShell({ lang, children }: TeenShellProps) {
                 href={`/${lang}${item.href}`}
                 aria-current={isActive ? "page" : undefined}
                 className={`shrink-0 min-w-[76px] min-h-[52px] flex flex-col items-center justify-center gap-1 px-2 py-1.5 rounded-2xl transition-colors ${
-                  isActive ? "text-emerald-400 font-bold bg-white/10" : "text-slate-300 hover:text-white font-medium"
+                  isActive ? "text-emerald-300 font-bold bg-white/10" : "text-slate-300 hover:text-white font-medium"
                 }`}
               >
                 <Icon size={22} aria-hidden="true" className={isActive ? "drop-shadow-[0_0_8px_rgba(52,211,153,0.4)]" : "opacity-90"} />

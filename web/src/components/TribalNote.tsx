@@ -52,7 +52,7 @@ export function TribalNote({ lang, variant = "teen", status, className = "" }: T
           <Users size={22} strokeWidth={2.25} />
         </div>
         <div className="min-w-0">
-          <h3 className="text-lg font-extrabold text-[#115e59] mb-1 leading-snug">{title}</h3>
+          <h2 className="text-lg font-extrabold text-[#115e59] mb-1 leading-snug">{title}</h2>
           <p className="text-[16px] font-medium text-slate-700 leading-relaxed">{body}</p>
           {ask && <p className="mt-2 text-[16px] font-bold text-[#115e59] leading-relaxed">{ask}</p>}
         </div>
@@ -75,10 +75,10 @@ export function TribalNote({ lang, variant = "teen", status, className = "" }: T
           <Users size={20} strokeWidth={2.25} />
         </div>
         <div className="min-w-0">
-          <span className="block text-[10px] font-black uppercase tracking-[0.25em] text-emerald-600 mb-1.5">
+          <span className="block text-xs font-black uppercase tracking-[0.25em] text-emerald-700 mb-1.5">
             {tc("tribal.kicker", lang)}
           </span>
-          <h3 className="text-lg sm:text-xl font-black text-[#1e293b] tracking-tight leading-tight mb-2">{title}</h3>
+          <h2 className="text-lg sm:text-xl font-black text-[#1e293b] tracking-tight leading-tight mb-2">{title}</h2>
           <p className="text-slate-600 text-[15px] sm:text-base font-medium leading-[1.7] tracking-tight max-w-2xl">{body}</p>
           {ask && (
             <p className="mt-3 text-[15px] sm:text-base font-black leading-snug tracking-tight text-[#115e59]">{ask}</p>
