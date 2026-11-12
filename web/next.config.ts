@@ -36,6 +36,8 @@ const nextConfig: NextConfig = {
   trailingSlash: false,
   // Empty turbopack config silences the "webpack config present" warning in Next.js 16
   turbopack: {},
+  // The app has two root layouts, so unmatched URLs need a global 404 page.
+  experimental: { globalNotFound: true },
   async headers() {
     return [
       { source: "/(.*)", headers: securityHeaders },
