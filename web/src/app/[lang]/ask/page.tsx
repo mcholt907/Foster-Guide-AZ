@@ -12,7 +12,7 @@ import type { Lang } from "../../../lib/i18n";
 import { useOnboardingGate } from "../../../lib/useOnboardingGate";
 import type { AgeBandKey } from "../../../lib/prefs";
 import { TOPIC_CONFIG, type QACategory } from "../../../data/questions";
-import { searchQuestions, isCrisisQuery } from "../../../lib/questionSearch";
+import { useQuestionSearch, isCrisisQuery } from "../../../lib/questionSearch";
 import { tt } from "../../../lib/i18n-teen";
 import { CrisisQuickLinks } from "../../../components/CrisisQuickLinks";
 import { AskTeen } from "../../../components/teen/AskTeen";
@@ -79,10 +79,13 @@ function Ask1012({ lang, band }: { lang: Lang; band: AgeBandKey }) {
   const visibleTopics = useMemo(() => TOPIC_CONFIG.filter((t) => t.bands.includes(band)), [band]);
 
   // Shared search: matches whole worried sentences, typos, and both languages.
-  const filteredQuestions = useMemo(
-    () => searchQuestions(searchQuery, { band, category: activeCategory }),
-    [activeCategory, searchQuery, band]
-  );
+  // Fuse.js loads on first focus/keystroke; until then the full list shows.
+  const { results: filteredQuestions, pending, preload } = useQuestionSearch(searchQuery, {
+    band,
+    category: activeCategory,
+  });
+  const searchLabel = lang === "es" ? "Buscar respuestas" : "Search answers";
+  const clearLabel = lang === "es" ? "Borrar búsqueda" : "Clear search";
   const showCrisis = useMemo(() => isCrisisQuery(searchQuery), [searchQuery]);
 
   return (
@@ -101,7 +104,7 @@ function Ask1012({ lang, band }: { lang: Lang; band: AgeBandKey }) {
           {lang === "es" ? "Buscar Respuestas" : "Find Answers"}
         </h1>
         <div className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-lg">
-          <FileText size={18} className="text-gray-500" />
+          <FileText size={18} aria-hidden="true" className="text-gray-600" />
         </div>
       </div>
 
@@ -126,13 +129,13 @@ function Ask1012({ lang, band }: { lang: Lang; band: AgeBandKey }) {
         {/* Compass card */}
         <div className="bg-white rounded-[24px] p-5 shadow-[0_4px_24px_rgba(0,0,0,0.04)] flex items-start space-x-4">
           <div className="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center shadow-inner shrink-0 overflow-hidden border border-blue-100">
-            <Image src="/compass_avatar.png" alt="Compass" width={96} height={96} className="w-10 h-10 object-contain" />
+            <Image src="/compass_avatar.png" alt="" width={40} height={40} className="w-10 h-10 object-contain" />
           </div>
           <div className="pt-1">
             <div className="text-blue-900 font-bold mb-1">
               {lang === "es" ? "Hola, soy Compass." : "Hi, I'm Compass."}
             </div>
-            <div className="text-gray-500 text-sm leading-relaxed">
+            <div className="text-gray-600 text-sm leading-relaxed">
               {lang === "es"
                 ? "Aquí para ayudarte a encontrar respuestas reales. Estar en cuidado de crianza puede ser muy confuso... solo toca un tema o busca lo que tienes en mente."
                 : "Here to help you find real answers. Being in foster care can feel really confusing... just tap a topic or search what's on your mind."}
@@ -142,19 +145,33 @@ function Ask1012({ lang, band }: { lang: Lang; band: AgeBandKey }) {
 
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+          <Search aria-hidden="true" className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600" size={20} />
           <input
-            type="text"
+            type="search"
+            inputMode="search"
+            enterKeyHint="search"
+            autoComplete="off"
+            aria-label={searchLabel}
+            onFocus={preload}
+            onPointerDown={preload}
             placeholder={lang === "es" ? "Busca cualquier cosa..." : "Search for anything..."}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-[#EAE2D7]/50 placeholder:text-gray-500 text-gray-800 rounded-full py-4 pl-12 pr-10 focus:outline-none focus:ring-2 focus:ring-[#A3E8B5] transition-all"
+            className="w-full bg-[#EAE2D7]/50 placeholder:text-gray-600 text-gray-800 rounded-full py-4 pl-12 pr-12 focus:outline-none focus:ring-2 focus:ring-[#2A7F8E] transition-all [&::-webkit-search-cancel-button]:appearance-none"
           />
           {searchQuery && (
-            <button onClick={() => setSearchQuery("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-              <X size={16} />
+            <button
+              type="button"
+              onClick={() => setSearchQuery("")}
+              aria-label={clearLabel}
+              className="absolute right-1 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center rounded-full text-gray-600 hover:text-gray-800"
+            >
+              <X size={16} aria-hidden="true" />
             </button>
           )}
+          <p role="status" className="sr-only">
+            {pending ? (lang === "es" ? "Buscando…" : "Searching…") : ""}
+          </p>
         </div>
 
           {/* Self-harm / danger wording: always show people to talk to first */}
@@ -226,6 +243,7 @@ function Ask1012({ lang, band }: { lang: Lang; band: AgeBandKey }) {
               <div key={q.id} className="bg-white/80 rounded-[24px] shadow-[0_2px_12px_rgba(0,0,0,0.02)] overflow-hidden transition-all duration-300">
                 <button
                   onClick={() => toggleAccordion(q.id)}
+                  aria-expanded={isOpen}
                   className="w-full flex items-center justify-between p-5 text-left"
                 >
                   <div className="flex items-center space-x-4">
@@ -236,7 +254,7 @@ function Ask1012({ lang, band }: { lang: Lang; band: AgeBandKey }) {
                       {questionText}
                     </span>
                   </div>
-                  <div className="text-gray-400 shrink-0">
+                  <div className="text-gray-600 shrink-0">
                     {isOpen ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                   </div>
                 </button>
@@ -244,7 +262,7 @@ function Ask1012({ lang, band }: { lang: Lang; band: AgeBandKey }) {
                   <div className="px-5 pb-6 pt-1 pl-[76px] pr-5 flex flex-col space-y-4">
                     <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">{answerText}</p>
                     <div className="flex items-center space-x-2 pt-2">
-                      <span className={`text-[11px] font-bold uppercase tracking-wider px-2 py-1 rounded-md ${styleObj}`}>
+                      <span className={`text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-md ${styleObj}`}>
                         {topicLabel}
                       </span>
                     </div>
@@ -261,7 +279,7 @@ function Ask1012({ lang, band }: { lang: Lang; band: AgeBandKey }) {
             <Info size={14} />
             <span>{lang === "es" ? "Para que sepas" : "Just So You Know"}</span>
           </div>
-          <p className="text-gray-500 text-sm italic leading-relaxed">
+          <p className="text-gray-600 text-sm italic leading-relaxed">
             {lang === "es"
               ? "Esta información está aquí para ayudarte a entender tus derechos, pero no es asesoramiento legal. Si tienes una pregunta específica sobre tu caso, siempre es bueno hablar con tu abogado o trabajador social."
               : "This information is here to help you understand your rights, but it isn't legal advice. Every person's situation is a little different. If you have a specific question about your case, it's always good to talk to your lawyer or caseworker."}
@@ -269,7 +287,7 @@ function Ask1012({ lang, band }: { lang: Lang; band: AgeBandKey }) {
         </div>
 
         <div className="text-center pb-4 pt-2">
-          <p className="text-gray-400 text-xs">Kindred Path • {lang === "es" ? "Estás seguro y apoyado." : "You are safe and supported."}</p>
+          <p className="text-gray-600 text-xs">FosterHub AZ • {lang === "es" ? "No estás solo/a." : "You are not alone."}</p>
         </div>
       </div>
     </div>
