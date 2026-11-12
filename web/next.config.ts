@@ -41,6 +41,16 @@ const nextConfig: NextConfig = {
       { source: "/(.*)", headers: securityHeaders },
       { source: "/en/:path*", headers: [{ key: "Content-Language", value: "en" }] },
       { source: "/es/:path*", headers: [{ key: "Content-Language", value: "es" }] },
+      // Service worker: always re-check so offline fixes roll out quickly, and
+      // allow it to control the whole site.
+      {
+        source: "/sw.js",
+        headers: [
+          { key: "Cache-Control", value: "no-cache, no-store, must-revalidate" },
+          { key: "Service-Worker-Allowed", value: "/" },
+          { key: "Content-Type", value: "application/javascript; charset=utf-8" },
+        ],
+      },
     ];
   },
 };
