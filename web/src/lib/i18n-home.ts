@@ -27,6 +27,17 @@ const HOME_STRINGS = {
                                 es: "Ayuda gratis cerca de ti — vivienda, comida, ayuda legal y más." },
   "home.tile.future.desc":    { en: "Getting ready for 18 and after: school, money, and a place to live.",
                                 es: "Prepararte para los 18 y después: escuela, dinero y dónde vivir." },
+
+  // County picker on the Resources page
+  "resources.county.label": { en: "Show help near", es: "Mostrar ayuda cerca de" },
+  "resources.county.all":   { en: "All of Arizona", es: "Todo Arizona" },
+  "resources.county.hint":  { en: "Pick your county to see help close to you. It stays on this device.",
+                              es: "Elige tu condado para ver ayuda cerca de ti. Se queda en este dispositivo." },
+
+  // Setup and language picker
+  "setup.back":             { en: "Back", es: "Atrás" },
+  "setup.age.hint":         { en: "We ask so we can show you what fits your age. Tap one to start.",
+                              es: "Preguntamos para mostrarte lo que va con tu edad. Toca una para empezar." },
 } as const;
 
 export type HomeStringKey = keyof typeof HOME_STRINGS;

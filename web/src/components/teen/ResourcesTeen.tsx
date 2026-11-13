@@ -2,11 +2,13 @@
 
 import { useState, useMemo } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { Search, Phone, ExternalLink, X } from "lucide-react";
+import { Search, Phone, ExternalLink, X, MapPin } from "lucide-react";
 import Fuse from "fuse.js";
 import type { Lang } from "../../lib/i18n";
-import type { AgeBandKey } from "../../lib/prefs";
+import { usePrefs, type AgeBandKey } from "../../lib/prefs";
 import { tt } from "../../lib/i18n-teen";
+import { tho } from "../../lib/i18n-home";
+import { COUNTIES } from "../../data/constants";
 import { RESOURCES, CATEGORY_LABELS_ES } from "../../data/resources";
 import { CrisisQuickLinks } from "../CrisisQuickLinks";
 
@@ -31,6 +33,7 @@ interface ResourcesTeenProps {
 }
 
 export function ResourcesTeen({ lang, band, county }: ResourcesTeenProps) {
+  const [, , patch] = usePrefs();
   const [query, setQuery] = useState("");
   const [activeCat, setActiveCat] = useState<string | "all">("all");
   const reduce = useReducedMotion();
@@ -75,6 +78,28 @@ export function ResourcesTeen({ lang, band, county }: ResourcesTeenProps) {
         <p className="text-xs font-black uppercase tracking-[0.4em] text-emerald-700 mb-4">{tt("resources.hero.tag", lang)}</p>
         <h1 className="text-4xl sm:text-6xl font-black text-[#1e293b] mb-4 tracking-[-0.05em] leading-[0.95]">{tt("resources.hero.title", lang)}</h1>
         <p className="text-slate-500 text-lg font-bold max-w-2xl leading-relaxed">{tt("resources.hero.subtitle", lang)}</p>
+      </div>
+
+      {/* County: asked here, where it matters, instead of during setup */}
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+        <label htmlFor="resources-county" className="flex items-center gap-2 text-base font-bold text-[#1e293b]">
+          <MapPin size={18} strokeWidth={2.5} aria-hidden="true" className="text-emerald-700" />
+          {tho("resources.county.label", lang)}
+        </label>
+        <select
+          id="resources-county"
+          value={county}
+          onChange={(e) => patch({ county: e.target.value === "Unknown" ? null : e.target.value })}
+          className="min-h-12 rounded-2xl border border-slate-200 bg-white px-4 text-base font-semibold text-[#1e293b] shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-600"
+        >
+          <option value="Unknown">{tho("resources.county.all", lang)}</option>
+          {COUNTIES.map((c) => (
+            <option key={c} value={c}>{c}</option>
+          ))}
+        </select>
+        {county === "Unknown" && (
+          <p className="text-sm font-medium text-slate-600">{tho("resources.county.hint", lang)}</p>
+        )}
       </div>
 
       {/* Search */}

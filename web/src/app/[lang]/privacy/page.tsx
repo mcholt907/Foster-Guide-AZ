@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { QUICK_EXIT_ENABLED } from "../../../lib/features";
 import { notFound } from "next/navigation";
 import { LegalPage, LegalSection } from "../../../components/LegalPage";
 import type { Lang } from "../../../lib/i18n";
@@ -84,15 +85,17 @@ export default async function PrivacyPage({
 
       <LegalSection heading={isEs ? "Cómo borrarlo" : "How to clear it"}>
         <ul className="list-disc pl-5 space-y-1">
+          {QUICK_EXIT_ENABLED && (
+            <li>
+              {isEs
+                ? 'Toca "Salir rápido". Eso borra lo que este sitio guardó y te lleva a Google.'
+                : 'Tap "Leave fast." That clears what this site saved and takes you to Google.'}
+            </li>
+          )}
           <li>
             {isEs
-              ? 'Toca "Salir rápido". Eso borra lo que este sitio guardó y te lleva a Google.'
-              : 'Tap "Leave fast." That clears what this site saved and takes you to Google.'}
-          </li>
-          <li>
-            {isEs
-              ? 'O toca "Empezar de nuevo" en el menú. Eso borra lo guardado y te quedas en el sitio.'
-              : 'Or tap "Start over" in the menu. That clears what was saved and you stay on the site.'}
+              ? 'Toca "Empezar de nuevo" en el menú. Eso borra lo guardado y te quedas en el sitio.'
+              : 'Tap "Start over" in the menu. That clears what was saved and you stay on the site.'}
           </li>
         </ul>
       </LegalSection>
@@ -100,8 +103,8 @@ export default async function PrivacyPage({
       <LegalSection heading={isEs ? "Cómo borrar tu historial" : "How to clear your browser history"}>
         <p>
           {isEs
-            ? '"Salir rápido" no borra tu historial. Alguien que use tu teléfono podría ver que visitaste este sitio. Para borrarlo:'
-            : '"Leave fast" does not clear your history. Someone who uses your phone could still see that you visited this site. To clear it:'}
+            ? "Este sitio no puede borrar tu historial. Alguien que use tu teléfono podría ver que visitaste este sitio. Para borrarlo:"
+            : "This site cannot clear your history. Someone who uses your phone could still see that you visited this site. To clear it:"}
         </p>
         <ol className="list-decimal pl-5 space-y-1">
           <li>

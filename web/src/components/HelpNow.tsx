@@ -7,6 +7,7 @@ import { th, type HelpLang } from "../lib/i18n-help";
 import { ts } from "../lib/i18n-shell";
 import { CrisisQuickLinks } from "./CrisisQuickLinks";
 import { QuickExitButton, useTripleEscapeExit } from "./QuickExit";
+import { QUICK_EXIT_ENABLED } from "../lib/features";
 
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -89,7 +90,7 @@ export function HelpNow({ lang, placement = "bottom" }: HelpNowProps) {
       <div
         className={`pointer-events-none fixed z-[60] right-[calc(env(safe-area-inset-right)+0.75rem)] md:right-[calc(env(safe-area-inset-right)+1.5rem)] flex max-w-[calc(100vw-1.5rem)] flex-wrap-reverse items-center justify-end gap-1.5 sm:gap-2 font-sans print:hidden ${position}`}
       >
-        <QuickExitButton lang={lang} className="pointer-events-auto" />
+        {QUICK_EXIT_ENABLED && <QuickExitButton lang={lang} className="pointer-events-auto" />}
         <button
           ref={triggerRef}
           type="button"
@@ -151,6 +152,7 @@ export function HelpNow({ lang, placement = "bottom" }: HelpNowProps) {
 
               <CrisisQuickLinks lang={lang} variant="full" />
 
+              {QUICK_EXIT_ENABLED && (
               <div className="mt-5 rounded-2xl bg-white p-4 ring-1 ring-inset ring-slate-200">
                 <h3 className="text-[15px] font-extrabold leading-snug">{th("exit.heading", lang)}</h3>
                 <p className="mt-1 text-[14px] font-medium leading-snug text-slate-600">
@@ -161,6 +163,7 @@ export function HelpNow({ lang, placement = "bottom" }: HelpNowProps) {
                   {th("exit.history", lang)}
                 </p>
               </div>
+              )}
             </div>
           </motion.div>
         </div>

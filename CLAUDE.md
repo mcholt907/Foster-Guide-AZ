@@ -65,7 +65,8 @@ web/
         layout.tsx            — root layout for /en and /es (sets <html lang>):
                                 metadata + skip-link, wraps children in <BandShell>
         page.tsx              — Home: 10-12 tile dashboard OR teen DashboardTeen (chrome is in BandShell)
-        setup/page.tsx        — onboarding (age band, county, tribal)
+        setup/page.tsx        — onboarding: age band only, one tap (county is asked on
+                                Resources, the tribal question on Case / Team)
         rights/page.tsx       — Your Rights (A.R.S. §8-529) + FAQPage JSON-LD; teens see RightsTeen
         case/page.tsx         — My Case (dependency court stages); teens see CaseTeen
         team/page.tsx         — My Team (who's in your case); teens see TeamTeen

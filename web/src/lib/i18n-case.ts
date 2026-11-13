@@ -68,6 +68,20 @@ const CASE_STRINGS = {
     es: "Pregúntale a tu abogado/a o a tu trabajador/a de casos si tú o tus padres son parte de una tribu. Si es así, hay reglas extra para protegerte.",
   },
 
+  // ── Tribal question, asked on the Case and Team pages ──────────────────
+  "tribal.ask.title": {
+    en: "Are you, or is your family, part of a tribal nation?",
+    es: "¿Tú o tu familia son parte de una nación tribal?",
+  },
+  "tribal.ask.body": {
+    en: "If so, a law called the Indian Child Welfare Act gives you and your tribe extra protections. Your answer stays on this device.",
+    es: "Si es así, una ley llamada Ley de Bienestar de Niños Indígenas te da a ti y a tu tribu protecciones extra. Tu respuesta se queda en este dispositivo.",
+  },
+  "tribal.ask.yes":    { en: "Yes",      es: "Sí" },
+  "tribal.ask.no":     { en: "No",       es: "No" },
+  "tribal.ask.unsure": { en: "Not sure", es: "No sé bien" },
+  "tribal.ask.change": { en: "Change my answer", es: "Cambiar mi respuesta" },
+
   // ── Setup: tribal question ──────────────────────────────────────────────
   "setup.tribal.yes.desc":    { en: "I am, or my family is",  es: "Yo o mi familia" },
   "setup.tribal.no.desc":     { en: "I am not",               es: "No lo soy" },
