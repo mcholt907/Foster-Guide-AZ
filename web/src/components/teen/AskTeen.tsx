@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -34,8 +34,15 @@ interface AskTeenProps {
   band: AgeBandKey;
 }
 
+const subscribeNever = () => () => {};
+const readUrlQuery = () => (new URLSearchParams(window.location.search).get("q") ?? "").slice(0, 120);
+
 export function AskTeen({ lang, band }: AskTeenProps) {
-  const [query, setQuery] = useState("");
+  // Home's search box and starter questions link here with ?q=…
+  // The URL value is used until the youth types something of their own.
+  const urlQuery = useSyncExternalStore(subscribeNever, readUrlQuery, () => "");
+  const [typed, setQuery] = useState<string | null>(null);
+  const query = typed ?? urlQuery;
   const [activeCat, setActiveCat] = useState<QACategory | "all">("all");
   const [openId, setOpenId] = useState<string | null>(null);
 
