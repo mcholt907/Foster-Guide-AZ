@@ -36,8 +36,8 @@ const HOME_STRINGS = {
 
   // Setup and language picker
   "setup.back":             { en: "Back", es: "Atrás" },
-  "setup.age.hint":         { en: "Tap your age to start. You can change it later.",
-                              es: "Toca tu edad para empezar. Puedes cambiarla después." },
+  "setup.age.hint":         { en: "We ask so we can show you what fits your age. Tap one to start.",
+                              es: "Preguntamos para mostrarte lo que va con tu edad. Toca una para empezar." },
 } as const;
 
 export type HomeStringKey = keyof typeof HOME_STRINGS;
