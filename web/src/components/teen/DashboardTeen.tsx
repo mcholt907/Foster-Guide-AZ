@@ -126,9 +126,9 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
             <h2 className="text-sm font-bold text-slate-700">{tho("home.starters.label", lang)}</h2>
             <ul className="mt-2 flex flex-wrap gap-2">
               {starters.map((s) => (
-                <li key={s.query}>
+                <li key={s.answerId}>
                   <Link
-                    href={askHref(s.query)}
+                    href={`${askHref(s.label[lang])}&a=${s.answerId}`}
                     className="inline-flex min-h-11 items-center rounded-full border border-[#2A7F8E]/25 bg-white px-4 py-2 text-[15px] font-semibold text-[#1a2f44] shadow-sm transition hover:bg-[#E3F1F3] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2A7F8E]"
                   >
                     {s.label[lang]}

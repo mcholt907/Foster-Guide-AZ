@@ -456,8 +456,8 @@ export const RESOURCES = [
     spanish: false,
     phone: "(602) 364-1300",
     url: "https://www.azdhs.gov/licensing/vital-records/index.php",
-    description: "Get a copy of your Arizona birth certificate. You need it for an ID, a job, and school. Order online or by mail, or go to your county health department for same-day service. There is a fee, so ask your caseworker for help. Questions? Call 602-364-1300.",
-    description_es: "Consigue una copia de tu acta de nacimiento de Arizona. La necesitas para una identificación, un trabajo y la escuela. Pídela en línea o por correo, o ve al departamento de salud de tu condado para recibirla el mismo día. Tiene un costo, así que pide ayuda a tu trabajador de caso. ¿Preguntas? Llama al 602-364-1300.",
+    description: "Get a copy of your Arizona birth certificate. You need it for an ID, a job, and school. Order online or by mail, or go to your county health department for same-day service. If you are in foster care, ask your caseworker or placement first — they can get it for you at no cost. If you order it yourself, there is a fee. Questions? Call 602-364-1300.",
+    description_es: "Consigue una copia de tu acta de nacimiento de Arizona. La necesitas para una identificación, un trabajo y la escuela. Pídela en línea o por correo, o ve al departamento de salud de tu condado para recibirla el mismo día. Si estás en cuidado de crianza, pregúntale primero a tu trabajador/a de casos o a tu hogar — pueden conseguirla sin costo para ti. Si la pides tú, tiene un costo. ¿Preguntas? Llama al 602-364-1300.",
     lastVerified: "2026-11-12",
   },
   {

@@ -12,7 +12,7 @@ import type { LucideIcon } from "lucide-react";
 import type { Lang } from "../../lib/i18n";
 import type { AgeBandKey } from "../../lib/prefs";
 import { tt } from "../../lib/i18n-teen";
-import { TOPIC_CONFIG, type QAEntry, type QACategory } from "../../data/questions";
+import { QUESTIONS, TOPIC_CONFIG, type QAEntry, type QACategory } from "../../data/questions";
 import { useQuestionSearch, isCrisisQuery } from "../../lib/questionSearch";
 import { CrisisQuickLinks } from "../CrisisQuickLinks";
 
@@ -36,6 +36,7 @@ interface AskTeenProps {
 
 const subscribeNever = () => () => {};
 const readUrlQuery = () => (new URLSearchParams(window.location.search).get("q") ?? "").slice(0, 120);
+const readUrlAnswer = () => (new URLSearchParams(window.location.search).get("a") ?? "").slice(0, 80);
 
 export function AskTeen({ lang, band }: AskTeenProps) {
   // Home's search box and starter questions link here with ?q=…
@@ -44,12 +45,24 @@ export function AskTeen({ lang, band }: AskTeenProps) {
   const [typed, setQuery] = useState<string | null>(null);
   const query = typed ?? urlQuery;
   const [activeCat, setActiveCat] = useState<QACategory | "all">("all");
-  const [openId, setOpenId] = useState<string | null>(null);
+  // A starter question on Home also names the answer it wants (?a=question-id).
+  // That answer is shown first and opened, until the youth types or taps.
+  const urlAnswer = useSyncExternalStore(subscribeNever, readUrlAnswer, () => "");
+  const [openChoice, setOpenId] = useState<string | null | undefined>(undefined);
 
   // Shared search: matches whole worried sentences, typos, and both languages.
   // Fuse.js loads on first focus/keystroke; until then `results` is the full
   // list (already in the server HTML) and `pending` is true for a typed search.
-  const { results, pending, preload } = useQuestionSearch(query, { band, category: activeCat });
+  const { results: found, pending, preload } = useQuestionSearch(query, { band, category: activeCat });
+  const pinned = useMemo(
+    () =>
+      typed === null && urlAnswer
+        ? QUESTIONS.find((q) => q.id === urlAnswer && (q.ageBands as readonly string[]).includes(band)) ?? null
+        : null,
+    [typed, urlAnswer, band]
+  );
+  const results = pinned ? [pinned, ...found.filter((q) => q.id !== pinned.id)] : found;
+  const openId = openChoice === undefined ? pinned?.id ?? null : openChoice;
   const searchLabel = lang === "es" ? "Buscar respuestas" : "Search answers";
   const clearLabel = lang === "es" ? "Borrar búsqueda" : "Clear search";
   const showCrisis = useMemo(() => isCrisisQuery(query), [query]);
