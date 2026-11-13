@@ -1,22 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { Lock, ArrowRight, CheckCircle2 } from "lucide-react";
+import Link from "next/link";
+import { Lock } from "lucide-react";
 import { HelpNow } from "../../components/HelpNow";
 
 export default function RootPage() {
-  const [selected, setSelected] = useState<"en" | "es" | null>(null);
-  const router = useRouter();
-
-  function handleNext() {
-    if (selected) router.push(`/${selected}/setup`);
-  }
-
   return (
     <div className="min-h-svh bg-[#FDF9F3] text-[#35322d] font-['Outfit',_sans-serif] flex justify-center items-center">
-      <HelpNow lang={selected ?? "en"} placement="top" />
+      <HelpNow lang="en" placement="top" />
       <main className="w-full max-w-[480px] min-h-svh max-h-svh overflow-y-auto shadow-2xl bg-[#FDF9F3] relative flex flex-col overflow-x-hidden">
 
         {/* Top area — icon + headline */}
@@ -38,18 +30,16 @@ export default function RootPage() {
           </div>
 
           <h1 className="text-[clamp(1.75rem,5vh,2.75rem)] font-extrabold text-[#115e59] mb-[clamp(0.5rem,1.5vh,1rem)] leading-[1.1]">
-            {selected === "es" ? "Este lugar es\npara ti." : "This place is\nfor you."}
+            {"This place is\nfor you."}
           </h1>
 
           <p className="text-slate-600 font-medium text-[clamp(0.9rem,1.8vh,1.125rem)] leading-relaxed max-w-sm mb-[clamp(0.75rem,2vh,1.5rem)] px-2">
-            {selected === "es"
-              ? "El cuidado de crianza puede ser confuso. Este es un espacio tranquilo y seguro para encontrar respuestas reales y conocer tus derechos."
-              : "Foster care can be confusing and overwhelming. This is a calm, safe space to find real answers and learn your rights."}
+            {"Foster care can be confusing and overwhelming. This is a calm, safe space to find real answers and learn your rights."}
           </p>
 
           <div className="bg-[#e0f2fe] rounded-full px-5 py-2.5 flex items-center justify-center gap-2 text-[13px] font-bold text-[#0c4a6e] shadow-sm border border-[#bae6fd]">
             <Lock size={14} className="text-[#0284c7]" />
-            {selected === "es" ? "Sin registro • Nada sale de tu dispositivo" : "No sign-up • Nothing leaves your device"}
+            No sign-up • Nothing leaves your device
           </div>
         </div>
 
@@ -57,8 +47,8 @@ export default function RootPage() {
         <div className="bg-white rounded-t-[2.5rem] px-8 pt-[clamp(1rem,2.5vh,2rem)] pb-[clamp(1rem,3vh,2.5rem)] shadow-[0_-15px_40px_-15px_rgba(0,0,0,0.05)] relative z-20 flex flex-col shrink-0">
 
           <div className="flex items-center justify-between mb-[clamp(0.75rem,2vh,1.5rem)]">
-            <h2 className="text-2xl font-extrabold text-[#35322d]">
-              {selected === "es" ? "Elige tu idioma" : "Select language"}
+            <h2 className="text-xl font-extrabold text-[#35322d]">
+              <span lang="en">Pick a language</span> <span className="text-slate-500" aria-hidden="true">·</span> <span lang="es">Elige tu idioma</span>
             </h2>
             <div className="flex gap-1.5">
               <div className="w-8 h-2 rounded-full bg-[#136d41]" />
@@ -66,59 +56,22 @@ export default function RootPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 mb-[clamp(0.75rem,2vh,1.5rem)]">
-            <button
-              onClick={() => setSelected("en")}
-              className={`relative aspect-[5/3] rounded-[2rem] p-4 flex flex-col justify-center items-center text-center transition-all duration-300 ease-out border-[3px] ${
-                selected === "en"
-                  ? "bg-gradient-to-br from-[#fffdf5] to-[#fff4cc] border-[#fbbf24] shadow-sm scale-[1.02]"
-                  : "bg-slate-50 border-transparent shadow-sm hover:bg-slate-100"
-              }`}
+          {/* One tap picks the language and moves on. No "Continue" button. */}
+          <div className="grid grid-cols-2 gap-4 mb-[clamp(0.5rem,1.5vh,1rem)]">
+            <Link
+              href="/en/setup"
+              lang="en"
+              className="aspect-[5/3] rounded-[2rem] p-4 flex flex-col justify-center items-center text-center transition-all duration-200 ease-out border-[3px] border-transparent bg-slate-50 shadow-sm hover:bg-[#fff4cc] hover:border-[#fbbf24] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#136d41]"
             >
-              {selected === "en" && (
-                <div className="absolute top-3 right-3 bg-white rounded-full p-0.5 shadow-sm">
-                  <CheckCircle2 size={22} className="fill-[#f59e0b] text-white" />
-                </div>
-              )}
-              <span className={`font-extrabold text-2xl tracking-tight ${selected === "en" ? "text-[#78350f]" : "text-slate-600"}`}>
-                English
-              </span>
-              {selected === "en" && (
-                <span className="text-xs font-bold mt-1 text-[#b45309] opacity-80 uppercase tracking-wider">Selected</span>
-              )}
-            </button>
-
-            <button
-              onClick={() => setSelected("es")}
-              className={`relative aspect-[5/3] rounded-[2rem] p-4 flex flex-col justify-center items-center text-center transition-all duration-300 ease-out border-[3px] ${
-                selected === "es"
-                  ? "bg-gradient-to-br from-[#f0f9ff] to-[#e0f2fe] border-[#38bdf8] shadow-sm scale-[1.02]"
-                  : "bg-slate-50 border-transparent shadow-sm hover:bg-slate-100"
-              }`}
+              <span className="font-extrabold text-2xl tracking-tight text-[#35322d]">English</span>
+            </Link>
+            <Link
+              href="/es/setup"
+              lang="es"
+              className="aspect-[5/3] rounded-[2rem] p-4 flex flex-col justify-center items-center text-center transition-all duration-200 ease-out border-[3px] border-transparent bg-slate-50 shadow-sm hover:bg-[#e0f2fe] hover:border-[#38bdf8] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#136d41]"
             >
-              {selected === "es" && (
-                <div className="absolute top-3 right-3 bg-white rounded-full p-0.5 shadow-sm">
-                  <CheckCircle2 size={22} className="fill-[#0284c7] text-white" />
-                </div>
-              )}
-              <span className={`font-extrabold text-2xl tracking-tight ${selected === "es" ? "text-[#0c4a6e]" : "text-slate-600"}`}>
-                Español
-              </span>
-              {selected === "es" && (
-                <span className="text-xs font-bold mt-1 text-[#0284c7] opacity-80 uppercase tracking-wider">Seleccionado</span>
-              )}
-            </button>
-          </div>
-
-          <div className="h-[clamp(56px,8vh,72px)]">
-            {selected && (
-              <button
-                onClick={handleNext}
-                className="w-full h-full rounded-[2rem] font-extrabold text-xl flex items-center justify-center gap-3 transition-colors duration-300 bg-[#136d41] text-white shadow-md hover:bg-[#0f5c35]"
-              >
-                {selected === "es" ? "Continuar" : "Continue"} <ArrowRight size={24} strokeWidth={3} />
-              </button>
-            )}
+              <span className="font-extrabold text-2xl tracking-tight text-[#35322d]">Español</span>
+            </Link>
           </div>
 
         </div>

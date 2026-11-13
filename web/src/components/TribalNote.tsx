@@ -1,7 +1,7 @@
 "use client";
 
 import { Users } from "lucide-react";
-import { usePrefs, getTribalStatus, type TribalStatus } from "../lib/prefs";
+import { usePrefs, getTribalStatus, tribalPatch, type TribalStatus } from "../lib/prefs";
 import { tc } from "../lib/i18n-case";
 
 interface TribalNoteProps {
@@ -21,11 +21,11 @@ interface TribalNoteProps {
  *   unsure / unknown  → "Not sure? Ask your lawyer or caseworker."
  *   no                → nothing
  *
- * "unknown" covers youth who were never asked (10-12 skip the question) and
- * older saved prefs where "No / Not sure" was a single button.
+ * "unknown" means the youth has not answered yet. Teens are asked right here,
+ * with the reason shown; 10-12 see the "not sure" note and are not asked.
  */
 export function TribalNote({ lang, variant = "teen", status, className = "" }: TribalNoteProps) {
-  const [prefs, loaded] = usePrefs();
+  const [prefs, loaded, patch] = usePrefs();
   // Wait for saved prefs so the note does not flash for youth who said "no".
   if (!status && !loaded) return null;
   const s = status ?? getTribalStatus(prefs);
@@ -60,6 +60,49 @@ export function TribalNote({ lang, variant = "teen", status, className = "" }: T
     );
   }
 
+  // Controlled from saved prefs (not a fixed `status` prop)?
+  const canAnswer = !status;
+  const answerBtn =
+    "inline-flex min-h-11 items-center justify-center rounded-full border border-[#115e59]/25 bg-white px-5 py-2 text-[15px] font-bold text-[#115e59] transition hover:bg-emerald-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#115e59]";
+
+  if (s === "unknown" && canAnswer) {
+    return (
+      <aside
+        aria-label={tc("tribal.kicker", lang)}
+        className={`relative overflow-hidden rounded-[2rem] bg-white border border-[#115e59]/10 shadow-[0_12px_44px_rgba(17,94,89,0.08)] p-6 sm:p-8 ${className}`}
+      >
+        <div
+          className="absolute left-0 top-0 bottom-0 w-[6px] rounded-r-full"
+          style={{ background: "linear-gradient(to bottom, #34d399, #115e59)" }}
+          aria-hidden="true"
+        />
+        <div className="flex gap-5 items-start">
+          <div className="mt-1 shrink-0 w-10 h-10 rounded-xl flex items-center justify-center bg-emerald-50 text-[#115e59]" aria-hidden="true">
+            <Users size={20} strokeWidth={2.25} />
+          </div>
+          <div className="min-w-0">
+            <span className="block text-xs font-black uppercase tracking-[0.25em] text-emerald-700 mb-1.5">
+              {tc("tribal.kicker", lang)}
+            </span>
+            <h2 id="tribal-ask" className="text-lg sm:text-xl font-black text-[#1e293b] tracking-tight leading-tight mb-2">
+              {tc("tribal.ask.title", lang)}
+            </h2>
+            <p className="text-slate-600 text-[15px] sm:text-base font-medium leading-[1.7] tracking-tight max-w-2xl">
+              {tc("tribal.ask.body", lang)}
+            </p>
+            <div role="group" aria-labelledby="tribal-ask" className="mt-4 flex flex-wrap gap-2">
+              {(["yes", "no", "unsure"] as const).map((a) => (
+                <button key={a} type="button" className={answerBtn} onClick={() => patch(tribalPatch(a))}>
+                  {tc(`tribal.ask.${a}`, lang)}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </aside>
+    );
+  }
+
   return (
     <aside
       aria-label={tc("tribal.kicker", lang)}
@@ -82,6 +125,15 @@ export function TribalNote({ lang, variant = "teen", status, className = "" }: T
           <p className="text-slate-600 text-[15px] sm:text-base font-medium leading-[1.7] tracking-tight max-w-2xl">{body}</p>
           {ask && (
             <p className="mt-3 text-[15px] sm:text-base font-black leading-snug tracking-tight text-[#115e59]">{ask}</p>
+          )}
+          {canAnswer && (
+            <button
+              type="button"
+              onClick={() => patch({ tribal: false, tribalUnsure: undefined })}
+              className="mt-3 inline-flex min-h-11 items-center text-sm font-bold text-slate-600 underline decoration-2 underline-offset-4 hover:text-[#115e59]"
+            >
+              {tc("tribal.ask.change", lang)}
+            </button>
           )}
         </div>
       </div>
