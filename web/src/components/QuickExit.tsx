@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { QUICK_EXIT_ENABLED } from "../lib/features";
 import { LogOut } from "lucide-react";
 import { th, type HelpLang } from "../lib/i18n-help";
 
@@ -37,6 +38,7 @@ const ESC_WINDOW_MS = 1200;
  */
 export function useTripleEscapeExit(): void {
   useEffect(() => {
+    if (!QUICK_EXIT_ENABLED) return;
     let presses: number[] = [];
     function onKeyDown(e: KeyboardEvent) {
       if (e.key !== "Escape") {
