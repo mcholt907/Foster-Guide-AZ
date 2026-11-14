@@ -692,7 +692,7 @@ export const QUESTIONS: QAEntry[] = [
     },
     answer: {
       en: "Your caseworker is legally required to make sure you have your birth certificate before you leave care. If you don't have it, ask them — they can request it from the Arizona Department of Health Services at no cost to you. If you're 18 or older and out of care, you can request it yourself from ADHS for a small fee. Don't leave care without this document.",
-      es: "Tu trabajador/a de casos está legalmente obligado/a a asegurarse de que tengas tu acta de nacimiento antes de que salgas del sistema. Si no la tienes, pídela — puede solicitarla al Departamento de Salud de Arizona sin costo para ti.",
+      es: "Tu trabajador/a de casos está legalmente obligado/a a asegurarse de que tengas tu acta de nacimiento antes de que salgas del sistema. Si no la tienes, pídela — puede solicitarla al Departamento de Salud de Arizona sin costo para ti. Si tienes 18 años o más y ya saliste del cuidado, puedes pedirla tú a ADHS por un costo pequeño. No salgas del cuidado sin este documento.",
     },
     keywords: {
       en: ["birth certificate", "birth cert", "birth record", "vital records", "where was i born", "proof of birth", "birth certifcate"],
@@ -891,12 +891,31 @@ export const QUESTIONS: QAEntry[] = [
       es: "Eres elegible para EFC si estabas en cuidado de crianza en Arizona cuando cumpliste 18 años y estás haciendo al menos uno de estos: inscrito/a en la escuela secundaria o universidad, trabajando al menos 80 horas al mes, en un programa de capacitación vocacional o laboral, o tienes una condición médica documentada que impide trabajar.",
     },
     keywords: {
-      en: ["efc", "eligible", "qualify", "do i qualify", "requirements", "can i get extended foster care", "come back to foster care", "reenter", "re-enter"],
-      es: ["efc", "elegible", "califico", "requisitos", "puedo recibir cuidado extendido", "regresar al cuidado de crianza", "volver a entrar"],
+      en: ["efc", "eligible", "qualify", "do i qualify", "requirements", "can i get extended foster care"],
+      es: ["efc", "elegible", "califico", "requisitos", "puedo recibir cuidado extendido"],
     },
     category: "turning18",
     ageBands: ["16-17","18-21"],
     relatedIds: ["q-what-is-efc","q-do-i-have-to-leave-at-18"],
+  },
+
+  {
+    id: "q-come-back-to-care",
+    question: {
+      en: "I left foster care. Can I come back?",
+      es: "Salí del cuidado de crianza. ¿Puedo regresar?",
+    },
+    answer: {
+      en: "Yes, you can ask. If you were in foster care in Arizona when you turned 18, the law gives you the right to come back into Extended Foster Care any time before you turn 21. Leaving was not a mistake you have to live with.\n\nTo come back, you sign an agreement with DCS and do one of these: go to school, work about 80 hours a month, be in a job program, or have a health reason you can't.\n\nWhat to do now: call your old caseworker or your lawyer and say, \"I want to come back to Extended Foster Care.\" No number for them? Call 2-1-1 and ask how to reach the DCS Young Adult Program. Need a place to sleep tonight? Open Find Resources and look under housing.",
+      es: "Sí, puedes pedirlo. Si estabas en cuidado de crianza en Arizona cuando cumpliste 18, la ley te da el derecho de regresar al Cuidado de Crianza Extendido en cualquier momento antes de cumplir 21. Haber salido no es un error con el que tengas que cargar.\n\nPara regresar, firmas un acuerdo con DCS y haces una de estas cosas: ir a la escuela, trabajar unas 80 horas al mes, estar en un programa de empleo, o tener una razón de salud por la que no puedes.\n\nQué hacer ahora: llama a tu antiguo/a trabajador/a de casos o a tu abogado/a y di: \"Quiero regresar al Cuidado de Crianza Extendido.\" ¿No tienes su número? Llama al 2-1-1 y pregunta cómo comunicarte con el Programa para Adultos Jóvenes de DCS. ¿Necesitas dónde dormir hoy? Abre Encuentra Recursos y busca en vivienda.",
+    },
+    keywords: {
+      en: ["come back", "come back to foster care", "go back", "return", "return to care", "reenter", "re-enter", "re-entry", "left foster care", "left care", "aged out", "already left", "i left", "can i come back", "get back in", "changed my mind", "no caseworker"],
+      es: ["regresar", "volver", "regresar al cuidado de crianza", "volver a entrar", "ya salí", "salí del cuidado", "puedo regresar", "cambié de opinión", "no tengo trabajador de casos"],
+    },
+    category: "turning18",
+    ageBands: ["16-17","18-21"],
+    relatedIds: ["q-efc-eligibility","q-what-is-efc","q-do-i-have-to-leave-at-18"],
   },
 
   {

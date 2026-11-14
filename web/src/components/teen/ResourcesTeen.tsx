@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { Search, Phone, ExternalLink, X, MapPin } from "lucide-react";
+import { Search, Phone, ExternalLink, X, MapPin, Users } from "lucide-react";
 import Fuse from "fuse.js";
 import type { Lang } from "../../lib/i18n";
 import { usePrefs, type AgeBandKey } from "../../lib/prefs";
@@ -28,9 +28,13 @@ const CATEGORY_LABELS_EN: Record<string, string> = {
 
 interface ResourcesTeenProps {
   lang: Lang;
-  band: AgeBandKey;
+  /** The saved age band, or null when the visitor has not picked one. */
+  band: AgeBandKey | null;
   county: string;
 }
+
+type AgeView = "all" | "13-15" | "16-17" | "18-21";
+const AGE_VIEWS: AgeView[] = ["all", "13-15", "16-17", "18-21"];
 
 export function ResourcesTeen({ lang, band, county }: ResourcesTeenProps) {
   const [, , patch] = usePrefs();
@@ -39,12 +43,17 @@ export function ResourcesTeen({ lang, band, county }: ResourcesTeenProps) {
   const reduce = useReducedMotion();
   const es = lang === "es";
 
-  const ageMid = band === "13-15" ? 14 : band === "16-17" ? 17 : 20;
+  // Which ages to show help for. Starts from the saved age; with no saved age
+  // it shows everything. Picking an age here saves it, so the rest of the site
+  // fits too. "All ages" only widens this list and leaves the saved age alone.
+  const [ageChoice, setAgeChoice] = useState<AgeView | null>(null);
+  const ageView: AgeView = ageChoice ?? (band && band !== "10-12" ? band : "all");
+  const ageMid = ageView === "all" ? null : ageView === "13-15" ? 14 : ageView === "16-17" ? 17 : 20;
 
   const ageCountyFiltered = useMemo(
     () =>
       RESOURCES.filter((r) => {
-        if (r.ages[0] > ageMid || r.ages[1] < ageMid) return false;
+        if (ageMid !== null && (r.ages[0] > ageMid || r.ages[1] < ageMid)) return false;
         const counties = r.counties as readonly string[];
         if (!counties.includes("Statewide") && county !== "Unknown" && !counties.includes(county)) return false;
         return true;
@@ -80,25 +89,47 @@ export function ResourcesTeen({ lang, band, county }: ResourcesTeenProps) {
         <p className="text-slate-500 text-lg font-bold max-w-2xl leading-relaxed">{tt("resources.hero.subtitle", lang)}</p>
       </div>
 
-      {/* County: asked here, where it matters, instead of during setup */}
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
-        <label htmlFor="resources-county" className="flex items-center gap-2 text-base font-bold text-[#1e293b]">
-          <MapPin size={18} strokeWidth={2.5} aria-hidden="true" className="text-emerald-700" />
-          {tho("resources.county.label", lang)}
-        </label>
-        <select
-          id="resources-county"
-          value={county}
-          onChange={(e) => patch({ county: e.target.value === "Unknown" ? null : e.target.value })}
-          className="min-h-12 rounded-2xl border border-slate-200 bg-white px-4 text-base font-semibold text-[#1e293b] shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-600"
-        >
-          <option value="Unknown">{tho("resources.county.all", lang)}</option>
-          {COUNTIES.map((c) => (
-            <option key={c} value={c}>{c}</option>
-          ))}
-        </select>
-        {county === "Unknown" && (
-          <p className="text-sm font-medium text-slate-600">{tho("resources.county.hint", lang)}</p>
+      {/* County and age: asked here, where they change what is shown */}
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="flex flex-col gap-2 min-w-0">
+          <label htmlFor="resources-county" className="flex items-center gap-2 text-base font-bold text-[#1e293b]">
+            <MapPin size={18} strokeWidth={2.5} aria-hidden="true" className="text-emerald-700" />
+            {tho("resources.county.label", lang)}
+          </label>
+          <select
+            id="resources-county"
+            value={county}
+            onChange={(e) => patch({ county: e.target.value === "Unknown" ? null : e.target.value })}
+            className="min-h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-base font-semibold text-[#1e293b] shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-600"
+          >
+            <option value="Unknown">{tho("resources.county.all", lang)}</option>
+            {COUNTIES.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
+        </div>
+        <div className="flex flex-col gap-2 min-w-0">
+          <label htmlFor="resources-age" className="flex items-center gap-2 text-base font-bold text-[#1e293b]">
+            <Users size={18} strokeWidth={2.5} aria-hidden="true" className="text-emerald-700" />
+            {tho("resources.age.label", lang)}
+          </label>
+          <select
+            id="resources-age"
+            value={ageView}
+            onChange={(e) => {
+              const next = e.target.value as AgeView;
+              setAgeChoice(next);
+              if (next !== "all") patch({ ageBand: next, onboardingDone: true });
+            }}
+            className="min-h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-base font-semibold text-[#1e293b] shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-600"
+          >
+            {AGE_VIEWS.map((a) => (
+              <option key={a} value={a}>{a === "all" ? tho("resources.age.all", lang) : a.replace("-", "–")}</option>
+            ))}
+          </select>
+        </div>
+        {(county === "Unknown" || ageView === "all") && (
+          <p className="sm:col-span-2 text-sm font-medium text-slate-600">{tho("resources.county.hint", lang)}</p>
         )}
       </div>
 

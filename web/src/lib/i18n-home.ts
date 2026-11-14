@@ -31,8 +31,11 @@ const HOME_STRINGS = {
   // County picker on the Resources page
   "resources.county.label": { en: "Show help near", es: "Mostrar ayuda cerca de" },
   "resources.county.all":   { en: "All of Arizona", es: "Todo Arizona" },
-  "resources.county.hint":  { en: "Pick your county to see help close to you. It stays on this device.",
-                              es: "Elige tu condado para ver ayuda cerca de ti. Se queda en este dispositivo." },
+  "resources.county.hint":  { en: "Pick your county and age to see the help that fits you. It stays on this device.",
+                              es: "Elige tu condado y tu edad para ver la ayuda que va contigo. Se queda en este dispositivo." },
+  "resources.age.label":    { en: "For ages", es: "Para edades" },
+  "resources.age.all":      { en: "All ages", es: "Todas las edades" },
+  "shell.pick_age":         { en: "Pick your age", es: "Elige tu edad" },
 
   // Setup and language picker
   "setup.back":             { en: "Back", es: "Atrás" },
@@ -46,38 +49,42 @@ export function tho(key: HomeStringKey, lang: HomeLang): string {
   return HOME_STRINGS[key][lang];
 }
 
-/** A starter question: what the youth sees, and the search words it runs. */
+/**
+ * A starter question: what the youth sees, and the id of the answer it opens
+ * (from data/questions.ts). The search box is filled with the label in the
+ * youth's own language.
+ */
 export interface StarterQuestion {
   label: { en: string; es: string };
-  query: string;
+  answerId: string;
 }
 
 const FAMILY: StarterQuestion = {
   label: { en: "When can I see my family?", es: "¿Cuándo puedo ver a mi familia?" },
-  query: "can i call my mom",
+  answerId: "q-contact-parents",
 };
 const SCHOOL: StarterQuestion = {
   label: { en: "Can I stay at my school?", es: "¿Puedo quedarme en mi escuela?" },
-  query: "can i stay at my school",
+  answerId: "q-stay-at-my-school",
 };
 
 export const STARTER_QUESTIONS: Record<Exclude<AgeBandKey, "10-12">, StarterQuestion[]> = {
   "13-15": [
-    { label: { en: "Why am I in foster care?", es: "¿Por qué estoy en cuidado de crianza?" }, query: "why was i taken" },
+    { label: { en: "Why am I in foster care?", es: "¿Por qué estoy en cuidado de crianza?" }, answerId: "q-why-was-i-taken" },
     FAMILY,
-    { label: { en: "Will I see my brothers and sisters?", es: "¿Voy a ver a mis hermanos?" }, query: "will i see my siblings" },
+    { label: { en: "Will I see my brothers and sisters?", es: "¿Voy a ver a mis hermanos?" }, answerId: "q-see-siblings" },
     SCHOOL,
   ],
   "16-17": [
     FAMILY,
-    { label: { en: "What if I don't like where I live?", es: "¿Y si no me gusta donde vivo?" }, query: "i dont like my foster home" },
-    { label: { en: "What happens when I turn 18?", es: "¿Qué pasa cuando cumpla 18?" }, query: "what happens when i turn 18" },
+    { label: { en: "What if I don't like where I live?", es: "¿Y si no me gusta donde vivo?" }, answerId: "q-dont-like-foster-home" },
+    { label: { en: "What happens when I turn 18?", es: "¿Qué pasa cuando cumpla 18?" }, answerId: "q-do-i-have-to-leave-at-18" },
     SCHOOL,
   ],
   "18-21": [
-    { label: { en: "Can I stay in foster care after 18?", es: "¿Puedo seguir en cuidado de crianza después de los 18?" }, query: "extended foster care" },
-    { label: { en: "How do I keep my health insurance?", es: "¿Cómo mantengo mi seguro médico?" }, query: "health insurance" },
-    { label: { en: "Is there money for college?", es: "¿Hay dinero para la universidad?" }, query: "money for college" },
-    { label: { en: "How do I get my documents?", es: "¿Cómo consigo mis documentos?" }, query: "birth certificate" },
+    { label: { en: "Can I stay in foster care after 18?", es: "¿Puedo seguir en cuidado de crianza después de los 18?" }, answerId: "q-what-is-efc" },
+    { label: { en: "How do I keep my health insurance?", es: "¿Cómo mantengo mi seguro médico?" }, answerId: "q-what-is-ahcccs-yati" },
+    { label: { en: "Is there money for college?", es: "¿Hay dinero para la universidad?" }, answerId: "q-what-is-etv" },
+    { label: { en: "How do I get my documents?", es: "¿Cómo consigo mis documentos?" }, answerId: "q-what-docs-should-i-have" },
   ],
 };

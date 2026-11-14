@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import type { Lang } from "../lib/i18n";
 import { tt, type TeenStringKey } from "../lib/i18n-teen";
+import { tho } from "../lib/i18n-home";
 import { ts } from "../lib/i18n-shell";
 import { usePrefs } from "../lib/prefs";
 import { useSwipeNav } from "../lib/useSwipeNav";
@@ -374,7 +375,8 @@ function TeenShellFooter({
   handleStartOver: () => void;
 }) {
   const [prefs] = usePrefs();
-  const band = prefs.ageBand ?? "13-15";
+  // No saved age: say so and offer the age screen, never show an assumed band.
+  const band = prefs.ageBand;
   const langKey: TeenStringKey = lang === "es" ? "shell.band_language.es" : "shell.band_language.en";
 
   return (
@@ -382,9 +384,18 @@ function TeenShellFooter({
       <div className="absolute -right-8 -bottom-8 w-24 h-24 bg-emerald-500/10 blur-2xl rounded-full" />
       <Shield size={20} className="text-emerald-400 mb-3" />
       <p className="text-white text-[13px] font-black leading-relaxed mb-1 tracking-tight">{tt("shell.command_center", lang)}</p>
-      <p className="text-slate-400 text-[10px] leading-relaxed font-bold opacity-80 uppercase tracking-widest">
-        {tt(langKey, lang, { band })}
-      </p>
+      {band ? (
+        <p className="text-slate-400 text-[10px] leading-relaxed font-bold opacity-80 uppercase tracking-widest">
+          {tt(langKey, lang, { band })}
+        </p>
+      ) : (
+        <Link
+          href={`/${lang}/setup`}
+          className="relative -ml-2 inline-flex min-h-[44px] items-center rounded-xl px-2 text-[13px] font-bold text-emerald-300 underline underline-offset-2 hover:text-white transition-colors"
+        >
+          {tho("shell.pick_age", lang)}
+        </Link>
+      )}
 
       {/* Start over wipes the saved age + county, so it always asks first. */}
       {!confirmReset ? (
