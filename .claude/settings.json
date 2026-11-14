@@ -5,7 +5,8 @@
       "mcp__playwright__browser_network_requests",
       "mcp__playwright__browser_console_messages",
       "mcp__playwright__browser_close",
-      "Bash(npm audit)"
+      "Bash(npm audit)",
+      "Bash(npx modern-web-guidance@latest:*)"
     ]
   },
   "hooks": {
