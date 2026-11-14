@@ -12,6 +12,7 @@ import {
 import type { Lang } from "../lib/i18n";
 import { tt, type TeenStringKey } from "../lib/i18n-teen";
 import { tho } from "../lib/i18n-home";
+import { HelpNow } from "./HelpNow";
 import { ts } from "../lib/i18n-shell";
 import { usePrefs } from "../lib/prefs";
 import { useSwipeNav } from "../lib/useSwipeNav";
@@ -46,8 +47,6 @@ const NAV_ITEMS: NavItem[] = [
 
 const DRAWER_ID = "teen-menu-drawer";
 const DRAWER_TITLE_ID = "teen-menu-title";
-const FOCUSABLE =
-  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 export function TeenShell({ lang, children }: TeenShellProps) {
   const router = useRouter();
@@ -62,8 +61,7 @@ export function TeenShell({ lang, children }: TeenShellProps) {
   const activeBottomItemRef = useRef<HTMLAnchorElement>(null);
   const bottomNavRef = useRef<HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const drawerRef = useRef<HTMLDivElement>(null);
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLDialogElement>(null);
 
   useLayoutEffect(() => {
     const main = swipeRef.current;
@@ -104,64 +102,27 @@ export function TeenShell({ lang, children }: TeenShellProps) {
     container.dispatchEvent(new Event("scroll"));
   }, [active]);
 
-  // Mobile menu drawer: move focus in, keep Tab inside, close on Escape, and
-  // hand focus back to the menu button on close. A single Escape only closes
-  // the drawer — QuickExit's "three quick Escapes" listener still counts the
-  // press but never cancels it.
+  // Mobile menu: a native modal <dialog>. The browser makes the page inert,
+  // keeps focus inside, closes on Esc and the back gesture, and returns focus
+  // to the menu button. It is opened after its contents render so focus can
+  // land on the Close button.
   useEffect(() => {
-    if (!drawerOpen) return;
     const drawer = drawerRef.current;
-    const menuButton = menuButtonRef.current;
-    closeButtonRef.current?.focus();
+    if (!drawerOpen || !drawer) return;
+    if (!drawer.open) drawer.showModal();
 
-    function onKeyDown(e: KeyboardEvent) {
-      // The "Need help now?" sheet can open on top of the drawer and runs its
-      // own Escape / Tab handling — stay out of its way.
-      if (document.getElementById("help-now-title")) return;
-      if (e.key === "Escape") {
-        setDrawerOpen(false);
-        return;
-      }
-      if (e.key !== "Tab" || !drawer) return;
-      const items = Array.from(drawer.querySelectorAll<HTMLElement>(FOCUSABLE));
-      if (items.length === 0) {
-        e.preventDefault();
-        return;
-      }
-      const first = items[0];
-      const last = items[items.length - 1];
-      const current = document.activeElement;
-      if (e.shiftKey) {
-        if (current === first || !drawer.contains(current)) {
-          e.preventDefault();
-          last.focus();
-        }
-      } else if (current === last || !drawer.contains(current)) {
-        e.preventDefault();
-        first.focus();
-      }
-    }
-
-    // The drawer only exists below the md breakpoint. If the screen grows
-    // (rotate, resize) close it so the page behind is not left inert.
+    // The menu only exists below the md breakpoint. If the screen grows
+    // (rotate, resize) close it so the page behind is not left blocked.
     const desktop = window.matchMedia("(min-width: 768px)");
     function onBreakpoint() {
-      if (desktop.matches) setDrawerOpen(false);
+      if (desktop.matches) drawer?.close();
     }
-
-    document.addEventListener("keydown", onKeyDown);
     desktop.addEventListener("change", onBreakpoint);
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      desktop.removeEventListener("change", onBreakpoint);
-      // Runs after the drawer is gone and the page is no longer inert.
-      menuButton?.focus();
-    };
+    return () => desktop.removeEventListener("change", onBreakpoint);
   }, [drawerOpen]);
 
   function closeDrawer() {
-    setDrawerOpen(false);
-    setConfirmReset(false);
+    drawerRef.current?.close();
   }
 
   function handleStartOver() {
@@ -175,7 +136,7 @@ export function TeenShell({ lang, children }: TeenShellProps) {
       style={{ fontFamily: "var(--font-inter), Inter, system-ui, sans-serif" }}
     >
       {/* Desktop sidebar */}
-      <aside inert={drawerOpen} className="w-[300px] bg-[#1a2f44] text-white flex-shrink-0 hidden md:flex flex-col relative z-30 shadow-[4px_0_24px_rgba(0,0,0,0.05)]">
+      <aside className="w-[300px] bg-[#1a2f44] text-white flex-shrink-0 hidden md:flex flex-col relative z-30 shadow-[4px_0_24px_rgba(0,0,0,0.05)]">
         <div className="p-10 mb-6">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-white shadow-[0_8px_20px_rgba(255,255,255,0.15)] rounded-2xl flex items-center justify-center overflow-hidden">
@@ -223,7 +184,7 @@ export function TeenShell({ lang, children }: TeenShellProps) {
       </aside>
 
       {/* Mobile top header */}
-      <header inert={drawerOpen} className="md:hidden fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-6 py-4 bg-white/80 backdrop-blur-xl border-b border-slate-100">
+      <header className="md:hidden fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-6 py-4 bg-white/80 backdrop-blur-xl border-b border-slate-100">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 bg-slate-900 rounded-xl flex items-center justify-center overflow-hidden shadow-lg border border-white/20">
             <Image src="/onboarding/welcome_icon.png" alt="" width={192} height={192} className="w-full h-full object-cover scale-[1.1] translate-y-1" />
@@ -244,16 +205,22 @@ export function TeenShell({ lang, children }: TeenShellProps) {
         </button>
       </header>
 
-      {/* Mobile drawer */}
-      {drawerOpen && (
-        <div
-          ref={drawerRef}
-          id={DRAWER_ID}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby={DRAWER_TITLE_ID}
-          className="md:hidden fixed inset-0 z-50 bg-[#1a2f44] text-white flex flex-col"
-        >
+      {/* Mobile menu. No role, aria-modal, focus trap or Esc handler: the
+          native modal provides them. */}
+      <dialog
+        ref={drawerRef}
+        id={DRAWER_ID}
+        aria-labelledby={DRAWER_TITLE_ID}
+        onClose={(e) => {
+          // The help sheet is a dialog inside this one; ignore its close event.
+          if (e.target !== e.currentTarget) return;
+          setDrawerOpen(false);
+          setConfirmReset(false);
+        }}
+        className="sheet-dialog m-0 h-dvh max-h-none w-screen max-w-none flex-col bg-[#1a2f44] p-0 text-white open:flex"
+      >
+        {drawerOpen && (
+          <>
           <h2 id={DRAWER_TITLE_ID} className="sr-only">{ts("menu.title", lang)}</h2>
           <div className="flex items-center justify-between p-6 border-b border-white/10">
             <div className="flex items-center gap-3">
@@ -266,8 +233,8 @@ export function TeenShell({ lang, children }: TeenShellProps) {
               </div>
             </div>
             <button
-              ref={closeButtonRef}
               type="button"
+              autoFocus
               onClick={closeDrawer}
               aria-label={ts("menu.close", lang)}
               className="w-11 h-11 flex items-center justify-center rounded-xl text-white/80 hover:text-white focus-visible:outline-white"
@@ -298,19 +265,23 @@ export function TeenShell({ lang, children }: TeenShellProps) {
             })}
           </nav>
           {/* Bottom padding keeps this card clear of the floating
-              "Leave fast" / "Need help now?" buttons, which stay on top. */}
+              "Need help now?" button. */}
           <div className="px-6 pt-4 pb-[calc(env(safe-area-inset-bottom)+9rem)] flex-shrink-0">
             <TeenShellFooter lang={lang} confirmReset={confirmReset} setConfirmReset={setConfirmReset} handleStartOver={handleStartOver} />
           </div>
-        </div>
-      )}
+          {/* The page's own help button is blocked while the menu is open,
+              so the menu carries one. Help stays one tap away. */}
+          <HelpNow lang={lang} />
+          </>
+        )}
+      </dialog>
 
       {/* Main content area — also the skip-link target */}
       <main
         id="main-content"
         tabIndex={0}
         ref={swipeRef}
-        inert={drawerOpen}
+       
         className="flex-1 min-w-0 overflow-y-auto overflow-x-clip relative pt-20 md:pt-0 pb-40 md:pb-20 scroll-smooth outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#2A7F8E]"
       >
         {children}
@@ -322,7 +293,7 @@ export function TeenShell({ lang, children }: TeenShellProps) {
       <nav
         ref={bottomNavRef}
         aria-label={ts("nav.bottom", lang)}
-        inert={drawerOpen}
+       
         data-more-left="false"
         data-more-right="true"
         className="group/bnav md:hidden fixed bottom-0 inset-x-0 z-40 bg-[rgba(26,47,68,0.92)] backdrop-blur-xl backdrop-saturate-150 border-t border-white/5 shadow-[0_-8px_30px_rgba(26,47,68,0.3)] pt-1.5 pb-[calc(env(safe-area-inset-bottom)+0.5rem)]"
