@@ -1,7 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { LifeBuoy, X } from "lucide-react";
 import { th, type HelpLang } from "../lib/i18n-help";
 import { ts } from "../lib/i18n-shell";
@@ -9,8 +8,15 @@ import { CrisisQuickLinks } from "./CrisisQuickLinks";
 import { QuickExitButton, useTripleEscapeExit } from "./QuickExit";
 import { QUICK_EXIT_ENABLED } from "../lib/features";
 
-const FOCUSABLE =
-  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+// Browsers without <dialog closedby> (Safari, at the time of writing) still
+// close the sheet with Esc and the back gesture; this adds tap-outside for them.
+const hasClosedBy = () => typeof HTMLDialogElement !== "undefined" && "closedBy" in HTMLDialogElement.prototype;
+// Test the pointer position, not event.target: the <dialog> is also the target
+// for its own padding and the gaps between its children.
+function isOutside(e: React.PointerEvent<HTMLDialogElement>): boolean {
+  const r = e.currentTarget.getBoundingClientRect();
+  return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+}
 
 interface HelpNowProps {
   lang: HelpLang;
@@ -28,57 +34,22 @@ interface HelpNowProps {
  * Mount once per screen — BandShell does it for every /[lang]/ page.
  */
 export function HelpNow({ lang, placement = "bottom" }: HelpNowProps) {
+  // `open` only mirrors the dialog so the sheet's contents are rendered while
+  // it is showing. The native modal <dialog> does the rest: it makes the page
+  // inert, keeps focus inside, closes on Esc and the Android back gesture, and
+  // returns focus to the button that opened it.
   const [open, setOpen] = useState(false);
-  const triggerRef = useRef<HTMLButtonElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
-  const reduceMotion = useReducedMotion();
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const pressedOutside = useRef(false);
 
   useTripleEscapeExit();
 
-  const close = useCallback(() => {
-    setOpen(false);
-    // Hand focus back to the button that opened the sheet.
-    requestAnimationFrame(() => triggerRef.current?.focus());
-  }, []);
-
+  // Open after the contents have rendered, so the browser can put focus on
+  // the first control inside the sheet instead of on the empty dialog.
   useEffect(() => {
-    if (!open) return;
-    const panel = panelRef.current;
-    panel?.focus();
-
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        close();
-        return;
-      }
-      if (e.key !== "Tab" || !panel) return;
-      const items = Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE));
-      if (items.length === 0) {
-        e.preventDefault();
-        return;
-      }
-      const first = items[0];
-      const last = items[items.length - 1];
-      const current = document.activeElement;
-      if (e.shiftKey) {
-        if (current === first || current === panel || !panel.contains(current)) {
-          e.preventDefault();
-          last.focus();
-        }
-      } else if (current === last || !panel.contains(current)) {
-        e.preventDefault();
-        first.focus();
-      }
-    }
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = prevOverflow;
-    };
-  }, [open, close]);
+    const dialog = dialogRef.current;
+    if (open && dialog && !dialog.open) dialog.showModal();
+  }, [open]);
 
   const position =
     placement === "top"
@@ -92,7 +63,6 @@ export function HelpNow({ lang, placement = "bottom" }: HelpNowProps) {
       >
         {QUICK_EXIT_ENABLED && <QuickExitButton lang={lang} className="pointer-events-auto" />}
         <button
-          ref={triggerRef}
           type="button"
           onClick={() => setOpen(true)}
           aria-haspopup="dialog"
@@ -107,25 +77,26 @@ export function HelpNow({ lang, placement = "bottom" }: HelpNowProps) {
         </button>
       </div>
 
-      {open && (
-        <div
-          className="fixed inset-0 z-[70] flex items-end justify-center bg-[#1B3A5C]/60 font-sans md:items-center md:p-6"
-          onMouseDown={(e) => {
-            if (e.target === e.currentTarget) close();
-          }}
-        >
-          <motion.div
-            ref={panelRef}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="help-now-title"
-            aria-describedby="help-now-reassure"
-            tabIndex={-1}
-            initial={reduceMotion ? false : { opacity: 0, y: 32 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: reduceMotion ? 0 : 0.2, ease: "easeOut" }}
-            className="flex max-h-[92svh] w-full max-w-md flex-col overflow-hidden rounded-t-[1.75rem] bg-[#F5F2EE] text-[#1B3A5C] shadow-2xl focus:outline-none md:rounded-[1.75rem]"
-          >
+      {/* No role, aria-modal, focus trap or Esc handler: the native modal provides them. */}
+      <dialog
+        ref={dialogRef}
+        aria-labelledby="help-now-title"
+        aria-describedby="help-now-reassure"
+        {...({ closedby: "any" } as object)}
+        onClose={() => setOpen(false)}
+        onPointerDown={(e) => {
+          pressedOutside.current = !hasClosedBy() && isOutside(e);
+        }}
+        onPointerUp={(e) => {
+          // Press and release must both be outside, so dragging a text
+          // selection onto the backdrop does not close the sheet.
+          if (pressedOutside.current && isOutside(e)) e.currentTarget.close();
+          pressedOutside.current = false;
+        }}
+        className="help-sheet m-0 mx-auto mt-auto max-h-[92svh] w-full max-w-md flex-col overflow-hidden rounded-t-[1.75rem] bg-[#F5F2EE] p-0 font-sans text-[#1B3A5C] shadow-2xl open:flex md:my-auto md:rounded-[1.75rem]"
+      >
+        {open && (
+          <>
             <div className="flex items-start justify-between gap-3 px-5 pt-5 pb-3">
               <div className="min-w-0">
                 <h2 id="help-now-title" className="text-[22px] font-extrabold leading-tight tracking-tight">
@@ -137,7 +108,7 @@ export function HelpNow({ lang, placement = "bottom" }: HelpNowProps) {
               </div>
               <button
                 type="button"
-                onClick={close}
+                onClick={() => dialogRef.current?.close()}
                 aria-label={th("help.close", lang)}
                 className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white text-[#1B3A5C] ring-1 ring-inset ring-slate-300 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[#D97706]"
               >
@@ -165,9 +136,9 @@ export function HelpNow({ lang, placement = "bottom" }: HelpNowProps) {
               </div>
               )}
             </div>
-          </motion.div>
-        </div>
-      )}
+          </>
+        )}
+      </dialog>
     </>
   );
 }

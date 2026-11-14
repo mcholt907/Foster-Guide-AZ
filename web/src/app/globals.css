@@ -96,3 +96,60 @@ html[data-band="10-12"]:not([data-band-ready]) [data-band-shell] {
     scroll-behavior: auto !important;
   }
 }
+
+/* ─── Modal dialogs ─────────────────────────────────────────────────────────
+   Native <dialog> opened with showModal(). The browser makes the page inert,
+   contains focus and closes on Esc / back gesture; these rules stop scroll
+   gestures leaking to the page behind and animate the sheet in and out. */
+dialog:modal {
+  overscroll-behavior: contain;
+}
+dialog::backdrop {
+  /* ::backdrop is not a scroll container by default, so it needs overflow
+     to honour overscroll-behavior. */
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+.help-sheet {
+  opacity: 0;
+  /* display and overlay keep the sheet in the top layer while it fades out */
+  transition-property: opacity, transform, display, overlay;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
+  transition-behavior: allow-discrete;
+}
+.help-sheet::backdrop {
+  background: rgb(27 58 92 / 0);
+  transition-property: background, display, overlay;
+  transition-duration: 0.2s;
+  transition-behavior: allow-discrete;
+}
+.help-sheet[open] {
+  opacity: 1;
+}
+.help-sheet[open]::backdrop {
+  background: rgb(27 58 92 / 0.6);
+}
+@starting-style {
+  .help-sheet[open] {
+    opacity: 0;
+  }
+  .help-sheet[open]::backdrop {
+    background: rgb(27 58 92 / 0);
+  }
+}
+/* Slide up only for people who have not asked for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .help-sheet {
+    transform: translateY(2rem);
+  }
+  .help-sheet[open] {
+    transform: translateY(0);
+  }
+  @starting-style {
+    .help-sheet[open] {
+      transform: translateY(2rem);
+    }
+  }
+}
