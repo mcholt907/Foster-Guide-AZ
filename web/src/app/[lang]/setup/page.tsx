@@ -25,8 +25,8 @@ export default function SetupPage() {
   const [,, patch] = usePrefs();
 
   // One tap picks the age and starts. No "Next" button.
-  function choose(ageBand: AgeBandKey) {
-    patch({ ageBand, onboardingDone: true });
+  function choose(ageBand: AgeBandKey, leftCare = false) {
+    patch({ ageBand, onboardingDone: true, leftCare });
     router.push(`/${lang}`);
   }
 
@@ -35,9 +35,9 @@ export default function SetupPage() {
       <div className="w-full max-w-[480px] min-h-svh max-h-svh flex flex-col overflow-y-auto">
 
         {/* Top area — icon + headline */}
-        <div className="px-6 pt-16 pb-[clamp(0.5rem,1.5vh,1.5rem)] flex flex-col items-center relative z-10 w-full text-center flex-1 justify-center">
+        <div className="px-6 pt-14 pb-[clamp(0.5rem,1.5vh,1.5rem)] flex flex-col items-center relative z-10 w-full text-center flex-1 justify-center">
 
-          <div className="w-[clamp(5rem,16vh,10rem)] h-[clamp(5rem,16vh,10rem)] rounded-full bg-white shadow-lg border-[6px] border-white flex justify-center items-center overflow-hidden mb-[clamp(0.75rem,2vh,1.5rem)] shrink-0">
+          <div className="w-[clamp(4rem,11vh,8rem)] h-[clamp(4rem,11vh,8rem)] rounded-full bg-white shadow-lg border-[6px] border-white flex justify-center items-center overflow-hidden mb-[clamp(0.75rem,2vh,1.5rem)] shrink-0">
             <Image
               src="/onboarding/welcome_icon.png"
               alt=""
@@ -84,7 +84,7 @@ export default function SetupPage() {
                 key={opt.id}
                 type="button"
                 onClick={() => choose(opt.id)}
-                className="flex flex-col justify-center items-center text-center transition-all duration-200 ease-out border-[3px] border-transparent rounded-[1.5rem] p-3 sm:p-4 min-h-[clamp(86px,11vh,110px)] bg-slate-50 shadow-sm hover:bg-[#E6F8EA] hover:border-[#136d41] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#136d41]"
+                className="flex flex-col justify-center items-center text-center transition-all duration-200 ease-out border-[3px] border-transparent rounded-[1.5rem] p-3 sm:p-4 min-h-[clamp(72px,9vh,100px)] bg-slate-50 shadow-sm hover:bg-[#E6F8EA] hover:border-[#136d41] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#136d41]"
               >
                 <span className="font-extrabold text-2xl tracking-tight mb-1 text-[#35322d]">
                   {lang === "es" ? opt.labelEs : opt.labelEn}
@@ -94,6 +94,15 @@ export default function SetupPage() {
                 </span>
               </button>
             ))}
+            {/* Young adults who already left care get their own start. */}
+            <button
+              type="button"
+              onClick={() => choose("18-21", true)}
+              className="col-span-2 flex flex-col justify-center items-center text-center transition-all duration-200 ease-out border-[3px] border-transparent rounded-[1.5rem] px-4 py-3 min-h-[64px] bg-slate-50 shadow-sm hover:bg-[#E6F8EA] hover:border-[#136d41] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#136d41]"
+            >
+              <span className="font-extrabold text-base tracking-tight text-[#35322d]">{tho("setup.left.label", lang)}</span>
+              <span className="text-xs font-medium leading-tight text-slate-600">{tho("setup.left.desc", lang)}</span>
+            </button>
           </div>
 
           <div className="flex items-center justify-between">

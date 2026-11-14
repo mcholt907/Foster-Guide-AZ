@@ -5,14 +5,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
-  Shield, ChevronRight, Search, HeartHandshake,
+  Shield, ChevronRight, Search, HeartHandshake, BedDouble, Undo2, Stethoscope, GraduationCap, FileText,
   Users, FolderOpen, HeartPulse, HelpCircle, MapPin, Sparkles,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { Lang } from "../../lib/i18n";
 import { tt, ttBand } from "../../lib/i18n-teen";
-import { tho, STARTER_QUESTIONS } from "../../lib/i18n-home";
-import type { AgeBandKey } from "../../lib/prefs";
+import { tho, STARTER_QUESTIONS, LEFT_CARE_STARTERS, LEFT_CARE_STEPS } from "../../lib/i18n-home";
+import { usePrefs, type AgeBandKey } from "../../lib/prefs";
 
 interface DashboardTeenProps {
   lang: Lang;
@@ -63,12 +63,27 @@ const TILES: Tile[] = [
   },
 ];
 
+// After leaving care, housing and next steps come before court and team.
+const LEFT_CARE_TILE_ORDER = ["resources", "future", "answers", "wellness", "rights", "team", "case"];
+
+const STEP_ICONS: Record<string, LucideIcon> = {
+  stay: BedDouble, return: Undo2, health: Stethoscope, school: GraduationCap, papers: FileText,
+};
+
 export function DashboardTeen({ lang, band }: DashboardTeenProps) {
   const router = useRouter();
   const [query, setQuery] = useState("");
   const askHref = (q: string) => `/${lang}/ask${q.trim() ? `?q=${encodeURIComponent(q.trim())}` : ""}`;
-  const starters = band === "10-12" ? [] : STARTER_QUESTIONS[band];
-  const tiles = TILES.filter((t) => !t.bands || t.bands.includes(band));
+  // 18-21 only: a young adult who has left care sees help that does not
+  // depend on a caseworker first.
+  const [prefs, , patch] = usePrefs();
+  const canLeave = band === "18-21";
+  const leftCare = canLeave && prefs.leftCare === true;
+  const starters = band === "10-12" ? [] : leftCare ? LEFT_CARE_STARTERS : STARTER_QUESTIONS[band];
+  const visible = TILES.filter((t) => !t.bands || t.bands.includes(band));
+  const tiles = leftCare
+    ? LEFT_CARE_TILE_ORDER.map((id) => visible.find((t) => t.id === id)).filter((t): t is Tile => !!t)
+    : visible;
 
   return (
     <div className="max-w-[1240px] mx-auto px-4 pt-6 pb-12 sm:px-12 sm:py-16">
@@ -84,7 +99,9 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
             <h1 className="mt-1 text-3xl sm:text-5xl font-black text-[#1a2f44] tracking-tight leading-[1.05]">
               {tho("home.title", lang)}
             </h1>
-            <p className="mt-4 text-lg sm:text-xl font-semibold leading-snug text-[#1a2f44]">{tho("home.reassure", lang)}</p>
+            <p className="mt-4 text-lg sm:text-xl font-semibold leading-snug text-[#1a2f44]">
+              {tho(leftCare ? "left.reassure" : "home.reassure", lang)}
+            </p>
             <p className="mt-2 text-base sm:text-lg font-medium text-slate-600">{tho("home.subtitle", lang)}</p>
           </div>
           <div aria-hidden="true" className="hidden md:block shrink-0 rotate-3 rounded-[2rem] bg-white p-2 shadow-[0_16px_40px_rgba(26,47,68,0.12)]">
@@ -145,6 +162,72 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
         </p>
         </div>
       </section>
+
+      {/* 18-21: still in care, or already left? Asked here, where it changes the page. */}
+      {canLeave && (
+        <section className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+          <h2 id="left-care-ask" className="text-base font-bold text-[#1a2f44]">{tho("left.ask", lang)}</h2>
+          <div role="group" aria-labelledby="left-care-ask" className="flex flex-wrap gap-2">
+            {([false, true] as const).map((v) => {
+              const on = (prefs.leftCare === true) === v;
+              return (
+                <button
+                  key={String(v)}
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => patch({ leftCare: v })}
+                  className={`inline-flex min-h-11 items-center rounded-full px-5 py-2 text-[15px] font-bold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2A7F8E] ${
+                    on ? "bg-[#1a2f44] text-white" : "border border-slate-300 bg-white text-[#1a2f44] hover:bg-slate-50"
+                  }`}
+                >
+                  {tho(v ? "left.out" : "left.in", lang)}
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {/* Left care: what to do first, with no caseworker needed */}
+      {leftCare && (
+        <section aria-labelledby="left-start" className="mb-10 sm:mb-14">
+          <h2 id="left-start" className="text-2xl font-black tracking-tight text-[#1a2f44]">{tho("left.start.title", lang)}</h2>
+          <p className="mt-1 mb-4 text-base font-medium text-slate-600">{tho("left.start.sub", lang)}</p>
+          <ol className="grid gap-3 sm:gap-4 lg:grid-cols-2">
+            {LEFT_CARE_STEPS.map((step) => {
+              const Icon = STEP_ICONS[step.id];
+              return (
+                <li key={step.id} className="flex min-w-0 items-start gap-4 rounded-3xl border border-slate-200/70 bg-white p-5 shadow-[0_8px_24px_rgba(26,47,68,0.04)]">
+                  <span aria-hidden="true" className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#E3F1F3] text-[#1F6B78]">
+                    <Icon size={22} strokeWidth={2.25} />
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-lg font-black tracking-tight text-[#1a2f44]">{step.title[lang]}</h3>
+                    <p className="mt-1 text-[15px] font-medium leading-relaxed text-slate-700">{step.body[lang]}</p>
+                    <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1">
+                      <Link
+                        href={`${askHref(step.title[lang])}&a=${step.answerId}`}
+                        className="inline-flex min-h-11 items-center gap-1 text-[15px] font-bold text-[#1F6B78] underline decoration-2 underline-offset-4 hover:text-[#1a2f44]"
+                      >
+                        {tho("left.read", lang)} <span className="sr-only">: {step.title[lang]}</span>
+                        <ChevronRight size={16} strokeWidth={2.5} aria-hidden="true" />
+                      </Link>
+                      {step.id === "stay" && (
+                        <Link
+                          href={`/${lang}/resources?cat=housing`}
+                          className="inline-flex min-h-11 items-center gap-1 text-[15px] font-bold text-[#1F6B78] underline decoration-2 underline-offset-4 hover:text-[#1a2f44]"
+                        >
+                          {tho("left.listings", lang)} <ChevronRight size={16} strokeWidth={2.5} aria-hidden="true" />
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+        </section>
+      )}
 
       {/* Every section, as a short tappable tile */}
       <section aria-labelledby="home-tiles">

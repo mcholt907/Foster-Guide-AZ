@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useSyncExternalStore } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Search, Phone, ExternalLink, X, MapPin, Users } from "lucide-react";
 import Fuse from "fuse.js";
@@ -36,10 +36,16 @@ interface ResourcesTeenProps {
 type AgeView = "all" | "13-15" | "16-17" | "18-21";
 const AGE_VIEWS: AgeView[] = ["all", "13-15", "16-17", "18-21"];
 
+const subscribeNever = () => () => {};
+const readUrlCat = () => (new URLSearchParams(window.location.search).get("cat") ?? "").slice(0, 30);
+
 export function ResourcesTeen({ lang, band, county }: ResourcesTeenProps) {
   const [, , patch] = usePrefs();
   const [query, setQuery] = useState("");
-  const [activeCat, setActiveCat] = useState<string | "all">("all");
+  // Home can link straight to one kind of help with ?cat=housing. The URL
+  // value is used until the youth taps a category of their own.
+  const urlCat = useSyncExternalStore(subscribeNever, readUrlCat, () => "");
+  const [catChoice, setActiveCat] = useState<string | "all" | null>(null);
   const reduce = useReducedMotion();
   const es = lang === "es";
 
@@ -65,6 +71,7 @@ export function ResourcesTeen({ lang, band, county }: ResourcesTeenProps) {
     () => Array.from(new Set(ageCountyFiltered.flatMap((r) => r.categories as readonly string[]))),
     [ageCountyFiltered]
   );
+  const activeCat = catChoice ?? (cats.includes(urlCat) ? urlCat : "all");
 
   const fuse = useMemo(
     () =>

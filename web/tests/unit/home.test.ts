@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { STARTER_QUESTIONS } from "../../src/lib/i18n-home";
+import { STARTER_QUESTIONS, LEFT_CARE_STARTERS, LEFT_CARE_STEPS } from "../../src/lib/i18n-home";
 import { QUESTIONS } from "../../src/data/questions";
 import { searchQuestions } from "../../src/lib/questionSearch";
 
@@ -24,4 +24,26 @@ describe("Coming back to foster care", () => {
       expect(r[0]?.id).toBe("q-come-back-to-care");
     });
   }
+});
+
+describe("Left foster care (18-21)", () => {
+  const targets = [
+    ...LEFT_CARE_STARTERS.map((s) => ({ what: s.label.en, id: s.answerId, es: s.label.es })),
+    ...LEFT_CARE_STEPS.map((s) => ({ what: s.title.en, id: s.answerId, es: s.title.es })),
+  ];
+  for (const t of targets) {
+    test(`"${t.what}" opens an answer 18-21 can see`, () => {
+      const q = QUESTIONS.find((x) => x.id === t.id);
+      expect(q, `no question with id ${t.id}`).toBeTruthy();
+      expect(q!.ageBands as readonly string[]).toContain("18-21");
+      expect(t.es.trim()).not.toBe("");
+    });
+  }
+
+  test("no start-here step tells a young adult to ask a caseworker", () => {
+    for (const s of LEFT_CARE_STEPS) {
+      expect(s.body.en.toLowerCase()).not.toContain("caseworker");
+      expect(s.body.es.toLowerCase()).not.toContain("trabajador");
+    }
+  });
 });

@@ -25,6 +25,11 @@ export type Prefs = {
    */
   tribalUnsure?: boolean;
   onboardingDone: boolean;
+  /**
+   * 18-21 only: true when the young adult said they have already left foster
+   * care. Home then leads with help that does not need a caseworker.
+   */
+  leftCare?: boolean;
 };
 
 const DEFAULT_PREFS: Prefs = {
