@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState, type KeyboardEvent } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { Phone, MessageSquare, Zap, ArrowRight, LifeBuoy, Sparkles } from "lucide-react";
 import type { Lang } from "../../lib/i18n";
 import { tt, type TeenStringKey } from "../../lib/i18n-teen";
@@ -49,47 +49,40 @@ export function WellnessTeen({ lang, band = "13-15" }: WellnessTeenProps) {
   const [step, setStep] = useState(0);
   const reduce = useReducedMotion();
 
-  const startRef = useRef<HTMLButtonElement>(null);
+  // The grounding exercise is a native modal <dialog>: the browser keeps
+  // focus inside, closes on Esc and the back gesture, and returns focus to
+  // the button that opened it.
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   const current = GROUNDING[step];
   const start = () => { setStep(0); setActive(true); };
-  // Closing hands focus back to the button that opened the exercise.
-  const close = () => {
-    setActive(false);
-    setStep(0);
-    requestAnimationFrame(() => startRef.current?.focus());
-  };
+  const close = () => dialogRef.current?.close();
   const next = () => {
     if (step < GROUNDING.length - 1) setStep((s) => s + 1);
     else close();
   };
-  // Escape closes; Tab stays inside the overlay while it is open.
-  const onOverlayKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === "Escape") { close(); return; }
-    if (e.key !== "Tab") return;
-    const btns = e.currentTarget.querySelectorAll<HTMLElement>("button");
-    if (btns.length === 0) return;
-    const first = btns[0];
-    const last = btns[btns.length - 1];
-    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-  };
+  // Open after the contents render so focus lands on the first button.
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (active && dialog && !dialog.open) dialog.showModal();
+  }, [active]);
 
   return (
     <div className="max-w-[1240px] mx-auto px-6 sm:px-12 py-10 sm:py-20 overflow-visible">
-      {/* Immersive overlay */}
-      <AnimatePresence>
+      {/* Immersive overlay. No role, aria-modal, focus trap or Esc handler:
+          the native modal provides them. */}
+      <dialog
+        ref={dialogRef}
+        aria-labelledby="grounding-step"
+        onClose={(e) => {
+          if (e.target !== e.currentTarget) return;
+          setActive(false);
+          setStep(0);
+        }}
+        className="sheet-dialog m-0 h-dvh max-h-none w-screen max-w-none flex-col items-center justify-center bg-[#1a2f44]/95 p-10 text-center backdrop-blur-3xl open:flex"
+      >
         {active && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="grounding-step"
-            onKeyDown={onOverlayKeyDown}
-            className="fixed inset-0 z-[100] bg-[#1a2f44]/95 backdrop-blur-3xl flex flex-col items-center justify-center p-10 text-center"
-          >
+          <>
             <div className="max-w-xl w-full" aria-live="polite">
               <motion.div
                 key={step}
@@ -134,9 +127,9 @@ export function WellnessTeen({ lang, band = "13-15" }: WellnessTeenProps) {
                 {tt("wellness.grounding.close", lang)}
               </button>
             </div>
-          </motion.div>
+          </>
         )}
-      </AnimatePresence>
+      </dialog>
 
       {/* Hero */}
       <div className="mb-10 md:mb-14">
@@ -177,7 +170,6 @@ export function WellnessTeen({ lang, band = "13-15" }: WellnessTeenProps) {
               </p>
               <button
                 type="button"
-                ref={startRef}
                 onClick={start}
                 className="px-10 py-5 rounded-2xl bg-sky-400 text-[#1a2f44] font-black text-lg shadow-[0_12px_44px_rgba(56,189,248,0.4)] hover:bg-white transition-all hover:scale-105 active:scale-95 inline-flex items-center gap-3"
               >

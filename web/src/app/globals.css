@@ -111,7 +111,7 @@ dialog::backdrop {
   overscroll-behavior: contain;
 }
 
-.help-sheet {
+.sheet-dialog {
   opacity: 0;
   /* display and overlay keep the sheet in the top layer while it fades out */
   transition-property: opacity, transform, display, overlay;
@@ -119,36 +119,36 @@ dialog::backdrop {
   transition-timing-function: ease-out;
   transition-behavior: allow-discrete;
 }
-.help-sheet::backdrop {
+.sheet-dialog::backdrop {
   background: rgb(27 58 92 / 0);
   transition-property: background, display, overlay;
   transition-duration: 0.2s;
   transition-behavior: allow-discrete;
 }
-.help-sheet[open] {
+.sheet-dialog[open] {
   opacity: 1;
 }
-.help-sheet[open]::backdrop {
+.sheet-dialog[open]::backdrop {
   background: rgb(27 58 92 / 0.6);
 }
 @starting-style {
-  .help-sheet[open] {
+  .sheet-dialog[open] {
     opacity: 0;
   }
-  .help-sheet[open]::backdrop {
+  .sheet-dialog[open]::backdrop {
     background: rgb(27 58 92 / 0);
   }
 }
 /* Slide up only for people who have not asked for reduced motion. */
 @media (prefers-reduced-motion: no-preference) {
-  .help-sheet {
+  .sheet-dialog {
     transform: translateY(2rem);
   }
-  .help-sheet[open] {
+  .sheet-dialog[open] {
     transform: translateY(0);
   }
   @starting-style {
-    .help-sheet[open] {
+    .sheet-dialog[open] {
       transform: translateY(2rem);
     }
   }

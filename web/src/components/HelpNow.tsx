@@ -83,7 +83,9 @@ export function HelpNow({ lang, placement = "bottom" }: HelpNowProps) {
         aria-labelledby="help-now-title"
         aria-describedby="help-now-reassure"
         {...({ closedby: "any" } as object)}
-        onClose={() => setOpen(false)}
+        onClose={(e) => {
+          if (e.target === e.currentTarget) setOpen(false);
+        }}
         onPointerDown={(e) => {
           pressedOutside.current = !hasClosedBy() && isOutside(e);
         }}
@@ -93,7 +95,7 @@ export function HelpNow({ lang, placement = "bottom" }: HelpNowProps) {
           if (pressedOutside.current && isOutside(e)) e.currentTarget.close();
           pressedOutside.current = false;
         }}
-        className="help-sheet m-0 mx-auto mt-auto max-h-[92svh] w-full max-w-md flex-col overflow-hidden rounded-t-[1.75rem] bg-[#F5F2EE] p-0 font-sans text-[#1B3A5C] shadow-2xl open:flex md:my-auto md:rounded-[1.75rem]"
+        className="sheet-dialog m-0 mx-auto mt-auto max-h-[92svh] w-full max-w-md flex-col overflow-hidden rounded-t-[1.75rem] bg-[#F5F2EE] p-0 font-sans text-[#1B3A5C] shadow-2xl open:flex md:my-auto md:rounded-[1.75rem]"
       >
         {open && (
           <>
