@@ -6,7 +6,8 @@
       "mcp__playwright__browser_console_messages",
       "mcp__playwright__browser_close",
       "Bash(npm audit)",
-      "Bash(npx modern-web-guidance@latest:*)"
+      "Bash(npx modern-web-guidance@latest:*)",
+      "Bash(npx -y modern-web-guidance@latest:*)"
     ]
   },
   "hooks": {
