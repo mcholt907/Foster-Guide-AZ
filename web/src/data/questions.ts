@@ -809,8 +809,8 @@ export const QUESTIONS: QAEntry[] = [
       es: "No tengo adónde ir esta noche. ¿Qué hago?",
     },
     answer: {
-      en: "You don't have to sleep outside tonight. Call 211 (dial 2-1-1) — they can connect you to emergency shelter in your area right now, any time of day or night. In Phoenix, Tumbleweed Center's 24-hour line is (602) 271-9904. UMOM New Day Centers is at (602) 889-3597. If you're still in foster care and your placement broke down, call your caseworker's emergency line immediately — DCS is required to find you safe placement.",
-      es: "No tienes que dormir en la calle esta noche. Llama al 211 — pueden conectarte con un refugio de emergencia en tu área ahora mismo. En Phoenix, la línea de 24 horas de Tumbleweed es (602) 271-9904. Si todavía estás en cuidado de crianza y tu colocación terminó, llama a la línea de emergencia de tu trabajador/a de casos de inmediato.",
+      en: "You don't have to sleep outside tonight. Call 211 (dial 2-1-1) — they can connect you to emergency shelter in your area right now, any time of day or night. You can also open Find Resources and pick housing to see youth shelters and young adult housing with phone numbers we have checked. If you're still in foster care and your placement broke down, call your caseworker's emergency line immediately — DCS is required to find you safe placement.",
+      es: "No tienes que dormir en la calle esta noche. Llama al 211 — pueden conectarte con un refugio de emergencia en tu área ahora mismo. También puedes abrir Encuentra Recursos y elegir vivienda para ver refugios para jóvenes y vivienda para adultos jóvenes con teléfonos que hemos revisado. Si todavía estás en cuidado de crianza y tu colocación terminó, llama a la línea de emergencia de tu trabajador/a de casos de inmediato.",
     },
     keywords: {
       en: ["homeless", "nowhere to go", "no place to stay", "no place to sleep", "kicked out", "on the street", "shelter", "sleeping outside", "sleep in my car", "couch surfing", "need a bed", "tonight", "homless"],

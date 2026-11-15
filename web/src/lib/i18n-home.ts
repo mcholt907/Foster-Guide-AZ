@@ -41,6 +41,20 @@ const HOME_STRINGS = {
   "setup.back":             { en: "Back", es: "Atrás" },
   "setup.age.hint":         { en: "We ask so we can show you what fits your age. Tap one to start.",
                               es: "Preguntamos para mostrarte lo que va con tu edad. Toca una para empezar." },
+
+  // 18-21: still in care, or already left
+  "left.ask":          { en: "Are you still in foster care?", es: "¿Sigues en cuidado de crianza?" },
+  "left.in":           { en: "I'm still in care", es: "Sigo en cuidado" },
+  "left.out":          { en: "I've left care", es: "Ya salí del cuidado" },
+  "left.reassure":     { en: "You left foster care — and you still have help. None of this needs a caseworker.",
+                         es: "Saliste del cuidado de crianza — y todavía tienes ayuda. Nada de esto necesita un trabajador de casos." },
+  "left.start.title":  { en: "Start here", es: "Empieza aquí" },
+  "left.start.sub":    { en: "The things young adults ask about most after leaving care.",
+                         es: "Lo que más preguntan los adultos jóvenes después de salir del cuidado." },
+  "left.read":         { en: "Read more", es: "Leer más" },
+  "left.listings":     { en: "See places to stay", es: "Ver lugares para quedarte" },
+  "setup.left.label":  { en: "18–21, and I've left foster care", es: "18–21, y ya salí del cuidado de crianza" },
+  "setup.left.desc":   { en: "Housing, health coverage, coming back", es: "Vivienda, seguro médico, regresar" },
 } as const;
 
 export type HomeStringKey = keyof typeof HOME_STRINGS;
@@ -88,3 +102,71 @@ export const STARTER_QUESTIONS: Record<Exclude<AgeBandKey, "10-12">, StarterQues
     { label: { en: "How do I get my documents?", es: "¿Cómo consigo mis documentos?" }, answerId: "q-what-docs-should-i-have" },
   ],
 };
+
+/** Starter questions for a young adult who has already left foster care. */
+export const LEFT_CARE_STARTERS: StarterQuestion[] = [
+  { label: { en: "I need a place to stay tonight", es: "Necesito dónde quedarme hoy" }, answerId: "q-nowhere-to-go-tonight" },
+  { label: { en: "Can I come back to foster care?", es: "¿Puedo regresar al cuidado de crianza?" }, answerId: "q-come-back-to-care" },
+  { label: { en: "How do I keep my health insurance?", es: "¿Cómo mantengo mi seguro médico?" }, answerId: "q-what-is-ahcccs-yati" },
+  { label: { en: "How do I get my documents?", es: "¿Cómo consigo mis documentos?" }, answerId: "q-get-birth-certificate" },
+];
+
+/**
+ * "Start here" cards for a young adult who has left care. Every next step
+ * works without a caseworker. Phone numbers here are the ones already
+ * verified in data/resources.ts (2-1-1 Arizona; AHCCCS 602-417-4000).
+ */
+export interface LeftCareStep {
+  id: "stay" | "return" | "health" | "school" | "papers";
+  title: { en: string; es: string };
+  body: { en: string; es: string };
+  answerId: string;
+}
+
+export const LEFT_CARE_STEPS: LeftCareStep[] = [
+  {
+    id: "stay",
+    title: { en: "A place to stay", es: "Un lugar donde quedarte" },
+    body: {
+      en: "Nowhere to sleep tonight? Call 2-1-1, any time. They can find a shelter bed near you. If you are in danger, call 911.",
+      es: "¿No tienes dónde dormir hoy? Llama al 2-1-1, a cualquier hora. Pueden encontrarte una cama en un refugio cerca. Si estás en peligro, llama al 911.",
+    },
+    answerId: "q-nowhere-to-go-tonight",
+  },
+  {
+    id: "return",
+    title: { en: "Coming back to care", es: "Regresar al cuidado" },
+    body: {
+      en: "If you were in foster care in Arizona when you turned 18, you can ask to come back any time before you turn 21. Leaving was not a mistake you have to live with.",
+      es: "Si estabas en cuidado de crianza en Arizona cuando cumpliste 18, puedes pedir regresar en cualquier momento antes de cumplir 21. Haber salido no es un error con el que tengas que cargar.",
+    },
+    answerId: "q-come-back-to-care",
+  },
+  {
+    id: "health",
+    title: { en: "Health coverage", es: "Seguro médico" },
+    body: {
+      en: "If you were in foster care when you turned 18, you can usually get free health coverage until you turn 26. Call AHCCCS at 602-417-4000 and say you were in foster care at 18.",
+      es: "Si estabas en cuidado de crianza cuando cumpliste 18, normalmente puedes tener seguro médico gratis hasta los 26. Llama a AHCCCS al 602-417-4000 y di que estabas en cuidado de crianza a los 18.",
+    },
+    answerId: "q-what-is-ahcccs-yati",
+  },
+  {
+    id: "school",
+    title: { en: "School, training and work", es: "Escuela, capacitación y trabajo" },
+    body: {
+      en: "There is money for college or job training for young people who were in foster care, and a tuition waiver at Arizona public colleges if you are under 23. Tell the school's financial aid office you were in foster care.",
+      es: "Hay dinero para la universidad o capacitación para jóvenes que estuvieron en cuidado de crianza, y una exención de matrícula en las universidades públicas de Arizona si tienes menos de 23. Dile a la oficina de ayuda financiera que estuviste en cuidado de crianza.",
+    },
+    answerId: "q-what-is-etv",
+  },
+  {
+    id: "papers",
+    title: { en: "Your documents", es: "Tus documentos" },
+    body: {
+      en: "You can order your own birth certificate, Social Security card and state ID. Some have a fee when you order them yourself. Start with the birth certificate — you need it for the others.",
+      es: "Puedes pedir tu propia acta de nacimiento, tarjeta de Seguro Social e identificación estatal. Algunas tienen un costo cuando las pides tú. Empieza con el acta de nacimiento — la necesitas para las demás.",
+    },
+    answerId: "q-get-birth-certificate",
+  },
+];

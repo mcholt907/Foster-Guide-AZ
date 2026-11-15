@@ -62,13 +62,14 @@ export default async function PrivacyPage({
       <LegalSection heading={isEs ? "Lo que se guarda en TU dispositivo" : "What is saved on YOUR device"}>
         <p>
           {isEs
-            ? "Para mostrarte lo que te sirve, este sitio guarda cuatro cosas pequeñas en este teléfono o computadora:"
-            : "To show you what fits you, this site saves four small things on this phone or computer:"}
+            ? "Para mostrarte lo que te sirve, este sitio guarda unas pocas cosas pequeñas en este teléfono o computadora:"
+            : "To show you what fits you, this site saves a few small things on this phone or computer:"}
         </p>
         <ul className="list-disc pl-5 space-y-1">
           <li>{isEs ? "Tu grupo de edad (10–12, 13–15, 16–17 o 18–21)" : "Your age group (10–12, 13–15, 16–17, or 18–21)"}</li>
           <li>{isEs ? "Tu condado en Arizona" : "Your Arizona county"}</li>
           <li>{isEs ? "Tu respuesta a la pregunta sobre naciones tribales" : "Your answer to the tribal nation question"}</li>
+          <li>{isEs ? "Si eres mayor de 18: si dijiste que ya saliste del cuidado de crianza" : "If you are 18 or older: whether you said you have left foster care"}</li>
           <li>{isEs ? "Si ya terminaste las preguntas del inicio" : "Whether you finished the starting questions"}</li>
         </ul>
         <p>
