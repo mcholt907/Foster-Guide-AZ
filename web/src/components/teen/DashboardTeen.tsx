@@ -237,7 +237,7 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
             <li key={tile.id} className="min-w-0">
               <Link
                 href={`/${lang}${tile.href}`}
-                className="group flex h-full items-start gap-4 rounded-3xl border border-slate-200/70 bg-white p-5 shadow-[0_8px_24px_rgba(26,47,68,0.04)] transition hover:-translate-y-0.5 hover:border-[#2A7F8E]/40 hover:shadow-[0_16px_40px_rgba(26,47,68,0.10)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2A7F8E]"
+                className="group flex h-full items-start gap-4 rounded-3xl border border-slate-200/70 bg-white p-5 shadow-[0_8px_24px_rgba(26,47,68,0.04)] transition motion-safe:hover:-translate-y-0.5 hover:border-[#2A7F8E]/40 hover:shadow-[0_16px_40px_rgba(26,47,68,0.10)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2A7F8E]"
               >
                 <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${tile.chip}`}>
                   <tile.Icon size={22} strokeWidth={2.25} aria-hidden="true" />
@@ -250,7 +250,7 @@ export function DashboardTeen({ lang, band }: DashboardTeenProps) {
                   size={20}
                   strokeWidth={2.5}
                   aria-hidden="true"
-                  className="mt-3 shrink-0 text-slate-400 transition group-hover:translate-x-0.5 group-hover:text-[#1F6B78]"
+                  className="mt-3 shrink-0 text-slate-400 transition motion-safe:group-hover:translate-x-0.5 group-hover:text-[#1F6B78]"
                 />
               </Link>
             </li>

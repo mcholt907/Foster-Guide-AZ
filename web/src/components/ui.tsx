@@ -22,7 +22,7 @@ export function Card({
         onClick={onClick}
         className={
           "flex overflow-hidden rounded-[28px] bg-white/95 shadow-[0_8px_30px_rgb(0,0,0,0.06)] " +
-          (clickable ? "cursor-pointer hover:shadow-md active:scale-[0.995] transition-all " : "") +
+          (clickable ? "cursor-pointer hover:shadow-md motion-safe:active:scale-[0.995] transition-all " : "") +
           className
         }
       >
@@ -36,7 +36,7 @@ export function Card({
       onClick={onClick}
       className={
         "rounded-[28px] bg-white/95 p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)] " +
-        (clickable ? "cursor-pointer hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] active:scale-[0.995] transition-all " : "") +
+        (clickable ? "cursor-pointer hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] motion-safe:active:scale-[0.995] transition-all " : "") +
         className
       }
     >
@@ -67,7 +67,7 @@ export function PrimaryButton({
     <button
       type="button"
       onClick={onClick}
-      className={`w-full min-h-11 rounded-2xl px-4 py-3.5 text-sm font-bold shadow-[0_4px_16px_rgb(0,0,0,0.1)] active:scale-[0.99] transition-all ${cls}`}
+      className={`w-full min-h-11 rounded-2xl px-4 py-3.5 text-sm font-bold shadow-[0_4px_16px_rgb(0,0,0,0.1)] motion-safe:active:scale-[0.99] transition-all ${cls}`}
     >
       <span className="flex items-center justify-center gap-2">
         {Icon ? <Icon className="h-4 w-4" aria-hidden="true" /> : null}

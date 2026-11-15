@@ -51,8 +51,11 @@ body {
    route-transition scroll management and produces visible scroll animations
    on initial load. The `data-scroll-behavior="smooth"` attribute on <html>
    tells Next.js to keep route transitions instant. */
-html {
-  scroll-behavior: smooth;
+/* Only for people who have not asked for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* ─── Focus ring (accessibility) ────────────────────────────────────────────── */
@@ -80,22 +83,16 @@ html[data-band="10-12"]:not([data-band-ready]) [data-band-shell] {
 }
 
 /* ─── Reduced motion ─────────────────────────────────────────────────────────── */
-/* Neutralize CSS transitions/animations for people who ask for less motion.
-   (framer-motion is handled by <MotionConfig reducedMotion="user"> in
-   BandShell.) Scroll is only ever forced to `auto` here — never to `smooth` —
-   so this cannot bring back the route-transition scroll animations described
-   above. animation-delay is left alone so the reveal safety net still waits. */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    transition-delay: 0s !important;
-    scroll-behavior: auto !important;
-  }
-}
+/* There is no blanket "turn every transition off" rule here on purpose: that
+   also removes the colour and opacity changes that show a button was pressed
+   or a panel opened, and it can make some animations more jarring.
+   Movement is opted into instead, case by case:
+     - smooth scrolling: only under prefers-reduced-motion: no-preference (above,
+       and `motion-safe:scroll-smooth` on scroll containers)
+     - lift / scale / slide on hover and press: `motion-safe:` in the markup
+     - dialog slide-in: only under no-preference (below)
+     - framer-motion: <MotionConfig reducedMotion="user"> in BandShell
+   Colour, opacity and shadow transitions stay on for everyone. */
 
 /* ─── Modal dialogs ─────────────────────────────────────────────────────────
    Native <dialog> opened with showModal(). The browser makes the page inert,

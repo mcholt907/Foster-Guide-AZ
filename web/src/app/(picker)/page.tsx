@@ -61,14 +61,14 @@ export default function RootPage() {
             <Link
               href="/en/setup"
               lang="en"
-              className="aspect-[5/3] rounded-[2rem] p-4 flex flex-col justify-center items-center text-center transition-all duration-200 ease-out border-[3px] border-transparent bg-slate-50 shadow-sm hover:bg-[#fff4cc] hover:border-[#fbbf24] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#136d41]"
+              className="aspect-[5/3] rounded-[2rem] p-4 flex flex-col justify-center items-center text-center transition-all duration-200 ease-out border-[3px] border-transparent bg-slate-50 shadow-sm hover:bg-[#fff4cc] hover:border-[#fbbf24] motion-safe:active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#136d41]"
             >
               <span className="font-extrabold text-2xl tracking-tight text-[#35322d]">English</span>
             </Link>
             <Link
               href="/es/setup"
               lang="es"
-              className="aspect-[5/3] rounded-[2rem] p-4 flex flex-col justify-center items-center text-center transition-all duration-200 ease-out border-[3px] border-transparent bg-slate-50 shadow-sm hover:bg-[#e0f2fe] hover:border-[#38bdf8] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#136d41]"
+              className="aspect-[5/3] rounded-[2rem] p-4 flex flex-col justify-center items-center text-center transition-all duration-200 ease-out border-[3px] border-transparent bg-slate-50 shadow-sm hover:bg-[#e0f2fe] hover:border-[#38bdf8] motion-safe:active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#136d41]"
             >
               <span className="font-extrabold text-2xl tracking-tight text-[#35322d]">Español</span>
             </Link>

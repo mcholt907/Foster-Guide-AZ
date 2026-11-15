@@ -7,7 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   Home as HomeIcon, FolderOpen, Users, HeartPulse, HelpCircle,
-  Shield, MapPin, Sparkles, Menu, X, ChevronLeft, ChevronRight,
+  Shield, MapPin, Sparkles, Menu, X,
 } from "lucide-react";
 import type { Lang } from "../lib/i18n";
 import { tt, type TeenStringKey } from "../lib/i18n-teen";
@@ -45,6 +45,14 @@ const NAV_ITEMS: NavItem[] = [
   { id: "future",    icon: Sparkles,    href: "/future",     labelKey: "nav.future" },
 ];
 
+// The four places kept on the phone's bottom bar. Everything else is one tap
+// away under "More", which opens the full menu.
+const BOTTOM_NAV_IDS = ["dashboard", "answers", "rights", "resources"];
+const BOTTOM_NAV_ITEMS = BOTTOM_NAV_IDS.map((id) => NAV_ITEMS.find((n) => n.id === id)).filter((n): n is (typeof NAV_ITEMS)[number] => !!n);
+const BOTTOM_ITEM = "min-h-[52px] flex flex-col items-center justify-center gap-1 px-0.5 py-1.5 rounded-2xl transition-colors";
+const BOTTOM_ITEM_ON = "text-emerald-300 font-bold bg-white/10";
+const BOTTOM_ITEM_OFF = "text-slate-300 hover:text-white font-medium";
+
 const DRAWER_ID = "teen-menu-drawer";
 const DRAWER_TITLE_ID = "teen-menu-title";
 
@@ -52,14 +60,12 @@ export function TeenShell({ lang, children }: TeenShellProps) {
   const router = useRouter();
   const pathname = usePathname();
   const active = activeFromPathname(pathname, lang);
+  const inMore = !BOTTOM_NAV_IDS.includes(active);
   const [, , , reset] = usePrefs();
   const [confirmReset, setConfirmReset] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const reduceMotion = useReducedMotion();
   const swipeRef = useSwipeNav({ items: NAV_ITEMS, currentId: active, lang });
-  const bottomNavScrollRef = useRef<HTMLDivElement>(null);
-  const activeBottomItemRef = useRef<HTMLAnchorElement>(null);
-  const bottomNavRef = useRef<HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLDialogElement>(null);
 
@@ -68,39 +74,6 @@ export function TeenShell({ lang, children }: TeenShellProps) {
     if (!main) return;
     main.scrollLeft = 0;
   }, [pathname, swipeRef]);
-
-  // Bottom nav: show an edge fade + arrow on whichever side has more items
-  // off-screen. Done with data attributes (not state) so scrolling never
-  // re-renders the shell.
-  useEffect(() => {
-    const container = bottomNavScrollRef.current;
-    const nav = bottomNavRef.current;
-    if (!container || !nav) return;
-    function updateFades() {
-      if (!container || !nav) return;
-      const max = container.scrollWidth - container.clientWidth;
-      nav.dataset.moreLeft = container.scrollLeft > 4 ? "true" : "false";
-      nav.dataset.moreRight = container.scrollLeft < max - 4 ? "true" : "false";
-    }
-    updateFades();
-    container.addEventListener("scroll", updateFades, { passive: true });
-    window.addEventListener("resize", updateFades);
-    return () => {
-      container.removeEventListener("scroll", updateFades);
-      window.removeEventListener("resize", updateFades);
-    };
-  }, []);
-
-  // Keep the active bottom-nav item in view (centered) on every route change.
-  useEffect(() => {
-    const item = activeBottomItemRef.current;
-    const container = bottomNavScrollRef.current;
-    if (!item || !container) return;
-    const target = item.offsetLeft + item.offsetWidth / 2 - container.clientWidth / 2;
-    container.scrollLeft = Math.max(0, target);
-    // Some browsers skip the scroll event when the position is unchanged.
-    container.dispatchEvent(new Event("scroll"));
-  }, [active]);
 
   // Mobile menu: a native modal <dialog>. The browser makes the page inert,
   // keeps focus inside, closes on Esc and the back gesture, and returns focus
@@ -164,7 +137,7 @@ export function TeenShell({ lang, children }: TeenShellProps) {
                     : "text-slate-400 hover:bg-white/5 hover:text-white font-medium"
                 }`}
               >
-                <Icon size={20} className={`shrink-0 transition-all duration-300 group-hover:scale-110 ${isActive ? "text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.6)]" : ""}`} />
+                <Icon size={20} className={`shrink-0 transition-all duration-300 motion-safe:group-hover:scale-110 ${isActive ? "text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.6)]" : ""}`} />
                 <span className="text-[15.5px] tracking-tight">{tt(item.labelKey, lang)}</span>
                 {isActive &&
                   (reduceMotion ? (
@@ -282,56 +255,49 @@ export function TeenShell({ lang, children }: TeenShellProps) {
         tabIndex={0}
         ref={swipeRef}
        
-        className="flex-1 min-w-0 overflow-y-auto overflow-x-clip relative pt-20 md:pt-0 pb-40 md:pb-20 scroll-smooth outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#2A7F8E]"
+        className="flex-1 min-w-0 overflow-y-auto overflow-x-clip relative pt-20 md:pt-0 pb-40 md:pb-20 motion-safe:scroll-smooth outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#2A7F8E]"
       >
         {children}
       </main>
 
-      {/* Mobile floating bottom nav — scrolls sideways across all 8 sections.
-          Edge fades + arrows (driven by data-more-left/right, see effect
-          above) hint that there is more to swipe to. */}
+      {/* Mobile bottom nav: four fixed places plus "More", which opens the
+          full menu. Nothing is hidden off-screen. */}
       <nav
-        ref={bottomNavRef}
         aria-label={ts("nav.bottom", lang)}
-       
-        data-more-left="false"
-        data-more-right="true"
-        className="group/bnav md:hidden fixed bottom-0 inset-x-0 z-40 bg-[rgba(26,47,68,0.92)] backdrop-blur-xl backdrop-saturate-150 border-t border-white/5 shadow-[0_-8px_30px_rgba(26,47,68,0.3)] pt-1.5 pb-[calc(env(safe-area-inset-bottom)+0.5rem)]"
+        className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-[rgba(26,47,68,0.92)] backdrop-blur-xl backdrop-saturate-150 border-t border-white/5 shadow-[0_-8px_30px_rgba(26,47,68,0.3)] pt-1.5 pb-[calc(env(safe-area-inset-bottom)+0.5rem)]"
       >
-        <div ref={bottomNavScrollRef} className="flex overflow-x-auto px-3 gap-0.5 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-          {NAV_ITEMS.map((item) => {
+        <ul className="grid grid-cols-5 px-1">
+          {BOTTOM_NAV_ITEMS.map((item) => {
             const isActive = item.id === active;
             const Icon = item.icon;
             return (
-              <Link
-                key={item.id}
-                ref={isActive ? activeBottomItemRef : null}
-                href={`/${lang}${item.href}`}
-                aria-current={isActive ? "page" : undefined}
-                className={`shrink-0 min-w-[76px] min-h-[52px] flex flex-col items-center justify-center gap-1 px-2 py-1.5 rounded-2xl transition-colors ${
-                  isActive ? "text-emerald-300 font-bold bg-white/10" : "text-slate-300 hover:text-white font-medium"
-                }`}
-              >
-                <Icon size={22} aria-hidden="true" className={isActive ? "drop-shadow-[0_0_8px_rgba(52,211,153,0.4)]" : "opacity-90"} />
-                <span className="text-[12px] leading-none tracking-tight whitespace-nowrap">
-                  {tt(item.labelKey, lang)}
-                </span>
-              </Link>
+              <li key={item.id} className="min-w-0">
+                <Link
+                  href={`/${lang}${item.href}`}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`${BOTTOM_ITEM} ${isActive ? BOTTOM_ITEM_ON : BOTTOM_ITEM_OFF}`}
+                >
+                  <Icon size={22} aria-hidden="true" className={isActive ? "drop-shadow-[0_0_8px_rgba(52,211,153,0.4)]" : "opacity-90"} />
+                  <span className="max-w-full truncate text-[12px] leading-none tracking-tighter">{ts(`nav.bottom.${item.id}` as Parameters<typeof ts>[0], lang)}</span>
+                </Link>
+              </li>
             );
           })}
-        </div>
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-0 w-10 flex items-center justify-start pl-0.5 bg-gradient-to-r from-[#1a2f44] via-[#1a2f44]/80 to-transparent text-white opacity-0 transition-opacity group-data-[more-left=true]/bnav:opacity-100"
-        >
-          <ChevronLeft size={18} strokeWidth={2.75} />
-        </div>
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 right-0 w-10 flex items-center justify-end pr-0.5 bg-gradient-to-l from-[#1a2f44] via-[#1a2f44]/80 to-transparent text-white opacity-0 transition-opacity group-data-[more-right=true]/bnav:opacity-100"
-        >
-          <ChevronRight size={18} strokeWidth={2.75} />
-        </div>
+          <li className="min-w-0">
+            {/* Lit when the current page is one of the sections kept in the menu. */}
+            <button
+              type="button"
+              onClick={() => setDrawerOpen(true)}
+              aria-haspopup="dialog"
+              aria-expanded={drawerOpen}
+              aria-controls={DRAWER_ID}
+              className={`w-full ${BOTTOM_ITEM} ${inMore ? BOTTOM_ITEM_ON : BOTTOM_ITEM_OFF}`}
+            >
+              <Menu size={22} aria-hidden="true" className={inMore ? "drop-shadow-[0_0_8px_rgba(52,211,153,0.4)]" : "opacity-90"} />
+              <span className="max-w-full truncate text-[12px] leading-none tracking-tighter">{ts("nav.more.button", lang)}</span>
+            </button>
+          </li>
+        </ul>
       </nav>
     </div>
   );

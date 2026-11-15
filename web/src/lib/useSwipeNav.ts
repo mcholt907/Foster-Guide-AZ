@@ -19,6 +19,20 @@ const HORIZONTAL_THRESHOLD = 60;
 const VERTICAL_TOLERANCE_RATIO = 0.7;
 const EDGE_IGNORE = 20;
 
+/** True when the touch began inside an element that handles horizontal movement itself. */
+function startsOnOwnGesture(target: EventTarget | null, root: HTMLElement | null): boolean {
+  let node = target instanceof Element ? target : null;
+  while (node && node !== root) {
+    if (node.matches("input, textarea, select, [contenteditable='true'], dialog")) return true;
+    if (node instanceof HTMLElement && node.scrollWidth > node.clientWidth + 1) {
+      const overflowX = getComputedStyle(node).overflowX;
+      if (overflowX === "auto" || overflowX === "scroll") return true;
+    }
+    node = node.parentElement;
+  }
+  return false;
+}
+
 export function useSwipeNav<T extends SwipeNavItem>({
   items,
   currentId,
@@ -44,6 +58,12 @@ export function useSwipeNav<T extends SwipeNavItem>({
 
     function handleTouchStart(e: TouchEvent) {
       if (e.touches.length !== 1) {
+        startRef.current = null;
+        return;
+      }
+      // A swipe that starts on something with its own sideways gesture
+      // (a scrolling row, a text field, a slider) belongs to that element.
+      if (startsOnOwnGesture(e.target, el)) {
         startRef.current = null;
         return;
       }

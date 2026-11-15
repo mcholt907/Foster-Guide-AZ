@@ -93,7 +93,7 @@ export function CaseTeen({ lang, band }: CaseTeenProps) {
                 style={isActive ? { borderColor: `${st.primary}15` } : {}}
               >
                 <div
-                  className="w-11 h-11 rounded-[1.1rem] flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105"
+                  className="w-11 h-11 rounded-[1.1rem] flex items-center justify-center shrink-0 transition-transform duration-300 motion-safe:group-hover:scale-105"
                   style={{
                     backgroundColor: isActive ? st.primary : "rgba(241, 245, 249, 0.8)",
                     color: isActive ? "white" : "currentColor",
