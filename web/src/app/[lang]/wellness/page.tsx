@@ -135,7 +135,7 @@ function Wellness1012({ lang }: { lang: Lang }) {
               <button
                 type="button"
                 onClick={startGrounding}
-                className="w-full rounded-full bg-[#1B3A5C] px-4 py-4 text-[15px] font-semibold text-white shadow-md hover:bg-[#122b46] active:scale-[0.98] transition-all"
+                className="w-full rounded-full bg-[#1B3A5C] px-4 py-4 text-[15px] font-semibold text-white shadow-md hover:bg-[#122b46] motion-safe:active:scale-[0.98] transition-all"
               >
                 {lang === "es" ? "Comenzar ejercicio" : "Start exercise"}
               </button>
@@ -161,7 +161,7 @@ function Wellness1012({ lang }: { lang: Lang }) {
                 <button
                   type="button"
                   onClick={nextGroundingStep}
-                  className="w-full rounded-full bg-[#1B3A5C] px-6 py-3.5 text-[15px] font-semibold text-white shadow-md hover:bg-[#122b46] transition-all active:scale-[0.98]"
+                  className="w-full rounded-full bg-[#1B3A5C] px-6 py-3.5 text-[15px] font-semibold text-white shadow-md hover:bg-[#122b46] transition-all motion-safe:active:scale-[0.98]"
                 >
                   {groundingStep < GROUNDING_STEPS.length - 1
                     ? (lang === "es" ? "Siguiente →" : "Next Step →")

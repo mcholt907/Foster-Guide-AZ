@@ -115,7 +115,7 @@ export function WellnessTeen({ lang, band = "13-15" }: WellnessTeenProps) {
                 type="button"
                 onClick={next}
                 autoFocus
-                className="w-full sm:w-80 bg-white text-[#1a2f44] font-black text-lg py-6 rounded-3xl shadow-2xl hover:bg-sky-50 active:scale-95 transition-all"
+                className="w-full sm:w-80 bg-white text-[#1a2f44] font-black text-lg py-6 rounded-3xl shadow-2xl hover:bg-sky-50 motion-safe:active:scale-95 transition-all"
               >
                 {step < GROUNDING.length - 1 ? tt("wellness.grounding.next", lang) : tt("wellness.grounding.finish", lang)}
               </button>
@@ -152,7 +152,7 @@ export function WellnessTeen({ lang, band = "13-15" }: WellnessTeenProps) {
           <div className="absolute -left-12 -bottom-12 w-64 h-64 bg-emerald-500/5 blur-[80px] rounded-full" />
 
           <div className="relative z-10 flex flex-col md:flex-row items-center gap-12 md:gap-20">
-            <div className="w-40 sm:w-60 h-40 sm:h-60 rounded-[3rem] bg-white/5 border border-white/10 flex items-center justify-center backdrop-blur-md text-[120px] sm:text-[160px] group-hover:scale-105 transition-transform duration-500" aria-hidden="true">
+            <div className="w-40 sm:w-60 h-40 sm:h-60 rounded-[3rem] bg-white/5 border border-white/10 flex items-center justify-center backdrop-blur-md text-[120px] sm:text-[160px] motion-safe:group-hover:scale-105 transition-transform duration-500" aria-hidden="true">
               🧘
             </div>
             <div className="flex-1 text-center md:text-left">
@@ -171,7 +171,7 @@ export function WellnessTeen({ lang, band = "13-15" }: WellnessTeenProps) {
               <button
                 type="button"
                 onClick={start}
-                className="px-10 py-5 rounded-2xl bg-sky-400 text-[#1a2f44] font-black text-lg shadow-[0_12px_44px_rgba(56,189,248,0.4)] hover:bg-white transition-all hover:scale-105 active:scale-95 inline-flex items-center gap-3"
+                className="px-10 py-5 rounded-2xl bg-sky-400 text-[#1a2f44] font-black text-lg shadow-[0_12px_44px_rgba(56,189,248,0.4)] hover:bg-white transition-all motion-safe:hover:scale-105 motion-safe:active:scale-95 inline-flex items-center gap-3"
               >
                 {tt("wellness.grounding.cta", lang)} <ArrowRight size={20} strokeWidth={3} aria-hidden="true" />
               </button>
@@ -264,7 +264,7 @@ export function WellnessTeen({ lang, band = "13-15" }: WellnessTeenProps) {
           {/* Motivational quote */}
           <div className="mt-8 p-12 rounded-[3.5rem] bg-gradient-to-br from-[#1a2f44] to-[#122b46] text-white flex flex-col sm:flex-row items-center gap-10 overflow-hidden relative group">
             <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 blur-[80px] rounded-full translate-x-1/2 -translate-y-1/2" />
-            <div className="w-24 h-24 rounded-[2rem] bg-white/5 border border-white/10 flex items-center justify-center shrink-0 backdrop-blur-md group-hover:rotate-12 transition-transform duration-500">
+            <div className="w-24 h-24 rounded-[2rem] bg-white/5 border border-white/10 flex items-center justify-center shrink-0 backdrop-blur-md motion-safe:group-hover:rotate-12 transition-transform duration-500">
               <Sparkles size={40} className="text-sky-300" aria-hidden="true" />
             </div>
             <p className="text-xl sm:text-2xl font-black leading-tight tracking-tight text-center sm:text-left italic">

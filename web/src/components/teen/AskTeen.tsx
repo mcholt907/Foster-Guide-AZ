@@ -331,7 +331,7 @@ export function AskTeen({ lang, band }: AskTeenProps) {
             </p>
             <Link
               href={`/${lang}/team`}
-              className="w-full py-4 rounded-xl bg-slate-900 text-white font-black text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all hover:scale-105 text-center"
+              className="w-full py-4 rounded-xl bg-slate-900 text-white font-black text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all motion-safe:hover:scale-105 text-center"
             >
               {tt("ask.callout.cta", lang)}
             </Link>

@@ -84,7 +84,7 @@ export default function SetupPage() {
                 key={opt.id}
                 type="button"
                 onClick={() => choose(opt.id)}
-                className="flex flex-col justify-center items-center text-center transition-all duration-200 ease-out border-[3px] border-transparent rounded-[1.5rem] p-3 sm:p-4 min-h-[clamp(72px,9vh,100px)] bg-slate-50 shadow-sm hover:bg-[#E6F8EA] hover:border-[#136d41] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#136d41]"
+                className="flex flex-col justify-center items-center text-center transition-all duration-200 ease-out border-[3px] border-transparent rounded-[1.5rem] p-3 sm:p-4 min-h-[clamp(72px,9vh,100px)] bg-slate-50 shadow-sm hover:bg-[#E6F8EA] hover:border-[#136d41] motion-safe:active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#136d41]"
               >
                 <span className="font-extrabold text-2xl tracking-tight mb-1 text-[#35322d]">
                   {lang === "es" ? opt.labelEs : opt.labelEn}
@@ -98,7 +98,7 @@ export default function SetupPage() {
             <button
               type="button"
               onClick={() => choose("18-21", true)}
-              className="col-span-2 flex flex-col justify-center items-center text-center transition-all duration-200 ease-out border-[3px] border-transparent rounded-[1.5rem] px-4 py-3 min-h-[64px] bg-slate-50 shadow-sm hover:bg-[#E6F8EA] hover:border-[#136d41] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#136d41]"
+              className="col-span-2 flex flex-col justify-center items-center text-center transition-all duration-200 ease-out border-[3px] border-transparent rounded-[1.5rem] px-4 py-3 min-h-[64px] bg-slate-50 shadow-sm hover:bg-[#E6F8EA] hover:border-[#136d41] motion-safe:active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#136d41]"
             >
               <span className="font-extrabold text-base tracking-tight text-[#35322d]">{tho("setup.left.label", lang)}</span>
               <span className="text-xs font-medium leading-tight text-slate-600">{tho("setup.left.desc", lang)}</span>

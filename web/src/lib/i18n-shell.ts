@@ -11,6 +11,12 @@ const SHELL_STRINGS = {
   "nav.bottom":          { en: "Quick menu",           es: "Menú rápido" },
   "nav.legal":           { en: "Legal links",          es: "Enlaces legales" },
   "nav.more":            { en: "Swipe for more",       es: "Desliza para ver más" },
+  "nav.more.button":     { en: "More",                 es: "Más" },
+  // Short labels so five items fit on a small phone without being cut off
+  "nav.bottom.dashboard": { en: "Home",                es: "Inicio" },
+  "nav.bottom.answers":   { en: "Answers",             es: "Respuestas" },
+  "nav.bottom.rights":    { en: "Rights",              es: "Derechos" },
+  "nav.bottom.resources": { en: "Resources",           es: "Recursos" },
 
   // Teen mobile menu (drawer)
   "menu.open":           { en: "Open menu",            es: "Abrir menú" },

@@ -74,7 +74,7 @@ function Dashboard1012({ lang }: { lang: Lang }) {
         {/* Meet Your Team */}
         <Link
           href={`/${lang}/team`}
-          className="aspect-[4/3] bg-[#fff4cc] rounded-[2rem] p-5 flex flex-col justify-between items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
+          className="aspect-[4/3] bg-[#fff4cc] rounded-[2rem] p-5 flex flex-col justify-between items-start text-left shadow-sm border border-black/5 motion-safe:hover:scale-[1.02] transition-transform motion-safe:active:scale-95"
         >
           <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-[1.5rem] flex items-center justify-center overflow-hidden mix-blend-multiply drop-shadow-sm">
             <Image src="/avatars/group_avatar.png" alt="" width={192} height={192} className="w-full h-full object-cover scale-[1.3] pt-2" />
@@ -92,7 +92,7 @@ function Dashboard1012({ lang }: { lang: Lang }) {
         {/* My Case Explained */}
         <Link
           href={`/${lang}/case`}
-          className="aspect-[4/3] bg-[#e0f2fe] rounded-[2rem] p-5 flex flex-col justify-between items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
+          className="aspect-[4/3] bg-[#e0f2fe] rounded-[2rem] p-5 flex flex-col justify-between items-start text-left shadow-sm border border-black/5 motion-safe:hover:scale-[1.02] transition-transform motion-safe:active:scale-95"
         >
           <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center overflow-hidden drop-shadow-sm">
             <Image src="/dashboard/case.png" alt="" width={192} height={192} className="w-full h-full object-cover scale-[1.2]" />
@@ -110,7 +110,7 @@ function Dashboard1012({ lang }: { lang: Lang }) {
         {/* Wellness Check-In */}
         <Link
           href={`/${lang}/wellness`}
-          className="aspect-[4/3] bg-[#fce7f3] rounded-[2rem] p-5 flex flex-col justify-between items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
+          className="aspect-[4/3] bg-[#fce7f3] rounded-[2rem] p-5 flex flex-col justify-between items-start text-left shadow-sm border border-black/5 motion-safe:hover:scale-[1.02] transition-transform motion-safe:active:scale-95"
         >
           <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center overflow-hidden drop-shadow-sm">
             <Image src="/dashboard/wellness.png" alt="" width={192} height={192} className="w-full h-full object-cover scale-[1.2]" />
@@ -128,7 +128,7 @@ function Dashboard1012({ lang }: { lang: Lang }) {
         {/* Find Answers */}
         <Link
           href={`/${lang}/ask`}
-          className="aspect-[4/3] bg-[#dcfce7] rounded-[2rem] p-5 flex flex-col justify-between items-start text-left shadow-sm border border-black/5 hover:scale-[1.02] transition-transform active:scale-95"
+          className="aspect-[4/3] bg-[#dcfce7] rounded-[2rem] p-5 flex flex-col justify-between items-start text-left shadow-sm border border-black/5 motion-safe:hover:scale-[1.02] transition-transform motion-safe:active:scale-95"
         >
           <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-[#bbf7d0] flex items-center justify-center drop-shadow-sm">
             <HelpCircle size={44} className="text-[#136d41]" strokeWidth={2.25} aria-hidden="true" />
