@@ -74,6 +74,9 @@ web/
         resources/page.tsx    — Find Resources (filterable directory); teens see ResourcesTeen
         wellness/page.tsx     — Wellness Check-In; teens see WellnessTeen
         ask/page.tsx          — Find Answers (static Fuse.js search); teens see AskTeen
+        about/page.tsx        — About + For professionals: who runs the site, sources,
+                                "Report a mistake" email (#report), sharing tips
+                                (#professionals). Informational route (kids' chrome)
     components/
       BandShell.tsx           — client wrapper rendered by [lang]/layout.tsx;
                                 picks chrome based on band + pathname (10-12
@@ -89,9 +92,10 @@ web/
                                 10-12 chrome for both desktop SideNav and
                                 mobile floating BottomNav exports.
       TeenShell.tsx           — persistent layout shell for teen bands: desktop
-                                SideNav, mobile header + hamburger drawer,
-                                floating bottom nav scrollable across ALL 8
-                                sections. Active section derived from
+                                SideNav, mobile header + hamburger drawer
+                                (all 8 sections), and a five-slot bottom bar
+                                (Home, Answers, Rights, Resources, More).
+                                Active section derived from
                                 usePathname() via lib/teenNav.ts. Touch swipe
                                 on the main content area navigates prev/next
                                 section via useSwipeNav.
@@ -125,6 +129,9 @@ web/
       questionSearch.ts       — Find Answers search: searchQuestions() (async),
                                 isCrisisQuery(), useQuestionSearch() hook
       siteMetadata.ts         — metadata shared by the two root layouts
+      contact.ts              — CONTACT_EMAIL (the one public address) and
+                                contactHref(kind, lang): prefilled mailto links
+                                that ask people not to send case details
       prefs.ts                — usePrefs() hook (localStorage, cross-component sync);
                                 AgeBandKey = "10-12" | "13-15" | "16-17" | "18-21"
       useOnboardingGate.ts    — thin wrapper over usePrefs(); returns prefs.
