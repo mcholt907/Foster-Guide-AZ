@@ -6,9 +6,12 @@ export function LegalFooter({ lang }: { lang: Lang }) {
   return (
     <footer className="mt-12 border-t border-slate-200/70 pt-6 pb-10 text-center">
       <nav
-        aria-label={isEs ? "Enlaces legales" : "Legal links"}
+        aria-label={isEs ? "Acerca del sitio" : "About this site"}
         className="flex flex-wrap justify-center gap-x-2 gap-y-1 text-sm text-slate-600"
       >
+        <Link href={`/${lang}/about`} className="inline-flex min-h-11 items-center px-3 hover:text-slate-900 hover:underline">
+          {isEs ? "Acerca de" : "About"}
+        </Link>
         <Link href={`/${lang}/privacy`} className="inline-flex min-h-11 items-center px-3 hover:text-slate-900 hover:underline">
           {isEs ? "Privacidad" : "Privacy"}
         </Link>
@@ -17,6 +20,9 @@ export function LegalFooter({ lang }: { lang: Lang }) {
         </Link>
         <Link href={`/${lang}/accessibility`} className="inline-flex min-h-11 items-center px-3 hover:text-slate-900 hover:underline">
           {isEs ? "Accesibilidad" : "Accessibility"}
+        </Link>
+        <Link href={`/${lang}/about#report`} className="inline-flex min-h-11 items-center px-3 hover:text-slate-900 hover:underline">
+          {isEs ? "Reportar un error" : "Report a mistake"}
         </Link>
       </nav>
       <p className="mt-2 text-xs text-slate-600">

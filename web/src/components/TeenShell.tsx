@@ -215,7 +215,11 @@ export function TeenShell({ lang, children }: TeenShellProps) {
               <X size={22} aria-hidden="true" />
             </button>
           </div>
-          <nav aria-label={ts("nav.drawer", lang)} className="flex flex-col px-4 gap-2 flex-1 min-h-0 overflow-y-auto pt-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          {/* One scroller for the sections and the card below them. A
+              separate scroller for the list (with a hidden scrollbar) hid
+              the last sections on phones, with nothing to say they were there. */}
+          <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain [scrollbar-width:thin]">
+          <nav aria-label={ts("nav.drawer", lang)} className="flex flex-col px-4 gap-2 pt-4">
             {NAV_ITEMS.map((item) => {
               const isActive = item.id === active;
               const Icon = item.icon;
@@ -239,8 +243,9 @@ export function TeenShell({ lang, children }: TeenShellProps) {
           </nav>
           {/* Bottom padding keeps this card clear of the floating
               "Need help now?" button. */}
-          <div className="px-6 pt-4 pb-[calc(env(safe-area-inset-bottom)+9rem)] flex-shrink-0">
+          <div className="px-6 pt-4 pb-[calc(env(safe-area-inset-bottom)+9rem)]">
             <TeenShellFooter lang={lang} confirmReset={confirmReset} setConfirmReset={setConfirmReset} handleStartOver={handleStartOver} />
+          </div>
           </div>
           {/* The page's own help button is blocked while the menu is open,
               so the menu carries one. Help stays one tap away. */}
@@ -369,6 +374,9 @@ function TeenShellFooter({
         aria-label={ts("nav.legal", lang)}
         className="relative mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[12px] text-slate-300"
       >
+        <Link href={`/${lang}/about`} className="inline-flex min-h-[32px] items-center underline-offset-2 hover:text-white hover:underline transition-colors">
+          {lang === "es" ? "Acerca de" : "About"}
+        </Link>
         <Link href={`/${lang}/privacy`} className="inline-flex min-h-[32px] items-center underline-offset-2 hover:text-white hover:underline transition-colors">
           {lang === "es" ? "Privacidad" : "Privacy"}
         </Link>
@@ -377,6 +385,9 @@ function TeenShellFooter({
         </Link>
         <Link href={`/${lang}/accessibility`} className="inline-flex min-h-[32px] items-center underline-offset-2 hover:text-white hover:underline transition-colors">
           {lang === "es" ? "Accesibilidad" : "Accessibility"}
+        </Link>
+        <Link href={`/${lang}/about#report`} className="inline-flex min-h-[32px] items-center underline-offset-2 hover:text-white hover:underline transition-colors">
+          {lang === "es" ? "Reportar un error" : "Report a mistake"}
         </Link>
       </nav>
     </div>

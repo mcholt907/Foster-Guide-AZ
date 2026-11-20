@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { LegalPage, LegalSection } from "../../../components/LegalPage";
+import { CONTACT_EMAIL, contactHref } from "../../../lib/contact";
 import type { Lang } from "../../../lib/i18n";
 
-const LAST_UPDATED = "2026-04-22";
+const LAST_UPDATED = "2026-11-20";
 
 export async function generateMetadata({
   params,
@@ -128,8 +129,17 @@ export default async function AccessibilityPage({
       <LegalSection heading={isEs ? "Encontraste algo que no funciona" : "Found something that doesn't work"}>
         <p>
           {isEs
-            ? "Cuéntale a un adulto de confianza o a tu trabajador/a de casos. Si conoces a alguien que trabaja con FosterHub AZ, pídele que nos comparta el problema — así podemos arreglarlo."
-            : "Tell a trusted adult or your caseworker. If you know someone connected to FosterHub AZ, ask them to pass the issue along — that's how we fix it."}
+            ? "Dinos qué página y qué pasó — por ejemplo, un botón que no puedes usar con el teclado o un texto difícil de leer. Escribe a "
+            : "Tell us which page and what happened — for example, a button you can't reach with a keyboard, or text that's hard to read. Email "}
+          <a href={contactHref("mistake", L)} className="font-semibold text-[#1f6874] underline underline-offset-2 hover:text-[#1B3A5C]">
+            {CONTACT_EMAIL}
+          </a>
+          .
+        </p>
+        <p>
+          {isEs
+            ? "No tienes que decirnos quién eres. Por favor no incluyas tu nombre ni detalles de tu caso."
+            : "You don't have to tell us who you are. Please don't include your name or details about your case."}
         </p>
       </LegalSection>
     </LegalPage>

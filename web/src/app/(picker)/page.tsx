@@ -74,6 +74,17 @@ export default function RootPage() {
             </Link>
           </div>
 
+          {/* For partners who land here from a QR code or a shared link. */}
+          <p className="text-center text-sm text-slate-600">
+            <Link href="/en/about" lang="en" className="inline-flex min-h-11 items-center px-2 underline underline-offset-2 hover:text-[#115e59]">
+              About this site
+            </Link>
+            <span aria-hidden="true">·</span>
+            <Link href="/es/about" lang="es" className="inline-flex min-h-11 items-center px-2 underline underline-offset-2 hover:text-[#115e59]">
+              Acerca de este sitio
+            </Link>
+          </p>
+
         </div>
       </main>
     </div>

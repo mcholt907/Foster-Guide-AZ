@@ -9,8 +9,7 @@ const SHELL_STRINGS = {
   "nav.side":            { en: "Main menu",            es: "Menú principal" },
   "nav.drawer":          { en: "All sections",         es: "Todas las secciones" },
   "nav.bottom":          { en: "Quick menu",           es: "Menú rápido" },
-  "nav.legal":           { en: "Legal links",          es: "Enlaces legales" },
-  "nav.more":            { en: "Swipe for more",       es: "Desliza para ver más" },
+  "nav.legal":           { en: "About this site",      es: "Acerca del sitio" },
   "nav.more.button":     { en: "More",                 es: "Más" },
   // Short labels so five items fit on a small phone without being cut off
   "nav.bottom.dashboard": { en: "Home",                es: "Inicio" },
