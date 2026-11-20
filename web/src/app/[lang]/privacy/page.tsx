@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { QUICK_EXIT_ENABLED } from "../../../lib/features";
 import { notFound } from "next/navigation";
 import { LegalPage, LegalSection } from "../../../components/LegalPage";
+import { CONTACT_EMAIL } from "../../../lib/contact";
 import type { Lang } from "../../../lib/i18n";
 
-const LAST_UPDATED = "2026-11-10";
+const LAST_UPDATED = "2026-11-20";
 
 export async function generateMetadata({
   params,
@@ -139,6 +140,17 @@ export default async function PrivacyPage({
           {isEs
             ? "Habla con un adulto de confianza — un/a trabajador/a de casos, un/a CASA, o un familiar. También puedes llamar al 211 en Arizona para orientación general."
             : "Talk with a trusted adult — a caseworker, CASA, or family member. You can also call 211 in Arizona for general guidance."}
+        </p>
+        <p>
+          {isEs
+            ? "¿Preguntas sobre esta página de privacidad? Escribe a "
+            : "Questions about this privacy page? Email "}
+          <a href={`mailto:${CONTACT_EMAIL}`} className="font-semibold text-[#1f6874] underline underline-offset-2 hover:text-[#1B3A5C]">
+            {CONTACT_EMAIL}
+          </a>
+          {isEs
+            ? ". No incluyas tu nombre ni detalles de tu caso."
+            : ". Please don't include your name or details about your case."}
         </p>
       </LegalSection>
     </LegalPage>

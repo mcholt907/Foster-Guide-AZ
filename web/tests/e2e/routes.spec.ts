@@ -75,3 +75,40 @@ test.describe("without JavaScript", () => {
     });
   }
 });
+
+test.describe("About page", () => {
+  for (const band of ["10-12", "16-17"] as const) {
+    test(`is linked from the menu and offers a way to report a mistake (band ${band})`, async ({ page }) => {
+      await setBand(page, band);
+      const errors = watchErrors(page);
+      await page.goto("/en");
+      await expect(page.getByRole("button", { name: /need help now/i })).toBeVisible();
+
+      // Teens reach it through the menu; the kids' chrome has it in the footer.
+      if (band !== "10-12") await page.getByRole("button", { name: /^more$/i }).click();
+      await page.getByRole("link", { name: /^about$/i }).first().click();
+      await expect(page).toHaveURL(/\/en\/about$/);
+      await expect(page.getByRole("heading", { level: 1, name: /about fosterhub az/i })).toBeVisible();
+
+      const report = page.getByRole("link", { name: /report a mistake/i }).first();
+      await expect(report).toHaveAttribute("href", /^mailto:info@fosterhubaz\.com\?subject=/);
+      // Help lines sit right beside the inbox, which can't help in an emergency.
+      await expect(page.locator('#report a[href="tel:911"]')).toBeVisible();
+      await expect(page.locator("#professionals")).toBeVisible();
+      await expectNoHorizontalOverflow(page);
+      expect(errors).toEqual([]);
+    });
+  }
+
+  test("Spanish version and the picker link", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("link", { name: "Acerca de este sitio" }).click();
+    await expect(page).toHaveURL(/\/es\/about$/);
+    await expect(page.locator("html")).toHaveAttribute("lang", "es");
+    await expect(page.getByRole("link", { name: /reportar un error/i }).first()).toHaveAttribute(
+      "href",
+      /^mailto:info@fosterhubaz\.com\?subject=Error/
+    );
+    await expectNoHorizontalOverflow(page);
+  });
+});

@@ -29,6 +29,7 @@ const ROUTES: { path: string; lastModified?: string; priority: number }[] = [
   { path: "/resources", lastModified: newest(RESOURCES), priority: 0.8 },
   { path: "/wellness", lastModified: newest(CRISIS_PINS), priority: 0.8 },
   { path: "/ask", priority: 0.8 },
+  { path: "/about", priority: 0.5 },
   { path: "/privacy", priority: 0.3 },
   { path: "/terms", priority: 0.3 },
   { path: "/accessibility", priority: 0.3 },

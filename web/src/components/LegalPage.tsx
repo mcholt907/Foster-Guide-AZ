@@ -44,12 +44,15 @@ export function LegalPage({
 export function LegalSection({
   heading,
   children,
+  id,
 }: {
   heading: string;
   children: React.ReactNode;
+  /** Set to make the section a link target, e.g. /en/about#professionals. */
+  id?: string;
 }) {
   return (
-    <section>
+    <section id={id} className={id ? "scroll-mt-6" : undefined}>
       <h2 className="text-lg font-bold text-[#1B3A5C] mb-2">{heading}</h2>
       <div className="space-y-2 text-slate-700">{children}</div>
     </section>

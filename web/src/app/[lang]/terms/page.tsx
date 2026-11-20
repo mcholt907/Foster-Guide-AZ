@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LegalPage, LegalSection } from "../../../components/LegalPage";
 import type { Lang } from "../../../lib/i18n";
 
-const LAST_UPDATED = "2026-04-22";
+const LAST_UPDATED = "2026-11-20";
 
 export async function generateMetadata({
   params,
@@ -99,6 +100,13 @@ export default async function TermsPage({
           {isEs
             ? "Siempre confirma con tu trabajador/a de casos, abogado/a o CASA antes de tomar decisiones importantes."
             : "Always double-check with your caseworker, lawyer, or CASA before making big decisions."}
+        </p>
+        <p>
+          {isEs ? "¿Ves algo que está mal o viejo? " : "See something wrong or out of date? "}
+          <Link href={`/${L}/about#report`} className="font-semibold text-[#1f6874] underline underline-offset-2 hover:text-[#1B3A5C]">
+            {isEs ? "Dinos" : "Tell us"}
+          </Link>
+          .
         </p>
       </LegalSection>
 

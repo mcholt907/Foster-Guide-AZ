@@ -12,6 +12,7 @@ import { TeenShell } from "./TeenShell";
 
 const INFORMATIONAL_ROUTES = new Set([
   "setup",
+  "about",
   "privacy",
   "terms",
   "accessibility",
