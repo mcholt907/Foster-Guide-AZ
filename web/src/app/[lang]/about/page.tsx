@@ -78,6 +78,19 @@ export default async function AboutPage({
         }
         lastUpdated={LAST_UPDATED}
       >
+        <LegalSection heading={isEs ? "Por qué existe este sitio" : "Why this site exists"}>
+          <p>
+            {isEs
+              ? "El cuidado de crianza trae muchas palabras, personas y reglas nuevas, muchas veces todas a la vez. FosterHub AZ junta las respuestas en un solo lugar, en palabras sencillas, para que conozcas tus derechos, sepas lo que viene y encuentres ayuda cuando la necesites."
+              : "Foster care comes with a lot of new words, people, and rules, often all at once. FosterHub AZ puts the answers in one place, in plain words, so you can learn your rights, know what's coming next, and find help when you need it."}
+          </p>
+          <p>
+            {isEs
+              ? "Está aquí para ayudarte a hablar por ti. No reemplaza a los adultos que te apoyan."
+              : "It's here to help you speak up for yourself. It doesn't replace the adults on your side."}
+          </p>
+        </LegalSection>
+
         <LegalSection heading={isEs ? "Quién hace este sitio" : "Who runs this site"}>
           <p>
             {isEs
