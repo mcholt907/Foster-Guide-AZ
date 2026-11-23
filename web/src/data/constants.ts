@@ -118,7 +118,7 @@ export const CRISIS_PINS = [
     url: "https://alwaysaz.org/",
     crisis: false,
     compact: false,
-    lastVerified: "2026-11-02",
+    lastVerified: "2026-11-23",
   },
 ] as const;
 
