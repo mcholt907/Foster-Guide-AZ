@@ -1,6 +1,6 @@
 # FosterHub AZ — Content Freshness Report
 
-> Generated: **2026-11-10**
+> Generated: **2026-11-23**
 
 ---
 
@@ -8,10 +8,10 @@
 
 | Metric | Value |
 |:---|:---|
-| **Overall Content Health** | 🔴 **44%** within SLA |
-| Total tracked entries | 54 |
-| Within SLA | ✅ 24 |
-| Overdue | 🔴 30 |
+| **Overall Content Health** | ✅ **100%** within SLA |
+| Total tracked entries | 49 |
+| Within SLA | ✅ 49 |
+| Overdue | 🔴 0 |
 
 ### SLA Thresholds
 
@@ -30,87 +30,73 @@
 
 | Status | Entry | Last Verified | Age (days) | SLA |
 |:---|:---|:---|:---|:---|
-| 🟡 | ALWAYS (legal help) | 2026-11-02 | 8 | 14 |
-| ✅ | 911 Emergency | 2026-11-09 | 1 | 14 |
-| ✅ | 988 Suicide & Crisis Lifeline | 2026-11-09 | 1 | 14 |
-| ✅ | Teen Lifeline Arizona | 2026-11-09 | 1 | 14 |
-| ✅ | Crisis Text Line | 2026-11-09 | 1 | 14 |
-| ✅ | AZ DCS Child Abuse Hotline | 2026-11-09 | 1 | 14 |
+| 🟡 | 911 Emergency | 2026-11-09 | 14 | 14 |
+| 🟡 | AZ DCS Child Abuse Hotline | 2026-11-09 | 14 | 14 |
+| 🟡 | 988 Suicide & Crisis Lifeline | 2026-11-12 | 11 | 14 |
+| 🟡 | Teen Lifeline Arizona | 2026-11-12 | 11 | 14 |
+| 🟡 | Crisis Text Line | 2026-11-12 | 11 | 14 |
+| ✅ | ALWAYS (legal help) | 2026-11-23 | 0 | 14 |
 
 ---
 
 ## Web Resources
 
-> 44% within 30-day SLA (4/9)
+> 100% within 30-day SLA (36/36)
 
 | Status | Entry | Last Verified | Age (days) | SLA |
 |:---|:---|:---|:---|:---|
-| 🔴 | Arizona's Children Association (AzCA) — Transition supports | 2026-04-04 | 220 | 30 |
-| 🔴 | New Culture | 2026-04-04 | 220 | 30 |
-| 🔴 | Thrive AZ — Transitional Housing | 2026-04-04 | 220 | 30 |
-| 🔴 | Fostering Advocates Arizona | 2026-04-04 | 220 | 30 |
-| 🔴 | ARIZONA@WORK — Local Job Center Locator | 2026-04-04 | 220 | 30 |
-| ✅ | ALWAYS | 2026-11-02 | 8 | 30 |
-| ✅ | 211 Arizona | 2026-11-02 | 8 | 30 |
-| ✅ | AHCCCS — YATI (Young Adults Transitional Insurance) | 2026-11-02 | 8 | 30 |
-| ✅ | Arizona Friends of Foster Children Foundation (AFFCF) | 2026-11-02 | 8 | 30 |
-
----
-
-## Server Resources
-
-> 29% within 30-day SLA (10/35)
-
-| Status | Entry | Last Verified | Age (days) | SLA |
-|:---|:---|:---|:---|:---|
-| 🔴 | ALWAYS (AZ Legal Aid for Youth) | 2026-03-01 | 254 | 30 |
-| 🔴 | Fostering Advocates Arizona | 2026-03-01 | 254 | 30 |
-| 🔴 | Arizona DCS Child Abuse Hotline | 2026-04-04 | 220 | 30 |
-| 🔴 | Tumbleweed Center for Youth Development | 2026-04-04 | 220 | 30 |
-| 🔴 | UMOM New Day Centers | 2026-04-04 | 220 | 30 |
-| 🔴 | Native Connections — Youth Crisis Housing | 2026-04-04 | 220 | 30 |
-| 🔴 | Mercy Care — DCS CHP (Comprehensive Health Plan) | 2026-04-04 | 220 | 30 |
-| 🔴 | EMPACT-SPC | 2026-04-04 | 220 | 30 |
-| 🔴 | Copa Health | 2026-04-04 | 220 | 30 |
-| 🔴 | La Frontera Arizona | 2026-04-04 | 220 | 30 |
-| 🔴 | ASU Foster Youth Success Initiative | 2026-04-04 | 220 | 30 |
-| 🔴 | Northern Arizona University — Foster Youth Assistance | 2026-04-04 | 220 | 30 |
-| 🔴 | Arizona@Work | 2026-04-04 | 220 | 30 |
-| 🔴 | Goodwill of Central & Northern Arizona | 2026-04-04 | 220 | 30 |
-| 🔴 | Arizona's Children Association (AzCA) | 2026-04-04 | 220 | 30 |
-| 🔴 | St. Mary's Food Bank | 2026-04-04 | 220 | 30 |
-| 🔴 | United Food Bank | 2026-04-04 | 220 | 30 |
-| 🔴 | Arizona SNAP (Food Stamps) | 2026-04-04 | 220 | 30 |
-| 🔴 | Arizona DES — Cash Assistance (TANF) | 2026-04-04 | 220 | 30 |
-| 🔴 | Arizona Foster Care Tuition Waiver | 2026-06-08 | 155 | 30 |
-| 🔴 | Community Legal Services | 2026-08-03 | 99 | 30 |
-| 🔴 | One•n•Ten | 2026-08-17 | 85 | 30 |
-| 🔴 | DNA People's Legal Services | 2026-08-24 | 78 | 30 |
-| 🔴 | Arizona Independent Living Account (IDA) | 2026-09-28 | 43 | 30 |
-| 🔴 | Education and Training Voucher (ETV) — AzCA | 2026-10-05 | 36 | 30 |
-| 🟡 | Southern Arizona Legal Aid | 2026-10-12 | 29 | 30 |
-| ✅ | 988 Suicide & Crisis Lifeline | 2026-11-02 | 8 | 30 |
-| ✅ | Crisis Text Line | 2026-11-02 | 8 | 30 |
-| ✅ | 211 Arizona | 2026-11-02 | 8 | 30 |
-| ✅ | Youth On Their Own (YOTO) | 2026-11-02 | 8 | 30 |
-| ✅ | AHCCCS — Young Adult Transition Initiative (YATI) | 2026-11-02 | 8 | 30 |
-| ✅ | University of Arizona — Foster Youth Programs | 2026-11-02 | 8 | 30 |
-| ✅ | Job Corps | 2026-11-02 | 8 | 30 |
-| ✅ | Arizona Friends of Foster Children Foundation (AFFCF) | 2026-11-02 | 8 | 30 |
-| ✅ | Arizona Foster Youth Scholarship Fund | 2026-11-02 | 8 | 30 |
+| ✅ | Community Legal Services | 2026-11-10 | 13 | 30 |
+| ✅ | DNA-People's Legal Services | 2026-11-10 | 13 | 30 |
+| ✅ | Mercy Care DCS Comprehensive Health Plan (CHP) | 2026-11-10 | 13 | 30 |
+| ✅ | FAFSA — Federal Student Aid | 2026-11-10 | 13 | 30 |
+| ✅ | ARIZONA@WORK — Job Centers | 2026-11-10 | 13 | 30 |
+| ✅ | Arizona MVD — State ID and Driver License | 2026-11-10 | 13 | 30 |
+| ✅ | Arizona Education and Training Voucher (ETV) and Tuition Waiver | 2026-11-11 | 12 | 30 |
+| ✅ | 988 Suicide & Crisis Lifeline | 2026-11-12 | 11 | 30 |
+| ✅ | Arizona Statewide Crisis Line | 2026-11-12 | 11 | 30 |
+| ✅ | Teen Lifeline | 2026-11-12 | 11 | 30 |
+| ✅ | The Trevor Project | 2026-11-12 | 11 | 30 |
+| ✅ | Safe Place — TXT 4 HELP | 2026-11-12 | 11 | 30 |
+| ✅ | 211 Arizona | 2026-11-12 | 11 | 30 |
+| ✅ | Arizona Food Bank Network | 2026-11-12 | 11 | 30 |
+| ✅ | ALWAYS (Arizona Legal Women and Youth Services) | 2026-11-12 | 11 | 30 |
+| ✅ | Southern Arizona Legal Aid | 2026-11-12 | 11 | 30 |
+| ✅ | DCS Office of the Ombudsman | 2026-11-12 | 11 | 30 |
+| ✅ | Arizona Ombudsman–Citizens' Aide | 2026-11-12 | 11 | 30 |
+| ✅ | Fostering Advocates Arizona | 2026-11-12 | 11 | 30 |
+| ✅ | AHCCCS — Young Adult Transitional Insurance (YATI) | 2026-11-12 | 11 | 30 |
+| ✅ | Arizona WIC | 2026-11-12 | 11 | 30 |
+| ✅ | Strong Families AZ Helpline | 2026-11-12 | 11 | 30 |
+| ✅ | Our Family Services — Reunion House | 2026-11-12 | 11 | 30 |
+| ✅ | Our Family Services — Young Adult Housing | 2026-11-12 | 11 | 30 |
+| ✅ | Northland Family Help Center — Youth Shelter | 2026-11-12 | 11 | 30 |
+| ✅ | Native American Connections — HomeBase Youth Services | 2026-11-12 | 11 | 30 |
+| ✅ | Thrive AZ — Aged Out Transitional Housing | 2026-11-12 | 11 | 30 |
+| ✅ | New Culture AZ | 2026-11-12 | 11 | 30 |
+| ✅ | Arizona's Children Association — Young Adult Services | 2026-11-12 | 11 | 30 |
+| ✅ | one·n·ten | 2026-11-12 | 11 | 30 |
+| ✅ | Phoenix Indian Center | 2026-11-12 | 11 | 30 |
+| ✅ | Tucson Indian Center | 2026-11-12 | 11 | 30 |
+| ✅ | Bridging Success at Arizona State University | 2026-11-12 | 11 | 30 |
+| ✅ | Fostering Success at the University of Arizona | 2026-11-12 | 11 | 30 |
+| ✅ | Arizona Friends of Foster Children Foundation (AFFCF) | 2026-11-12 | 11 | 30 |
+| ✅ | Arizona Vital Records — Birth Certificates | 2026-11-12 | 11 | 30 |
 
 ---
 
 ## Identity Documents
 
-> 100% within 60-day SLA (4/4)
+> 100% within 60-day SLA (7/7)
 
 | Status | Entry | Last Verified | Age (days) | SLA |
 |:---|:---|:---|:---|:---|
-| ✅ | Birth certificate | 2026-10-12 | 29 | 60 |
-| ✅ | Social Security card | 2026-10-12 | 29 | 60 |
-| ✅ | State ID / driver's license | 2026-10-12 | 29 | 60 |
-| ✅ | Immunization records | 2026-10-12 | 29 | 60 |
+| 🟡 | Social Security card | 2026-10-12 | 42 | 60 |
+| 🟡 | State ID / driver's license | 2026-10-12 | 42 | 60 |
+| 🟡 | Medical and shot (immunization) records | 2026-10-12 | 42 | 60 |
+| ✅ | Health insurance (AHCCCS) card | 2026-11-11 | 12 | 60 |
+| ✅ | School records and transcripts | 2026-11-11 | 12 | 60 |
+| ✅ | Tribal enrollment card or Certificate of Indian Blood | 2026-11-11 | 12 | 60 |
+| ✅ | Birth certificate | 2026-11-13 | 10 | 60 |
 
 ---
 
@@ -125,49 +111,41 @@ Total unique URLs tracked across all data files:
 | 3 | https://www.crisistextline.org/ |
 | 4 | https://dcs.az.gov/about/contact |
 | 5 | https://alwaysaz.org/ |
-| 6 | https://alwaysaz.org |
-| 7 | https://211arizona.org/ |
-| 8 | https://www.azahcccs.gov/Members/GetCovered/Categories/YATI.html |
-| 9 | https://www.arizonaschildren.org/ |
-| 10 | https://www.newcultureaz.org/ |
-| 11 | https://www.thriveaz.org/transitional-housing |
-| 12 | https://www.fosteringadvocatesarizona.org |
-| 13 | https://www.affcf.org/ |
-| 14 | https://arizonaatwork.com/locations |
-| 15 | https://988lifeline.org |
-| 16 | https://www.crisistextline.org |
-| 17 | https://dcs.az.gov/report-child-abuse |
-| 18 | https://alwayslegal.org |
-| 19 | https://211arizona.org |
-| 20 | https://clsaz.org |
-| 21 | https://dnalegalservices.org |
-| 22 | https://www.sazlegalaid.org |
-| 23 | https://fosteringadvocatesaz.org |
-| 24 | https://www.tumbleweed.org |
-| 25 | https://www.umom.org |
-| 26 | https://www.nativeconnections.org |
-| 27 | https://yoto.org |
-| 28 | https://www.mercycareaz.org/dcschp/index.html |
-| 29 | https://lafronteraaz-empact.org |
-| 30 | https://copahealth.org |
-| 31 | https://lafronteraaz.org |
-| 32 | https://fosteryouth.asu.edu |
-| 33 | https://financialaid.arizona.edu |
-| 34 | https://nau.edu/financial-aid/ |
-| 35 | https://azregents.edu/foster-youth |
-| 36 | https://www.arizonaschildren.org/services/young-adult-services/ |
-| 37 | https://arizonaatwork.com |
-| 38 | https://www.jobcorps.gov |
-| 39 | https://www.goodwillaz.org |
-| 40 | https://www.arizonaschildren.org |
-| 41 | https://onenten.org |
-| 42 | https://www.stmarysfoodbank.org |
-| 43 | https://unitedfoodbank.org |
-| 44 | https://des.az.gov/services/basic-needs/food/nutrition-assistance |
-| 45 | https://www.affcf.org/ways-we-help/post-secondary/scholarships/ |
-| 46 | https://des.az.gov/ca |
+| 6 | https://www.azahcccs.gov/BehavioralHealth/crisis.html |
+| 7 | https://www.thetrevorproject.org/get-help/ |
+| 8 | https://www.nationalsafeplace.org/txt-4-help |
+| 9 | https://211arizona.org/ |
+| 10 | https://azfoodbanks.org/ |
+| 11 | https://alwaysaz.org |
+| 12 | https://clsaz.org/apply-for-services/ |
+| 13 | https://www.sazlegalaid.org/ |
+| 14 | https://dnalegalservices.org/contact/ |
+| 15 | https://dcs.az.gov/resource/complaint-or-disagreement |
+| 16 | https://www.azoca.gov/contact/ |
+| 17 | https://www.fosteringadvocatesarizona.org |
+| 18 | https://dcs.az.gov/services/chp |
+| 19 | https://www.azahcccs.gov/Members/GetCovered/Categories/YATI.html |
+| 20 | https://www.azdhs.gov/prevention/azwic/ |
+| 21 | https://strongfamiliesaz.com/about/strong-families-az-helpline/ |
+| 22 | https://www.ourfamilyservices.org/homeless-youth/ |
+| 23 | https://northlandfamily.org/youth-shelter/ |
+| 24 | https://www.nativeconnections.org/housing/youth/homebase-youth-services/ |
+| 25 | https://www.thriveaz.org/transitional-housing |
+| 26 | https://www.newcultureaz.org/ |
+| 27 | https://www.arizonaschildren.org/services/young-adult-services/ |
+| 28 | https://onenten.org/ |
+| 29 | https://phxindcenter.org/youth-programming/ |
+| 30 | https://www.ticenter.org/ |
+| 31 | https://fseducation.fostersuccess.org/arizona-etv/ |
+| 32 | https://studentaid.gov/ |
+| 33 | https://fosteryouth.asu.edu/services-support/bridging-success |
+| 34 | https://fosteringsuccess.arizona.edu/ |
+| 35 | https://www.affcf.org/ |
+| 36 | https://arizonaatwork.com/locations |
+| 37 | https://www.azdhs.gov/licensing/vital-records/index.php |
+| 38 | https://azdot.gov/mvd/contact-mvd |
 
-> Run the link-check workflow to validate all 46 URLs.
+> Run the link-check workflow to validate all 38 URLs.
 
 ---
 
